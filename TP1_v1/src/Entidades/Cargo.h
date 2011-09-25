@@ -8,10 +8,19 @@
 #ifndef CARGO_H_
 #define CARGO_H_
 
+#include "../Common/Common.h";
+
 class Cargo {
-public:
-	Cargo();
-	virtual ~Cargo();
+
+	public:
+		Cargo(int idCargo);
+		virtual ~Cargo();
+		int GetIdCargo();
+		IntegerList GetCargosSecundarios();
+		void AddCargoSecundario(int idCargo);
+	private:
+		int _idCargo;
+		IntegerList _cargosSecundarios;
 };
 
 #endif /* CARGO_H_ */

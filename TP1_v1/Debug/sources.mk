@@ -27,4 +27,5 @@ src \
 src/Logging \
 src/Estructuras \
 src/Entidades \
+src/Common \
 

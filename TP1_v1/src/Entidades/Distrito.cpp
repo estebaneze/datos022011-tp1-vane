@@ -7,8 +7,10 @@
 
 #include "Distrito.h"
 
-Distrito::Distrito() {
-	// TODO Auto-generated constructor stub
+Distrito::Distrito(int id, string nombre) {
+
+	this->Nombre = nombre;
+	this->_id = id;
 
 }
 

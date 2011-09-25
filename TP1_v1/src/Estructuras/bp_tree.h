@@ -20,9 +20,6 @@
 #define FROM_START 0
 #define END -1
 
-
-
-
 using namespace std;
 
 typedef struct Rebalance_Pointers{

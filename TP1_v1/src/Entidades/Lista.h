@@ -8,10 +8,18 @@
 #ifndef LISTA_H_
 #define LISTA_H_
 
+#include "../Common/Common.h";
+
 class Lista {
-public:
-	Lista();
-	virtual ~Lista();
+
+	public:
+		Lista(string nombre, int idEleccion);
+		virtual ~Lista();
+		string GetNombre();
+		int GetEleccion();
+	private:
+		int _idEleccion;
+		string _nombre;
 };
 
 #endif /* LISTA_H_ */

@@ -7,9 +7,18 @@
 
 #include "Lista.h"
 
-Lista::Lista() {
-	// TODO Auto-generated constructor stub
+Lista::Lista(string nombre, int idEleccion) {
+	_nombre = nombre;
+	_idEleccion = idEleccion;
 
+}
+
+string Lista::GetNombre(){
+	return _nombre;
+}
+
+int Lista::GetEleccion(){
+	return _idEleccion;
 }
 
 Lista::~Lista() {

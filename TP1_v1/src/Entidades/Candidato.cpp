@@ -7,8 +7,11 @@
 
 #include "Candidato.h"
 
-Candidato::Candidato() {
-	// TODO Auto-generated constructor stub
+Candidato::Candidato(int idLista, int idVotante, int idEleccion) {
+
+	_idEleccion = idEleccion;
+	_idVotante = idVotante;
+	_idLista = idLista;
 
 }
 

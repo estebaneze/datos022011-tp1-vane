@@ -7,9 +7,22 @@
 
 #include "Cargo.h"
 
-Cargo::Cargo() {
-	// TODO Auto-generated constructor stub
+Cargo::Cargo(int idCargo) {
 
+	_idCargo = idCargo;
+
+}
+
+int Cargo::GetIdCargo(){
+	return _idCargo;
+}
+
+IntegerList Cargo::GetCargosSecundarios(){
+	return _cargosSecundarios;
+}
+
+void Cargo::AddCargoSecundario(int idCargo){
+	_cargosSecundarios.Add(idCargo);
 }
 
 Cargo::~Cargo() {
