@@ -13,6 +13,7 @@ CPP_SRCS += \
 ../src/HashExtensible.cpp \
 ../src/Index.cpp \
 ../src/TP1_v1.cpp \
+../src/TP_v1.cpp \
 ../src/TableIndex.cpp \
 ../src/base64.cpp \
 ../src/bp_node.cpp \
@@ -37,6 +38,7 @@ OBJS += \
 ./src/HashExtensible.o \
 ./src/Index.o \
 ./src/TP1_v1.o \
+./src/TP_v1.o \
 ./src/TableIndex.o \
 ./src/base64.o \
 ./src/bp_node.o \
@@ -61,6 +63,7 @@ CPP_DEPS += \
 ./src/HashExtensible.d \
 ./src/Index.d \
 ./src/TP1_v1.d \
+./src/TP_v1.d \
 ./src/TableIndex.d \
 ./src/base64.d \
 ./src/bp_node.d \

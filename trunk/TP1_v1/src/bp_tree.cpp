@@ -72,9 +72,6 @@ Bp_Tree::Bp_Tree(std::string filename){
           ofstream ofile(filename.c_str(),ios::trunc);
           ofile.close();
       }   
- 
-	
-    
 }
 
 
@@ -85,46 +82,40 @@ void Bp_Tree::load()
 
 	 cout<<"load"<<endl;
     
-      Key_Node auxk=  Key_Node();
+     Key_Node auxk=  Key_Node();
      while(!file->eof())
      {
-                        
-                        getline(*file,aux);
-                       
-                       if ( aux.compare("D")==0)
-                        {
-                              getline(*file,aux);
-                            stringstream D(aux);
-                            
-                           D>>this->d;
-                           this->max_keys = 2 * d;
-            
-                        }
-                       
-                        if ( aux.compare("Begin_Key_Node")==0)
-                        {
+		getline(*file,aux);
 
-                            auxk.DesSerialize(file);   
-            
-                        }
-                          if ( aux.compare("Value")==0)
-                        {
-                                     getline(*file,aux);
-                    				stringstream ss(aux);
-            
-                    				Refs auxRef= Refs(ss.str());
-                    				
-                    				Key_Node * pKN= new Key_Node();
-                    				auxk.ref=auxRef;
-                    				*pKN=auxk;
-                    				
-                    				
-                  				
-                                     add_key(*pKN ,true);    
-                                     print_tree();  
-                        }
-                        
-     }                                                                
+		if ( aux.compare("D")==0)
+		{
+			getline(*file,aux);
+			stringstream D(aux);
+
+		   D>>this->d;
+		   this->max_keys = 2 * d;
+		}
+
+		if ( aux.compare("Begin_Key_Node")==0)
+		{
+			auxk.DesSerialize(file);
+		}
+
+		if ( aux.compare("Value")==0)
+		{
+			getline(*file,aux);
+			stringstream ss(aux);
+
+			Refs auxRef= Refs(ss.str());
+
+			Key_Node * pKN= new Key_Node();
+			auxk.ref=auxRef;
+			*pKN=auxk;
+
+			add_key(*pKN ,true);
+			print_tree();
+		}
+	 }
 }
 
 void Bp_Tree::save()
