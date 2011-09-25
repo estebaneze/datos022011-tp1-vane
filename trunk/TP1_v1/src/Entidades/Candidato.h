@@ -9,9 +9,19 @@
 #define CANDIDATO_H_
 
 class Candidato {
-public:
-	Candidato();
-	virtual ~Candidato();
+
+	public:
+		Candidato(int idLista, int idVotante, int idEleccion);
+		virtual ~Candidato();
+		int GetIdLista();
+		int GetIdVotante();
+		int GetIdEleccion();
+
+	private:
+		int _idLista;
+		int _idVotante;
+		int _idEleccion;
+
 };
 
 #endif /* CANDIDATO_H_ */

@@ -7,9 +7,33 @@
 
 #include "Eleccion.h"
 
-Eleccion::Eleccion() {
-	// TODO Auto-generated constructor stub
+Eleccion::Eleccion(int idCargo, Date date) {
 
+	_idCargo = idCargo;
+	_date = date;
+
+}
+
+void Eleccion::RemoveDistrito(int idDistrito){
+
+	_distritos.Remove(idDistrito);
+}
+
+void Eleccion::AddDistrito(int idDistrito){
+
+	_distritos.Add(idDistrito);
+}
+
+Date Eleccion::GetDate(){
+	return _date;
+}
+
+int Eleccion::GetIdCargo(){
+	return _idCargo;
+}
+
+IntegerList Eleccion::GetDistritos(){
+	return _distritos;
 }
 
 Eleccion::~Eleccion() {

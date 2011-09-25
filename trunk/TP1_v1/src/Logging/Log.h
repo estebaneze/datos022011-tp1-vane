@@ -5,16 +5,24 @@
  *      Author: minnie
  */
 
-#include <iostream>
+
+/*#include <iostream>
+#include <cstdlib>
+#include <fstream>
+#include <time.h>
+*/
+#include "../Common/Common.h"
+
 #ifndef LOG_H_
 #define LOG_H_
 
 class Log {
 
 	public:
-		Log(std::string filename);
+		Log();
 		virtual ~Log();
-		void SaveLog(std::string message);
+		static void WriteLog(std::string message);
+
 };
 
 #endif /* LOG_H_ */

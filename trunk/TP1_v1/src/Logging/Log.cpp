@@ -7,16 +7,30 @@
 
 #include "Log.h"
 
-Log::Log(std::string filename) {
 
+using namespace std;
+
+Log::Log() {
 
 }
 
 Log::~Log() {
-	// TODO Auto-generated destructor stub
 }
 
+void Log::WriteLog(std::string message){
 
-void SaveLog(std::string message){
+	time_t rawtime;
+    time ( &rawtime );
+
+    std:string time(ctime(&rawtime));
+	fstream File;
+
+	File.open("Log.txt", ios::out);
+
+	if (File.is_open ()) {
+		File << "%s" << time << ":" << message << "\n";
+	}
+
+	File.close();
 
 }
