@@ -10,6 +10,9 @@ RM := rm -rf
 -include sources.mk
 -include subdir.mk
 -include src/subdir.mk
+-include src/Logging/subdir.mk
+-include src/Estructuras/subdir.mk
+-include src/Entidades/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
