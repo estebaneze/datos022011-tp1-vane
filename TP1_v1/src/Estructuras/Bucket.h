@@ -14,7 +14,7 @@ class Bucket
 private:
 
 	int N;//id del Bucket
-	std::vector<std::pair<Key_Node,Refs> > bucket;
+	std::vector<std::pair<Key_Node,Refs> > bucket;	//<clave de hash , elems del array del bucket>
 	int refs; //cantidad de referencia al buckets
     
 public:
