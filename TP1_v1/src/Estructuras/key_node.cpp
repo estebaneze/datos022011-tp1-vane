@@ -33,6 +33,10 @@ Key_Node::~Key_Node(){
 
 }	
 
+int Key_Node::GetFieldCount(){
+	return this->ref.vRefs.size();
+}
+
 /* OPERADOR <*/
 const bool Key_Node::operator < ( Key_Node &comparador){
        bool result;
@@ -211,55 +215,61 @@ int Key_Node::compareTo(Key_Node &comparador)
 const int Key_Node::toInt()
 {
     int toReturn = 0;
-	for (unsigned int i = 0; i < Fields.size(); i++)
+
+    for (unsigned int i = 0; i < Fields.size(); i++)
 		toReturn += (Fields.at(i)).toInt();
+
 	return toReturn; 
 }
-
-
 
 
 void Key_Node::Serialize (std::ofstream *f)
 {
 
- *f<<"Begin_Key_Node"<<endl;
- for(int i=0;i<Fields.size();i++)
- {
-         *f<<Fields[i].Serialize()<<endl;        
- }
- 
- *f<<"End_Key_Node"<<endl;
+	*f<<"Begin_Key_Node"<<endl;
+	for(int i=0;i<Fields.size();i++)
+	{
+		*f<<Fields[i].Serialize()<<endl;
+	}
+
+	*f<<"End_Key_Node"<<endl;
 }
 
 void Key_Node::Print ()
 {
 
- cout<<"Begin_Key_Node"<<endl;
- for(int i=0;i<Fields.size();i++)
- {
-         cout<<Fields[i].Serialize()<<endl;        
- }
- 
- cout<<"End_Key_Node"<<endl;
+	cout<< "Begin_Key_Node - Clave: ";
+	cout << this->toInt() << endl;
+
+	for(int i = 0; i < Fields.size(); i++)
+	{
+		//cout << Fields[i].Serialize() << endl;
+		cout << Fields[i].getStr() << endl;
+	}
+
+	cout<<"End_Key_Node"<<endl;
+
 }
 
 void Key_Node::DesSerialize (std::ifstream *f)
 {
- Fields.clear();
- //ref.posBloq=-1;
- //ref.posReg=-1;
- string aux;
- getline(*f,aux);
- while((aux!="End_Key_Node")&&(!(*f).eof()))
- {
-  
-   if(aux!="Begin_Key_Node"){
-          Field Faux=Field();
-          Faux.DesSerialize(aux);  
-          Fields.push_back(Faux);
-      }
-        getline(*f,aux);
- }
+
+	Fields.clear();
+	//ref.posBloq=-1;
+	//ref.posReg=-1;
+	string aux;
+	getline(*f,aux);
+	while((aux!="End_Key_Node")&&(!(*f).eof()))
+	{
+
+		if(aux!="Begin_Key_Node"){
+			Field Faux=Field();
+			Faux.DesSerialize(aux);
+			Fields.push_back(Faux);
+		}
+
+		getline(*f,aux);
+	}
  
 
 }

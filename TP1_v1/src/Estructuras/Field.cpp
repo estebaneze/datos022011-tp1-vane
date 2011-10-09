@@ -615,16 +615,18 @@ const bool Field::operator >= ( std::string &comparador){
 
 const int Field::toInt()
 {
-     int toReturn = 0;    
-       if 
-       ((this->type==INTEGER)||(this->type==CHAR)||(this->type==BOOLEAN)||(this->type==SHORT)||(this->type==LONG))
-          toReturn= *(int *) data;
+     int toReturn = 0;
+
+     if ((this->type==INTEGER)||(this->type==CHAR)||(this->type==BOOLEAN)||(this->type==SHORT)||(this->type==LONG))
+    	 toReturn= *(int *) data;
           
-        if ((this->type==STRING)||(this->type==DATE)){
-                	for (unsigned int i= 0; i < str.length(); i++)
-                		toReturn += (int) str[i];                                                                     
-        }                            	 
-	return toReturn; 
+     if ((this->type==STRING)||(this->type==DATE)){
+
+    	 for (unsigned int i= 0; i < str.length(); i++)
+    		 toReturn += (int) str[i];
+     }
+
+	 return toReturn;
 }
 
 std::string Field::Serialize(){
@@ -640,8 +642,9 @@ std::string Field::Serialize(){
             aux.append(",");
             aux.append(str);
             aux.append(","); 
-            
+
 		ss.clear();
+
             switch (type){
               case INTEGER:
                            {
@@ -674,7 +677,7 @@ std::string Field::Serialize(){
                        
               }
 
-            
+
             return aux;
             
 }

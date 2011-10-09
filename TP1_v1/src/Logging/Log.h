@@ -6,12 +6,12 @@
  */
 
 
-/*#include <iostream>
+#include <iostream>
 #include <cstdlib>
 #include <fstream>
 #include <time.h>
-*/
-#include "../Common/Common.h"
+#include <cstdlib>
+
 
 #ifndef LOG_H_
 #define LOG_H_

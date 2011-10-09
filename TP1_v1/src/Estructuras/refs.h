@@ -14,19 +14,16 @@ struct ref{
        	long posReg;
     	long posBloq;
     	Field Key;       
-       }
-       ;
-class Refs{	
-public:
-	vector<ref> vRefs;
-    Refs();
-    
-    Refs(string serRefs);
-    
-    ~Refs();
-    
-    string Serialize();   
+       };
 
+class Refs{	
+
+	public:
+		vector<ref> vRefs;
+		Refs();
+		Refs(string serRefs);
+		~Refs();
+		string Serialize();
 };
 
 #endif

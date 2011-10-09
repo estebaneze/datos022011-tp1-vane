@@ -15,6 +15,9 @@
 #include <cstdlib>
 
 #include "IntegerList.h";
+#include "Identities.h"
+#include "../Logging/Log.h"
+#include "Helper.h"
 
 using namespace std;
 
@@ -24,6 +27,7 @@ struct Date{
 	ushort Month;
 	ushort Year;
 };
+
 
 #endif /* COMMON_H_ */
 
