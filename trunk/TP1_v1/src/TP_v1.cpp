@@ -25,113 +25,156 @@ Administrador ((usuario)i, clave): Hash
 #include <stdio.h>
 #include "Common/Common.h"
 #include "Common/Estructuras.h"
+#include "Common/Entidades.h"
 
 using namespace std;
 
-int main() {
+ifstream::pos_type size;
+char * memblock;
 
-	HashExtensible hash = HashExtensible("Distritos.hs");
 
-	vector<Field> Vf;
+void testCandidato(){
 
-	string str = "301";
-	Field F = Field(str);
-	str = "302";
-	Field F2 = Field(str);
-	str = "303";
-	Field F3 = Field(str);
-	Vf.push_back(F);
-	Vf.push_back(F2);
-	Vf.push_back(F3);
+	cout << endl;
+	Candidato c1 = Candidato(1, 1, 1);
+	Candidato c2 = Candidato(2, 2, 2);
+	Candidato c3 = Candidato(3, 3, 3);
+	Candidato c4 = Candidato(33, 4, 23);
+
+	HashExtensible hash = HashExtensible("Candidatos.hs");
 
 	Key_Node K= Key_Node();
+	Key_Node K2 = Key_Node();
+
 	//Agrego los campos al key node
-	for (int i=0; i<Vf.size();i++){
-		Field FAux=Vf.at(i);
-		K.AddField(FAux);
-	}
+
+	string id1 = Helper::IntToString(c1.GetId());
+	Field F1 = Field(id1);
+	K.AddField(F1);
+
+	string id2 = Helper::IntToString(c2.GetId());
+	Field F2 = Field(id2);
+	K.AddField(F2);
+
+	string id3 = Helper::IntToString(c3.GetId());
+	Field F3 = Field(id3);
+	K.AddField(F3);
+
+	string id4 = Helper::IntToString(c4.GetId());
+	Field F4 = Field(id4);
+	K2.AddField(F4);	//Este lo agrego en la clave dos (K2)
+
+
+	//Lista de "Refs"
+	Refs R = Refs();
+	Refs R2 = Refs();
+
+	//Creo el Ref
+	ref auxRef1;
+	auxRef1.posBloq=1;
+	auxRef1.posReg=1;
+	auxRef1.Key=F1;
 
 	ref auxRef2;
 	auxRef2.posBloq=1;
 	auxRef2.posReg=2;
-	auxRef2.Key=F;
+	auxRef2.Key=F2;
 
-	Refs R = Refs();
+	ref auxRef3;
+	auxRef3.posBloq=1;
+	auxRef3.posReg=3;
+	auxRef3.Key=F3;
 
-	R.vRefs.push_back(auxRef2);
+	ref auxRef4;
+	auxRef4.posBloq =31;
+	auxRef4.posReg =31;
+	auxRef4.Key=F4;
 
-	K.ref = R;
+	R.vRefs.push_back(auxRef1);	//Agrego el "auxRef2" al vector de refs de R.
+	R.vRefs.push_back(auxRef2);	//Agrego el "auxRef2" al vector de refs de R.
+	R.vRefs.push_back(auxRef3);	//Agrego el "auxRef2" al vector de refs de R.
 
-	//Key_Node *pK=new Key_Node();
-	//*pK=K;
+	R2.vRefs.push_back(auxRef4);
+
+	K.ref = R;	//El key_node tiene referencia al R (los Refs, que tienen una referencia al )
+	K2.ref = R2;
 
 	K.Print();
-	cout << endl;
-	hash.del(K);
-	hash.add(K,R);
-
-	vector<Field> Vf2;
-
-	str = "401";
-	Field F4= Field(str);
-	str = "402";
-	Field F5= Field(str);
-	str = "403";
-	Field F6= Field(str);
-	Vf2.push_back(F4);
-	Vf2.push_back(F5);
-	Vf2.push_back(F6);
-
-	Key_Node K2= Key_Node();
-
-	for (int i=0; i<Vf2.size();i++){
-		Field FAux=Vf2.at(i);
-		K2.AddField(FAux);
-	}
-
-	ref auxRef22;
-	auxRef22.posBloq=1;
-	auxRef22.posReg=2;
-	auxRef22.Key=F2;
-
-	Refs R2=Refs();
-
-	R2.vRefs.push_back(auxRef22);
-
-	K2.ref =R2;
-
+	cout << "----------------" << endl;
 	K2.Print();
+
 	cout << endl;
-
-	hash.add(K2,R2);
-
+	hash.add(K,R);	//Agrego el key_node al hash
+	hash.add(K2, R2);
 	hash.save();
 
-	/*
-	string str2="185";
-	Field F2= Field(INTEGER,str2);
-	Vf2.push_back(F2);
+	cout  << endl;
+	bool containsKey = hash.contains(K);
 
-	Key_Node K2= Key_Node();
-	K2.ref.posBloq=1;
-	K2.ref.posReg=1;
+	if(containsKey){
 
-	for (int i=0; i<Vf2.size();i++){
-		Field FAux=Vf2.at(i);
-		K2.AddField(FAux);
+		cout << "Clave " << K.toInt() << ": " << endl;
+		vector<Field>::iterator it = K.GetIterator();
+		for(int i = 0; i < K.GetFieldCount(); i++){
+			Field actual = it[i];
+			cout << actual.Serialize() << endl;
+		}
 	}
-	cout<<"control"<<endl;
-	tree.add_key(K2,true);
+	else
+		cout << K.toInt() << " no esta en el hash " << endl;
 
-	system("PAUSE");
-	return EXIT_SUCCESS;
-*/
-	int pepe = hash.fHash(K2);
-	cout << "dsfsfs" << endl;
-	cout << pepe << endl;
 
-	system("PAUSE");
-	return 0;
+	containsKey = hash.contains(K2);
+	if(containsKey){
+
+		cout << "Clave " << K2.toInt() << ": " << endl;
+		vector<Field>::iterator it = K2.GetIterator();
+		for(int i = 0; i < K2.GetFieldCount(); i++){
+			Field actual = it[i];
+			cout << actual.Serialize() << endl;
+		}
+	}
+	else
+		cout << K2.toInt() << " no esta en el hash " << endl;
+
+
+	cout << "Borro la clave K2 " << K2.toInt() << endl;
+	hash.del(K2);
+	containsKey = hash.contains(K2);
+	if(containsKey){
+
+		cout << "Clave " << K2.toInt() << ": " << endl;
+		vector<Field>::iterator it = K2.GetIterator();
+		for(int i = 0; i < K2.GetFieldCount(); i++){
+			Field actual = it[i];
+			cout << actual.Serialize() << endl;		}
+	}
+	else
+		cout << K2.toInt() << " no esta en el hash " << endl;
+
 }
 
 
+int main( int arg, char *argv[] ){
+
+/*	cout << Identities::GetNextIdCandidato() << endl;
+	cout << Identities::GetNextIdCandidato() << endl;
+	cout << Identities::GetNextIdCandidato() << endl;
+	cout<< endl;
+	cout<< endl;
+	cout<< endl;
+	cout << Identities::GetNextIdCargo() << endl;
+		cout << Identities::GetNextIdCargo() << endl;
+		cout << Identities::GetNextIdCargo() << endl;
+		cout<< endl;
+		cout<< endl;
+
+		cout << Identities::GetNextIdDistrito() << endl;
+			cout << Identities::GetNextIdDistrito() << endl;
+			cout << Identities::GetNextIdDistrito() << endl;
+			*/
+
+	testCandidato();
+
+	return 0;
+}

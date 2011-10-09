@@ -38,7 +38,8 @@ bool Bucket::exists ( Key_Node &key)
      
 	for (unsigned int i = 0; i< bucket.size(); i++)
 	{
-        int aux=bucket.at(i).first.compareTo(key);
+		std::pair<Key_Node,Refs> b = bucket.at(i);
+        int aux = b.first.compareTo(key);
         if (aux==0)
 			return true;
         }

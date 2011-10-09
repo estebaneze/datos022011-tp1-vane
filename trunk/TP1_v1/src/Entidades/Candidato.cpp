@@ -13,8 +13,13 @@ Candidato::Candidato(int idLista, int idVotante, int idEleccion) {
 	_idVotante = idVotante;
 	_idLista = idLista;
 
+	 _id = Identities::GetNextIdCandidato();
 }
 
 Candidato::~Candidato() {
 	// TODO Auto-generated destructor stub
+}
+
+int Candidato::GetId(){
+	return this->_id;
 }

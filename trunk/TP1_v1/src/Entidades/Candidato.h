@@ -8,6 +8,8 @@
 #ifndef CANDIDATO_H_
 #define CANDIDATO_H_
 
+#include "../Common/Common.h";
+
 class Candidato {
 
 	public:
@@ -16,11 +18,14 @@ class Candidato {
 		int GetIdLista();
 		int GetIdVotante();
 		int GetIdEleccion();
+		int GetId();
 
 	private:
 		int _idLista;
 		int _idVotante;
 		int _idEleccion;
+		int _id;
+
 
 };
 

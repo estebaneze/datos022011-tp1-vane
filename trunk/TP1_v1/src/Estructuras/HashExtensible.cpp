@@ -64,11 +64,11 @@ int HashExtensible::fHash(Key_Node &key)
 {    
 	if (actualbits != 0)
 	{	
-		int intKey = key.toInt();
-		int K = (int) pow(2, this->actualbits);
-		double aux2 = 1000*fmod(intKey*CTEHASH,1);
-		return  (int)fmod(aux2,K);
-	//	return (int)fmod (intKey, K);
+		//int intKey = key.toInt();
+		//int K = (int) pow(2, this->actualbits);
+		//double aux2 = 1000*fmod(intKey*CTEHASH,1);
+		//return  (int)fmod(aux2,K);
+		return (int)fmod (key.toInt(), this->actualbits);
 	}
 
 	return 0;   
@@ -79,6 +79,7 @@ int HashExtensible::fHash(Key_Node &key)
 void HashExtensible::add(Key_Node &key, Refs value)
 { 
     //load();
+	cout << "HashExtensible::add: " << key.toInt() << endl;
 	if (!contains(key))
 	{ 
 		int Dir = fHash(key);
