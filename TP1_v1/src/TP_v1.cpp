@@ -154,6 +154,13 @@ void testCandidato(){
 
 }
 
+void testLogging(){
+
+	Log::WriteLog("Inserto algo");
+	Log::WriteLog("Inserto algo");
+	Log::WriteLog("Inserto algo");
+
+}
 
 int main( int arg, char *argv[] ){
 
@@ -174,7 +181,8 @@ int main( int arg, char *argv[] ){
 			cout << Identities::GetNextIdDistrito() << endl;
 			*/
 
-	testCandidato();
+	//testCandidato();
+	testLogging();
 
 	return 0;
 }

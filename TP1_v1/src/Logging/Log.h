@@ -11,7 +11,7 @@
 #include <fstream>
 #include <time.h>
 #include <cstdlib>
-
+#include <vector>
 
 #ifndef LOG_H_
 #define LOG_H_
