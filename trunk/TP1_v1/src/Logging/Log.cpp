@@ -22,13 +22,29 @@ void Log::WriteLog(std::string message){
 	time_t rawtime;
     time ( &rawtime );
 
-    std:string time(ctime(&rawtime));
-	fstream File;
+	string line;
+	ifstream myfile ("Log.txt");
+	std::vector< string > lines;
 
+	//Me guardo las lineas con los valores
+	if (myfile.is_open()) {
+		while ( myfile.good() ) {
+			getline (myfile,line);
+			lines.push_back(line);
+		}
+		myfile.close();
+	}
+
+	fstream File;
+    std:string time(ctime(&rawtime));
 	File.open("Log.txt", ios::out);
 
 	if (File.is_open ()) {
-		File << "%s" << time << ":" << message << "\n";
+		for(int i = 0; i < lines.size(); i++){
+			File << lines[i] << endl;
+		}
+
+		File <<  message << "---" << time  << "\n";
 	}
 
 	File.close();
