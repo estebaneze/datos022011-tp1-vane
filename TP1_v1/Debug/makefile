@@ -14,6 +14,7 @@ RM := rm -rf
 -include src/Estructuras/subdir.mk
 -include src/Entidades/subdir.mk
 -include src/Common/subdir.mk
+-include src/ABMs/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
