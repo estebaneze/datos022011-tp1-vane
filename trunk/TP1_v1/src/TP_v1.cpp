@@ -29,10 +29,6 @@ Administrador ((usuario)i, clave): Hash
 
 using namespace std;
 
-ifstream::pos_type size;
-char * memblock;
-
-
 void testCandidato(){
 
 	cout << endl;
@@ -43,7 +39,7 @@ void testCandidato(){
 
 	HashExtensible hash = HashExtensible("Candidatos.hs");
 
-	Key_Node K= Key_Node();
+	Key_Node K = Key_Node();
 	Key_Node K2 = Key_Node();
 
 	//Agrego los campos al key node
@@ -181,8 +177,8 @@ int main( int arg, char *argv[] ){
 			cout << Identities::GetNextIdDistrito() << endl;
 			*/
 
-	//testCandidato();
-	testLogging();
-
-	return 0;
+	testCandidato();
+	//testLogging();
+	cout << endl;
+	return system("");
 }
