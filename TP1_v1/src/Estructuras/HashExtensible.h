@@ -26,7 +26,8 @@ class HashExtensible
          * @return Direccion que se asociara a un numero de bucket donde se encontrara la clave.
          */
         
-        HashExtensible(std::string filename);
+     	 HashExtensible();
+     	 HashExtensible(std::string filename);
         HashExtensible(std::string filename, int BucketCap);
         
         //! Funci�n de Hash.
@@ -74,9 +75,8 @@ class HashExtensible
         			
         bool	isEmpty();
         void 	view();
-        void 	destroy();
-        
-        
+        //void 	destroy();
+
         					
         ~HashExtensible();
 };

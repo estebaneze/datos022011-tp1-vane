@@ -1,12 +1,14 @@
 #include <math.h>
 #include "HashExtensible.h"
+
+HashExtensible::HashExtensible(){
+
+}
+
 HashExtensible::HashExtensible(std::string filename)
 {
-   
-  
-
   this->directory= Directory();
-   this->actualbits=directory.getActualBits();  
+  this->actualbits=directory.getActualBits();
   
   this->filename=filename;
   
@@ -79,7 +81,7 @@ int HashExtensible::fHash(Key_Node &key)
 void HashExtensible::add(Key_Node &key, Refs value)
 { 
     //load();
-	cout << "HashExtensible::add: " << key.toInt() << endl;
+	//cout << "HashExtensible::add: " << key.toInt() << endl;
 	if (!contains(key))
 	{ 
 		int Dir = fHash(key);
