@@ -8,7 +8,7 @@
 #ifndef CANDIDATO_H_
 #define CANDIDATO_H_
 
-#include "../Common/Common.h";
+#include "../Common/Common.h"
 
 class Candidato {
 

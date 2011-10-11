@@ -23,3 +23,15 @@ Candidato::~Candidato() {
 int Candidato::GetId(){
 	return this->_id;
 }
+
+int Candidato::GetIdVotante(){
+	return this->_idVotante;
+}
+
+int Candidato::GetIdEleccion(){
+	return this->_idEleccion;
+}
+
+int Candidato::GetIdLista(){
+	return this->_idLista;
+}

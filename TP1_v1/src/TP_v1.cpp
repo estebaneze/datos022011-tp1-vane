@@ -24,7 +24,7 @@ Administrador ((usuario)i, clave): Hash
 #include "Logging/Log.h"
 #include <stdio.h>
 #include "Common/Common.h"
-#include "Common/Estructuras.h"
+#include "ABMs/ABMCandidato.h"
 #include "Common/Entidades.h"
 
 using namespace std;
@@ -32,6 +32,23 @@ using namespace std;
 void testCandidato(){
 
 	cout << endl;
+	Candidato c1 = Candidato(45, 13, 41);
+	Candidato c2 = Candidato(2, 2, 2);
+	Candidato c3 = Candidato(3, 3, 3);
+	Candidato c4 = Candidato(33, 4, 23);
+	cout << "Candidato - id: " << c1.GetId() << " - idLista: " << c1.GetIdLista() << " - idEleccion: " << c1.GetIdEleccion() << " - idVotante: " << c1.GetIdVotante() << endl;
+	ABMCandidato abmCandidato = ABMCandidato("Candidatos.hs");
+	abmCandidato.Add(c1);
+	//abmCandidato.Add(c2);
+	//abmCandidato.Add(c3);
+
+	Candidato candidato = abmCandidato.GetCandidato(c1.GetId());
+
+}
+
+void testCandidato2(){
+
+	/*cout << endl;
 	Candidato c1 = Candidato(1, 1, 1);
 	Candidato c2 = Candidato(2, 2, 2);
 	Candidato c3 = Candidato(3, 3, 3);
@@ -147,7 +164,7 @@ void testCandidato(){
 	}
 	else
 		cout << K2.toInt() << " no esta en el hash " << endl;
-
+*/
 }
 
 void testLogging(){

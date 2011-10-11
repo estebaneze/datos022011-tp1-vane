@@ -188,24 +188,26 @@ const bool Key_Node::operator >= ( Key_Node &comparador){
 int Key_Node::compareTo(Key_Node &comparador)
 {
        int result;
-       
+
        int si=Fields.size();
-       
+
        vector<Field>::iterator it1=this->Fields.begin();
+
        vector<Field>::iterator it2= comparador.GetIterator();
        
        while( it1 != Fields.end() ) {
-        if(*it1!=*it2)
-        {
-            result = -1;
-            it1=this->Fields.end();
-        }
-        else
-        {
-           result=0;
-           it1++;
-           it2++;        
-        }     
+
+			if(*it1!=*it2)
+			{
+				result = -1;
+				it1=this->Fields.end();
+			}
+			else
+			{
+			   result=0;
+			   it1++;
+			   it2++;
+			}
        }
                        	 
        return result;
