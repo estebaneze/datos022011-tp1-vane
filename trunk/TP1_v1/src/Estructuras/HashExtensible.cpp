@@ -257,6 +257,7 @@ std::vector< Refs > HashExtensible::getUpTo( Key_Node &key, bool includeKeyValue
 
 std::vector< Refs > HashExtensible::getFrom( Key_Node &key, bool includeKeyValue)
 {
+	cout << "my key; " << key.toInt() << endl;
 	std::vector< Refs > toReturn;
 	for (unsigned int i = 0; i < directory.size(); i++)
 	{
@@ -264,9 +265,13 @@ std::vector< Refs > HashExtensible::getFrom( Key_Node &key, bool includeKeyValue
 		for (int j = 0; j < buckets.getBucket(nBlock).size(); j++)
 		{
 			std::pair<Key_Node,Refs> tempPair = buckets.getBucket(nBlock).at(j);
-			if (tempPair.first.compareTo(key)==1 || (tempPair.first.compareTo(key)==0 && includeKeyValue))
-				toReturn.push_back(tempPair.second);
 
+			//if (tempPair.first.compareTo(key)==1 || (tempPair.first.compareTo(key)==0 && includeKeyValue)){
+
+			if(tempPair.first.toInt() == key.toInt()){
+				cout << tempPair.first.toInt() << endl;
+				toReturn.push_back(tempPair.second);
+			}
 		}
 	}	
 	return toReturn;
