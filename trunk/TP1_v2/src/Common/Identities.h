@@ -31,6 +31,7 @@ class Identities {
 		static int GetNextIdCandidato();
 		static int GetNextIdCargo();
 		static int GetNextIdDistrito();
+		static int GetNextIdAdministrador();
 		static void InitializeFile();
 	private:
 		static void RefreshFile(string key, int value);

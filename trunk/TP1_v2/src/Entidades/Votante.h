@@ -12,23 +12,29 @@
 
 class Votante {
 	public:
-		Votante(int id, string nombreYApellido, long dni, string clave, string domicilio, int idDistrito);
+		Votante(long dni, string nombreYApellido, string clave, string domicilio, int idDistrito);
 		virtual ~Votante();
-		string GetNombreYApellido();
+
 		long GetDni();
+		string GetNombreYApellido();
 		string GetClave();
 		string GetDomicilio();
 		int GetDistrito();
-		bool VotoEnEleccion(int idEleccion);
-		IntegerList EleccionesVotadas(); //Ids de las elecciones en las que ya voto
+		IntegerList GetEleccionesVotadas(); //Ids de las elecciones en las que ya voto
+	    void SetClave(string clave);
+	    void SetDni(long  dni);
+	    void SetDomicilio(string domicilio);
+	    void SetIdDistrito(int idDistrito);
+	    void SetNombreYApellido(string nombreYApellido);
+
 		void AgregarEleccion(int idEleccion);	//Agrega una eleccion a la lista de elccioes en las que voto
 		bool Authenticate(string clave);	//Este método lo usamos para cuando el usuario ingresa al sistema
+		bool VotoEnEleccion(int idEleccion);
 
 	private:
-		int _id;
-		string _nombreYApellido;
 		long _dni;
-		string _clave;	//'??????QUE ES ESTO??????????????
+		string _nombreYApellido;
+		string _clave;
 		string _domicilio;
 		int _idDistrito;
 		IntegerList _listaElecciones;	//Ids de las elecciones en las que ya voto
