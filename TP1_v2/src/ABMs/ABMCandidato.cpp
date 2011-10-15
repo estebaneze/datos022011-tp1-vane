@@ -74,11 +74,20 @@ vector<Candidato> ABMCandidato::GetCandidatos(){
 
 	vector<KeyValue> values = this->directorio->getAllValues();
 	vector<Candidato> candidatos;
-	cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;
+
 	for(int i = 0; i < values.size(); i++){
-		cout << values[i].Key << ": " << values[i].Value << endl;
+
+		vector<string> splitedVs = Helper::split(values[i].Value, '|');
+
+		int idLista  = Helper::StringToInt(splitedVs[0]);
+		int idVotante = Helper::StringToInt(splitedVs[1]);
+		int idCargo = Helper::StringToInt(splitedVs[2]);
+		int idCandidato = Helper::StringToInt(values[i].Key);
+
+		candidatos.push_back(Candidato(idLista, idVotante, idCargo, idCandidato));
+
 	}
-	cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;
+
 	return candidatos;
 }
 
@@ -91,7 +100,6 @@ Candidato* ABMCandidato::GetCandidato(int idCandidato){
 
 	if ((this->directorio->existKey(candidatoId))){
 
-		Candidato* candidatoAux;
 		string values = directorio->find(candidatoId);
 		vector<string> splitedVs = Helper::split(values, '|');
 

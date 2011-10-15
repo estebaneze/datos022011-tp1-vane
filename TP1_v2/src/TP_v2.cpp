@@ -74,7 +74,13 @@ void testCandidato2(){
 	cout << "-----------------------------------------------------";
 	cout << "-----------------------------------------------------" << endl;
 	cout << "prueba abmc.GetCandidatos(): " << endl;
-	abmc.GetCandidatos();
+	vector<Candidato> cs = abmc.GetCandidatos();
+
+	cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;
+	for(int i = 0; i < cs.size(); i++){
+		cout << cs[i].GetId() << " - lista: " << cs[i].GetIdLista() << " - cargo: " << cs[i].GetIdCargo() << " - votante: " << cs[i].GetIdVotante() <<endl;
+	}
+	cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;
 
 
 }
