@@ -16,9 +16,10 @@ ABMConteo::ABMConteo(string BPTree) {
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
 void ABMConteo::Add(Conteo conteo){
+
 	DistributionTable* dtTmp = new DistributionTable();
-			this->bplusTree->insert(new Element("Elemento",dtTmp));
-	}
+	this->bplusTree->insert(new Element("Elemento",dtTmp));
+}
 
 
 void ABMConteo::mostrarListasPorPantalla(){

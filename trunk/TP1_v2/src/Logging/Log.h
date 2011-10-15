@@ -21,7 +21,7 @@ class Log {
 	public:
 		Log();
 		virtual ~Log();
-		static void WriteLog(std::string message);
+		static void WriteLog(std::string message, char* filename);
 
 };
 

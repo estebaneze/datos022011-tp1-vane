@@ -21,14 +21,21 @@ Administrador ((usuario)i, clave): Hash
 #include <cstdlib>
 #include <fstream>
 #include <time.h>
-#include "Logging/Log.h"
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
 #include <stdio.h>
+
+#include "Logging/Log.h"
 #include "Common/Common.h"
 #include "ABMs/ABMCandidato.h"
 #include "Common/Entidades.h"
 #include "ABMs/ABMLista.h"
 #include "ABMs/ABMConteo.h"
 #include "Entidades/Lista.h"
+
+
 using namespace std;
 
 void pruebaArbol()
@@ -56,177 +63,129 @@ void pruebaListas(){
 }
 
 
-void testCandidato(){
+void testCandidato2(){
 
 	cout << endl;
-	Candidato c1 = Candidato(45, 13, 41);
-	Candidato c2 = Candidato(2, 2, 2);
-	Candidato c3 = Candidato(3, 3, 3);
-	Candidato c4 = Candidato(33, 4, 23);
-	cout << "Candidato - id: " << c1.GetId() << " - idLista: " << c1.GetIdLista() << " - idEleccion: " << c1.GetIdEleccion() << " - idVotante: " << c1.GetIdVotante() << endl;
-	//ABMCandidato abmCandidato = ABMCandidato("Candidatos.hs");
-	//abmCandidato.Add(c1);
-	//abmCandidato.Add(c2);
-	//abmCandidato.Add(c3);
+	ABMCandidato abmc = ABMCandidato("candidato.ga");
+	cout << endl;
+	cout << "Candidatos: "<< endl;
+	abmc.mostrarCandidatosPorPantalla();
 
-	//abmCandidato.GetCandidato(34);
+	cout << "-----------------------------------------------------";
+	cout << "-----------------------------------------------------" << endl;
+	cout << "prueba abmc.GetCandidatos(): " << endl;
+	abmc.GetCandidatos();
 
-	//Candidato candidato = abmCandidato.GetCandidato(c1.GetId());
 
 }
 
-void testCandidato2(){
 
-	/*cout << endl;
-	Candidato c1 = Candidato(1, 1, 1);
-	Candidato c2 = Candidato(2, 2, 2);
-	Candidato c3 = Candidato(3, 3, 3);
-	Candidato c4 = Candidato(33, 4, 23);
-
-	HashExtensible hash = HashExtensible("Candidatos.hs");
-
-	Key_Node K = Key_Node();
-	Key_Node K2 = Key_Node();
-
-	//Agrego los campos al key node
-
-	string id1 = Helper::IntToString(c1.GetId());
-	Field F1 = Field(id1);
-	K.AddField(F1);
-
-	string id2 = Helper::IntToString(c2.GetId());
-	Field F2 = Field(id2);
-	K.AddField(F2);
-
-	string id3 = Helper::IntToString(c3.GetId());
-	Field F3 = Field(id3);
-	K.AddField(F3);
-
-	string id4 = Helper::IntToString(c4.GetId());
-	Field F4 = Field(id4);
-	K2.AddField(F4);	//Este lo agrego en la clave dos (K2)
-
-
-	//Lista de "Refs"
-	Refs R = Refs();
-	Refs R2 = Refs();
-
-	//Creo el Ref
-	ref auxRef1;
-	auxRef1.posBloq=1;
-	auxRef1.posReg=1;
-	auxRef1.Key=F1;
-
-	ref auxRef2;
-	auxRef2.posBloq=1;
-	auxRef2.posReg=2;
-	auxRef2.Key=F2;
-
-	ref auxRef3;
-	auxRef3.posBloq=1;
-	auxRef3.posReg=3;
-	auxRef3.Key=F3;
-
-	ref auxRef4;
-	auxRef4.posBloq =31;
-	auxRef4.posReg =31;
-	auxRef4.Key=F4;
-
-	R.vRefs.push_back(auxRef1);	//Agrego el "auxRef2" al vector de refs de R.
-	R.vRefs.push_back(auxRef2);	//Agrego el "auxRef2" al vector de refs de R.
-	R.vRefs.push_back(auxRef3);	//Agrego el "auxRef2" al vector de refs de R.
-
-	R2.vRefs.push_back(auxRef4);
-
-	K.ref = R;	//El key_node tiene referencia al R (los Refs, que tienen una referencia al )
-	K2.ref = R2;
-
-	K.Print();
-	cout << "----------------" << endl;
-	K2.Print();
+void testCandidato(){
 
 	cout << endl;
-	hash.add(K,R);	//Agrego el key_node al hash
-	hash.add(K2, R2);
-	hash.save();
+	ABMCandidato abmc = ABMCandidato("candidato.ga");
 
-	cout  << endl;
-	bool containsKey = hash.contains(K);
+	string dni;
+	string idLista;
+	string idCargo;
+	/*cout << "Candidato nuevo - DNI: ";
+	cin >> dni;
+	cout << "Id Cargo: ";
+	cin >> idCargo;
+	cout << "Id Lista: ";
+	cin >> idLista;
 
-	if(containsKey){
-
-		cout << "Clave " << K.toInt() << ": " << endl;
-		vector<Field>::iterator it = K.GetIterator();
-		for(int i = 0; i < K.GetFieldCount(); i++){
-			Field actual = it[i];
-			cout << actual.Serialize() << endl;
-		}
-	}
-	else
-		cout << K.toInt() << " no esta en el hash " << endl;
-
-
-	containsKey = hash.contains(K2);
-	if(containsKey){
-
-		cout << "Clave " << K2.toInt() << ": " << endl;
-		vector<Field>::iterator it = K2.GetIterator();
-		for(int i = 0; i < K2.GetFieldCount(); i++){
-			Field actual = it[i];
-			cout << actual.Serialize() << endl;
-		}
-	}
-	else
-		cout << K2.toInt() << " no esta en el hash " << endl;
-
-
-	cout << "Borro la clave K2 " << K2.toInt() << endl;
-	hash.del(K2);
-	containsKey = hash.contains(K2);
-	if(containsKey){
-
-		cout << "Clave " << K2.toInt() << ": " << endl;
-		vector<Field>::iterator it = K2.GetIterator();
-		for(int i = 0; i < K2.GetFieldCount(); i++){
-			Field actual = it[i];
-			cout << actual.Serialize() << endl;		}
-	}
-	else
-		cout << K2.toInt() << " no esta en el hash " << endl;
+	cout << endl;
+	cout << endl;
+	abmc.Add(Helper::StringToInt(idLista), Helper::StringToInt(dni), Helper::StringToInt(idCargo));
 */
+	cout << endl;
+	cout << "Candidatos: "<< endl;
+	abmc.mostrarCandidatosPorPantalla();
+
+	cout << "-----------------------------------------------------";
+	cout << "-----------------------------------------------------" << endl;
+	cout << "prueba abmc.GetCandidatos(): " << endl;
+	abmc.GetCandidatos();
+
+	cout << "-----------------------------------------------------";
+	cout << "-----------------------------------------------------" << endl;
+	cout << "-----------------------------------------------------";
+	cout << "-----------------------------------------------------" << endl;
+
+
+	cout << endl;
+	cout << endl;
+
+	Candidato c3=Candidato(3, 3, 3, 3);
+	Candidato c4=Candidato(3, 3, 3, 4);
+	Candidato c5=Candidato(3, 3, 3, 5);
+	Candidato c10=Candidato(3, 3, 3, 10);
+	cout << "Existe candidato 3 ? -->" << abmc.Exists(c3) << endl;
+	cout << "Existe candidato 4 ? -->" << abmc.Exists(c4) << endl;
+	cout << "Existe candidato 5 ? -->" << abmc.Exists(c5) << endl;
+	cout << "Existe candidato 10 ? -->" << abmc.Exists(c10) << endl;
+
+	cout << endl;
+	cout << "Id Candidato: ";
+	string idCandidato;
+	cin >> idCandidato;
+	Candidato* c = abmc.GetCandidato(Helper::StringToInt(idCandidato));
+	if(c != NULL){
+		cout << "Candidato: " << c->GetId() << endl;
+		cout << "Votante: " <<  c->GetIdVotante() << " - ";
+		cout << "Cargo: " <<  c->GetIdCargo() << " - ";
+		cout << "Lista: " << c->GetIdLista() << " - ";
+	}
+	else{
+		cout << "No existe el candidato" << endl;
+	}
+
+	cout << "-----------------------------------------------------";
+	cout << "-----------------------------------------------------" << endl;
+
+	cout << "Delete - Id Candidato: ";
+	idCandidato;
+	cin >> idCandidato;
+	abmc.Delete(Helper::StringToInt(idCandidato));
+	cout << "Candidatos: "<< endl;
+	abmc.mostrarCandidatosPorPantalla();
+
+	cout << "-----------------------------------------------------";
+	cout << "-----------------------------------------------------" << endl;
+
+	cout << "Modificar candidato - Id Candidato: ";
+	cin >> idCandidato;
+	cout << "DNI: ";
+	cin >> dni;
+	cout << "Id Cargo: ";
+	cin >> idCargo;
+	cout << "Id Lista: ";
+	cin >> idLista;
+	//(int idLista, int idVotante, int idCargo, int idCandidato);
+	Candidato c1 = Candidato(Helper::StringToInt(idLista), Helper::StringToInt(dni), Helper::StringToInt(idCargo), Helper::StringToInt(idCandidato));
+	abmc.Modify(c1);
+	cout << "Candidatos: "<< endl;
+	abmc.mostrarCandidatosPorPantalla();
+
 }
 
 void testLogging(){
 
-	Log::WriteLog("Inserto algo");
-	Log::WriteLog("Inserto algo");
-	Log::WriteLog("Inserto algo");
+	Log::WriteLog("Inserto algo", "log.txt");
+	Log::WriteLog("Inserto algo","log.txt");
+	Log::WriteLog("Inserto algo","log.txt");
 
 }
 
+
+
 int main( int arg, char *argv[] ){
 
-/*	cout << Identities::GetNextIdCandidato() << endl;
-	cout << Identities::GetNextIdCandidato() << endl;
-	cout << Identities::GetNextIdCandidato() << endl;
-	cout<< endl;
-	cout<< endl;
-	cout<< endl;
-	cout << Identities::GetNextIdCargo() << endl;
-		cout << Identities::GetNextIdCargo() << endl;
-		cout << Identities::GetNextIdCargo() << endl;
-		cout<< endl;
-		cout<< endl;
-
-		cout << Identities::GetNextIdDistrito() << endl;
-			cout << Identities::GetNextIdDistrito() << endl;
-			cout << Identities::GetNextIdDistrito() << endl;
-			*/
-
-	//testCandidato();
+	testCandidato2();
 
 	//pruebaListas();
-	pruebaArbol();
+	//pruebaArbol();
 
 	//testLogging();
 	cout << endl;

@@ -12,7 +12,14 @@
 #include <iostream>
 #include <string>
 #include <map>
+
 using namespace std;
+
+struct KeyValue{
+	string Key;
+	string Value;
+};
+
 
 class Bucket:public Block {
 protected:
@@ -53,6 +60,8 @@ public:
     unsigned int getDepth() const{return depth; }
     void setDepth(unsigned int depth){this->depth = depth;}
 
+    //Devuelve (clave, valor)
+    vector<KeyValue> get();
 };
 
 #endif /* BUCKET_H_ */

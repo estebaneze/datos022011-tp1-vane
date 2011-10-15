@@ -220,6 +220,7 @@ int Bucket::getDataSize(){
  * Presenta en pantalla la estructura del bucket.
  */
 void Bucket::toHuman(){
+
 	//DistributionTable dt;
 	for (map<Key, string>::iterator it = this->_elements.begin() ; it != this->_elements.end() ; ++it){
 		//dt.unserialize(it->second);
@@ -227,4 +228,19 @@ void Bucket::toHuman(){
 	//	dt.clear();
 		//std::cout << it->first << " ";
 	}
+}
+
+vector<KeyValue> Bucket::get(){
+
+	vector<KeyValue> values;
+	KeyValue value;
+
+	for (map<Key, string>::iterator it = this->_elements.begin() ; it != this->_elements.end() ; ++it){
+		value.Key = it->first;
+		value.Value = it->second;
+
+		values.push_back(value);
+	}
+
+	return values;
 }

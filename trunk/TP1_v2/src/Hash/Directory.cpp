@@ -9,6 +9,8 @@
 #include <iostream>
 #include <set>
 #include <map>
+#include "../Logging/Log.h"
+#include "../Common/Common.h"
 
 /**
  * Setea el archivo de Directorio y de Buckets
@@ -89,8 +91,17 @@ void Directory::setDepth(){
  */
 void /*bool*/ Directory::insert (Key key, string value){
 
+	string message = "Inserto (";
+	message.append(key);
+	message.append(",");
+	message.append(value);
+	message.append(")");
+	Log::WriteLog(message, "Hash.log");
+	cout << message << endl;
+
 	// busco la posicion de la tabla correspondiente a la dispersion.
 	unsigned int pos = findPosofTable(key);
+
 	// obtengo el offset del Bucket correspondiente a esa posicion.
 	Offset offset = table->getElement(pos);
 	// Leo el Bucket
@@ -413,13 +424,49 @@ bool Directory::modify (Key key , string data){
 
 
 void Directory::inform (Offset blockNumber){
+
 	this->bktFile->load(blockNumber,this->bucketActual);
-	std::cout << "	Bucket "<< blockNumber << ": (" << this->bucketActual->getDepth() << "," << this->bucketActual->countElements() << ")  =>";
+	std::cout << "	Bucket "<< blockNumber << ": (" << this->bucketActual->getDepth() << "," << this->bucketActual->countElements() << ")" << endl;
 	this->bucketActual->toHuman();
 	std::cout << std::endl;
+
+}
+
+vector<KeyValue> Directory::getValue(Offset blockNumber){
+
+	this->bktFile->load(blockNumber,this->bucketActual);
+	return this->bucketActual->get();
+}
+
+vector<KeyValue> Directory::getAllValues(){
+
+	vector<KeyValue> values;
+	std::set<Offset> offsets;
+
+	for (Offset block= 0 ; (unsigned)block < this->dirFile->blocks() ; block++){
+
+		this->dirFile->load(block,this->table);
+		this->table->toHuman(&offsets);
+	}
+
+	for (std::set<Offset>::iterator it = offsets.begin(); it != offsets.end(); it++){
+
+		vector<KeyValue> vs = this->getValue(*it);	//Valores del bucket actual
+		for(int i = 0; i < vs.size(); i++){
+			values.push_back(vs[i]);
+		}
+	}
+
+	return values;
+
 }
 
 void Directory::inform (){
+
+	string message = "-Tabla (Profundidad global: ";
+	message.append(Helper::IntToString((int)this -> depth));
+	message.append(")");
+	Log::WriteLog(message, "Hash.log");
 
 	std::cout << "-Tabla (Profundidad global: " << this->depth << ") " << std::endl;
 

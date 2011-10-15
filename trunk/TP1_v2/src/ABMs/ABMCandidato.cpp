@@ -1,88 +1,122 @@
 /*
  * ABMCandidato.cpp
  *
- *  Created on: 10/10/2011
- *      Author: minnie
+ *  Created on: 12/10/2011
+ *      Author: gabriel
  */
-
 #include "ABMCandidato.h"
 
-
 /*
+ * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
+ */
 ABMCandidato::ABMCandidato(string hashFile) {
-	this->_hashFile = hashFile;
-	HashExtensible hashTable = HashExtensible(hashFile);
-	this->_hashTable = hashTable;
-}*/
 
-/*ABMCandidato::ABMCandidato(string hashFile){
-	this->_hashFile = hashFile;
-	this->_hashTable = HashExtensible(this->_hashFile);
-}
+	this->hashFile= hashFile;
+	this->directorio = new Directory(hashFile,2048);
 
-ABMCandidato::~ABMCandidato() {
+	//Descomentar esto si quiere verse el contenido del archivo por pantalla
+	//this->directorio->inform();
 
-}
+	// OJO! el tamaño lo tioene que leer desde un archivo de configuracion
 
-void ABMCandidato::Add(Candidato candidato){
-
-
-
-	Key_Node keyNode = Key_Node();
-	int idCandidato = 34;//candidato.GetId();
-	Field candidatoField = Field(idCandidato);
-
-	Refs refs = Refs();
-	//Creo el Ref
-	ref auxRef;
-	//auxRef.posBloq = 1;
-	//auxRef.posReg = 1;
-	auxRef.Key = candidatoField;
-
-	refs.vRefs.push_back(auxRef);	//Agrego el "auxRef2" al vector de refs de R.
-
-	keyNode.AddField(candidatoField);
-
-	this->_hashTable.add(keyNode, refs);
-	this->_hashTable.save();
-	cout << "Candidato agregado: " << endl;
-	keyNode.Print();
-	cout  << "----------------" << endl;
-}
-
-void ABMCandidato::Delete(Candidato candidato){
 
 }
 
-Candidato ABMCandidato::GetCandidato(int idCandidato){
+/**Agrego un candidato, lo guarda en hash con el formato idLista|idVotante|idCargo
+ */
+void ABMCandidato::Add(int idLista, int idVotante, int idCargo){
 
-	Key_Node keyNode = Key_Node();
+	int idCandidato = Identities::GetNextIdCandidato();
 
-	Field candidatoField = Field(idCandidato);
-	keyNode.AddField(candidatoField);
+	if (!(this->directorio->existKey(Helper::IntToString(idCandidato)))){
 
-	//bool existe = this->_hashTable.contains(keyNode);
-	//if(existe){
-	//_hashTable.load();
-		Refs* values2 = this->_hashTable.get(keyNode);
-		vector<ref> values = values2->vRefs;
-		if(values.size() > 0){
-			for(int i = 0; i < values.size(); i++){
+		string fields = Helper::IntToString(idLista);
+		fields.append("|");
+		fields.append(Helper::IntToString(idVotante));
+		fields.append("|");
+		fields.append(Helper::IntToString(idCargo));
 
-				cout << "sdsdsdsd" << values[i].Key.toInt() << endl;
-			}
-		}
-	//}
+		this->directorio->insert(Helper::IntToString(idCandidato), fields);
+	}
+}
 
-	if(values.size() > 0){
-		Candidato c = Candidato(values[0].Key.toInt(), 1, 1);
-		return c;
+/**Elimina una Candidato, si no exite arroja un excepcion, informa true si elimino sino false*/
+bool ABMCandidato::Delete(int idCandidato){
+
+	if (this->directorio->existKey(Helper::IntToString(idCandidato))){
+		return (this->directorio->remove(Helper::IntToString(idCandidato)));
+	}
+	else {
+		return false;
+	}
+}
+
+/**Modifica el idEleccion de una candidato pasada por parametro
+* si la encuentra la modifica sino no hace nada
+*/
+void ABMCandidato::Modify(Candidato candidato){
+
+	string id = Helper::IntToString(candidato.GetId());
+	if (this->directorio->existKey(id)){
+
+		string fields = Helper::IntToString(candidato.GetIdLista());
+		fields.append("|");
+		fields.append(Helper::IntToString(candidato.GetIdVotante()));
+		fields.append("|");
+		fields.append(Helper::IntToString(candidato.GetIdCargo()));
+
+		this->directorio->modify(id,fields);
 	}
 
-	return Candidato(2,2,2);
 }
 
 vector<Candidato> ABMCandidato::GetCandidatos(){
 
+	vector<KeyValue> values = this->directorio->getAllValues();
+	vector<Candidato> candidatos;
+	cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;
+	for(int i = 0; i < values.size(); i++){
+		cout << values[i].Key << ": " << values[i].Value << endl;
+	}
+	cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;
+	return candidatos;
 }
-*/
+
+/*
+ * Devuelve la candidato si no existe el nombre NULL
+ */
+Candidato* ABMCandidato::GetCandidato(int idCandidato){
+
+	string candidatoId = Helper::IntToString(idCandidato);
+
+	if ((this->directorio->existKey(candidatoId))){
+
+		Candidato* candidatoAux;
+		string values = directorio->find(candidatoId);
+		vector<string> splitedVs = Helper::split(values, '|');
+
+		int idLista  = Helper::StringToInt(splitedVs[0]);
+		int idVotante = Helper::StringToInt(splitedVs[1]);
+		int idCargo = Helper::StringToInt(splitedVs[2]);
+
+		return new Candidato(idLista, idVotante, idCargo, idCandidato);
+	}
+	else {
+		return NULL;
+	}
+
+}
+
+bool ABMCandidato::Exists(Candidato candidato){
+	return this->directorio->existKey(Helper::IntToString(candidato.GetId()));
+}
+
+void ABMCandidato::mostrarCandidatosPorPantalla(){
+	this->directorio->inform();
+}
+
+ABMCandidato::~ABMCandidato() {
+	delete this->directorio;
+}
+
+

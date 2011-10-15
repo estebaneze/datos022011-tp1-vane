@@ -20,39 +20,44 @@ using namespace std;
 #define BUFFERTABLE 512
 #define LIMIT_TABLE 64
 
+
 class Directory{
-private:
-	PersistorBase* dirFile;
-	PersistorBase* bktFile;
 
-	Table* table;
-	Bucket * bucketActual;
-	unsigned int depth;
-	unsigned int maxBucketSize;
-    float insertionSizeLimit;
+	private:
+		PersistorBase* dirFile;
+		PersistorBase* bktFile;
 
-	void setDepth();
+		Table* table;
+		Bucket * bucketActual;
+		unsigned int depth;
+		unsigned int maxBucketSize;
+		float insertionSizeLimit;
 
-	void duplicateTable (unsigned int pos,Offset offset);
-	void reduceTable ();
-	void replaceTable(Offset,Offset);
-    unsigned int findPosofTable(Key);
-    void organizeBuckets(Bucket*);
-    void tryCombine(unsigned int);
-    void redistributeTable(Bucket * auxBucket, unsigned int pos);
-public:
-    Directory(string, unsigned int);
-    virtual ~Directory();
-	void setInsertionSizeLimit(float);
+		void setDepth();
+		void duplicateTable (unsigned int pos,Offset offset);
+		void reduceTable ();
+		void replaceTable(Offset,Offset);
+		unsigned int findPosofTable(Key);
+		void organizeBuckets(Bucket*);
+		void tryCombine(unsigned int);
+		void redistributeTable(Bucket * auxBucket, unsigned int pos);
+		vector<KeyValue> getValue(Offset blockNumber);
 
-   // bool insert(Key, string);
-    void insert(Key,string);
-	bool remove(Key);
-    bool modify(Key, string);
-    string find(Key);
-    void inform();
-    void inform(Offset blockNumber);
-    bool existKey (Key key);
+	public:
+		Directory(string, unsigned int);
+		virtual ~Directory();
+		void setInsertionSizeLimit(float);
+	    // bool insert(Key, string);
+		void insert(Key,string);
+		bool remove(Key);
+		bool modify(Key, string);
+		string find(Key);
+		void inform();
+		void inform(Offset blockNumber);
+		bool existKey (Key key);
+
+		//Devuelve todos los valores con formato (key, value)
+		vector<KeyValue> getAllValues();
 };
 
 #endif /* DIRECTORIO_H_ */

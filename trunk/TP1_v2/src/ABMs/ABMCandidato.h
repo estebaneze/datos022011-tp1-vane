@@ -10,23 +10,24 @@
 
 #include "../Common/Common.h"
 #include "../Entidades/Candidato.h"
-//#include "../Estructuras/HashExtensible.h"
-//#include "../Estructuras/refs.h"
+#include "../Hash/Directory.h"
 
 class ABMCandidato {
 
-/*	public:
-		ABMCandidato(string hashFile);
+	public:
+		ABMCandidato(string HashFile);
 		virtual ~ABMCandidato();
-		void Add(Candidato candidato);
-		void Delete(Candidato candidato);
+		bool Exists(Candidato candidato);
+		void Add(int idLista, int idVotante, int idCargo);
+		bool Delete(int idCandidato);
 		void Modify(Candidato candidato);
-		vector<Candidato> GetCandidatos();
-		Candidato GetCandidato(int idCandidato);
-
+		vector<Candidato> GetCandidatos(); //FALTA HACER ESTE
+		Candidato* GetCandidato(int idCandidato);
+		void mostrarCandidatosPorPantalla();
 	private:
-		string _hashFile;
-		HashExtensible _hashTable;*/
+			string hashFile;
+			Directory* directorio;
+
 };
 
 #endif /* ABMCANDIDATO_H_ */
