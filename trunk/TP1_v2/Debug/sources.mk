@@ -24,6 +24,11 @@ C_UPPER_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 src/utils \
+src/strategies \
+src/logger/exceptions \
+src/logger \
+src/exceptions \
+src/aritmetic \
 src \
 src/Pruebas \
 src/Persistence \
@@ -31,5 +36,6 @@ src/Logging \
 src/Hash \
 src/Entidades \
 src/Common \
+src/BPlusTree \
 src/ABMs \
 

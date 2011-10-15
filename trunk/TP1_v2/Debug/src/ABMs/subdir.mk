@@ -5,14 +5,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/ABMs/ABMCandidato.cpp \
+../src/ABMs/ABMConteo.cpp \
 ../src/ABMs/ABMLista.cpp 
 
 OBJS += \
 ./src/ABMs/ABMCandidato.o \
+./src/ABMs/ABMConteo.o \
 ./src/ABMs/ABMLista.o 
 
 CPP_DEPS += \
 ./src/ABMs/ABMCandidato.d \
+./src/ABMs/ABMConteo.d \
 ./src/ABMs/ABMLista.d 
 
 

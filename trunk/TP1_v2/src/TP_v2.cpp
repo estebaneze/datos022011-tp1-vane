@@ -27,9 +27,20 @@ Administrador ((usuario)i, clave): Hash
 #include "ABMs/ABMCandidato.h"
 #include "Common/Entidades.h"
 #include "ABMs/ABMLista.h"
+#include "ABMs/ABMConteo.h"
 #include "Entidades/Lista.h"
 using namespace std;
 
+void pruebaArbol()
+{
+	Conteo conteo1 = Conteo(1, 1, 1);
+	ABMConteo *abmConteo = new ABMConteo("lista.ri");
+
+	abmConteo->Add(conteo1);
+
+	abmConteo->mostrarListasPorPantalla();
+
+}
 void pruebaListas(){
 
 	Lista lista1 = Lista("lista5",666);
@@ -214,7 +225,8 @@ int main( int arg, char *argv[] ){
 
 	//testCandidato();
 
-	pruebaListas();
+	//pruebaListas();
+	pruebaArbol();
 
 	//testLogging();
 	cout << endl;
