@@ -31,6 +31,9 @@ class Helper {
 	public:
 		static string IntToString(int value);
 		static int StringToInt(string value);
+		static vector<string> split(const string &s, char delim);
+	private:
+		static vector<string> &split(const string &s, char delim, vector<string> &elems);
 };
 
 #endif /* HELPER_H_ */

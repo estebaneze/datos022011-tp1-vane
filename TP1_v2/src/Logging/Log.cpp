@@ -17,13 +17,13 @@ Log::Log() {
 Log::~Log() {
 }
 
-void Log::WriteLog(std::string message){
+void Log::WriteLog(std::string message, char* filename){
 
 	time_t rawtime;
     time ( &rawtime );
 
 	string line;
-	ifstream myfile ("Log.txt");
+	ifstream myfile (filename);
 	std::vector< string > lines;
 
 	//Me guardo las lineas con los valores

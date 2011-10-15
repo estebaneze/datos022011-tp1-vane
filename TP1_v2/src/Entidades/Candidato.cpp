@@ -7,17 +7,17 @@
 
 #include "Candidato.h"
 
-Candidato::Candidato(int idLista, int idVotante, int idEleccion) {
+Candidato::Candidato(int idLista, int idVotante, int idCargo, int id) {
 
-	_idEleccion = idEleccion;
 	_idVotante = idVotante;
+	_idCargo = idCargo;
 	_idLista = idLista;
+	_id = id;
 
-	 _id = Identities::GetNextIdCandidato();
 }
 
 Candidato::~Candidato() {
-	// TODO Auto-generated destructor stub
+
 }
 
 int Candidato::GetId(){
@@ -28,9 +28,10 @@ int Candidato::GetIdVotante(){
 	return this->_idVotante;
 }
 
-int Candidato::GetIdEleccion(){
-	return this->_idEleccion;
+int Candidato::GetIdCargo(){
+	return this->_idCargo;
 }
+
 
 int Candidato::GetIdLista(){
 	return this->_idLista;

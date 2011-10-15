@@ -36,9 +36,11 @@ void ABMLista::Add(Lista lista){
 bool ABMLista::Delete(Lista lista){
 
 	if (this->directorio->existKey(lista.GetNombre())){
-	return (this->directorio->remove(lista.GetNombre()));
+		return (this->directorio->remove(lista.GetNombre()));
 	}
-	else return false;
+	else{
+		return false;
+	}
 }
 
 /**Modifica el idEleccion de una lista pasada por parametro
