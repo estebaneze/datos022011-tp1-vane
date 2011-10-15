@@ -20,6 +20,7 @@ void Identities::InitializeFile(){
 		File << "Distrito 1" << "\n";
 		File << "Eleccions 1" << "\n";
 		File << "Lista 1" << "\n";
+		File << "Administrador 1" << "\n";
 	}
 
 	File.close();
@@ -77,6 +78,11 @@ int Identities::GetNextIdCargo(){
 int Identities::GetNextIdDistrito(){
 	return Identities::GetNextId("Distrito");
 }
+
+int Identities::GetNextIdAdministrador(){
+	return Identities::GetNextId("Administrador");
+}
+
 
 int Identities::GetNextId(string key){
 

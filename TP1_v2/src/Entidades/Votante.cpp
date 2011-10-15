@@ -7,29 +7,26 @@
 
 #include "Votante.h"
 
-Votante::Votante(int id, string nombreYApellido, long dni, string clave, string domicilio, int idDistrito) {
+Votante::Votante(long dni, string nombreYApellido, string clave, string domicilio, int idDistrito) {
 
-	_id = id;
-	_nombreYApellido = nombreYApellido;
 	_dni = dni;
+	_nombreYApellido = nombreYApellido;
 	_clave = clave;
 	_domicilio = domicilio;
 	_idDistrito = idDistrito;
-
+	_listaElecciones = IntegerList();
 }
 
 bool Votante::Authenticate(string clave){
-
 	return (clave == _clave);
-
-}
-
-string Votante::GetNombreYApellido(){
-	return _nombreYApellido;
 }
 
 long Votante::GetDni(){
 	return _dni;
+}
+
+string Votante::GetNombreYApellido(){
+	return _nombreYApellido;
 }
 
 string Votante::GetClave(){
@@ -44,14 +41,39 @@ int Votante::GetDistrito(){
 	return _idDistrito;
 }
 
+//Ids de las elecciones en las que ya voto
+IntegerList Votante::GetEleccionesVotadas(){
+	return _listaElecciones;
+}
+
+void Votante::SetClave(string clave)
+{
+    _clave = clave;
+}
+
+void Votante::SetDni(long  dni)
+{
+    _dni = dni;
+}
+
+void Votante::SetDomicilio(string domicilio)
+{
+    _domicilio = domicilio;
+}
+
+void Votante::SetIdDistrito(int idDistrito)
+{
+    _idDistrito = idDistrito;
+}
+
+void Votante::SetNombreYApellido(string nombreYApellido)
+{
+    _nombreYApellido = nombreYApellido;
+}
+
 bool Votante::VotoEnEleccion(int idEleccion){
 
 	return (this->_listaElecciones.IsInList(idEleccion));
-}
-
-//Ids de las elecciones en las que ya voto
-IntegerList Votante::EleccionesVotadas(){
-	return _listaElecciones;
 }
 
 //Agrega una eleccion a la lista de elccioes en las que voto

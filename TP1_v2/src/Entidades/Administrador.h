@@ -8,15 +8,19 @@
 #ifndef ADMINISTRADOR_H_
 #define ADMINISTRADOR_H_
 
-#include "../Common/Common.h";
+#include "../Common/Common.h"
 
 class Administrador {
 	public:
 		Administrador(string usuario, string clave);
 		virtual ~Administrador();
-		string GetUsuario();
 		bool Authenticate(string clave);
+		string GetClave() const;
+		string GetUsuario() const;
+		void SetClave(string clave);
+		void SetUsuario(string usuario);
 	private:
+		int _id;
 		string _clave;
 		string _usuario;
 };
