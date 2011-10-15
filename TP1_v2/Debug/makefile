@@ -10,6 +10,11 @@ RM := rm -rf
 -include sources.mk
 -include subdir.mk
 -include src/utils/subdir.mk
+-include src/strategies/subdir.mk
+-include src/logger/exceptions/subdir.mk
+-include src/logger/subdir.mk
+-include src/exceptions/subdir.mk
+-include src/aritmetic/subdir.mk
 -include src/subdir.mk
 -include src/Pruebas/subdir.mk
 -include src/Persistence/subdir.mk
@@ -17,6 +22,7 @@ RM := rm -rf
 -include src/Hash/subdir.mk
 -include src/Entidades/subdir.mk
 -include src/Common/subdir.mk
+-include src/BPlusTree/subdir.mk
 -include src/ABMs/subdir.mk
 -include objects.mk
 
