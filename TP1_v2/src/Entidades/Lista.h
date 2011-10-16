@@ -8,7 +8,7 @@
 #ifndef LISTA_H_
 #define LISTA_H_
 
-#include "../Common/Common.h";
+#include "../Common/Common.h"
 
 class Lista {
 

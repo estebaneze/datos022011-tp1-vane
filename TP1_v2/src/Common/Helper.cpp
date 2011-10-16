@@ -14,6 +14,15 @@ string Helper::LongToString(long value){
 	return out.str();
 }
 
+long Helper::StringToLong(string value){
+
+	istringstream buffer(value);
+		long valueLong;
+		buffer >> valueLong;
+
+		return valueLong;
+}
+
 string Helper::IntToString(int value){
 
 	std::stringstream out;

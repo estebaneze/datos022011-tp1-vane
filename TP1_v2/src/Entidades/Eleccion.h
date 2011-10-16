@@ -5,7 +5,7 @@
  *      Author: minnie
  */
 
-#include "../Common/Common.h";
+#include "../Common/Common.h"
 
 #ifndef ELECCION_H_
 #define ELECCION_H_

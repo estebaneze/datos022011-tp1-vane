@@ -57,19 +57,29 @@ void ABMLista::ModifyEleccion(Lista lista){
  * Devuelve un vector con el idLIsta y idEleccion correspoendiente a cada lista.
  * NO DEVUELVE LAS LIKSTAS SINO SUS ELEMENTOS
  */
-vector<KeyValue> ABMLista::GetListas(){
+vector<Lista> ABMLista::GetListas(){
 
 	vector<KeyValue> values = this->directorio->getAllValues();
+	vector<Lista> listas;
+
+		for(unsigned int i = 0; i < values.size(); i++){
+
+			string nombre = values[i].Key;
+			int idEleccion = Helper::StringToInt(values[i].Value);
+
+			listas.push_back(Lista(nombre,idEleccion));
+
+		}
 
 	//Descomentar para ver por pantalla
-		/*cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;
+		/*cout << "----------------ABMLista::GetListas-----------------------" << endl;
 		for(unsigned int i = 0; i < values.size(); i++){
 
 
 			cout << values[i].Key << ": " << values[i].Value << endl;
 		}
-		cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;*/
-		return values;
+		cout << "----------------ABMLista::GetListas-----------------------" << endl;*/
+		return listas;
 }
 
 /*
@@ -78,12 +88,10 @@ vector<KeyValue> ABMLista::GetListas(){
 Lista* ABMLista::GetLista(std::string nombre){
 
 	if (!(this->directorio->existKey(nombre))){
-		Lista* listaAux;
-		int auxInt;
-		auxInt = Helper::StringToInt(directorio->find(nombre));
-		listaAux = new Lista(nombre,auxInt);
 
-		return listaAux;
+		int auxInt = Helper::StringToInt(directorio->find(nombre));
+
+		return new Lista(nombre,auxInt);
 	}
 	else return NULL;
 }

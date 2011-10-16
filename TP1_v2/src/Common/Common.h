@@ -14,7 +14,7 @@
 #include <time.h>
 #include <cstdlib>
 
-#include "IntegerList.h";
+#include "IntegerList.h"
 #include "Identities.h"
 #include "../Logging/Log.h"
 #include "Helper.h"

@@ -56,8 +56,7 @@ void pruebaListas(){
 
 	//Listas.mostrarListasPorPantalla();
 
-	vector<KeyValue> vector;
-	vector = Listas.GetListas();
+
 
 }
 
@@ -189,7 +188,7 @@ int main( int arg, char *argv[] ){
 
 //	testCandidato2();
 
-	pruebaListas();
+	//pruebaListas();
 	//pruebaArbol();
 
 	//testLogging();

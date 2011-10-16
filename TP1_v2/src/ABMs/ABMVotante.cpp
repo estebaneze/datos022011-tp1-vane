@@ -76,38 +76,58 @@ void ABMVotante::Modify(Votante votante){
 
 }
 /*
- * Devuelve un vector con el dni y y el resto de los campos
- * NO DEVUELVE objeto votante SINO SUS ELEMENTOS
- * la clave dni y el campo con el resto de los campos, hay que desconcatenarlos
+ * Devuelve un vector con los votantes sin las listas de elecciones
+ * habria que implementar otro metodo en VOTANTE para obtener sus listas
+ * ya qyue en el constructor se inicia con una lista vacia
  */
-vector<KeyValue> ABMVotante::GetVotantes(){
+vector<Votante> ABMVotante::GetVotantes(){
 
 	vector<KeyValue> values = this->directorio->getAllValues();
+	vector<Votante> votantes;
 
-	//Descomentar para ver por pantalla
-		/*cout << "----------------ABMVotante::GetVotantes-----------------------" << endl;
+	//IntegerList _listaElecciones;
+
 		for(unsigned int i = 0; i < values.size(); i++){
 
+			vector<string> splitedVs = Helper::split(values[i].Value, '|');
 
-			cout << values[i].Key << ": " << values[i].Value << endl;
+			long _dni = Helper::StringToLong(values[i].Key);
+
+			string _nombreYApellido  = splitedVs[0];
+			string _clave = splitedVs[1];
+			string _domicilio = splitedVs[2];
+			int _idDistrito = Helper::StringToInt(splitedVs[3]);
+			/*for (unsigned int j=4; j < splitedVs.size() ;j++){
+				_listaElecciones.Add(Helper::StringToInt(splitedVs[j]));
+			}*/
+
+			votantes.push_back(Votante(_dni, _nombreYApellido, _clave, _domicilio, _idDistrito));
+
 		}
-		cout << "----------------ABMVotante::GetVotantes-----------------------" << endl;*/
-		return values;
+
+		return votantes;
 }
 
 /*
- * Devuelve votante si no existe el nombre NULL
+ * Devuelve votante sin su lista de elecciones, si no existe el nombre NULL
  */
 Votante* ABMVotante::GetVotante(long dni){
 
 	if (!(this->directorio->existKey(Helper::LongToString(dni)))){
-		Votante* VotanteAux;
 
-		//Hay que desconcatenar todos los elementos
+		string values = directorio->find(Helper::LongToString(dni));
+		vector<string> splitedVs = Helper::split(values, '|');
 
-		//VotanteAux = new Votante(nombre,0);
+		string _nombreYApellido  = splitedVs[0];
+		string _clave = splitedVs[1];
+		string _domicilio = splitedVs[2];
+		int _idDistrito = Helper::StringToInt(splitedVs[3]);
 
-		return VotanteAux;
+		/*for (unsigned int j=4; j < splitedVs.size() ;j++){
+			_listaElecciones.Add(Helper::StringToInt(splitedVs[j]));
+		}*/
+
+		return new Votante(dni, _nombreYApellido, _clave, _domicilio, _idDistrito);
 	}
 	else return NULL;
 }

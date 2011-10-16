@@ -21,7 +21,7 @@ public:
 	void Add(Administrador admin);
 	bool Delete(Administrador admin);
 	void ModifyPassword(Administrador admin);
-	vector<KeyValue> GetAdmins();
+	vector<Administrador> GetAdmins();
 	Administrador* GetAdmin(std::string usuario);
 	void mostrarAdminsPorPantalla();
 private:
