@@ -35,7 +35,7 @@ Administrador ((usuario)i, clave): Hash
 #include "ABMs/ABMConteo.h"
 #include "Entidades/Lista.h"
 
-#include "Indexes/ConteoIndex.h"
+#include "Indexes/Index.h"
 
 using namespace std;
 
