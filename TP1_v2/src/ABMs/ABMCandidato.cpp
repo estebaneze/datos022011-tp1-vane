@@ -30,13 +30,17 @@ void ABMCandidato::Add(int idLista, int idVotante, int idCargo){
 
 	if (!(this->directorio->existKey(Helper::IntToString(idCandidato)))){
 
+		string fields1 = Helper::concatenar(Helper::IntToString(idLista),Helper::IntToString(idVotante),"|");
+		string fields2 = Helper::concatenar(fields1,Helper::IntToString(idCargo),"|");
+
+		/*
 		string fields = Helper::IntToString(idLista);
 		fields.append("|");
 		fields.append(Helper::IntToString(idVotante));
 		fields.append("|");
-		fields.append(Helper::IntToString(idCargo));
+		fields.append(Helper::IntToString(idCargo));*/
 
-		this->directorio->insert(Helper::IntToString(idCandidato), fields);
+		this->directorio->insert(Helper::IntToString(idCandidato), fields2);
 	}
 }
 
@@ -59,13 +63,17 @@ void ABMCandidato::Modify(Candidato candidato){
 	string id = Helper::IntToString(candidato.GetId());
 	if (this->directorio->existKey(id)){
 
-		string fields = Helper::IntToString(candidato.GetIdLista());
+
+		string fields1 = Helper::concatenar(Helper::IntToString(candidato.GetIdLista()),Helper::IntToString(candidato.GetIdVotante()),"|");
+		string fields2 = Helper::concatenar(fields1,Helper::IntToString(candidato.GetIdCargo()),"|");
+
+		/*string fields = Helper::IntToString(candidato.GetIdLista());
 		fields.append("|");
 		fields.append(Helper::IntToString(candidato.GetIdVotante()));
 		fields.append("|");
-		fields.append(Helper::IntToString(candidato.GetIdCargo()));
+		fields.append(Helper::IntToString(candidato.GetIdCargo()));*/
 
-		this->directorio->modify(id,fields);
+		this->directorio->modify(id,fields2);
 	}
 
 }
@@ -75,7 +83,7 @@ vector<Candidato> ABMCandidato::GetCandidatos(){
 	vector<KeyValue> values = this->directorio->getAllValues();
 	vector<Candidato> candidatos;
 
-	for(int i = 0; i < values.size(); i++){
+	for(unsigned int i = 0; i < values.size(); i++){
 
 		vector<string> splitedVs = Helper::split(values[i].Value, '|');
 
