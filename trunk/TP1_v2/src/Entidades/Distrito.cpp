@@ -17,3 +17,7 @@ Distrito::Distrito(int id, string nombre) {
 Distrito::~Distrito() {
 	// TODO Auto-generated destructor stub
 }
+
+ int Distrito::GetId() {
+	return this->_id;
+}
