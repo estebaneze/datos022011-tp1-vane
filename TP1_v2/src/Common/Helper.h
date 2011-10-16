@@ -29,6 +29,7 @@ using namespace std;
 
 class Helper {
 	public:
+		static string LongToString(long value);
 		static string IntToString(int value);
 		static int StringToInt(string value);
 		static vector<string> split(const string &s, char delim);
