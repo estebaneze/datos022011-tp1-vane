@@ -7,19 +7,22 @@ CPP_SRCS += \
 ../src/ABMs/ABMAdministrador.cpp \
 ../src/ABMs/ABMCandidato.cpp \
 ../src/ABMs/ABMConteo.cpp \
-../src/ABMs/ABMLista.cpp 
+../src/ABMs/ABMLista.cpp \
+../src/ABMs/ABMVotante.cpp 
 
 OBJS += \
 ./src/ABMs/ABMAdministrador.o \
 ./src/ABMs/ABMCandidato.o \
 ./src/ABMs/ABMConteo.o \
-./src/ABMs/ABMLista.o 
+./src/ABMs/ABMLista.o \
+./src/ABMs/ABMVotante.o 
 
 CPP_DEPS += \
 ./src/ABMs/ABMAdministrador.d \
 ./src/ABMs/ABMCandidato.d \
 ./src/ABMs/ABMConteo.d \
-./src/ABMs/ABMLista.d 
+./src/ABMs/ABMLista.d \
+./src/ABMs/ABMVotante.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
