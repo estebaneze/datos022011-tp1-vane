@@ -7,8 +7,12 @@
 
 #include "Conteo.h"
 
-Conteo::Conteo(int idLista, int idDistrito, int idEleccion) {
-	// TODO Auto-generated constructor stub
+Conteo::Conteo(int idLista, int idDistrito, int idEleccion, int idConteo) {
+
+	this->_idDistrito = idDistrito;
+	this-> _idLista = idLista;
+	this->_idEleccion = idEleccion;
+	this->_id = idConteo;
 
 }
 
@@ -32,6 +36,10 @@ int Conteo::GetCountVotos(){
 	return _countVotos;
 }
 
+int Conteo::GetId(){
+	return _id;
+}
+
 Conteo::~Conteo() {
-	// TODO Auto-generated destructor stub
+
 }

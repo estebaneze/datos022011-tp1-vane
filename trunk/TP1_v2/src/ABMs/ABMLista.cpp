@@ -9,11 +9,11 @@
 /*
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
-ABMLista::ABMLista(string hashFile, char* indexFile) {
+ABMLista::ABMLista(string hashFile, string indexFile) {
 
 	this->hashFile= hashFile;
 	this->directorio = new Directory(hashFile,2048);
-	this->index = new Index(indexFile);
+	this->index = new ListaIndex(indexFile);
 
 	//Descomentar esto si quiere verse el contenido del archivo por pantalla
 	//this->directorio->inform();

@@ -35,19 +35,52 @@ Administrador ((usuario)i, clave): Hash
 #include "ABMs/ABMConteo.h"
 #include "Entidades/Lista.h"
 
+#include "Indexes/ConteoIndex.h"
 
 using namespace std;
 
+void testConteo(){
+
+	ABMConteo abm = ABMConteo("conteo.bt", "conteoIndex.ix");
+
+	cout << endl << "Nuevo registro de conteo" << endl;
+	cout << "Id distrito: ";
+	string idDistrito;
+	cin >> idDistrito;
+
+	cout << "Id Lista: ";
+	string idLista;
+	cin >> idLista;
+
+	cout << "Id Eleccion: ";
+	string idEleccion;
+	cin >> idEleccion;
+
+	abm.Add(Helper::StringToInt(idLista), Helper::StringToInt(idDistrito), Helper::StringToInt(idEleccion));
+
+	cout << endl << endl;
+	cout << "Ingrese id distrito a buscar: ";
+	idDistrito;
+	cin >> idDistrito;
+
+
+	vector<Conteo> conteos = abm.GetConteoByDistrito(Helper::StringToInt(idDistrito));
+	cout << "Conteos del distrito " << idDistrito << endl;
+	for(int i = 0; i < conteos.size(); i++){
+		cout << conteos[i].GetId() << endl;
+	}
+
+
+}
+
 void pruebaArbol()
 {
-	Conteo conteo1 = Conteo(1, 1, 1);
-	ABMConteo *abmConteo = new ABMConteo("lista.ri");
-
-	abmConteo->Add(conteo1);
-
+	ABMConteo *abmConteo = new ABMConteo("lista.ri", "indexConteo.ix");
+	abmConteo->Add(1, 1, 1);
 	abmConteo->mostrarListasPorPantalla();
 
 }
+
 void pruebaListas(){
 
 	ABMLista Listas =	ABMLista("lista.ga", "indexLista.ix");
@@ -238,7 +271,8 @@ int main( int arg, char *argv[] ){
 
 //	testCandidato2();
 
-	pruebaListas();
+	testConteo();
+	//pruebaListas();
 	//pruebaArbol();
 
 	//testLogging();

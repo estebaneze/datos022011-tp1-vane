@@ -11,12 +11,12 @@
 #include "../Common/Common.h"
 #include "../Entidades/Lista.h"
 #include "../Hash/Directory.h"
-#include "../Indexes/Index.h"
+#include "../Indexes/ListaIndex.h"
 
 class ABMLista {
 
 	public:
-		ABMLista(string HashFile, char* indexFile);
+		ABMLista(string HashFile, string indexFile);
 		virtual ~ABMLista();
 		bool existKey(Lista lista);
 		void Add(Lista lista);
@@ -30,7 +30,7 @@ class ABMLista {
 	private:
 			string hashFile;
 			Directory* directorio;
-			Index* index;
+			ListaIndex* index;
 };
 
 #endif /* ABMLISTA_H_ */

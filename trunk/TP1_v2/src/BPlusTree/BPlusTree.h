@@ -15,11 +15,10 @@
 using namespace std;
 class BPlusTree {
 
- private://variables privadas
-    BNode* root;
-    LeafNode* current;
-
  private://metodos privados
+	BNode* root;
+	LeafNode* current;
+
     /**
      * Recibe el elemento y un entero que indica si hayque modificar o insertar
      */
@@ -31,6 +30,7 @@ class BPlusTree {
     LeafNode* getLeftLeafNodo(BNode* actualNode);
 
     void validateElementSize(Element* elem);
+
  public:
     /**
      * Este constructor se utiliza cuando el Persistor ya fue inicializado

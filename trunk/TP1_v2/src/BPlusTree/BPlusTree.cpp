@@ -119,10 +119,12 @@ void BPlusTree::exportTree() {
 	this->root->exportNode();
 	cout << endl;
 }
+
 //*****************************************//
 //********Impl. Interna********************//
 //*****************************************//
 void BPlusTree::insert(Element* element, int modifyOrInsert) {
+
 	this->validateElementSize(element);
 	PersistorBTree* p = Persistor::getInstance();
 	KeyElement* keyOverflow = NULL;
@@ -140,7 +142,9 @@ void BPlusTree::insert(Element* element, int modifyOrInsert) {
 	if (modified) {
 		//como se modifico el nodo, puede que tenga que grabarlo
 		//TODO pasarlo a una estrategia de balanceo de root;
+
 		if (this->root->isOverflowded(modifyOrInsert)) {
+
 			//como hubo overflow entonces, tengo que crear un nuevo root con esta clave
 			Node* newRoot = NodeFactory::createKeyNode();
 			newRoot->setLevel(this->root->getLevel() + 1);
