@@ -31,6 +31,7 @@ public:
 	void unserialize(std::string &buffer);
 	int getDataSize();
 	void toHuman(std::set<Offset>* offsets);
+	void toHumanOffsets(std::set<Offset>* offsets);
 	void getOffsets(std::set<Offset>* offsets);
 
 	bool operator==(const Table&) const;

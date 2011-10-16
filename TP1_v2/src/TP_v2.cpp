@@ -50,14 +50,57 @@ void pruebaArbol()
 }
 void pruebaListas(){
 
+	ABMLista Listas =	ABMLista("lista2.ga", "indexLista.txt");
 
+	/*Lista l1 = Lista("uno", 2);
+	Lista l2 = Lista("dos", 3);
+	Lista l3 = Lista("tres", 4);
+	Lista l4 = Lista("cuatro", 2);
+	Lista l5 = Lista("cinco", 3);
+	Lista l6 = Lista("seis", 4);
+	Lista l7 = Lista("siete", 4);*/
+	Lista l8 = Lista("ocho", 4);
 
-	ABMLista Listas =	ABMLista("lista.ga");
+/*	Listas.Add(l1);
+	Listas.Add(l2);
+	Listas.Add(l3);
+	Listas.Add(l4);
+	Listas.Add(l5);
+	Listas.Add(l6);
+	Listas.Add(l7);
+	Listas.Add(l8);
+	Listas.Add(l8);*/
+
+	cout << endl << endl;
+	Listas.Add(l8);
+	cout << endl << endl;
+	cout << "Modificar lista - Nombre: ";
+	string nombreLista;
+	cin >> nombreLista;
+	cout << "Eleccion: ";
+	string idEleccion;
+	cin >> idEleccion;
+	Lista l = Lista(nombreLista, Helper::StringToInt(idEleccion));
+	Listas.ModifyEleccion(l);
 
 	//Listas.mostrarListasPorPantalla();
 
+	cout << endl;
+	cout << "Listas: " << endl;
+	vector<Lista> ls = Listas.GetListas();
+	for(int i = 0; i < ls.size(); i++){
+		cout << ls[i].GetNombre() << " - Eleccion: " << ls[i].GetEleccion() << endl;
+	}
 
-
+	cout << "-----------------------------------------------------------------------" << endl;
+	idEleccion;
+	cout << "Ingrese id eleccion: ";
+	cin >> idEleccion;
+	vector<Lista> ls2 = Listas.GetListasByEleccion(Helper::StringToInt(idEleccion));
+	cout << "\nListas correspondientes a la elccion " << idEleccion << endl << endl;
+	for(int i = 0; i < ls2.size(); i++){
+			cout << ls2[i].GetNombre() << " - Eleccion: " << ls2[i].GetEleccion() << endl;
+	}
 }
 
 
@@ -188,7 +231,7 @@ int main( int arg, char *argv[] ){
 
 //	testCandidato2();
 
-	//pruebaListas();
+	pruebaListas();
 	//pruebaArbol();
 
 	//testLogging();

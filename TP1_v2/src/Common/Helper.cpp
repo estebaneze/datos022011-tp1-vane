@@ -58,8 +58,25 @@ int Helper::StringToInt(string value){
 
 }
 
+string Helper::concatenar(vector<string> values, string delimitador){
+
+	string aux;
+
+	for(int i = 0; i < values.size(); i++){
+
+		aux.append(values[i]);
+		if(i < values.size() - 1)	//Si no estoy en el ultimo valor a concatenar
+			aux.append(delimitador);
+	}
+
+	cout << "Concat: " << aux.c_str() << endl;
+
+	return aux;
+
+}
 
 string Helper::concatenar(string value1,string value2, string delimitador){
+
 	string aux;
 	aux.append(value1);
 	aux.append(delimitador);
@@ -68,6 +85,5 @@ string Helper::concatenar(string value1,string value2, string delimitador){
 	cout << aux.c_str() << endl;
 
 	return aux;
-
 
 }

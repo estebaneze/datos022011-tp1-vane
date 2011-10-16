@@ -9,10 +9,11 @@
 /*
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
-ABMLista::ABMLista(string hashFile) {
+ABMLista::ABMLista(string hashFile, char* indexFile) {
 
 	this->hashFile= hashFile;
 	this->directorio = new Directory(hashFile,2048);
+	this->index = new Index(indexFile);
 
 	//Descomentar esto si quiere verse el contenido del archivo por pantalla
 	//this->directorio->inform();
@@ -29,6 +30,10 @@ void ABMLista::Add(Lista lista){
 
 	if (!(this->directorio->existKey(lista.GetNombre()))){
 		this->directorio->insert(lista.GetNombre(),Helper::IntToString(lista.GetEleccion()));
+		this->index->RefreshIndexLista(lista.GetEleccion(), lista.GetNombre());	//Tengo que refrescar el indice en todos los Adds!!!
+	}
+	else{
+		cout << "Ya existe la Lista " << lista.GetNombre() << endl;
 	}
 }
 
@@ -50,7 +55,12 @@ void ABMLista::ModifyEleccion(Lista lista){
 
 	if (this->directorio->existKey(lista.GetNombre())){
 		this->directorio->modify(lista.GetNombre(),Helper::IntToString(lista.GetEleccion()));
+		this->index->RefreshIndexLista(lista.GetEleccion(), lista.GetNombre());	//Tengo que refrescar el indice en todos los Adds!!!
 	}
+	else{
+		cout << "No existe la lista " << lista.GetNombre() << endl;
+	}
+
 
 }
 /*
@@ -102,6 +112,10 @@ bool ABMLista::existKey(Lista lista){
 
 void ABMLista::mostrarListasPorPantalla(){
 	this->directorio->inform();
+}
+
+vector<Lista> ABMLista::GetListasByEleccion(int idEleccion){
+	return this->index->GetListasByIdEleccion(idEleccion);	//Busco solamente en el indice
 }
 
 ABMLista::~ABMLista() {

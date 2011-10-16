@@ -12,13 +12,9 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include "KeyValue.h"
 
 using namespace std;
-
-struct KeyValue{
-	string Key;
-	string Value;
-};
 
 
 class Bucket:public Block {

@@ -143,6 +143,15 @@ void Table::toHuman(std::set<Offset>* offsets){
 	}
 }
 
+void Table::toHumanOffsets(std::set<Offset>* offsets){
+
+	std::vector<Offset>::iterator it ;
+
+	for(it = this->buckets.begin(); it < this->buckets.end(); it++){
+		offsets->insert(*it);
+	}
+}
+
 bool Table::operator==(const Table& other) const
 {
 	//Si no tengo la misma cantidad de elementos, ya se que son distintos

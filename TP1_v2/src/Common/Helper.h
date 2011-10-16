@@ -35,7 +35,7 @@ class Helper {
 		static int StringToInt(string value);
 		static vector<string> split(const string &s, char delim);
 		static string concatenar(string value1, string value2, string delimitador);
-
+		static string concatenar(vector<string> values, string delimitador);
 	private:
 		static vector<string> &split(const string &s, char delim, vector<string> &elems);
 };

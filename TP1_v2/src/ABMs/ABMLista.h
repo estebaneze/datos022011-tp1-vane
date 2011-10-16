@@ -11,22 +11,26 @@
 #include "../Common/Common.h"
 #include "../Entidades/Lista.h"
 #include "../Hash/Directory.h"
+#include "../Indexes/Index.h"
 
 class ABMLista {
-public:
-	ABMLista(string HashFile);
-	virtual ~ABMLista();
-	bool existKey(Lista lista);
-	void Add(Lista lista);
-	bool Delete(Lista lista);
-	void ModifyEleccion(Lista lista);
-	vector<Lista> GetListas();
-	Lista* GetLista(std::string nombre);
-	void mostrarListasPorPantalla();
 
-private:
-		string hashFile;
-		Directory* directorio;
+	public:
+		ABMLista(string HashFile, char* indexFile);
+		virtual ~ABMLista();
+		bool existKey(Lista lista);
+		void Add(Lista lista);
+		bool Delete(Lista lista);
+		void ModifyEleccion(Lista lista);
+		vector<Lista> GetListas();
+		Lista* GetLista(std::string nombre);
+		void mostrarListasPorPantalla();
+		vector<Lista> GetListasByEleccion(int idEleccion);
+
+	private:
+			string hashFile;
+			Directory* directorio;
+			Index* index;
 };
 
 #endif /* ABMLISTA_H_ */

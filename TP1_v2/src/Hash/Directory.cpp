@@ -401,6 +401,7 @@ unsigned int Directory::findPosofTable (Key key){
  * de no encontrarse, devuelve una excepcion.
  */
 bool Directory::modify (Key key , string data){
+
 	try
 	{
 		unsigned int pos = this->findPosofTable(key);
@@ -446,7 +447,7 @@ vector<KeyValue> Directory::getAllValues(){
 	for (Offset block= 0 ; (unsigned)block < this->dirFile->blocks() ; block++){
 
 		this->dirFile->load(block,this->table);
-		this->table->toHuman(&offsets);
+		this->table->toHumanOffsets(&offsets);
 	}
 
 	for (std::set<Offset>::iterator it = offsets.begin(); it != offsets.end(); it++){
