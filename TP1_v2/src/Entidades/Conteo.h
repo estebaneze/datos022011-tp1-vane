@@ -8,6 +8,8 @@
 #ifndef CONTEO_H_
 #define CONTEO_H_
 
+//Conteo (((lista)ie, (distrito)ie, (eleccion)ie)i, cantidad): Arbol B+
+
 class Conteo {
 
 	public:

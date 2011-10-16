@@ -11,7 +11,7 @@
 #include "../Common/Common.h"
 #include "../Entidades/Conteo.h"
 #include "../BPlusTree/BPlusTree.h"
-#include "../Indexes/ConteoIndex.h"
+#include "../Indexes/Index.h"
 #include "../Common/Identities.h"
 
 class ABMConteo {
@@ -25,7 +25,7 @@ class ABMConteo {
 	private:
 		string bpTreeFile;
 		BPlusTree* bplusTree;
-		ConteoIndex* index;
+		//Index* indexDistrito;
 
 };
 
