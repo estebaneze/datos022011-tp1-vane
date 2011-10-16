@@ -20,7 +20,7 @@ class Administrador {
 		void SetClave(string clave);
 		void SetUsuario(string usuario);
 	private:
-		int _id;
+		//int _id;
 		string _clave;
 		string _usuario;
 };

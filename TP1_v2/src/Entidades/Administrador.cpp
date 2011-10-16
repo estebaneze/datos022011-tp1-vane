@@ -10,7 +10,7 @@
 Administrador::Administrador(string usuario, string clave) {
 	_clave = clave;
 	_usuario = usuario;
-	_id = Identities::GetNextIdAdministrador();
+//	_id = Identities::GetNextIdAdministrador();
 }
 
 bool Administrador::Authenticate(string clave){
