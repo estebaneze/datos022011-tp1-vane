@@ -58,10 +58,16 @@ void ABMAdministrador::ModifyPassword(Administrador admin){
  * Devuelve un vector con nombre de los Administradores y sus password
  * NO DEVUELVE OBJETO ADMINISTRADOR SINO SUS ELEMENTOS
  */
-vector<KeyValue> ABMAdministrador::GetAdmins(){
+vector<Administrador> ABMAdministrador::GetAdmins(){
 
 	vector<KeyValue> values = this->directorio->getAllValues();
+	vector<Administrador> admins;
 
+			for(unsigned int i = 0; i < values.size(); i++){
+
+				admins.push_back(Administrador(values[i].Key,values[i].Value));
+
+			}
 	//Descomentar para ver por pantalla
 		/*cout << "----------------ABMAdministrador::GetAdmins-----------------------" << endl;
 		for(unsigned int i = 0; i < values.size(); i++){
@@ -70,7 +76,7 @@ vector<KeyValue> ABMAdministrador::GetAdmins(){
 			cout << values[i].Key << ": " << values[i].Value << endl;
 		}
 		cout << "----------------ABMAdministrador::GetAdmins-----------------------" << endl;*/
-		return values;
+		return admins;
 }
 
 /*
@@ -79,11 +85,8 @@ vector<KeyValue> ABMAdministrador::GetAdmins(){
 Administrador* ABMAdministrador::GetAdmin(std::string nombre){
 
 	if (!(this->directorio->existKey(nombre))){
-		Administrador* AdminAux;
 
-		AdminAux = new Administrador(nombre,directorio->find(nombre));
-
-		return AdminAux;
+		return new Administrador(nombre,directorio->find(nombre));
 	}
 	else return NULL;
 }

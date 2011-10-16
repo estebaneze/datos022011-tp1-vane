@@ -20,7 +20,7 @@ public:
 	void Add(Votante votante);
 	bool Delete(Votante votante);
 	void Modify(Votante votante);
-	vector<KeyValue> GetVotantes();
+	vector<Votante> GetVotantes();
 	Votante* GetVotante(long dni);
 	void mostrarVotantesPorPantalla();
 private:

@@ -20,9 +20,10 @@ public:
 	void Add(Lista lista);
 	bool Delete(Lista lista);
 	void ModifyEleccion(Lista lista);
-	vector<KeyValue> GetListas(); //FALTA HACER ESTE
+	vector<Lista> GetListas();
 	Lista* GetLista(std::string nombre);
 	void mostrarListasPorPantalla();
+
 private:
 		string hashFile;
 		Directory* directorio;
