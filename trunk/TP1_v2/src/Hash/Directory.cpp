@@ -87,7 +87,6 @@ void Directory::setDepth(){
 /**
  * Inserta una clave y el numero de bloque al que pertenece
  * Recibe la clave y el numero de bloques
- * Devuelve true o false segun si se pudo realizar o no
  */
 void /*bool*/ Directory::insert (Key key, string value){
 

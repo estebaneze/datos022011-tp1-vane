@@ -30,7 +30,7 @@ void ABMLista::Add(Lista lista){
 
 	if (!(this->directorio->existKey(lista.GetNombre()))){
 		this->directorio->insert(lista.GetNombre(),Helper::IntToString(lista.GetEleccion()));
-		this->index->RefreshIndexLista(lista.GetEleccion(), lista.GetNombre());	//Tengo que refrescar el indice en todos los Adds!!!
+		this->index->AppendListaToIndex(lista.GetEleccion(), lista.GetNombre());	//Tengo que refrescar el indice en todos los Adds!!!
 	}
 	else{
 		cout << "Ya existe la Lista " << lista.GetNombre() << endl;
@@ -55,7 +55,7 @@ void ABMLista::ModifyEleccion(Lista lista){
 
 	if (this->directorio->existKey(lista.GetNombre())){
 		this->directorio->modify(lista.GetNombre(),Helper::IntToString(lista.GetEleccion()));
-		this->index->RefreshIndexLista(lista.GetEleccion(), lista.GetNombre());	//Tengo que refrescar el indice en todos los Adds!!!
+		this->index->AppendListaToIndex(lista.GetEleccion(), lista.GetNombre());	//Tengo que refrescar el indice en todos los Adds!!!
 	}
 	else{
 		cout << "No existe la lista " << lista.GetNombre() << endl;
