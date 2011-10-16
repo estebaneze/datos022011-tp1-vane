@@ -11,18 +11,20 @@
 class Conteo {
 
 	public:
-		Conteo(int idLista, int idDistrito, int idEleccion);
+		Conteo(int idLista, int idDistrito, int idEleccion, int idConteo);
 		virtual ~Conteo();
 		int GetIdLista();
 		int GetIdDistrito();
 		int GetIdEleccion();
 		void AddVoto();
 		int GetCountVotos();
+		int GetId();
 	private:
 		int _idLista;
 		int _idDistrito;
 		int _idEleccion;
 		int _countVotos;
+		int _id;
 };
 
 #endif /* CONTEO_H_ */

@@ -30,6 +30,7 @@ class Identities {
 	public:
 		static int GetNextIdCandidato();
 		static int GetNextIdCargo();
+		static int GetNextIdConteo();
 		static int GetNextIdDistrito();
 		static int GetNextIdAdministrador();
 		static void InitializeFile();

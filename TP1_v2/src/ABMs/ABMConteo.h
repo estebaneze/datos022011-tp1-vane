@@ -11,16 +11,22 @@
 #include "../Common/Common.h"
 #include "../Entidades/Conteo.h"
 #include "../BPlusTree/BPlusTree.h"
+#include "../Indexes/ConteoIndex.h"
+#include "../Common/Identities.h"
 
 class ABMConteo {
-public:
-	ABMConteo(string BPTree);
-	void mostrarListasPorPantalla();
-	virtual ~ABMConteo();
-	void Add(Conteo conteo);
-private:
+
+	public:
+		ABMConteo(string BPTree, string indexFile);
+		void mostrarListasPorPantalla();
+		virtual ~ABMConteo();
+		void Add(int idLista, int idDistrito, int idEleccion);
+		vector<Conteo> GetConteoByDistrito(int idDistrito);
+	private:
 		string bpTreeFile;
 		BPlusTree* bplusTree;
+		ConteoIndex* index;
+
 };
 
 #endif /* ABMCONTEO_H_ */

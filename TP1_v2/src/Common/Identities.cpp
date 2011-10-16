@@ -83,6 +83,10 @@ int Identities::GetNextIdAdministrador(){
 	return Identities::GetNextId("Administrador");
 }
 
+int Identities::GetNextIdConteo(){
+	return Identities::GetNextId("Conteo");
+}
+
 
 int Identities::GetNextId(string key){
 
