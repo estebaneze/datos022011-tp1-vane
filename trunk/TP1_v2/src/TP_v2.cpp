@@ -50,16 +50,15 @@ void pruebaArbol()
 }
 void pruebaListas(){
 
-	Lista lista1 = Lista("lista5",666);
-	Lista lista2 = Lista("lista6",123);
-	//Lista lista2 = Lista(2,123);
+
 
 	ABMLista Listas =	ABMLista("lista.ga");
-	Listas.Add(lista1);
-	Listas.Add(lista2);
-	Listas.mostrarListasPorPantalla();
-	//	alta.Add(lista1);
-	//alta.Add(lista2);
+
+	//Listas.mostrarListasPorPantalla();
+
+	vector<KeyValue> vector;
+	vector = Listas.GetListas();
+
 }
 
 
@@ -188,9 +187,9 @@ void testLogging(){
 
 int main( int arg, char *argv[] ){
 
-	testCandidato2();
+//	testCandidato2();
 
-	//pruebaListas();
+	pruebaListas();
 	//pruebaArbol();
 
 	//testLogging();

@@ -53,9 +53,23 @@ void ABMLista::ModifyEleccion(Lista lista){
 	}
 
 }
+/*
+ * Devuelve un vector con el idLIsta y idEleccion correspoendiente a cada lista.
+ * NO DEVUELVE LAS LIKSTAS SINO SUS ELEMENTOS
+ */
+vector<KeyValue> ABMLista::GetListas(){
 
-vector<Lista> ABMLista::GetListas(){
+	vector<KeyValue> values = this->directorio->getAllValues();
 
+	//Descomentar para ver por pantalla
+		/*cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;
+		for(unsigned int i = 0; i < values.size(); i++){
+
+
+			cout << values[i].Key << ": " << values[i].Value << endl;
+		}
+		cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;*/
+		return values;
 }
 
 /*

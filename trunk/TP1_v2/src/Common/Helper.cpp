@@ -41,3 +41,17 @@ int Helper::StringToInt(string value){
 
 
 }
+
+
+string Helper::concatenar(string value1,string value2, string delimitador){
+	string aux;
+	aux.append(value1);
+	aux.append(delimitador);
+	aux.append(value2);
+
+	cout << aux.c_str() << endl;
+
+	return aux;
+
+
+}

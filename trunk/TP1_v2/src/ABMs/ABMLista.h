@@ -20,7 +20,7 @@ public:
 	void Add(Lista lista);
 	bool Delete(Lista lista);
 	void ModifyEleccion(Lista lista);
-	vector<Lista> GetListas(); //FALTA HACER ESTE
+	vector<KeyValue> GetListas(); //FALTA HACER ESTE
 	Lista* GetLista(std::string nombre);
 	void mostrarListasPorPantalla();
 private:

@@ -21,6 +21,14 @@ int Lista::GetEleccion(){
 	return _idEleccion;
 }
 
+void Lista::setNombre(string nombre){
+	this->_nombre=nombre;
+}
+
+void Lista::setEleccion(int eleccion){
+	this->_idEleccion=eleccion;
+}
+
 Lista::~Lista() {
 	// TODO Auto-generated destructor stub
 }

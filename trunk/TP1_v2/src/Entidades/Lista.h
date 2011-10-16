@@ -17,6 +17,8 @@ class Lista {
 		virtual ~Lista();
 		string GetNombre();
 		int GetEleccion();
+		void setNombre(string nombre);
+		void setEleccion(int eleccion);
 	private:
 		int _idEleccion;
 		string _nombre;
