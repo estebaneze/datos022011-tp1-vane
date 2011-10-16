@@ -50,18 +50,18 @@ void pruebaArbol()
 }
 void pruebaListas(){
 
-	ABMLista Listas =	ABMLista("lista2.ga", "indexLista.txt");
+	ABMLista Listas =	ABMLista("lista.ga", "indexLista.ix");
 
-	/*Lista l1 = Lista("uno", 2);
+	Lista l1 = Lista("uno", 2);
 	Lista l2 = Lista("dos", 3);
 	Lista l3 = Lista("tres", 4);
 	Lista l4 = Lista("cuatro", 2);
 	Lista l5 = Lista("cinco", 3);
 	Lista l6 = Lista("seis", 4);
-	Lista l7 = Lista("siete", 4);*/
+	Lista l7 = Lista("siete", 4);
 	Lista l8 = Lista("ocho", 4);
 
-/*	Listas.Add(l1);
+	Listas.Add(l1);
 	Listas.Add(l2);
 	Listas.Add(l3);
 	Listas.Add(l4);
@@ -69,10 +69,16 @@ void pruebaListas(){
 	Listas.Add(l6);
 	Listas.Add(l7);
 	Listas.Add(l8);
-	Listas.Add(l8);*/
+	Listas.Add(l8);
 
 	cout << endl << endl;
-	Listas.Add(l8);
+	//Listas.Add(l8);
+	cout << "Listas: " << endl;
+	vector<Lista> ls = Listas.GetListas();
+		for(int i = 0; i < ls.size(); i++){
+			cout << ls[i].GetNombre() << " - Eleccion: " << ls[i].GetEleccion() << endl;
+	}
+
 	cout << endl << endl;
 	cout << "Modificar lista - Nombre: ";
 	string nombreLista;
@@ -87,7 +93,7 @@ void pruebaListas(){
 
 	cout << endl;
 	cout << "Listas: " << endl;
-	vector<Lista> ls = Listas.GetListas();
+	ls = Listas.GetListas();
 	for(int i = 0; i < ls.size(); i++){
 		cout << ls[i].GetNombre() << " - Eleccion: " << ls[i].GetEleccion() << endl;
 	}
@@ -101,6 +107,7 @@ void pruebaListas(){
 	for(int i = 0; i < ls2.size(); i++){
 			cout << ls2[i].GetNombre() << " - Eleccion: " << ls2[i].GetEleccion() << endl;
 	}
+
 }
 
 

@@ -16,13 +16,14 @@
 class Index {
 
 	public:
-		Index(char* filename);
+		Index(string filename);
 		virtual ~Index();
 		vector<Lista> GetListasByIdEleccion(int idEleccion);
 		void RefreshIndexLista(int idEleccion, vector<string> listas);
-		void RefreshIndexLista(int idEleccion, string lista);
+		void AppendListaToIndex(int idEleccion, string lista);
 	private:
-		char* _filename;
+		string hashFile;
+		Directory* directorio;
 
 };
 

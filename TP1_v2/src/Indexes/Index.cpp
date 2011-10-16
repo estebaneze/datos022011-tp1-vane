@@ -7,18 +7,36 @@
 
 #include "Index.h"
 
-Index::Index(char* filename) {
+Index::Index(string filename) {
 
-	this->_filename = filename;
+	this->hashFile = filename;
+	this->directorio = new Directory(hashFile,2048);
 }
 
 Index::~Index() {
 
 }
 
+/*
+ * Pisa el valor del indice con "listas"
+ */
 void Index::RefreshIndexLista(int idEleccion, vector<string> listas){
 
-	string line;
+	string key = Helper::IntToString(idEleccion);
+	string fields = Helper::concatenar(listas, "|");
+
+	if (!(this->directorio->existKey(key))){
+		this->directorio->insert(key,fields);
+	}
+	else{
+		//Si ya existe, lo modifico
+		string oldFields = this->directorio->find(key);
+		oldFields.append("|");
+		oldFields.append(fields);
+		this->directorio->modify(key, oldFields);
+	}
+
+/*	string line;
 	ifstream myfile (this->_filename);
 	std::vector< string > lines;
 	std::vector< int > values;
@@ -66,12 +84,39 @@ void Index::RefreshIndexLista(int idEleccion, vector<string> listas){
 	}
 
 	File.close();
-
+*/
 
 }
 
-void Index::RefreshIndexLista(int idEleccion, string lista){
+void Index::AppendListaToIndex(int idEleccion, string lista){
 
+	string key = Helper::IntToString(idEleccion);
+
+	if (!(this->directorio->existKey(key))){
+		this->directorio->insert(key,lista);
+	}
+	else{
+
+		//Si ya existe, lo modifico
+		string oldFields = this->directorio->find(key);
+		vector<string> splited = Helper::split(oldFields, '|');
+
+		bool founded = false;
+		for(int i = 0; i < splited.size() && !founded; i++){
+			if(splited[i] == lista){
+				founded = true;
+			}
+		}
+
+		//Si la lista no esta ya indexada con ese idEleccion, la agrego. Si no, no hago nada.
+		if(!founded){
+			oldFields.append("|");
+			oldFields.append(lista);
+			this->directorio->modify(key, oldFields);
+		}
+	}
+
+	/*
 	string line;
 	ifstream myfile (this->_filename);
 	std::vector< string > lines;
@@ -122,12 +167,32 @@ void Index::RefreshIndexLista(int idEleccion, string lista){
 
 	File.close();
 
-
+*/
 }
 
 
 vector<Lista> Index::GetListasByIdEleccion(int idEleccion){
 
+	string key = Helper::IntToString(idEleccion);
+	vector<Lista> listas;
+
+	if ((this->directorio->existKey(key))){
+
+		string values = directorio->find(key);
+		vector<string> splitedVs = Helper::split(values, '|');
+
+		for(int i = 0; i < splitedVs.size(); i++){
+			Lista l = Lista(splitedVs[i], idEleccion);
+			listas.push_back(l);
+		}
+
+		return listas;
+	}
+	else {
+		return listas;
+	}
+
+	/*
 	string line;
 	ifstream myfile (this->_filename);
 	vector<Lista> listas;
@@ -157,4 +222,5 @@ vector<Lista> Index::GetListasByIdEleccion(int idEleccion){
 	}
 
 	return listas;
+	*/
 }
