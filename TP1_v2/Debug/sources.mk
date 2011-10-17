@@ -25,14 +25,11 @@ C_UPPER_DEPS :=
 SUBDIRS := \
 src/utils \
 src/strategies \
-src/logger/exceptions \
-src/logger \
 src/exceptions \
-src/aritmetic \
 src \
-src/Pruebas \
-src/Persistence \
+src/Persistencia \
 src/Logging \
+src/Indexes \
 src/Hash \
 src/Entidades \
 src/Common \

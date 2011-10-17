@@ -1,8 +1,3 @@
-/*
- * Table.cpp
- *
- */
-
 #include "Table.h"
 
 Table::Table() {

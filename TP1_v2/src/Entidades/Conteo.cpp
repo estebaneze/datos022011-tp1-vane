@@ -29,7 +29,7 @@ int Conteo::GetIdEleccion(){
 }
 
 void Conteo::AddVoto(){
-	_countVotos = _countVotos++;
+	this->_countVotos = this->_countVotos++;
 }
 
 int Conteo::GetCountVotos(){

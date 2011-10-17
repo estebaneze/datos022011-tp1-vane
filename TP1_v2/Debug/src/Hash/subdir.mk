@@ -6,7 +6,6 @@
 CPP_SRCS += \
 ../src/Hash/Bucket.cpp \
 ../src/Hash/Directory.cpp \
-../src/Hash/DistributionTable.cpp \
 ../src/Hash/HashExceptions.cpp \
 ../src/Hash/HashFunction.cpp \
 ../src/Hash/Table.cpp 
@@ -14,7 +13,6 @@ CPP_SRCS += \
 OBJS += \
 ./src/Hash/Bucket.o \
 ./src/Hash/Directory.o \
-./src/Hash/DistributionTable.o \
 ./src/Hash/HashExceptions.o \
 ./src/Hash/HashFunction.o \
 ./src/Hash/Table.o 
@@ -22,7 +20,6 @@ OBJS += \
 CPP_DEPS += \
 ./src/Hash/Bucket.d \
 ./src/Hash/Directory.d \
-./src/Hash/DistributionTable.d \
 ./src/Hash/HashExceptions.d \
 ./src/Hash/HashFunction.d \
 ./src/Hash/Table.d 

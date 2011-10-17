@@ -6,8 +6,8 @@
  */
 
 #include "InsertBalanceStrategy.h"
-#include "../Persistence/Persistor.h"
-#include "../Persistence/PersistorBTree.h"
+#include "../Persistencia/Persistor.h"
+#include "../Persistencia/PersistorBTree.h"
 #include "../BPlusTree/KeyElement.h"
 #include "BalanceStrategyFactory.h"
 #include "ComposedBalanceStrategy.h"

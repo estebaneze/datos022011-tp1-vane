@@ -11,14 +11,11 @@ RM := rm -rf
 -include subdir.mk
 -include src/utils/subdir.mk
 -include src/strategies/subdir.mk
--include src/logger/exceptions/subdir.mk
--include src/logger/subdir.mk
 -include src/exceptions/subdir.mk
--include src/aritmetic/subdir.mk
 -include src/subdir.mk
--include src/Pruebas/subdir.mk
--include src/Persistence/subdir.mk
+-include src/Persistencia/subdir.mk
 -include src/Logging/subdir.mk
+-include src/Indexes/subdir.mk
 -include src/Hash/subdir.mk
 -include src/Entidades/subdir.mk
 -include src/Common/subdir.mk

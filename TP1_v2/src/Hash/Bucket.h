@@ -5,11 +5,11 @@
 #ifndef BUCKET_H_
 #define BUCKET_H_
 
-#include "../Persistence/Block.h"
+#include "../Persistencia/Block.h"
 #include "../utils/types.h"
 #include "HashExceptions.h"
-#include "DistributionTable.h"
 #include <iostream>
+#include <vector>
 #include <string>
 #include <map>
 #include "KeyValue.h"
