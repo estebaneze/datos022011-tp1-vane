@@ -17,7 +17,7 @@
  Element::Element(const Element& el){
 		key=el.key;
 		dataSize=el.dataSize;
-		Data dataBuffer = new char[dataSize];
+		char* dataBuffer = new char[dataSize];
 		memcpy(dataBuffer,(char*)el.data,dataSize);
 
 		this->data=dataBuffer;
@@ -35,29 +35,18 @@ Element::Element(const Element* el){
  //**********************************/
 
 Element::Element() {
-	this->key="";
+	this->key = "";
 	this->dataSize=0;
 	this->data=NULL;
-}
-
-Element::Element(Key key,DistributionTable* distributionTable){
-		string dtSerialized= distributionTable->serialize();
-		Data dtSerializedChar= new char[dtSerialized.size()];
-		memcpy(dtSerializedChar,dtSerialized.c_str(),dtSerialized.size());
-		this->key=key;
-		this->setData(dtSerializedChar,dtSerialized.size());
-		delete[] dtSerializedChar;
-
 }
 Element::Element(Key key,Data data,DataSize dataSize) {
 	this->key  = key;
 	this->setData(data,dataSize);
-	delete[] data;
 }
 
 Element::~Element() {
 	if(data != NULL)
-		delete[] data;
+		delete data;
 }
 
 void Element::setKey(Key key) {
@@ -72,7 +61,7 @@ void Element::setData(Data data, DataSize dataSize){
 	this->dataSize = dataSize;
 
 	char* dataBuffer = new char[dataSize];
-	memcpy(dataBuffer,data,dataSize);
+	memcpy(dataBuffer,(char*)data,dataSize);
 
 	this->data=dataBuffer;
 }
@@ -85,51 +74,33 @@ DataSize Element::getElementSize() {
 	return dataSize;
 }
 
-/**
- * El formato es:
- * KeySize|key|DataSize|data
- */
 std::string Element::serialize() {
 	std::string buffer = "";
-	//serializacion de la key
-	KeySize keySize=this->key.size();
-	buffer.append((char*)&keySize,sizeof(KeySize));
-	buffer.append(key.c_str(),keySize);
 
-
-	//Serializacion de la data
+	buffer.append((char*)&key,sizeof(Key));
 	buffer.append((char*)&dataSize,sizeof(DataSize));
-	buffer.append(data,dataSize);
+	buffer.append((char*)data,dataSize);
 
 	return buffer;
 }
 
 
 void Element::unserialize(std::string &buffer) {
-	//copia lo que hay en el buffer a key
+	buffer.copy((char*)&key,sizeof(Key));
+	buffer.erase(0,sizeof(Key));
 
-	//unserialize de la key
-	KeySize keySize;
-	buffer.copy((char*)&keySize,sizeof(KeySize));
-	buffer.erase(0,sizeof(KeySize));
-
-	char* tempData=new char[keySize];
-	buffer.copy(tempData,keySize);
-	this->key.append(tempData,keySize);
-	delete[] tempData;
-	buffer.erase(0,keySize);
-
-	//Unserialize de la data
 	buffer.copy((char*)&dataSize,sizeof(DataSize));
 	buffer.erase(0,sizeof(DataSize));
+
 	data = new char[dataSize];
-	buffer.copy(data,dataSize);
+
+	buffer.copy((char*)data,dataSize);
 	buffer.erase(0,dataSize);
 }
 
 
 int Element::getDataSize(){
-	return (sizeof(KeySize)+key.size() + sizeof(dataSize) + dataSize);
+	return (sizeof(Key) + sizeof(dataSize) + dataSize);
 }
 
 ostream& operator<<(ostream& myOstream,  Element& elem){

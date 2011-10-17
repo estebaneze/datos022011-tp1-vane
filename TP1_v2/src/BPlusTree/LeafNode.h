@@ -20,7 +20,6 @@
 #include "../Persistence/Persistor.h"
 #include <functional>
 #include "EqualElementComparator.h"
-#include "NodeFactory.h"
 class LeafNode: public BNode {
 private:
 	Offset nextNode;

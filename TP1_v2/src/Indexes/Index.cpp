@@ -55,6 +55,9 @@ void Index::RefreshIndex(int idKey, vector<int> idsValues){
 
 }
 
+
+//Esto tiene un bug: por ejemplo en un Conteo, cuando se le cambia el idEleccion, se actualiza el regsitro de esa idEleccion
+//pero no se borra el idConteo del registro de idEleccion que tenia
 void Index::AppendToIndex(int idKey, int idValue){
 
 	cout << "Agrego al indice: Key: " << idKey << " - id Value: " << idValue << endl;

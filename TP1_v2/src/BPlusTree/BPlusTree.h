@@ -9,16 +9,15 @@
 #include "Element.h"
 #include "../Persistence/Persistor.h"
 #include "NodeFactory.h"
-#include "../exceptions/ElementNotFoundException.h"
-#include "../Persistence/exceptions/PersistExceptions.h"
 
 using namespace std;
 class BPlusTree {
 
- private://metodos privados
-	BNode* root;
-	LeafNode* current;
+ private://variables privadas
+    BNode* root;
+    LeafNode* current;
 
+ private://metodos privados
     /**
      * Recibe el elemento y un entero que indica si hayque modificar o insertar
      */
@@ -30,7 +29,6 @@ class BPlusTree {
     LeafNode* getLeftLeafNodo(BNode* actualNode);
 
     void validateElementSize(Element* elem);
-
  public:
     /**
      * Este constructor se utiliza cuando el Persistor ya fue inicializado
@@ -45,12 +43,6 @@ class BPlusTree {
      * Exporta el arbol desde su raiz.
      */
     void exportTree();
-
-
-    /**
-     * Exporta un nodo del arbol
-     */
-    void exportTree(int blockNumber);
     /**
      *  Destructor del arbol.
      */

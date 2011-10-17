@@ -11,6 +11,7 @@
 
 typedef int Offset;
 typedef std::string Key;
+//typedef int Key;
 typedef int KeyInt;
 typedef unsigned int KeySize;
 typedef unsigned int Level;

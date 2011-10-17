@@ -12,7 +12,6 @@
 #include "../Persistence/ISerializable.h"
 #include <string.h>
 #include <iostream>
-#include "../Hash/DistributionTable.h"
 using namespace std;
 class Element: public ISerializable {
 private:
@@ -21,7 +20,6 @@ private:
 	Data data;
 
 public:
-	Element(Key key,DistributionTable* distributionTable);
 	Element();
 	//constructor de copia
 	Element(const Element& el);
@@ -58,12 +56,8 @@ public:
 	friend ostream& operator<<(ostream&, Element&);
 
 	void toSrtring(){
-		//FIXME: sacar este hack de mierda!
 		string data(getData(),getElementSize());
-		DistributionTable* dt=new DistributionTable();
-		dt->unserialize(data);
-		cout<<"Key : "<<getKey()<<" "<<"Data: "<<dt->toHuman()<<" ";
-		delete dt;
+		cout<<"Key : "<<getKey()<<" "<<"Data: "<<data<<" ";
 	}
 };
 
