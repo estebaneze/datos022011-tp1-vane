@@ -9,13 +9,11 @@
 #define NODEFACTORY_H_
 
 #include "BNode.h"
+#include "LeafNode.h"
+#include "Node.h"
 
-
-class Node;
-class LeafNode;
 class NodeFactory {
 public:
-	static int nodeCounter;
 	NodeFactory();
 	/**
 	 * Crea un nodo para búsqueda según en nivel de hoja en el que se encuentre

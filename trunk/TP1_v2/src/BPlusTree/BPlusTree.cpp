@@ -9,31 +9,13 @@ BPlusTree::BPlusTree(int blockSize, string fileName) {
 	this->current = this->getLeftLeafNodo(root);
 }
 
-BPlusTree::BPlusTree() {
+BPlusTree::BPlusTree(){
 	PersistorBTree* p = Persistor::getInstance();
 
 	this->root = p->getRoot();
 	this->current = this->getLeftLeafNodo(root);
 }
 BPlusTree::~BPlusTree() {
-
-	if (this->current == this->root) {
-		if (this->root != NULL) {
-			delete this->root;
-			this->root = NULL;
-		}
-	} else {
-
-		if (this->root != NULL) {
-			delete this->root;
-			this->root = NULL;
-		}
-
-		if (this->current != NULL) {
-			delete this->current;
-			this->current = NULL;
-		}
-	}
 }
 
 void BPlusTree::insert(Element* element) {
@@ -41,12 +23,11 @@ void BPlusTree::insert(Element* element) {
 }
 
 LeafNode* BPlusTree::getLeftLeafNodo(BNode* actualNode) {
-	if (actualNode->getLevel() > 0){
-
+	if (actualNode->getLevel() > 0) {
+		Node *internalNode = (Node*) actualNode;
 		BNode *leftNode = NodeFactory::createNodeForSearch(
-				actualNode->getLevel() );
-		Persistor::getInstance()->load(((Node*)actualNode)->getLeftNode(), leftNode);
-		delete actualNode;
+				actualNode->getLevel());
+		Persistor::getInstance()->load(internalNode->getLeftNode(), leftNode);
 		this->getLeftLeafNodo(leftNode);
 	}
 
@@ -83,7 +64,7 @@ LeafNode* BPlusTree::find(Key key) {
 	return root->find(key);
 }
 
-Element* BPlusTree::findExact(Key key) {
+Element* BPlusTree::findExact(Key key){
 	return root->findExact(key);
 }
 /**
@@ -107,23 +88,17 @@ BNode* BPlusTree::prev() {
 void BPlusTree::deleteTree() {
 	Persistor::getInstance()->deleteFile();
 }
-void BPlusTree::exportTree(int blockNumber) {
 
-	BNode* node = Persistor::getInstance()->getNodeInBlock(blockNumber);
-
-	node->exportNode();
-	delete node;
-}
 void BPlusTree::exportTree() {
 	this->root = Persistor::getInstance()->getRoot();
 	this->root->exportNode();
 	cout << endl;
 }
-
 //*****************************************//
 //********Impl. Interna********************//
 //*****************************************//
 void BPlusTree::insert(Element* element, int modifyOrInsert) {
+
 
 	this->validateElementSize(element);
 	PersistorBTree* p = Persistor::getInstance();
@@ -142,11 +117,9 @@ void BPlusTree::insert(Element* element, int modifyOrInsert) {
 	if (modified) {
 		//como se modifico el nodo, puede que tenga que grabarlo
 		//TODO pasarlo a una estrategia de balanceo de root;
-
 		if (this->root->isOverflowded(modifyOrInsert)) {
-
 			//como hubo overflow entonces, tengo que crear un nuevo root con esta clave
-			Node* newRoot = NodeFactory::createKeyNode();
+			Node* newRoot = new Node();
 			newRoot->setLevel(this->root->getLevel() + 1);
 			keyOverflow = this->root->doSplit();
 			newRoot->setOffset(this->root->getOffset());
@@ -163,15 +136,13 @@ void BPlusTree::insert(Element* element, int modifyOrInsert) {
 			this->root = underflowRootStrategy.doBalance(this->root);
 		}
 	}
-	delete element;
 
 }
 
-void BPlusTree::validateElementSize(Element* elm) {
-	int maxRecordSize =
-			ConfigurationMananger::getInstance()->getMaxRecordSizeTree();
+void BPlusTree::validateElementSize(Element* elm){
+	int maxRecordSize=ConfigurationMananger::getInstance()->getMaxRecordSizeTree();
 
-	if (elm->getDataSize() > maxRecordSize) {
+	if(elm->getDataSize()> maxRecordSize){
 		throw new OverflowException("tamano invalido de registro");
 	}
 

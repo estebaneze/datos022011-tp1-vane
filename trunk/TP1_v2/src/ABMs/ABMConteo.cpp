@@ -18,12 +18,22 @@ ABMConteo::ABMConteo(string BPTree, string indexDistritoFile, string indexElecci
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
+/********* OJO: BUG EN EL INDICE, VER IMPLE DEL INDICE *****************/
 void ABMConteo::Add(int idLista, int idDistrito, int idEleccion){
 
 	int idConteo = Identities::GetNextIdConteo();
 
 	//DistributionTable* dtTmp = new DistributionTable();
-	//this->bplusTree->insert(new Element("Elemento",dtTmp));
+	Key key = Helper::IntToString(idConteo);
+	string str = Helper::IntToString(idLista).append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion));
+	Data data = (Data)str.c_str();
+
+	Element * element=new Element(key, data, 2);
+	this->bplusTree->insert(element);
+
+	cout << endl;
+	this->bplusTree->exportTree();
+	cout << endl;
 
 	//Actualizo los indices
 	this->indexByDistrito->AppendToIndex(idDistrito, idConteo);

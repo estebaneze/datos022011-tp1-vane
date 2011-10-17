@@ -6,17 +6,15 @@
  */
 
 #include "NodeFactory.h"
-#include "Node.h"
-#include "LeafNode.h"
-int NodeFactory::nodeCounter=0;
+
 NodeFactory::NodeFactory() {
+
 }
 
 /**
  * En caso que el nivel sea 1 el proximo sera una hoja.
  */
 BNode* NodeFactory::createNodeForSearch(int level) {
-	nodeCounter++;
 	if (level == 1 || level == 0) {
 		return new LeafNode();
 	} else {
@@ -24,7 +22,6 @@ BNode* NodeFactory::createNodeForSearch(int level) {
 	}
 }
 BNode* NodeFactory::createSibling(int level){
-	nodeCounter++;
 	if(level>=1){
 		return new Node();
 	}else{
@@ -32,13 +29,10 @@ BNode* NodeFactory::createSibling(int level){
 	}
 }
 Node* NodeFactory::createKeyNode() {
-	nodeCounter++;
 	return new Node();
 }
 LeafNode* NodeFactory::createLeafNode() {
-	nodeCounter++;
 	return new LeafNode();
 }
 NodeFactory::~NodeFactory() {
-
 }

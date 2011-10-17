@@ -144,9 +144,20 @@ Key LeafNode::getFirstKey(){
  * Devuleve siempre true. Arroja una exception en caso de que ya exista
  */
 bool LeafNode::insertar(Element* elemToInsert){
+
+		cout << "LeafNode::insertar " << elemToInsert->getKey() << endl;
+
 		std::vector<Element*>::iterator it;
 
+		if(elemToInsert->getKey() == "9")
+		{
+			cout << "Elements: "<< endl;
+			for(int i = 0; i < this->elements.size(); i++){
 
+				if(this->elements[i]->getKey() == elemToInsert->getKey())
+					cout << this->elements[i]->getKey() << endl;
+			}
+		}
 		it = find_if(this->elements.begin(), this->elements.end(), bind2nd(EqualElementComparator(),elemToInsert));
 		//it = find (elements.begin(), elements.end(), elemToInsert);
 
@@ -252,7 +263,7 @@ bool LeafNode::insertarTest(Element* elem) {
 KeyElement* LeafNode::doSplit() {
 	KeyElement* keyElementFromMiddle=new KeyElement();
 
-	LeafNode* newLeafNode=NodeFactory::createLeafNode();
+	LeafNode* newLeafNode=new LeafNode();
 	PersistorBTree* p=Persistor::getInstance();
 	newLeafNode->elements=this->splitElements();
 

@@ -49,43 +49,23 @@ ostream& operator<<(ostream& myOstream, KeyElement& elem){
  * 					PERSISTENCIA
  *
  ****************************************************/
-
-
-/**
- * KeySize|key|offset|
- */
 std::string KeyElement::serialize() {
 	std::string buffer = "";
 
-	KeySize keySize=this->key.size();
-
-	buffer.append((char*)&keySize,sizeof(KeySize));
-
-	buffer.append(key.c_str(),keySize);
+	buffer.append((char*)&key,sizeof(Key));
 	buffer.append((char*)&rightNode,sizeof(Offset));
 
 	return buffer;
 }
 
-/**
- * KeySize|key|offset|
- */
 void KeyElement::unserialize(std::string &buffer) {
+	buffer.copy((char*)&key,sizeof(key));
+	buffer.erase(0,sizeof(key));
 
-	//unserialize de la key
-	KeySize keySize;
-	buffer.copy((char*)&keySize,sizeof(KeySize));
-	buffer.erase(0,sizeof(KeySize));
-
-	char* tempKey=new char[keySize];
-	buffer.copy(tempKey,keySize);
-	delete[] tempKey;
-
-	//unserialize del node
 	buffer.copy((char*)&rightNode,sizeof(Offset));
 	buffer.erase(0,sizeof(Offset));
 }
 
 int KeyElement::getDataSize(){
-	return (sizeof(this->key.size()) + sizeof(Offset));
+	return (sizeof(Key) + sizeof(Offset));
 }

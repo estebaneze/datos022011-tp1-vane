@@ -26,6 +26,7 @@ ABMLista::ABMLista(string hashFile, string indexFile) {
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
+/********* OJO: BUG EN EL INDICE, VER IMPLE DEL INDICE *****************/
 void ABMLista::Add(Lista lista){
 
 	if (!(this->directorio->existKey(lista.GetNombre()))){

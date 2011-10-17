@@ -17,6 +17,7 @@ Cargo ((cargo)i, (cargo)*): Hash
 Administrador ((usuario)i, clave): Hash
  * */
 
+#include "BPlusTreeTest.h"
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
@@ -43,20 +44,20 @@ void testConteo(){
 
 	cout << endl << "Nuevo registro de conteo" << endl;
 	cout << "Id distrito: ";
-	string idDistrito;
-	cin >> idDistrito;
+	string idDistrito = "4";
+	//cin >> idDistrito;
 
 	cout << "Id Lista: ";
-	string idLista;
-	cin >> idLista;
+	string idLista = "4";
+	//cin >> idLista;
 
 	cout << "Id Eleccion: ";
-	string idEleccion;
-	cin >> idEleccion;
+	string idEleccion = "4";
+	//cin >> idEleccion;
 
 	abm.Add(Helper::StringToInt(idLista), Helper::StringToInt(idDistrito), Helper::StringToInt(idEleccion));
 
-	cout << endl << endl;
+	/*cout << endl << endl;
 	cout << "Ingrese id distrito a buscar: ";
 	cin >> idDistrito;
 
@@ -67,21 +68,16 @@ void testConteo(){
 		cout << conteos[i].GetId() << endl;
 	}
 
-
-
-
 	cout << endl << endl;
 	cout << "Ingrese id Lista a buscar: ";
 	cin >> idLista;
-
 
 	conteos = abm.GetConteoByLista(Helper::StringToInt(idLista));
 	cout << "Conteos del lista :" << idLista << endl;
 	for(int i = 0; i < conteos.size(); i++){
 		cout << conteos[i].GetId() << endl;
 	}
-
-
+	 */
 }
 
 void pruebaArbol()
@@ -274,14 +270,80 @@ void testLogging(){
 
 }
 
+void firstSetTest() {
+
+	system("rm testTree");
+	system("rm testTree.fs");
+
+	cout << endl << endl << ConfigurationMananger::getInstance()->getBufferSizeTree() << endl << endl;
+
+	BPlusTree bp = BPlusTree(ConfigurationMananger::getInstance()->getBufferSizeTree(),"testTree");
+
+	int i;
+	//cout << "Insertamos los elementos 100, 101, 102,103,104 todos con 4 bytes de datos: total de cada registro en el nodo hoja= 12 bytes" << endl;
+
+	for (i = 100; i < 105; i++) {
+		cout << "Insertando el elemento: " << i << endl;
+
+		Key key =  Helper::IntToString(i);
+		string str = Helper::IntToString(i).append("XXX");
+		Data data = (Data)str.c_str();
+
+		bp.insert(new Element(key, data, 4));
+
+		//bplus.exportTree();
+		//getchar();
+	}
+	cout << endl;
+
+	bp.exportTree();
+
+	/*
+	cout << "Buscando el elemento 104" << endl;
+	Element& element = *bplus.findExact(104);
+	cout << "************Elemento encontrado: " << element << endl << endl;
+
+	cout << "Modificando elemento elmentos 101 y 103 sin split" << endl;
+	bp.modify(new Element(101, "12xxxxxxxxxx", 12));
+	bp.modify(new Element(102, "12xxxxxxxxxx", 12));
+	bp.exportTree();
+
+	cout << "Modificando elemento elmento 103 generando split" << endl;
+	bp.modify(new Element(103, "9xxxxxxxx", 9));
+	bplus.exportTree();
+	cout << "Eliminamos el elemento 103" << endl;
+	bp.remove(103);
+	bp.exportTree();
+	cout << "Modificamos el elemento 102" << endl;
+	bp.modify(new Element(102, "1", 1));
+	bp.exportTree();
+	cout << "eliminamos la clave 104 y se produce un balanceo" << endl;
+	bp.remove(104);
+	bp.exportTree();
+	cout << "eliminamos la clave 100" << endl;
+	bp.remove(100);
+	bp.exportTree();
+	cout << "eliminamos la clave 101" << endl;
+	bp.remove(101);
+	bp.exportTree();
+	cout << "eliminamos la clave 102" << endl;
+	bp.remove(102);
+	bp.exportTree();
+*/
+	cout << "end..........." << endl;
+
+}
 
 
 int main( int arg, char *argv[] ){
 
 //	testCandidato2();
 
-	testConteo();
-	//pruebaListas();
+//	BPlusTreeTest btest = BPlusTreeTest();
+//	btest.run();
+
+//	testConteo();
+	pruebaListas();
 	//pruebaArbol();
 
 	//testLogging();

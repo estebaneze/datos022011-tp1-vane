@@ -24,8 +24,8 @@ Node::~Node() {
 	vector<KeyElement*>::iterator it = keyElements.begin();
 	while (keyElements.begin() != keyElements.end()) {
 		delete (*it);
+		keyElements.erase(it);
 	}
-	keyElements.clear();
 
 }
 
@@ -508,7 +508,6 @@ BNode* Node::getRightSibling(BNode* child) {
 		if (offSetRightNode != -1) {
 			p->load(offSetRightNode, rightSibling);
 		} else {
-			delete rightSibling;
 			rightSibling = NULL;
 		}
 		return rightSibling;
