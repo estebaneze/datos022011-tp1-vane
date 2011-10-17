@@ -18,6 +18,10 @@ Distrito::~Distrito() {
 	// TODO Auto-generated destructor stub
 }
 
- int Distrito::GetId() {
+int Distrito::GetId() {
 	return this->_id;
+}
+
+std::string Distrito::GetNombre(){
+	return this->Nombre;
 }
