@@ -8,25 +8,29 @@
 #ifndef ABMCONTEO_H_
 #define ABMCONTEO_H_
 
-#include "../Common/Common.h"
-#include "../Entidades/Conteo.h"
 #include "../BPlusTree/BPlusTree.h"
-#include "../Indexes/Index.h"
 #include "../Common/Identities.h"
+#include "../Indexes/Index.h"
+#include "../Entidades/Conteo.h"
+
+using namespace std;
 
 class ABMConteo {
 
 	public:
-		ABMConteo(string BPTree, string indexFile);
+		ABMConteo(string BPTree, string indexDistritoFile, string indexEleccionFile, string indexListaFile);
 		void mostrarListasPorPantalla();
 		virtual ~ABMConteo();
 		void Add(int idLista, int idDistrito, int idEleccion);
 		vector<Conteo> GetConteoByDistrito(int idDistrito);
+		vector<Conteo> GetConteoByLista(int idLista);
+		vector<Conteo> GetConteoByEleccion(int idEleccion);
 	private:
 		string bpTreeFile;
 		BPlusTree* bplusTree;
-		//Index* indexDistrito;
-
+		Index* indexByDistrito;
+		Index* indexByEleccion;
+		Index* indexByLista;
 };
 
 #endif /* ABMCONTEO_H_ */

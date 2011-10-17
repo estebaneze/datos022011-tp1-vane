@@ -28,20 +28,18 @@ Administrador ((usuario)i, clave): Hash
 #include <stdio.h>
 
 #include "Logging/Log.h"
-#include "Common/Common.h"
+//#include "Common/Common.h"
 #include "ABMs/ABMCandidato.h"
-#include "Common/Entidades.h"
+//#include "Common/Entidades.h"
 #include "ABMs/ABMLista.h"
 #include "ABMs/ABMConteo.h"
-#include "Entidades/Lista.h"
-
-#include "Indexes/Index.h"
+//#include "Entidades/Lista.h"
 
 using namespace std;
 
 void testConteo(){
 
-	ABMConteo abm = ABMConteo("conteo.bt", "conteoIndex.ix");
+	ABMConteo abm = ABMConteo("conteo.bt", "indexConteoDistrito.ix", "indexConteoEleccion.ix", "indexConteoLista.ix");
 
 	cout << endl << "Nuevo registro de conteo" << endl;
 	cout << "Id distrito: ";
@@ -60,12 +58,25 @@ void testConteo(){
 
 	cout << endl << endl;
 	cout << "Ingrese id distrito a buscar: ";
-	idDistrito;
 	cin >> idDistrito;
 
 
 	vector<Conteo> conteos = abm.GetConteoByDistrito(Helper::StringToInt(idDistrito));
-	cout << "Conteos del distrito " << idDistrito << endl;
+	cout << "Conteos del distrito: " << idDistrito << endl;
+	for(int i = 0; i < conteos.size(); i++){
+		cout << conteos[i].GetId() << endl;
+	}
+
+
+
+
+	cout << endl << endl;
+	cout << "Ingrese id Lista a buscar: ";
+	cin >> idLista;
+
+
+	conteos = abm.GetConteoByLista(Helper::StringToInt(idLista));
+	cout << "Conteos del lista :" << idLista << endl;
 	for(int i = 0; i < conteos.size(); i++){
 		cout << conteos[i].GetId() << endl;
 	}
@@ -75,9 +86,9 @@ void testConteo(){
 
 void pruebaArbol()
 {
-	ABMConteo *abmConteo = new ABMConteo("lista.ri", "indexConteo.ix");
+	/*ABMConteo *abmConteo = new ABMConteo("lista.ri", "indexConteo.ix");
 	abmConteo->Add(1, 1, 1);
-	abmConteo->mostrarListasPorPantalla();
+	abmConteo->mostrarListasPorPantalla();*/
 
 }
 
@@ -132,7 +143,6 @@ void pruebaListas(){
 	}
 
 	cout << "-----------------------------------------------------------------------" << endl;
-	idEleccion;
 	cout << "Ingrese id eleccion: ";
 	cin >> idEleccion;
 	vector<Lista> ls2 = Listas.GetListasByEleccion(Helper::StringToInt(idEleccion));
@@ -232,7 +242,6 @@ void testCandidato(){
 	cout << "-----------------------------------------------------" << endl;
 
 	cout << "Delete - Id Candidato: ";
-	idCandidato;
 	cin >> idCandidato;
 	abmc.Delete(Helper::StringToInt(idCandidato));
 	cout << "Candidatos: "<< endl;

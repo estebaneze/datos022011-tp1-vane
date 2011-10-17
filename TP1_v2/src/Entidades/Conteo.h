@@ -10,6 +10,8 @@
 
 //Conteo (((lista)ie, (distrito)ie, (eleccion)ie)i, cantidad): Arbol B+
 
+using namespace std;
+
 class Conteo {
 
 	public:
