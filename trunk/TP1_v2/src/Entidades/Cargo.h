@@ -8,7 +8,7 @@
 #ifndef CARGO_H_
 #define CARGO_H_
 
-#include "../Common/Common.h";
+#include "../Common/Common.h"
 
 class Cargo {
 

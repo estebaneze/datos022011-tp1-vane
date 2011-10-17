@@ -8,11 +8,10 @@
 #ifndef INDEX_H_
 #define INDEX_H_
 
-#include "../Hash/KeyValue.h"
 #include "../Hash/Directory.h"
-#include "../Common/Entidades.h"
 #include "../Common/Common.h"
 
+using namespace std;
 
 class Index {
 
@@ -37,4 +36,3 @@ class Index {
 };
 
 #endif /* INDEX_H_ */
-

@@ -5,8 +5,8 @@
  *      Author: minnie
  */
 
-#ifndef INDEX_H_
-#define INDEX_H_
+#ifndef LISTAINDEX_H_
+#define LISTAINDEX_H_
 
 #include "../Hash/KeyValue.h"
 #include "../Hash/Directory.h"
