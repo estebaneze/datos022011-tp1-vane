@@ -190,8 +190,8 @@ Element *LeafNode::findExact(Key key) {
 			return *it;
 		it++;
 	}
-
-	throw new ElementNotFoundException();
+	return NULL;
+	//throw new ElementNotFoundException();
 }
 
 /**
