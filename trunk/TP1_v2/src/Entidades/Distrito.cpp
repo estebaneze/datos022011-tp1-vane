@@ -25,3 +25,7 @@ int Distrito::GetId() {
 std::string Distrito::GetNombre(){
 	return this->Nombre;
 }
+
+void Distrito::SetNombre(string nombre){
+	this->Nombre = nombre;
+}

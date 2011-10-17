@@ -34,9 +34,32 @@ Administrador ((usuario)i, clave): Hash
 //#include "Common/Entidades.h"
 #include "ABMs/ABMLista.h"
 #include "ABMs/ABMConteo.h"
+#include "ABMs/ABMDistrito.h"
 //#include "Entidades/Lista.h"
 
 using namespace std;
+
+void testABMDistrito()
+{
+	Distrito d1 = Distrito(6,"Esteban Echeverria");
+	Distrito d2 = Distrito(7,"Lomas de zamora");
+	ABMDistrito *abmDistrito = new ABMDistrito("distri.lore");
+
+	cout << "Pruebo el alta de dos distritos:"<<endl;
+	abmDistrito->Add(d1);
+	abmDistrito->Add(d2);
+	abmDistrito->mostrarDistritosPorPantalla();
+
+	cout << "Pruebo el alter de uno:"<<endl;
+	d2.SetNombre("Capital Fereral");
+	abmDistrito->Modify(d2);
+	abmDistrito->mostrarDistritosPorPantalla();
+
+	cout << "Pruebo eliminar uno:"<<endl;
+	abmDistrito->Delete(d1.GetId());
+	abmDistrito->mostrarDistritosPorPantalla();
+
+}
 
 void testConteo(){
 
@@ -79,6 +102,7 @@ void testConteo(){
 	}
 	 */
 }
+
 
 void pruebaArbol()
 {
@@ -343,7 +367,8 @@ int main( int arg, char *argv[] ){
 //	btest.run();
 
 //	testConteo();
-	pruebaListas();
+	//pruebaListas();
+	testABMDistrito();
 	//pruebaArbol();
 
 	//testLogging();

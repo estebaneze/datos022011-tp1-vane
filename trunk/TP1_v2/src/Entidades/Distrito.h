@@ -17,6 +17,7 @@ class Distrito {
 		virtual ~Distrito();
 		string GetNombre();
 		int GetId();
+		void SetNombre(string nombre);
 
 	private:
 		int _id;
