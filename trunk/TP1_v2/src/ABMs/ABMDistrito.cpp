@@ -22,8 +22,10 @@ ABMDistrito::ABMDistrito(string bpTreeFile) {
 void ABMDistrito::Add(Distrito distrito){
 	if (not(Exists(distrito))){
 		cout << "Insertando el elemento: " << distrito.GetId() << endl;
-		DistributionTable* dtTmp = new DistributionTable();
-		this->bpPlusTree->insert(new Element(Helper::IntToString(distrito.GetId()),dtTmp));
+		string str= distrito.GetNombre();
+		Data data = (Data)str.c_str();
+		//DistributionTable * dtTmp = new DistributionTable();
+		this->bpPlusTree->insert(new Element(Helper::IntToString(distrito.GetId()),data,10));
 	}
 }
 
@@ -45,8 +47,9 @@ bool ABMDistrito::Delete(int idDistrito){
 void ABMDistrito::Modify(Distrito distrito){
 
 	if (Exists(distrito)){
-		DistributionTable* dtTmp = new DistributionTable();
-		Element * el = new Element(Helper::IntToString(distrito.GetId()),dtTmp);
+		string str= distrito.GetNombre();
+		Data data = (Data)str.c_str();
+		Element * el = new Element(Helper::IntToString(distrito.GetId()),data,10);
 		this->bpPlusTree->modify(el);
 	}
 }

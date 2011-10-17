@@ -12,6 +12,8 @@
 #include "../Entidades/Distrito.h"
 #include "../BPlusTree/BPlusTree.h"
 #include "../utils/ConfigFile.h"
+#include "../BPlusTree/Element.h"
+
 
 class ABMDistrito {
 
