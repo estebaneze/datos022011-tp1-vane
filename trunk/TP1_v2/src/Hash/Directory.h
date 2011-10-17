@@ -9,8 +9,8 @@
 #include "Table.h"					//Internal
 #include "Bucket.h"						//Internal
 #include "HashFunction.h"				//Internal
-#include "../Persistence/PersistorBase.h"	//External
-#include "../Persistence/exceptions/PersistExceptions.h"
+#include "../Persistencia/PersistorBase.h"	//External
+#include "../Persistencia/exceptions/PersistExceptions.h"
 #include "../utils/types.h"	//External
 
 #include <vector>
@@ -24,31 +24,30 @@ using namespace std;
 class Directory{
 
 	private:
-		PersistorBase* dirFile;
-		PersistorBase* bktFile;
+		PersistorBase* directoryFile;
+		PersistorBase* bucketFile;
 
-		Table* table;
+		Table* tabla;
 		Bucket * bucketActual;
 		unsigned int depth;
 		unsigned int maxBucketSize;
 		float insertionSizeLimit;
 
 		void setDepth();
-		void duplicateTable (unsigned int pos,Offset offset);
-		void reduceTable ();
+		void duplicarTabla (unsigned int pos,Offset offset);
+		void reducirTabla ();
 		void replaceTable(Offset,Offset);
-		unsigned int findPosofTable(Key);
-		void organizeBuckets(Bucket*);
+		unsigned int buscarPosicionTabla(Key);
+		void organizarBuckets(Bucket*);
 		void tryCombine(unsigned int);
-		void redistributeTable(Bucket * auxBucket, unsigned int pos);
+		void redistribuirTabla(Bucket * auxBucket, unsigned int pos);
 		vector<KeyValue> getValue(Offset blockNumber);
 
 	public:
 		Directory(string, unsigned int);
 		virtual ~Directory();
 		void setInsertionSizeLimit(float);
-	    // bool insert(Key, string);
-		void insert(Key,string);
+	   	void insert(Key,string);
 		bool remove(Key);
 		bool modify(Key, string);
 		string find(Key);
@@ -56,7 +55,6 @@ class Directory{
 		void inform(Offset blockNumber);
 		bool existKey (Key key);
 
-		//Devuelve todos los valores con formato (key, value)
 		vector<KeyValue> getAllValues();
 };
 

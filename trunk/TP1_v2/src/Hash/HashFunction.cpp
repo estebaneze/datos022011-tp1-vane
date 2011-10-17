@@ -1,8 +1,3 @@
-/*
- * HashFunction.cpp
- *
- */
-
 #include "HashFunction.h"
 #include <math.h>
 

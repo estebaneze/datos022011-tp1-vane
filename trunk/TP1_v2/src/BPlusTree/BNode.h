@@ -2,7 +2,7 @@
 #define BNode_h
 
 #include "../utils/const.h"
-#include "../Persistence/Block.h"
+#include "../Persistencia/Block.h"
 #include "../utils/types.h"
 #include "Element.h"
 #include <string>

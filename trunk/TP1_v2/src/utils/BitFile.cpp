@@ -1,13 +1,4 @@
-/*
- * BitFile.cpp
- *
- *  Created on: 26/06/2010
- *      Author: daniel
- */
-
 #include "BitFile.h"
-#include "../logger/Logger.h"
-
 #include <string>
 
 #ifndef EOF

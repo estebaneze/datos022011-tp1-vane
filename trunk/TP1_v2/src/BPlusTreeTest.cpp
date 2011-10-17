@@ -7,8 +7,8 @@
 
 #include "BPlusTreeTest.h"
 #include "BPlusTree/BPlusTree.h"
-#include "Persistence/PersistorBase.h"
-#include "Persistence/Persistor.h"
+#include "Persistencia/PersistorBase.h"
+#include "Persistencia/Persistor.h"
 #include "utils/ConfigurationMananger.h"
 #include "Common/Helper.h"
 

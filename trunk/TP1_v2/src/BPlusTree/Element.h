@@ -9,7 +9,7 @@
 #define ELEMENT_H_
 
 #include "../utils/types.h"
-#include "../Persistence/ISerializable.h"
+#include "../Persistencia/ISerializable.h"
 #include <string.h>
 #include <iostream>
 using namespace std;

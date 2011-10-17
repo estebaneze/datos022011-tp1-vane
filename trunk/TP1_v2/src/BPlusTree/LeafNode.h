@@ -16,8 +16,8 @@
 #include <string.h>
 #include <vector>
 #include <algorithm>
-#include "../Persistence/PersistorBase.h"
-#include "../Persistence/Persistor.h"
+#include "../Persistencia/PersistorBase.h"
+#include "../Persistencia/Persistor.h"
 #include <functional>
 #include "EqualElementComparator.h"
 class LeafNode: public BNode {

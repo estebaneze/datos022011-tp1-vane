@@ -24,33 +24,33 @@ Directory::Directory(string dirfile, unsigned int maxBucketSize){
 	// Abro o creo los archivos de Tabla y Buckets
 	string tmp = dirfile;
 	tmp.append(".dir");
-	this->dirFile = new PersistorBase(tmp,BUFFERTABLE);
-	this->bktFile = new PersistorBase(dirfile.append(".bk"),maxBucketSize);
+	this->directoryFile = new PersistorBase(tmp,BUFFERTABLE);
+	this->bucketFile = new PersistorBase(dirfile.append(".bk"),maxBucketSize);
 
 	//Creo instancias de Tabla y Bucket vacios para trabajar.
-	this->table = new Table();
+	this->tabla = new Table();
 	this->bucketActual = new Bucket (maxBucketSize);
 	this->bucketActual->setInsertionSizeLimit(this->insertionSizeLimit);
 
 	// si no hay bloques en el archivo agrego un bucket vacio.
-	if (bktFile->blocks() == 0)
-		bktFile->add(bucketActual);
+	if (bucketFile->blocks() == 0)
+		bucketFile->add(bucketActual);
 
 	// Inserto la primer posicion en la Tabla
-	this->table->insert(bucketActual->getOffset(),0,0);
+	this->tabla->insert(bucketActual->getOffset(),0,0);
 	// si no hay bloques en el archivo agrego el inicio de una nueva Tabla.
-	if (dirFile->blocks() > 0)
-		 dirFile->load(0,table);
-	else dirFile->add(table);
+	if (directoryFile->blocks() > 0)
+		 directoryFile->load(0,tabla);
+	else directoryFile->add(tabla);
 
 	this->setDepth();
 }
 
 Directory::~Directory(){
 	// Borrar instancias de elementos utilizados.
-	delete this->dirFile;
-	delete this->bktFile;
-	delete this->table;
+	delete this->directoryFile;
+	delete this->bucketFile;
+	delete this->tabla;
 	delete this->bucketActual;
 }
 
@@ -70,11 +70,11 @@ void Directory::setInsertionSizeLimit(float isl)
 void Directory::setDepth(){
 
 	int acumulado = 0;
-	unsigned int bloques = this->dirFile->blocks();
+	unsigned int bloques = this->directoryFile->blocks();
 
 	if ( bloques <2 )
-		acumulado = this->table->getSize();
-	else acumulado = this->table->getSize() * bloques;
+		acumulado = this->tabla->getSize();
+	else acumulado = this->tabla->getSize() * bloques;
 
 	int i = 1;
 	//Calculo con i cuál es la profundidad
@@ -99,16 +99,16 @@ void /*bool*/ Directory::insert (Key key, string value){
 	cout << message << endl;
 
 	// busco la posicion de la tabla correspondiente a la dispersion.
-	unsigned int pos = findPosofTable(key);
+	unsigned int pos = buscarPosicionTabla(key);
 
 	// obtengo el offset del Bucket correspondiente a esa posicion.
-	Offset offset = table->getElement(pos);
+	Offset offset = tabla->getElement(pos);
 	// Leo el Bucket
-	bktFile->load(offset,bucketActual);
+	bucketFile->load(offset,bucketActual);
 
 	try{
 		this->bucketActual->insert(key, value);
-		bktFile->modify(bucketActual);
+		bucketFile->modify(bucketActual);
 	}catch(HashExceptions::ElementSizeException* e){
 		delete e;
 		//si no se pudo insertar, es porque no hay espacio,
@@ -119,20 +119,20 @@ void /*bool*/ Directory::insert (Key key, string value){
 		unsigned int auxDepth = bucketActual->getDepth();
 		auxBucket->setDepth(auxDepth+1);
 		bucketActual->setDepth(auxDepth+1);
-		bktFile->add(auxBucket);
+		bucketFile->add(auxBucket);
 
 		// se duplica la tabla en el caso de tenes profundidades iguales.
 		// y se marca la posicion correspondiente con el nuevo bucket
 		if (auxDepth == depth)
-			duplicateTable(pos,auxBucket->getOffset());
+			duplicarTabla(pos,auxBucket->getOffset());
 		else
 			// vuelvo a intentar redistribuir la tabla.
-			redistributeTable(auxBucket, pos);
+			redistribuirTabla(auxBucket, pos);
 		// una vez terminada la correccion de la tabla,
 		// organizo la información de los buckets.
-		organizeBuckets(auxBucket);
-		bktFile->modify(auxBucket);
-		bktFile->modify(bucketActual);
+		organizarBuckets(auxBucket);
+		bucketFile->modify(auxBucket);
+		bucketFile->modify(bucketActual);
 		delete auxBucket;
 		insert(key,value);
 	}
@@ -143,17 +143,17 @@ void /*bool*/ Directory::insert (Key key, string value){
  *	Redistribuye la carga de un bucket una vez que
  *	cambia su profundidad.
  **/
-void Directory::organizeBuckets(Bucket* auxBucket){
+void Directory::organizarBuckets(Bucket* auxBucket){
 	std::map<Key, string>::iterator it;
 	unsigned int pos = 0;
 	Offset offset = 0;
-	dirFile->load(offset,table);
+	directoryFile->load(offset,tabla);
 
 	for (it = this->bucketActual->begin() ; it != this->bucketActual->end() ; it++){
 
 		pos = HashFunction::MakeAddress(it->first,this->depth);
-		dirFile->load((pos/ LIMIT_TABLE),table);
-		offset = table->getElement(pos % table->getSize());
+		directoryFile->load((pos/ LIMIT_TABLE),tabla);
+		offset = tabla->getElement(pos % tabla->getSize());
 
 		if (offset == auxBucket->getOffset()){
 			auxBucket->insert(it->first, it->second);
@@ -166,26 +166,26 @@ void Directory::organizeBuckets(Bucket* auxBucket){
  * Duplica la tabla de dispersion, y guarda la posicion de offset
  * pasada por parametro en la posicion "pos".
  */
-void Directory::duplicateTable(unsigned int pos,Offset offset){
+void Directory::duplicarTabla(unsigned int pos,Offset offset){
 
-	int end = this->dirFile->blocks();
+	int end = this->directoryFile->blocks();
 	Table* tempTable = NULL;
-	int changePos = pos + (LIMIT_TABLE* table->getOffset());
-	this->dirFile->load(0,table);
-	if (table->getSize() < LIMIT_TABLE){
-		table->duplicate();
-		table->insert(offset,pos,pos);
-		this->dirFile->modify(table);
+	int changePos = pos + (LIMIT_TABLE* tabla->getOffset());
+	this->directoryFile->load(0,tabla);
+	if (tabla->getSize() < LIMIT_TABLE){
+		tabla->duplicate();
+		tabla->insert(offset,pos,pos);
+		this->directoryFile->modify(tabla);
 	}else
 		for (Offset block =0 ; block < end ; block++){
 			tempTable = new Table();
-			this->dirFile->load(block,tempTable);
+			this->directoryFile->load(block,tempTable);
 			if (((LIMIT_TABLE * block) <= changePos) && (changePos < (LIMIT_TABLE * (block+1)))){
-				this->dirFile->load(block,table);
-				table->insert(offset,pos,pos);
-				this->dirFile->modify(table);
+				this->directoryFile->load(block,tabla);
+				tabla->insert(offset,pos,pos);
+				this->directoryFile->modify(tabla);
 			}
-			this->dirFile->add(tempTable);
+			this->directoryFile->add(tempTable);
 			delete tempTable;
 		}
 
@@ -196,26 +196,26 @@ void Directory::duplicateTable(unsigned int pos,Offset offset){
 /**
  * Redistribuye los offsets de la tabla con el nuevo registro.
  **/
-void Directory::redistributeTable(Bucket* auxBucket, unsigned int pos){
+void Directory::redistribuirTabla(Bucket* auxBucket, unsigned int pos){
 
 	unsigned int inter = 1 << auxBucket->getDepth() ;
     unsigned int i = 0;
-    Offset offTable = table->getOffset();
-    unsigned int prePos = pos+(table->getSize()*(offTable));
+    Offset offTable = tabla->getOffset();
+    unsigned int prePos = pos+(tabla->getSize()*(offTable));
     unsigned int actualPos = pos;
     bool Cicle=false;
 
     while(!Cicle){
-        table->insert(auxBucket->getOffset(), actualPos, actualPos);
-        dirFile->modify(table);
+        tabla->insert(auxBucket->getOffset(), actualPos, actualPos);
+        directoryFile->modify(tabla);
         for(i = 0;i < inter;i++){
-        	if (++actualPos >= table->getSize() ){
+        	if (++actualPos >= tabla->getSize() ){
         		actualPos = 0;
-        		if ((unsigned)++offTable >= dirFile->blocks()) offTable = 0;
+        		if ((unsigned)++offTable >= directoryFile->blocks()) offTable = 0;
         	}
         }
-    	Cicle = (actualPos+(table->getSize()*(offTable)) == prePos);
-    	dirFile->load(offTable,table);
+    	Cicle = (actualPos+(tabla->getSize()*(offTable)) == prePos);
+    	directoryFile->load(offTable,tabla);
     }
 }
 
@@ -224,10 +224,10 @@ void Directory::redistributeTable(Bucket* auxBucket, unsigned int pos){
  * recibido por parametro al nuevo.
  */
 void Directory::replaceTable(Offset oldOffset, Offset newOffset){
-	for(unsigned int block = 0 ; block < dirFile->blocks() ; block++){
-		dirFile->load(block,table);
-		table->replace(oldOffset,newOffset);
-		dirFile->modify(table);
+	for(unsigned int block = 0 ; block < directoryFile->blocks() ; block++){
+		directoryFile->load(block,tabla);
+		tabla->replace(oldOffset,newOffset);
+		directoryFile->modify(tabla);
 	}
 }
 /*
@@ -237,12 +237,12 @@ void Directory::replaceTable(Offset oldOffset, Offset newOffset){
  **/
 string Directory::find (Key key){
 	// busco la posicion de la tabla correspondiente a la dispersion.
-	unsigned int pos = findPosofTable(key);
+	unsigned int pos = buscarPosicionTabla(key);
 	// obtengo el offset del Bucket correspondiente a esa posicion.
-	Offset offset = table->getElement(pos);
+	Offset offset = tabla->getElement(pos);
 
 	// Leo el Bucket
-	bktFile->load(offset,bucketActual);
+	bucketFile->load(offset,bucketActual);
 
 	return bucketActual->find(key);
 }
@@ -252,12 +252,12 @@ string Directory::find (Key key){
  */
 bool Directory::existKey (Key key){
 	// busco la posicion de la tabla correspondiente a la dispersion.
-	unsigned int pos = findPosofTable(key);
+	unsigned int pos = buscarPosicionTabla(key);
 	// obtengo el offset del Bucket correspondiente a esa posicion.
-	Offset offset = table->getElement(pos);
+	Offset offset = tabla->getElement(pos);
 
 	// Leo el Bucket
-	bktFile->load(offset,bucketActual);
+	bucketFile->load(offset,bucketActual);
 
 	return bucketActual->exist(key);
 }
@@ -270,17 +270,17 @@ bool Directory::existKey (Key key){
  */
 bool Directory::remove (Key key){
 
-	unsigned int pos = this->findPosofTable(key);
-	Offset offset = this->table->getElement(pos);
+	unsigned int pos = this->buscarPosicionTabla(key);
+	Offset offset = this->tabla->getElement(pos);
 
-	this->bktFile->load(offset,this->bucketActual);
+	this->bucketFile->load(offset,this->bucketActual);
 	bool temp = false;
 
 	temp = this->bucketActual->deleteKey(key);
-	bktFile->modify(bucketActual);
+	bucketFile->modify(bucketActual);
 	if (bucketActual->countElements() == 0){
 		tryCombine(pos);
-		reduceTable();
+		reducirTabla();
 	}
 
 	//Devuelvo el resultado de eliminar la clave
@@ -296,8 +296,8 @@ void Directory::tryCombine(unsigned int myPos){
 	unsigned int delta = (1 << bucketActual->getDepth())/2;
 	Bucket* temp = new Bucket();
 	temp->setInsertionSizeLimit(this->insertionSizeLimit);
-	dirFile->load(0,table);
-	unsigned int sizeTable = table->getSize() * dirFile->blocks();
+	directoryFile->load(0,tabla);
+	unsigned int sizeTable = tabla->getSize() * directoryFile->blocks();
 
 	unsigned int pos1 = (myPos + delta) % (sizeTable);
 	unsigned int pos2 = 0;
@@ -305,19 +305,19 @@ void Directory::tryCombine(unsigned int myPos){
 		pos2 = (myPos - delta) % (sizeTable);
 	else pos2 = (sizeTable + myPos - delta) % (sizeTable);
 
-	dirFile->load((pos1/LIMIT_TABLE),table);
-	Offset offset1 = table->getElement((pos1 % table->getSize()));
+	directoryFile->load((pos1/LIMIT_TABLE),tabla);
+	Offset offset1 = tabla->getElement((pos1 % tabla->getSize()));
 
-	dirFile->load((pos2/LIMIT_TABLE),table);
-	Offset offset2 = table->getElement((pos2 % table->getSize()));
+	directoryFile->load((pos2/LIMIT_TABLE),tabla);
+	Offset offset2 = tabla->getElement((pos2 % tabla->getSize()));
 
 	if (offset1 == offset2){
 		replaceTable(bucketActual->getOffset(),offset1);
-		bktFile->removeBlock(bucketActual->getOffset());
-		bktFile->load(offset1,temp);
+		bucketFile->removeBlock(bucketActual->getOffset());
+		bucketFile->load(offset1,temp);
 		if (temp->getDepth() > 0)
 			temp->setDepth(temp->getDepth()-1);
-		bktFile->modify(temp);
+		bucketFile->modify(temp);
 	}
 	delete temp;
 }
@@ -326,9 +326,9 @@ void Directory::tryCombine(unsigned int myPos){
  * Reduce la tabla de ser posible,
  * Se ejecuta esta función tantas veces como sea posible.
  */
-void Directory::reduceTable(){
+void Directory::reducirTabla(){
 
-	unsigned int end = this->dirFile->blocks();
+	unsigned int end = this->directoryFile->blocks();
 	unsigned int halfEnd = end / 2;
 	bool reduce = true;
 
@@ -336,7 +336,7 @@ void Directory::reduceTable(){
 	Table secondHalfTable;
 
 	//Cargo el bloque
-	this->dirFile->load(0,&auxTable);
+	this->directoryFile->load(0,&auxTable);
 
 	if (auxTable.getSize() ==1)
 		// si solo tengo un elemento no puedo reducir
@@ -348,22 +348,22 @@ void Directory::reduceTable(){
 			reduce = auxTable.reduce();
 
 			//Grabo los cambios
-			if (reduce) this->dirFile->modify(&auxTable);
+			if (reduce) this->directoryFile->modify(&auxTable);
 
 		} else {
 			//Tengo más de 1 bloque, tengo que revisar la tabla
 
 			//Me fijo si un bloque es igual a su homólogo
 			for (unsigned int k = 0 ; k < halfEnd && reduce; k++){
-				this->dirFile->load(k,&auxTable);
-				this->dirFile->load(k+halfEnd, &secondHalfTable);
+				this->directoryFile->load(k,&auxTable);
+				this->directoryFile->load(k+halfEnd, &secondHalfTable);
 				reduce = (auxTable == secondHalfTable);
 			}
 
 			if (reduce){
 				//Pude reducir, borro la mitad de la tabla
 				for (unsigned int block = halfEnd ; block < end ; block++){
-					this->dirFile->removeBlock(block);
+					this->directoryFile->removeBlock(block);
 				}
 			}
 		}
@@ -371,7 +371,7 @@ void Directory::reduceTable(){
 	//decremento la profundidad de la tabla
 	if (reduce) {
 		this->depth --;
-		this->reduceTable();
+		this->reducirTabla();
 	}
 }
 
@@ -380,16 +380,16 @@ void Directory::reduceTable(){
  * Recibe la clave
  * devuelve el numero de bloque en el archivo de datos
  */
-unsigned int Directory::findPosofTable (Key key){
+unsigned int Directory::buscarPosicionTabla (Key key){
 
 	Offset offset= 0;
 	unsigned int acount= 0;
 	int pos = HashFunction::MakeAddress(key,this->depth);
 
-	this->dirFile->load(offset,this->table);
+	this->directoryFile->load(offset,this->tabla);
 	while (pos >= (++offset * LIMIT_TABLE)){
 		acount += LIMIT_TABLE;
-		this->dirFile->load(offset,this->table);
+		this->directoryFile->load(offset,this->tabla);
 	}
 
 	return pos-acount;
@@ -403,13 +403,13 @@ bool Directory::modify (Key key , string data){
 
 	try
 	{
-		unsigned int pos = this->findPosofTable(key);
-		Offset offset = this->table->getElement(pos);
-		this->bktFile->load(offset,this->bucketActual);
+		unsigned int pos = this->buscarPosicionTabla(key);
+		Offset offset = this->tabla->getElement(pos);
+		this->bucketFile->load(offset,this->bucketActual);
 
 		//Devuelvo el resultado de modificar el registro
 		bool modified = this->bucketActual->modify(key, data);
-		this->bktFile->modify(bucketActual);
+		this->bucketFile->modify(bucketActual);
 		if (!modified){
 			//No puedo modificar porque no hay espacio
 			this->remove(key);
@@ -425,7 +425,7 @@ bool Directory::modify (Key key , string data){
 
 void Directory::inform (Offset blockNumber){
 
-	this->bktFile->load(blockNumber,this->bucketActual);
+	this->bucketFile->load(blockNumber,this->bucketActual);
 	std::cout << "	Bucket "<< blockNumber << ": (" << this->bucketActual->getDepth() << "," << this->bucketActual->countElements() << ")" << endl;
 	this->bucketActual->toHuman();
 	std::cout << std::endl;
@@ -434,7 +434,7 @@ void Directory::inform (Offset blockNumber){
 
 vector<KeyValue> Directory::getValue(Offset blockNumber){
 
-	this->bktFile->load(blockNumber,this->bucketActual);
+	this->bucketFile->load(blockNumber,this->bucketActual);
 	return this->bucketActual->get();
 }
 
@@ -443,10 +443,10 @@ vector<KeyValue> Directory::getAllValues(){
 	vector<KeyValue> values;
 	std::set<Offset> offsets;
 
-	for (Offset block= 0 ; (unsigned)block < this->dirFile->blocks() ; block++){
+	for (Offset block= 0 ; (unsigned)block < this->directoryFile->blocks() ; block++){
 
-		this->dirFile->load(block,this->table);
-		this->table->toHumanOffsets(&offsets);
+		this->directoryFile->load(block,this->tabla);
+		this->tabla->toHumanOffsets(&offsets);
 	}
 
 	for (std::set<Offset>::iterator it = offsets.begin(); it != offsets.end(); it++){
@@ -471,9 +471,9 @@ void Directory::inform (){
 	std::cout << "-Tabla (Profundidad global: " << this->depth << ") " << std::endl;
 
 	std::set<Offset> offsets;
-	for (Offset block= 0 ; (unsigned)block < this->dirFile->blocks() ; block++){
-		this->dirFile->load(block,this->table);
-		this->table->toHuman(&offsets);
+	for (Offset block= 0 ; (unsigned)block < this->directoryFile->blocks() ; block++){
+		this->directoryFile->load(block,this->tabla);
+		this->tabla->toHuman(&offsets);
 	}
 	std::cout << std::endl << std::endl;
 	std::cout << "-Buckets : Profundidad, Cantidad de Elementos " << std::endl;

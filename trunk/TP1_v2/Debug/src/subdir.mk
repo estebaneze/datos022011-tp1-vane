@@ -4,12 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/BPlusTreeTest.cpp \
 ../src/TP_v2.cpp 
 
 OBJS += \
+./src/BPlusTreeTest.o \
 ./src/TP_v2.o 
 
 CPP_DEPS += \
+./src/BPlusTreeTest.d \
 ./src/TP_v2.d 
 
 

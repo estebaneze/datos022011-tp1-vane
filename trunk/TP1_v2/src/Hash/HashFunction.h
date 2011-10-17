@@ -1,7 +1,3 @@
-/*
- * HashFunction.h
- *
- */
 
 #ifndef HASHFUNCTION_H_
 #define HASHFUNCTION_H_

@@ -9,8 +9,8 @@
 #include "../BPlusTree/Node.h"
 #include "../BPlusTree/LeafNode.h"
 #include "../BPlusTree/BNode.h"
-#include "../Persistence/Persistor.h"
-#include "../Persistence/PersistorBTree.h"
+#include "../Persistencia/Persistor.h"
+#include "../Persistencia/PersistorBTree.h"
 #include "../BPlusTree/NodeFactory.h"
 UnderflorRootStrategy::UnderflorRootStrategy() {
 
