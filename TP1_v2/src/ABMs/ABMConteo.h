@@ -18,8 +18,9 @@ using namespace std;
 class ABMConteo {
 
 	public:
-		ABMConteo(string BPTree, string indexDistritoFile, string indexEleccionFile, string indexListaFile);
-		void mostrarListasPorPantalla();
+
+		ABMConteo(string BPTree);/*pasar sin extension*/
+		void mostrarConteoPorPantalla();
 		virtual ~ABMConteo();
 		void Add(int idLista, int idDistrito, int idEleccion);
 		vector<Conteo> GetConteoByDistrito(int idDistrito);

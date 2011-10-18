@@ -11,8 +11,8 @@
  */
 ABMDistrito::ABMDistrito(string bpTreeFile) {
 
-	this->bpTreeFile= bpTreeFile;
-	this->bpPlusTree = new BPlusTree(2048,bpTreeFile);
+	this->bpTreeFile= Helper::concatenar(bpTreeFile,"bpt",".");
+	this->bpPlusTree = new BPlusTree(2048,this->bpTreeFile);
 	// OJO! el tamaño lo tioene que leer desde un archivo de configuracion
 }
 
@@ -109,6 +109,7 @@ void ABMDistrito::mostrarDistritosPorPantalla(){
 }
 
 ABMDistrito::~ABMDistrito() {
+	bpPlusTree->deleteTree();
 	delete this->bpPlusTree;
 }
 
