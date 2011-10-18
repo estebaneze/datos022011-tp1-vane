@@ -12,7 +12,7 @@
 ABMLista::ABMLista(string hashFile, string indexFile) {
 
 	this->hashFile= hashFile;
-	this->directorio = new Directory(hashFile,2048);
+	this->directorio = new Directory(hashFile,64);
 	this->index = new ListaIndex(indexFile);
 
 	//Descomentar esto si quiere verse el contenido del archivo por pantalla
@@ -32,6 +32,9 @@ void ABMLista::Add(Lista lista){
 	if (!(this->directorio->existKey(lista.GetNombre()))){
 		this->directorio->insert(lista.GetNombre(),Helper::IntToString(lista.GetEleccion()));
 		this->index->AppendListaToIndex(lista.GetEleccion(), lista.GetNombre());	//Tengo que refrescar el indice en todos los Adds!!!
+
+		//logueo operacion
+		this->Log(lista.GetNombre(),Helper::IntToString(lista.GetEleccion()));
 	}
 	else{
 		cout << "Ya existe la Lista " << lista.GetNombre() << endl;
@@ -118,6 +121,28 @@ void ABMLista::mostrarListasPorPantalla(){
 vector<Lista> ABMLista::GetListasByEleccion(int idEleccion){
 	return this->index->GetListasByIdEleccion(idEleccion);	//Busco solamente en el indice
 }
+
+void ABMLista::Log(Key key, string value){
+
+	string message = "Inserto (";
+	message.append(key);
+	message.append(",");
+	message.append(value);
+	message.append(")");
+
+	//char* fileLogOperation = "Lista_HashOperations.log"
+	Log::WriteLog(message, "Lista_HashOperations.log");
+	//cout << message << endl;
+
+	//Logueo como queda el hash
+	ofstream logFile;
+
+//	string fileLogProccess = Helper::concatenar(this->hashFile,"HashProccess.log","_");
+	logFile.open("Lista_HashProccess.log", ios::app);
+	this->directorio->inform(logFile);
+	logFile.close();
+}
+
 
 ABMLista::~ABMLista() {
 }

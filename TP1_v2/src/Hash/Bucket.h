@@ -46,6 +46,7 @@ public:
 	void unserialize(string &buffer);
 	int getDataSize();
 	void toHuman();
+	void toHumanLog(ostream &file);
 
 	map <Key, string>::iterator begin(){
 		return _elements.begin();

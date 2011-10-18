@@ -43,7 +43,7 @@ class Directory{
 		void tryCombine(unsigned int);
 		void redistribuirTabla(Bucket * auxBucket, unsigned int pos);
 		vector<KeyValue> getValue(Offset blockNumber);
-		void Log(Key key, string value);
+
 
 	public:
 		Directory(string, unsigned int);
@@ -58,6 +58,7 @@ class Directory{
 		ostream& inform (Offset blockNumber, ostream& myOstream);
 		void inform(Offset blockNumber);
 		bool existKey (Key key);
+		//void Log(Key key, string value);
 
 		vector<KeyValue> getAllValues();
 };

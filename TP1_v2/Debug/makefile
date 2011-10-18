@@ -49,19 +49,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: TP1_v2
+all: TP1_v1_2011
 
 # Tool invocations
-TP1_v2: $(OBJS) $(USER_OBJS)
+TP1_v1_2011: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++  -o"TP1_v2" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++  -o"TP1_v1_2011" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C++_DEPS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) TP1_v2
+	-$(RM) $(OBJS)$(C++_DEPS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) TP1_v1_2011
 	-@echo ' '
 
 .PHONY: all clean dependents

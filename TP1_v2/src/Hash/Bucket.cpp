@@ -230,6 +230,17 @@ void Bucket::toHuman(){
 	}
 }
 
+void Bucket::toHumanLog(ostream &myOstream){
+
+	//DistributionTable dt;
+	for (map<Key, string>::iterator it = this->_elements.begin() ; it != this->_elements.end() ; ++it){
+		//dt.unserialize(it->second);
+		myOstream << "			"<<it->first << " : " << it->second << std::endl; /*<< dt.toHuman() << std::endl;*/
+	//	dt.clear();
+		//std::cout << it->first << " ";
+	}
+}
+
 vector<KeyValue> Bucket::get(){
 
 	vector<KeyValue> values;

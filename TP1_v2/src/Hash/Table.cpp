@@ -145,7 +145,8 @@ ostream& Table::toHuman(std::set<Offset>* offsets, ostream& myOstream){
 	//Muestro por pantalla los datos almacenados
 	for(it = this->buckets.begin(); it < this->buckets.end(); it++){
 		offsets->insert(*it);
-		myOstream << "  " << (*it);
+		//myOstream << "  " << (*it);
+
 	}
 
 	return myOstream;

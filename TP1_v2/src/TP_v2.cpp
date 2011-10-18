@@ -115,7 +115,7 @@ void pruebaListas(){
 
 	ABMLista Listas = ABMLista("lista.ga", "indexLista.ix");
 
-	Lista l1 = Lista("uno", 2);
+	Lista l1 = Lista("alonso8", 2);
 	Lista l2 = Lista("dos", 3);
 	Lista l3 = Lista("tres", 4);
 	Lista l4 = Lista("cuatro", 2);
@@ -123,7 +123,7 @@ void pruebaListas(){
 	Lista l6 = Lista("seis", 4);
 	Lista l7 = Lista("siete", 4);
 	Lista l8 = Lista("ocho", 4);
-
+	Lista l9 = Lista("aa",9);
 	Listas.Add(l1);
 	Listas.Add(l2);
 	Listas.Add(l3);
@@ -132,7 +132,7 @@ void pruebaListas(){
 	Listas.Add(l6);
 	Listas.Add(l7);
 	Listas.Add(l8);
-	Listas.Add(l8);
+	Listas.Add(l9);
 
 	cout << endl << endl;
 	//Listas.Add(l8);
@@ -142,7 +142,9 @@ void pruebaListas(){
 			cout << ls[i].GetNombre() << " - Eleccion: " << ls[i].GetEleccion() << endl;
 	}
 
-	cout << endl << endl;
+	//Listas.mostrarListasPorPantalla();
+
+/*	cout << endl << endl;
 	cout << "Modificar lista - Nombre: ";
 	string nombreLista;
 	cin >> nombreLista;
@@ -168,7 +170,7 @@ void pruebaListas(){
 	cout << "\nListas correspondientes a la elccion " << idEleccion << endl << endl;
 	for(int i = 0; i < ls2.size(); i++){
 			cout << ls2[i].GetNombre() << " - Eleccion: " << ls2[i].GetEleccion() << endl;
-	}
+	}*/
 
 }
 
@@ -410,7 +412,7 @@ void testConteo2(){
 
 int main( int arg, char *argv[] ){
 
-	testCandidato2();
+	//testCandidato2();
 
 //	BPlusTreeTest btest = BPlusTreeTest();
 //	btest.run();
@@ -418,7 +420,7 @@ int main( int arg, char *argv[] ){
 	//testConteo2();
 
 //	testConteo();
-	//pruebaListas();
+	pruebaListas();
 //	testABMDistrito();
 	//pruebaArbol();
 

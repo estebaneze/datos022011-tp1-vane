@@ -26,7 +26,7 @@ class ABMLista {
 		Lista* GetLista(std::string nombre);
 		void mostrarListasPorPantalla();
 		vector<Lista> GetListasByEleccion(int idEleccion);
-
+		void Log(Key key, string value);
 	private:
 			string hashFile;
 			Directory* directorio;
