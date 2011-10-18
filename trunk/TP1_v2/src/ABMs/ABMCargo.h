@@ -20,7 +20,7 @@ class ABMCargo {
 		ABMCargo(string hashFile);
 		virtual ~ABMCargo();
 		bool Exists(Cargo cargo);
-		void Add(string nombre, vector<int> cargosSecundarios);
+		int Add(string nombre, vector<int> cargosSecundarios);
 		bool Delete(int idCargo);
 		void Modify(Cargo cargo);
 		vector<Cargo> GetCargos();

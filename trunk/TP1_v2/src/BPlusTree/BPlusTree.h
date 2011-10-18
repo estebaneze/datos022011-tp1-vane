@@ -9,6 +9,7 @@
 #include "Element.h"
 #include "../Persistencia/Persistor.h"
 #include "NodeFactory.h"
+#include "../Logging/Log.h"
 
 using namespace std;
 class BPlusTree {
@@ -43,6 +44,10 @@ class BPlusTree {
      * Exporta el arbol desde su raiz.
      */
     void exportTree();
+
+    ostream& printMe(ostream& myOstream);
+
+    void Log(Element* element);
     /**
      *  Destructor del arbol.
      */

@@ -21,8 +21,9 @@ class ABMDistrito {
 		ABMDistrito(string bpTreeFile);
 		virtual ~ABMDistrito();
 		bool Exists(Distrito distrito);
+		bool Exists(int idDistrito);
 		bool ExistsKey(Key idDistrito);
-		void Add(Distrito distrito);
+		int Add(string nombre);
 		bool Delete(int idDistrito);
 		void Modify(Distrito distrito);
 		vector<Distrito> GetDistritos();

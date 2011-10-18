@@ -103,6 +103,7 @@ public:
 	friend ostream& operator<<(ostream&,BNode&);
 	virtual ostream& printMe(ostream&)=0;
 	virtual void exportNode()=0;
+	//virtual string getExportNode()=0;
 };
 
 inline ostream& operator<<(ostream& myOstream, BNode& bnode){

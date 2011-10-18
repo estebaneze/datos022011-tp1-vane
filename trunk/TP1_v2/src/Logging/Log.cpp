@@ -21,11 +21,22 @@ void Log::WriteLog(std::string message, char* filename){
 
 	time_t rawtime;
     time ( &rawtime );
+    std:string time(ctime(&rawtime));
+    time.append(" - ");
 
 	string line;
-	ifstream myfile (filename);
-	std::vector< string > lines;
+	//ifstream myfile (filename);
+	std::fstream myfile;
+	myfile.open(filename, std::ios::app);
 
+	cout << "--------------------------------Ecribo en el file "<< filename << endl;
+
+	if(myfile.is_open()){
+		myfile << time.append(message);
+		myfile.close();
+	}
+
+		/*
 	//Me guardo las lineas con los valores
 	if (myfile.is_open()) {
 		while ( myfile.good() ) {
@@ -38,8 +49,8 @@ void Log::WriteLog(std::string message, char* filename){
 	fstream File;
     std:string time(ctime(&rawtime));
 	File.open("Log.txt", ios::out);
-
-	if (File.is_open ()) {
+*/
+	/*if (File.is_open ()) {
 		for(int i = 0; i < lines.size(); i++){
 			File << lines[i] << endl;
 		}
@@ -48,5 +59,5 @@ void Log::WriteLog(std::string message, char* filename){
 	}
 
 	File.close();
-
+*/
 }

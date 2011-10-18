@@ -94,6 +94,14 @@ void BPlusTree::exportTree() {
 	this->root->exportNode();
 	cout << endl;
 }
+
+ostream& BPlusTree::printMe(ostream& myOstream){
+
+	this->root = Persistor::getInstance()->getRoot();
+	return this->root->printMe(myOstream);
+}
+
+
 //*****************************************//
 //********Impl. Interna********************//
 //*****************************************//
@@ -137,6 +145,24 @@ void BPlusTree::insert(Element* element, int modifyOrInsert) {
 		}
 	}
 
+	this->Log(element);
+}
+
+
+void BPlusTree::Log(Element* element){
+
+	cout << "Logueo!!!!!!!!" << endl;
+	string message = "Inserto elemento ";
+	message.append(element->getKey());
+	message.append(element->getData());
+	Log::WriteLog(message, "BPTree.log");
+
+	ofstream logFile("BPTree.log");
+	this->printMe(logFile);
+
+	cout << endl;
+	this->exportTree();
+	cout << endl;
 }
 
 void BPlusTree::validateElementSize(Element* elm){

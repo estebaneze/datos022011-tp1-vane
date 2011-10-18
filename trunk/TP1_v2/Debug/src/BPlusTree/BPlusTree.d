@@ -22,6 +22,7 @@ src/BPlusTree/BPlusTree.d src/BPlusTree/BPlusTree.o: \
  ../src/BPlusTree/../exceptions/ElementNotFoundException.h \
  ../src/BPlusTree/../Persistencia/PersistorBase.h \
  ../src/BPlusTree/EqualElementComparator.h ../src/BPlusTree/NodeFactory.h \
+ ../src/BPlusTree/../Logging/Log.h \
  ../src/BPlusTree/../strategies/UnderflorRootStrategy.h \
  ../src/BPlusTree/../strategies/BalanceStrategy.h \
  ../src/BPlusTree/../strategies/../BPlusTree/LeafNode.h \
@@ -84,6 +85,8 @@ src/BPlusTree/BPlusTree.d src/BPlusTree/BPlusTree.o: \
 ../src/BPlusTree/EqualElementComparator.h:
 
 ../src/BPlusTree/NodeFactory.h:
+
+../src/BPlusTree/../Logging/Log.h:
 
 ../src/BPlusTree/../strategies/UnderflorRootStrategy.h:
 

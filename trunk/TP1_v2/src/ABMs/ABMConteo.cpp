@@ -10,40 +10,56 @@ ABMConteo::ABMConteo(string BPTree) {
 
 	this->bpTreeFile= Helper::concatenar(BPTree,"bpt",".");
 	this->bplusTree = new BPlusTree(2048,this->bpTreeFile);
-	/*
+
 	this->indexByDistrito = new Index(Helper::concatenar(BPTree,"Distrito","_"));
 	this->indexByLista = new Index(Helper::concatenar(BPTree,"Lista","_"));
 	this->indexByEleccion = new Index(Helper::concatenar(BPTree,"Eleccion","_"));
-	*/
+
 }
 
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
 /********* OJO: BUG EN EL INDICE, VER IMPLE DEL INDICE *****************/
-void ABMConteo::Add(int idLista, int idDistrito, int idEleccion){
+int ABMConteo::Add(int idLista, int idDistrito, int idEleccion){
 
 	int idConteo = Identities::GetNextIdConteo();
 
-	//DistributionTable* dtTmp = new DistributionTable();
-	Key key = Helper::IntToString(idConteo);
-	string str = Helper::IntToString(idLista).append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion));
-	Data data = (Data)str.c_str();
-	int longData = str.length();
+	if(this->bplusTree->find(Helper::IntToString(idConteo)) == NULL){
 
-	Element * element=new Element(key, data, longData);
-	this->bplusTree->insert(element);
+//<<<<<<< .mine
+		//DistributionTable* dtTmp = new DistributionTable();
+		Key key = Helper::IntToString(idConteo);
+		string str = Helper::IntToString(idLista).append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion));
+		Data data = (Data)str.c_str();
+		int longData = str.length();
+//=======
+		Element * element=new Element(key, data, longData);
+		this->bplusTree->insert(element);
+//>>>>>>> .r51
 
+//<<<<<<< .mine
+		//Element* element = new Element(key, data, 2);
+		//this->bplusTree->insert(element);
+//=======
 	/*
 	cout << endl;
 	this->bplusTree->exportTree();
 	cout << endl;
+>>>>>>> .r51
 	*/
 
-	//Actualizo los indices
-	this->indexByDistrito->AppendToIndex(idDistrito, idConteo);
-	this->indexByLista->AppendToIndex(idLista, idConteo);
-	this->indexByEleccion->AppendToIndex(idEleccion, idConteo);
+		//Actualizo los indices
+		this->indexByDistrito->AppendToIndex(idDistrito, idConteo);
+		this->indexByLista->AppendToIndex(idLista, idConteo);
+		this->indexByEleccion->AppendToIndex(idEleccion, idConteo);
+
+		return idConteo;
+	}
+	else{
+		cout << "La clave " << idConteo << endl;
+		return -1;
+	}
 }
 
 vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
