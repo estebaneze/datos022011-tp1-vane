@@ -9,7 +9,7 @@
 
 Index::Index(string filename) {
 
-	this->hashFile = filename;
+	this->hashFile = Helper::concatenar(filename,"ix",".");
 	this->directorio = new Directory(hashFile,2048);
 
 }
@@ -56,7 +56,8 @@ void Index::RefreshIndex(int idKey, vector<int> idsValues){
 }
 
 
-//Esto tiene un bug: por ejemplo en un Conteo, cuando se le cambia el idEleccion, se actualiza el regsitro de esa idEleccion
+//Esto tiene un bug: por ejemplo en un Conteo, cuando se le cambia el idEleccion,
+//se actualiza el regsitro de esa idEleccion
 //pero no se borra el idConteo del registro de idEleccion que tenia
 void Index::AppendToIndex(int idKey, int idValue){
 
