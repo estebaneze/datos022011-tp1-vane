@@ -16,12 +16,16 @@ ABMCargo::ABMCargo(string hashFile) {
 }
 
 
-void ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
+int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
 
 	int idCargo = Identities::GetNextIdCargo();
 
 	if (!(this->directorio->existKey(Helper::IntToString(idCargo)))){
 		this->directorio->insert(Helper::IntToString(idCargo), Helper::concatenar(cargosSecundarios, "|"));
+		return idCargo;
+	}
+	else{
+		return -1;
 	}
 }
 

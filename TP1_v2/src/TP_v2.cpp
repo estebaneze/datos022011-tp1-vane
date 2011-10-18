@@ -41,25 +41,26 @@ using namespace std;
 
 void testABMDistrito()
 {
-	system("rm distri.lore");
-	system("rm distri.lore.fs");
+	system("rm dis_lore.bpt");
+	system("rm dis_lore.bpt.fs");
 
-	Distrito d1 = Distrito(6,"Esteban Echeverria");
-	Distrito d2 = Distrito(7,"Lomas de zamora");
+	cout <<endl<<endl;
+	string d1 = "Esteban Echeverria";
+	string d2 = "Lomas de zamora";
 	ABMDistrito *abmDistrito = new ABMDistrito("dis_lore");
 
 	cout << "Pruebo el alta de dos distritos:"<<endl;
-	abmDistrito->Add(d1);
-	abmDistrito->Add(d2);
+	int id1 = abmDistrito->Add(d1);
+	int id2 = abmDistrito->Add(d2);
 	abmDistrito->mostrarDistritosPorPantalla();
 
 	cout << "Pruebo el alter de uno:"<<endl;
-	d2.SetNombre("Capital Fereral");
-	abmDistrito->Modify(d2);
+	Distrito distrito2 = Distrito(id1, "Capital Federal");
+	abmDistrito->Modify(distrito2);
 	abmDistrito->mostrarDistritosPorPantalla();
 
 	cout << "Pruebo eliminar uno:"<<endl;
-	abmDistrito->Delete(d1.GetId());
+	abmDistrito->Delete(id1);
 	abmDistrito->mostrarDistritosPorPantalla();
 
 }
@@ -364,9 +365,9 @@ int main( int arg, char *argv[] ){
 //	BPlusTreeTest btest = BPlusTreeTest();
 //	btest.run();
 
-	testConteo();
+	//testConteo();
 	//pruebaListas();
-	//testABMDistrito();
+	testABMDistrito();
 	//pruebaArbol();
 
 	//testLogging();

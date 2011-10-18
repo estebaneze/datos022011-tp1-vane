@@ -27,6 +27,7 @@ src/ABMs/ABMConteo.d src/ABMs/ABMConteo.o: ../src/ABMs/ABMConteo.cpp \
  ../src/ABMs/../BPlusTree/../Persistencia/PersistorBase.h \
  ../src/ABMs/../BPlusTree/EqualElementComparator.h \
  ../src/ABMs/../BPlusTree/NodeFactory.h \
+ ../src/ABMs/../BPlusTree/../Logging/Log.h \
  ../src/ABMs/../Common/Identities.h ../src/ABMs/../Common/Helper.h \
  ../src/ABMs/../Indexes/Index.h \
  ../src/ABMs/../Indexes/../Hash/Directory.h \
@@ -103,6 +104,8 @@ src/ABMs/ABMConteo.d src/ABMs/ABMConteo.o: ../src/ABMs/ABMConteo.cpp \
 ../src/ABMs/../BPlusTree/EqualElementComparator.h:
 
 ../src/ABMs/../BPlusTree/NodeFactory.h:
+
+../src/ABMs/../BPlusTree/../Logging/Log.h:
 
 ../src/ABMs/../Common/Identities.h:
 

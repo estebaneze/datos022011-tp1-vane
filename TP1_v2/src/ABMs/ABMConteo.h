@@ -22,7 +22,7 @@ class ABMConteo {
 		ABMConteo(string BPTree);/*pasar sin extension*/
 		void mostrarConteoPorPantalla();
 		virtual ~ABMConteo();
-		void Add(int idLista, int idDistrito, int idEleccion);
+		int Add(int idLista, int idDistrito, int idEleccion);
 		vector<Conteo> GetConteoByDistrito(int idDistrito);
 		vector<Conteo> GetConteoByLista(int idLista);
 		vector<Conteo> GetConteoByEleccion(int idEleccion);

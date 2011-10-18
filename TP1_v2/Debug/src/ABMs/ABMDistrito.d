@@ -32,8 +32,9 @@ src/ABMs/ABMDistrito.d src/ABMs/ABMDistrito.o: \
  ../src/ABMs/../BPlusTree/../exceptions/ElementNotFoundException.h \
  ../src/ABMs/../BPlusTree/../Persistencia/PersistorBase.h \
  ../src/ABMs/../BPlusTree/EqualElementComparator.h \
- ../src/ABMs/../BPlusTree/NodeFactory.h ../src/ABMs/../utils/ConfigFile.h \
- ../src/ABMs/../BPlusTree/Element.h
+ ../src/ABMs/../BPlusTree/NodeFactory.h \
+ ../src/ABMs/../BPlusTree/../Logging/Log.h \
+ ../src/ABMs/../utils/ConfigFile.h ../src/ABMs/../BPlusTree/Element.h
 
 ../src/ABMs/ABMDistrito.h:
 
@@ -106,6 +107,8 @@ src/ABMs/ABMDistrito.d src/ABMs/ABMDistrito.o: \
 ../src/ABMs/../BPlusTree/EqualElementComparator.h:
 
 ../src/ABMs/../BPlusTree/NodeFactory.h:
+
+../src/ABMs/../BPlusTree/../Logging/Log.h:
 
 ../src/ABMs/../utils/ConfigFile.h:
 

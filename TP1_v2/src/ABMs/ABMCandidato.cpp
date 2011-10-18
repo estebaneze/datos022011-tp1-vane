@@ -25,7 +25,7 @@ ABMCandidato::ABMCandidato(string hashFile) {
 
 /**Agrego un candidato, lo guarda en hash con el formato idLista|idVotante|idCargo
  */
-void ABMCandidato::Add(int idLista, int idVotante, int idCargo){
+int ABMCandidato::Add(int idLista, int idVotante, int idCargo){
 
 	int idCandidato = Identities::GetNextIdCandidato();
 
@@ -35,7 +35,11 @@ void ABMCandidato::Add(int idLista, int idVotante, int idCargo){
 		string fields2 = Helper::concatenar(fields1,Helper::IntToString(idCargo),"|");
 
 		this->directorio->insert(Helper::IntToString(idCandidato), fields2);
+
+		return idCandidato;
 	}
+
+	return -1;
 }
 
 /**Elimina una Candidato, si no exite arroja un excepcion, informa true si elimino sino false*/

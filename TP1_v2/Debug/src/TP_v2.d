@@ -21,10 +21,10 @@ src/TP_v2.d src/TP_v2.o: ../src/TP_v2.cpp ../src/BPlusTreeTest.h \
  ../src/BPlusTree/../exceptions/ElementNotFoundException.h \
  ../src/BPlusTree/../Persistencia/PersistorBase.h \
  ../src/BPlusTree/EqualElementComparator.h ../src/BPlusTree/NodeFactory.h \
- ../src/Logging/Log.h ../src/ABMs/ABMCandidato.h \
- ../src/ABMs/../Common/Common.h ../src/ABMs/../Common/IntegerList.h \
- ../src/ABMs/../Common/Identities.h ../src/ABMs/../Common/Helper.h \
- ../src/ABMs/../Common/../Logging/Log.h \
+ ../src/BPlusTree/../Logging/Log.h ../src/Logging/Log.h \
+ ../src/ABMs/ABMCandidato.h ../src/ABMs/../Common/Common.h \
+ ../src/ABMs/../Common/IntegerList.h ../src/ABMs/../Common/Identities.h \
+ ../src/ABMs/../Common/Helper.h ../src/ABMs/../Common/../Logging/Log.h \
  ../src/ABMs/../Entidades/Candidato.h \
  ../src/ABMs/../Entidades/../Common/Common.h \
  ../src/ABMs/../Hash/Directory.h ../src/ABMs/../Hash/Table.h \
@@ -111,6 +111,8 @@ src/TP_v2.d src/TP_v2.o: ../src/TP_v2.cpp ../src/BPlusTreeTest.h \
 ../src/BPlusTree/EqualElementComparator.h:
 
 ../src/BPlusTree/NodeFactory.h:
+
+../src/BPlusTree/../Logging/Log.h:
 
 ../src/Logging/Log.h:
 

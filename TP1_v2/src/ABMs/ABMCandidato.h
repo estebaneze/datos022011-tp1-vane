@@ -20,7 +20,7 @@ class ABMCandidato {
 		ABMCandidato(string HashFile);
 		virtual ~ABMCandidato();
 		bool Exists(Candidato candidato);
-		void Add(int idLista, int idVotante, int idCargo);
+		int Add(int idLista, int idVotante, int idCargo);
 		bool Delete(int idCandidato);
 		void Modify(Candidato candidato);
 		vector<Candidato> GetCandidatos();

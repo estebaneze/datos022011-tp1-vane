@@ -19,21 +19,29 @@ ABMDistrito::ABMDistrito(string bpTreeFile) {
 /*
  * Agrego un distrito, lo guarda en en arbol
  */
-void ABMDistrito::Add(Distrito distrito){
-	if (not(Exists(distrito))){
-		cout << "Insertando el elemento: " << distrito.GetId() << endl;
-		string str= distrito.GetNombre();
-		Data data = (Data)str.c_str();
-		int longData = str.length();
-		Element * elemento = new Element(Helper::IntToString(distrito.GetId()),data,longData);
+int ABMDistrito::Add(string nombre){
+
+	int idDistrito = Identities::GetNextIdDistrito();
+
+	if (!Exists(idDistrito)){
+
+		cout << "Insertando el Distrito: " << idDistrito << endl << endl;;
+		Data data = (Data)nombre.c_str();
+		int longData = nombre.length();
+		Element * elemento = new Element(Helper::IntToString(idDistrito),data,longData);
 		this->bpPlusTree->insert(elemento);
+
+		return idDistrito;
 	}
+
+	return -1;
 }
 
 /*
  * Elimina un Distrito, si no exite devuelve false, existe y lo elimina devuelve true
  */
 bool ABMDistrito::Delete(int idDistrito){
+
 	if (ExistsKey(Helper::IntToString(idDistrito))){
 		this->bpPlusTree->remove(Helper::IntToString(idDistrito));
 		return true;
@@ -88,6 +96,15 @@ Distrito* ABMDistrito::GetDistrito(int idDistrito){
  */
 bool ABMDistrito::Exists(Distrito distrito){
 	if(this->bpPlusTree->findExact(Helper::IntToString(distrito.GetId()))==NULL)
+		return false;
+	else return true;
+}
+
+/**
+ * Devuelve true si el distrito existe en el arbol, sino false.
+ */
+bool ABMDistrito::Exists(int idDistrito){
+	if(this->bpPlusTree->findExact(Helper::IntToString(idDistrito))==NULL)
 		return false;
 	else return true;
 }

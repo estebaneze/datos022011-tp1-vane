@@ -22,8 +22,9 @@ src/BPlusTreeTest.d src/BPlusTreeTest.o: ../src/BPlusTreeTest.cpp \
  ../src/BPlusTree/../exceptions/ElementNotFoundException.h \
  ../src/BPlusTree/../Persistencia/PersistorBase.h \
  ../src/BPlusTree/EqualElementComparator.h ../src/BPlusTree/NodeFactory.h \
- ../src/Persistencia/PersistorBase.h ../src/Persistencia/Persistor.h \
- ../src/utils/ConfigurationMananger.h ../src/Common/Helper.h
+ ../src/BPlusTree/../Logging/Log.h ../src/Persistencia/PersistorBase.h \
+ ../src/Persistencia/Persistor.h ../src/utils/ConfigurationMananger.h \
+ ../src/Common/Helper.h
 
 ../src/BPlusTreeTest.h:
 
@@ -82,6 +83,8 @@ src/BPlusTreeTest.d src/BPlusTreeTest.o: ../src/BPlusTreeTest.cpp \
 ../src/BPlusTree/EqualElementComparator.h:
 
 ../src/BPlusTree/NodeFactory.h:
+
+../src/BPlusTree/../Logging/Log.h:
 
 ../src/Persistencia/PersistorBase.h:
 
