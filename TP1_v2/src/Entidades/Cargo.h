@@ -14,13 +14,14 @@ class Cargo {
 
 	public:
 		Cargo(int idCargo);
+		Cargo(int idCargo, vector<int> cargos);
 		virtual ~Cargo();
-		int GetIdCargo();
-		IntegerList GetCargosSecundarios();
+		int GetId();
+		vector<int> GetCargosSecundarios();
 		void AddCargoSecundario(int idCargo);
 	private:
 		int _idCargo;
-		IntegerList _cargosSecundarios;
+		vector<int> _cargosSecundarios;
 };
 
 #endif /* CARGO_H_ */

@@ -11,6 +11,8 @@
 #include "../Common/Common.h"
 #include "../Entidades/Candidato.h"
 #include "../Hash/Directory.h"
+#include "../Indexes/Index.h"
+//Candidato (((lista)ie, (votante)ie, (cargo)ie)i): Hash
 
 class ABMCandidato {
 
@@ -21,7 +23,7 @@ class ABMCandidato {
 		void Add(int idLista, int idVotante, int idCargo);
 		bool Delete(int idCandidato);
 		void Modify(Candidato candidato);
-		vector<Candidato> GetCandidatos(); //FALTA HACER ESTE
+		vector<Candidato> GetCandidatos();
 		Candidato* GetCandidato(int idCandidato);
 		void mostrarCandidatosPorPantalla();
 	private:

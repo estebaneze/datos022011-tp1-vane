@@ -34,13 +34,6 @@ void ABMCandidato::Add(int idLista, int idVotante, int idCargo){
 		string fields1 = Helper::concatenar(Helper::IntToString(idLista),Helper::IntToString(idVotante),"|");
 		string fields2 = Helper::concatenar(fields1,Helper::IntToString(idCargo),"|");
 
-		/*
-		string fields = Helper::IntToString(idLista);
-		fields.append("|");
-		fields.append(Helper::IntToString(idVotante));
-		fields.append("|");
-		fields.append(Helper::IntToString(idCargo));*/
-
 		this->directorio->insert(Helper::IntToString(idCandidato), fields2);
 	}
 }
