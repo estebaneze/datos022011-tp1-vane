@@ -143,26 +143,34 @@ void BPlusTree::insert(Element* element, int modifyOrInsert) {
 			UnderflorRootStrategy underflowRootStrategy;
 			this->root = underflowRootStrategy.doBalance(this->root);
 		}
+
+
+		this->Log(element);
 	}
 
-	this->Log(element);
 }
 
 
 void BPlusTree::Log(Element* element){
 
-	cout << "Logueo!!!!!!!!" << endl;
-	string message = "Inserto elemento ";
+	//Log de la insercion
+	string message = "Inserto (";
 	message.append(element->getKey());
+	message.append(",");
 	message.append(element->getData());
-	Log::WriteLog(message, "BPTree.log");
+	message.append(")");
+	Log::WriteLog(message, "BPTreeOperations.log");
+	cout << message << endl;
 
-	ofstream logFile("BPTree.log");
+	//Logueo como queda el arbol
+	ofstream logFile;
+	logFile.open("BPTreeProcess.log", ios::app);
 	this->printMe(logFile);
-
+	logFile.close();
 	cout << endl;
 	this->exportTree();
 	cout << endl;
+
 }
 
 void BPlusTree::validateElementSize(Element* elm){

@@ -7,15 +7,21 @@
 
 #include "Cargo.h"
 
-Cargo::Cargo(int idCargo) {
+Cargo::Cargo(int idCargo, string nombre) {
 	_idCargo = idCargo;
+	_nombre = nombre;
 }
 
-Cargo::Cargo(int idCargo, vector<int> cargosSecundarios) {
+Cargo::Cargo(int idCargo, string nombre, vector<int> cargosSecundarios) {
 	_idCargo = idCargo;
 	_cargosSecundarios = cargosSecundarios;
+	_nombre = nombre;
 }
 
+
+string Cargo::GetNombre(){
+	return _nombre;
+}
 
 int Cargo::GetId(){
 	return _idCargo;

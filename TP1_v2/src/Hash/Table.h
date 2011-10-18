@@ -7,6 +7,8 @@
 #include <vector>
 #include <set>
 
+using namespace std;
+
 class Table: public Block {
 private:
 	std::vector<Offset> buckets;
@@ -26,6 +28,7 @@ public:
 	void unserialize(std::string &buffer);
 	int getDataSize();
 	void toHuman(std::set<Offset>* offsets);
+	ostream& toHuman(std::set<Offset>* offsets, ostream& myOstream);
 	void toHumanOffsets(std::set<Offset>* offsets);
 	void getOffsets(std::set<Offset>* offsets);
 

@@ -67,7 +67,7 @@ void testABMDistrito()
 
 void testConteo(){
 
-	ABMConteo *abm = new ABMConteo("conteo_ri");
+	ABMConteo *abm = new ABMConteo("conteo_ri", "indexDistrito", "indexLista", "indexEleccion");
 
 	/*
 	int idDistrito;
@@ -113,7 +113,7 @@ void pruebaArbol()
 
 void pruebaListas(){
 
-	ABMLista Listas =	ABMLista("lista.ga", "indexLista.ix");
+	ABMLista Listas = ABMLista("lista.ga", "indexLista.ix");
 
 	Lista l1 = Lista("uno", 2);
 	Lista l2 = Lista("dos", 3);
@@ -178,6 +178,11 @@ void testCandidato2(){
 	cout << endl;
 	ABMCandidato abmc = ABMCandidato("candidato.ga");
 	cout << endl;
+
+	for(int i = 1; i < 20; i++){
+		abmc.Add(i,i,i);
+	}
+
 	cout << "Candidatos: "<< endl;
 	abmc.mostrarCandidatosPorPantalla();
 
@@ -357,17 +362,64 @@ void firstSetTest() {
 
 }
 
+void testConteo2(){
+
+	//system("rm conteo.bt.bpt");
+	//system("rm conteo.bt.bpt.fs");
+
+	ABMConteo abm = ABMConteo("conteo.bt", "indexConteoDistrito.ix", "indexConteoEleccion.ix", "indexConteoLista.ix");
+
+	cout << endl << "Nuevo registro de conteo" << endl;
+	cout << "Id distrito: ";
+	string idDistrito = "4";
+	cin >> idDistrito;
+
+	cout << "Id Lista: ";
+	string idLista = "4";
+	cin >> idLista;
+
+	cout << "Id Eleccion: ";
+	string idEleccion = "4";
+	cin >> idEleccion;
+
+	abm.Add(Helper::StringToInt(idLista), Helper::StringToInt(idDistrito), Helper::StringToInt(idEleccion));
+
+	cout << endl << endl;
+	cout << "Ingrese id distrito a buscar: ";
+	cin >> idDistrito;
+
+
+	vector<Conteo> conteos = abm.GetConteoByDistrito(Helper::StringToInt(idDistrito));
+	cout << "Conteos del distrito: " << idDistrito << endl;
+	for(int i = 0; i < conteos.size(); i++){
+		cout << conteos[i].GetId() << endl;
+	}
+
+	cout << endl << endl;
+	cout << "Ingrese id Lista a buscar: ";
+	cin >> idLista;
+
+	conteos = abm.GetConteoByLista(Helper::StringToInt(idLista));
+	cout << "Conteos del lista :" << idLista << endl;
+	for(int i = 0; i < conteos.size(); i++){
+		cout << conteos[i].GetId() << endl;
+	}
+
+}
+
 
 int main( int arg, char *argv[] ){
 
-//	testCandidato2();
+	testCandidato2();
 
 //	BPlusTreeTest btest = BPlusTreeTest();
 //	btest.run();
 
-	//testConteo();
+	//testConteo2();
+
+//	testConteo();
 	//pruebaListas();
-	testABMDistrito();
+//	testABMDistrito();
 	//pruebaArbol();
 
 	//testLogging();

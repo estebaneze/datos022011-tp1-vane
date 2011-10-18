@@ -31,11 +31,13 @@ string Helper::IntToString(int value){
 }
 
 std::vector<std::string> & Helper::split(const string &s, char delim, vector<string> &elems) {
+
     std::stringstream ss(s);
     std::string item;
     while(std::getline(ss, item, delim)) {
         elems.push_back(item);
     }
+
     return elems;
 }
 
@@ -52,9 +54,7 @@ int Helper::StringToInt(string value){
 	istringstream buffer(value);
 	int valueInt;
 	buffer >> valueInt;
-
 	return valueInt;
-
 
 }
 

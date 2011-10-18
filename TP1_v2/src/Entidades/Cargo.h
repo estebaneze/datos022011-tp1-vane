@@ -13,14 +13,16 @@
 class Cargo {
 
 	public:
-		Cargo(int idCargo);
-		Cargo(int idCargo, vector<int> cargos);
+		Cargo(int idCargo, string nombre);
+		Cargo(int idCargo, string nombre, vector<int> cargos);
 		virtual ~Cargo();
 		int GetId();
 		vector<int> GetCargosSecundarios();
 		void AddCargoSecundario(int idCargo);
+		string GetNombre();
 	private:
 		int _idCargo;
+		string _nombre;
 		vector<int> _cargosSecundarios;
 };
 

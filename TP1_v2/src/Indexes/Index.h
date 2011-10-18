@@ -20,14 +20,14 @@ class Index {
 		virtual ~Index();
 
 		/* Devuelve los valores indexados correspondientes al idKey */
-		vector<int> GetIds(int idKey);
+		vector<Key> GetIds(Key idKey);
 
 		/* Pisa los valores en el indice  del registro correspondientes al Id Key, con la lista de idsValues */
-		void RefreshIndex(int idKey, vector<int> idsValues);
+		void RefreshIndex(Key key, vector<Key> values);
 
 		/* Agrega al registro del indice correspondiente al IdKey, el idValue. Si no existe el registro con el
 		 * Id Key, lo crea */
-		void AppendToIndex(int idKey, int idValue);
+		void AppendToIndex(Key key, Key value);
 
 
 	private:
