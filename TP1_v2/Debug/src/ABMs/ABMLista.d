@@ -30,7 +30,9 @@ src/ABMs/ABMLista.d src/ABMs/ABMLista.o: ../src/ABMs/ABMLista.cpp \
  ../src/ABMs/../Indexes/../Common/../Entidades/Eleccion.h \
  ../src/ABMs/../Indexes/../Common/../Entidades/Lista.h \
  ../src/ABMs/../Indexes/../Common/../Entidades/Votante.h \
- ../src/ABMs/../Indexes/../Common/Common.h
+ ../src/ABMs/../Indexes/../Common/Common.h \
+ ../src/ABMs/../Logging/HashLog.h \
+ ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/../Logging/Log.h
 
 ../src/ABMs/ABMLista.h:
 
@@ -107,3 +109,9 @@ src/ABMs/ABMLista.d src/ABMs/ABMLista.o: ../src/ABMs/ABMLista.cpp \
 ../src/ABMs/../Indexes/../Common/../Entidades/Votante.h:
 
 ../src/ABMs/../Indexes/../Common/Common.h:
+
+../src/ABMs/../Logging/HashLog.h:
+
+../src/ABMs/../Logging/../Hash/Directory.h:
+
+../src/ABMs/../Logging/Log.h:

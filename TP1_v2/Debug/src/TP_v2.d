@@ -49,6 +49,8 @@ src/TP_v2.d src/TP_v2.o: ../src/TP_v2.cpp ../src/BPlusTreeTest.h \
  ../src/ABMs/../Indexes/../Common/../Entidades/Eleccion.h \
  ../src/ABMs/../Indexes/../Common/../Entidades/Lista.h \
  ../src/ABMs/../Indexes/../Common/../Entidades/Votante.h \
+ ../src/ABMs/../Logging/HashLog.h \
+ ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/../Logging/Log.h \
  ../src/ABMs/ABMConteo.h ../src/ABMs/../BPlusTree/BPlusTree.h \
  ../src/ABMs/../Common/Identities.h ../src/ABMs/../Entidades/Conteo.h \
  ../src/ABMs/../Common/Helper.h ../src/ABMs/ABMDistrito.h \
@@ -186,6 +188,12 @@ src/TP_v2.d src/TP_v2.o: ../src/TP_v2.cpp ../src/BPlusTreeTest.h \
 ../src/ABMs/../Indexes/../Common/../Entidades/Lista.h:
 
 ../src/ABMs/../Indexes/../Common/../Entidades/Votante.h:
+
+../src/ABMs/../Logging/HashLog.h:
+
+../src/ABMs/../Logging/../Hash/Directory.h:
+
+../src/ABMs/../Logging/Log.h:
 
 ../src/ABMs/ABMConteo.h:
 

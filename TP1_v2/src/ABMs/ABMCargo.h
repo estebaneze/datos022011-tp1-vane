@@ -25,6 +25,7 @@ class ABMCargo {
 		void Modify(Cargo cargo);
 		vector<Cargo> GetCargos();
 		Cargo* GetCargo(int idCargo);
+
 		void mostrarCargosPorPantalla();
 	private:
 		string hashFile;

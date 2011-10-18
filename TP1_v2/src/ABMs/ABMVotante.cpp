@@ -40,6 +40,8 @@ void ABMVotante::Add(Votante votante){
 		}
 
 		this->directorio->insert(Helper::LongToString(votante.GetDni()),aux);
+
+		HashLog::LogProcess(this->directorio,"Votante_HasProcess.log");
 	}
 }
 
@@ -140,6 +142,9 @@ bool ABMVotante::existKey(Votante votante){
 void ABMVotante::mostrarVotantesPorPantalla(){
 	this->directorio->inform();
 }
+
+
+
 
 ABMVotante::~ABMVotante() {
 	// TODO Auto-generated destructor stub
