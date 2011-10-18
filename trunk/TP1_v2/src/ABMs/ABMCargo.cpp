@@ -128,6 +128,7 @@ void ABMCargo::mostrarCargosPorPantalla(){
 }
 
 
+
 ABMCargo::~ABMCargo() {
 	delete this->directorio;
 }

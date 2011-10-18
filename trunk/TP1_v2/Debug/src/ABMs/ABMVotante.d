@@ -16,7 +16,9 @@ src/ABMs/ABMVotante.d src/ABMs/ABMVotante.o: ../src/ABMs/ABMVotante.cpp \
  ../src/ABMs/../Hash/../Persistencia/AdmEspacioDisponible.h \
  ../src/ABMs/../Hash/../Persistencia/Archivo.h \
  ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h \
- ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h
+ ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h \
+ ../src/ABMs/../Logging/HashLog.h \
+ ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/../Logging/Log.h
 
 ../src/ABMs/ABMVotante.h:
 
@@ -65,3 +67,9 @@ src/ABMs/ABMVotante.d src/ABMs/ABMVotante.o: ../src/ABMs/ABMVotante.cpp \
 ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h:
 
 ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h:
+
+../src/ABMs/../Logging/HashLog.h:
+
+../src/ABMs/../Logging/../Hash/Directory.h:
+
+../src/ABMs/../Logging/Log.h:

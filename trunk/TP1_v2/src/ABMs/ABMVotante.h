@@ -11,6 +11,7 @@
 #include "../Common/Common.h"
 #include "../Entidades/Votante.h"
 #include "../Hash/Directory.h"
+#include "../Logging/HashLog.h"
 
 class ABMVotante {
 public:
@@ -22,6 +23,7 @@ public:
 	void Modify(Votante votante);
 	vector<Votante> GetVotantes();
 	Votante* GetVotante(long dni);
+
 	void mostrarVotantesPorPantalla();
 private:
 		string file;
