@@ -6,6 +6,7 @@
 CPP_SRCS += \
 ../src/ABMs/ABMAdministrador.cpp \
 ../src/ABMs/ABMCandidato.cpp \
+../src/ABMs/ABMCargo.cpp \
 ../src/ABMs/ABMConteo.cpp \
 ../src/ABMs/ABMDistrito.cpp \
 ../src/ABMs/ABMLista.cpp \
@@ -14,6 +15,7 @@ CPP_SRCS += \
 OBJS += \
 ./src/ABMs/ABMAdministrador.o \
 ./src/ABMs/ABMCandidato.o \
+./src/ABMs/ABMCargo.o \
 ./src/ABMs/ABMConteo.o \
 ./src/ABMs/ABMDistrito.o \
 ./src/ABMs/ABMLista.o \
@@ -22,6 +24,7 @@ OBJS += \
 CPP_DEPS += \
 ./src/ABMs/ABMAdministrador.d \
 ./src/ABMs/ABMCandidato.d \
+./src/ABMs/ABMCargo.d \
 ./src/ABMs/ABMConteo.d \
 ./src/ABMs/ABMDistrito.d \
 ./src/ABMs/ABMLista.d \

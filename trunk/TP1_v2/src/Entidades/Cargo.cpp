@@ -8,21 +8,25 @@
 #include "Cargo.h"
 
 Cargo::Cargo(int idCargo) {
-
 	_idCargo = idCargo;
-
 }
 
-int Cargo::GetIdCargo(){
+Cargo::Cargo(int idCargo, vector<int> cargosSecundarios) {
+	_idCargo = idCargo;
+	_cargosSecundarios = cargosSecundarios;
+}
+
+
+int Cargo::GetId(){
 	return _idCargo;
 }
 
-IntegerList Cargo::GetCargosSecundarios(){
+vector<int> Cargo::GetCargosSecundarios(){
 	return _cargosSecundarios;
 }
 
 void Cargo::AddCargoSecundario(int idCargo){
-	_cargosSecundarios.Add(idCargo);
+	_cargosSecundarios.push_back(idCargo);
 }
 
 Cargo::~Cargo() {

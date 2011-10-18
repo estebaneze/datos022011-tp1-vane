@@ -17,7 +17,10 @@ src/ABMs/ABMCandidato.d src/ABMs/ABMCandidato.o: \
  ../src/ABMs/../Hash/../Persistencia/AdmEspacioDisponible.h \
  ../src/ABMs/../Hash/../Persistencia/Archivo.h \
  ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h \
- ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h
+ ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h \
+ ../src/ABMs/../Indexes/Index.h \
+ ../src/ABMs/../Indexes/../Hash/Directory.h \
+ ../src/ABMs/../Indexes/../Common/Common.h
 
 ../src/ABMs/ABMCandidato.h:
 
@@ -66,3 +69,9 @@ src/ABMs/ABMCandidato.d src/ABMs/ABMCandidato.o: \
 ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h:
 
 ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h:
+
+../src/ABMs/../Indexes/Index.h:
+
+../src/ABMs/../Indexes/../Hash/Directory.h:
+
+../src/ABMs/../Indexes/../Common/Common.h:
