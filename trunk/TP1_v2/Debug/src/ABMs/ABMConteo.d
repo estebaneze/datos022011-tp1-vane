@@ -45,7 +45,7 @@ src/ABMs/ABMConteo.d src/ABMs/ABMConteo.o: ../src/ABMs/ABMConteo.cpp \
  ../src/ABMs/../Indexes/../Common/Identities.h \
  ../src/ABMs/../Indexes/../Common/../Logging/Log.h \
  ../src/ABMs/../Indexes/../Common/Helper.h \
- ../src/ABMs/../Entidades/Conteo.h
+ ../src/ABMs/../Entidades/Conteo.h ../src/ABMs/../Common/Helper.h
 
 ../src/ABMs/ABMConteo.h:
 
@@ -144,3 +144,5 @@ src/ABMs/ABMConteo.d src/ABMs/ABMConteo.o: ../src/ABMs/ABMConteo.cpp \
 ../src/ABMs/../Indexes/../Common/Helper.h:
 
 ../src/ABMs/../Entidades/Conteo.h:
+
+../src/ABMs/../Common/Helper.h:

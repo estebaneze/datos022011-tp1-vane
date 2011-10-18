@@ -84,19 +84,28 @@ void Directory::setDepth(){
 	}
 }
 
-/**
- * Inserta una clave y el numero de bloque al que pertenece
- * Recibe la clave y el numero de bloques
- */
-void /*bool*/ Directory::insert (Key key, string value){
+void Directory::Log(Key key, string value){
 
 	string message = "Inserto (";
 	message.append(key);
 	message.append(",");
 	message.append(value);
 	message.append(")");
-	Log::WriteLog(message, "Hash.log");
+	Log::WriteLog(message, "HashOperations.log");
 	cout << message << endl;
+
+	//Logueo como queda el arbol
+	ofstream logFile;
+	logFile.open("HashProcess.log", ios::app);
+	this->inform(logFile);
+	logFile.close();
+}
+
+/**
+ * Inserta una clave y el numero de bloque al que pertenece
+ * Recibe la clave y el numero de bloques
+ */
+void /*bool*/ Directory::insert (Key key, string value){
 
 	// busco la posicion de la tabla correspondiente a la dispersion.
 	unsigned int pos = buscarPosicionTabla(key);
@@ -109,6 +118,7 @@ void /*bool*/ Directory::insert (Key key, string value){
 	try{
 		this->bucketActual->insert(key, value);
 		bucketFile->modify(bucketActual);
+		this->Log(key, value);
 	}catch(HashExceptions::ElementSizeException* e){
 		delete e;
 		//si no se pudo insertar, es porque no hay espacio,
@@ -432,6 +442,16 @@ void Directory::inform (Offset blockNumber){
 
 }
 
+ostream& Directory::inform (Offset blockNumber, ostream& myOstream){
+
+	this->bucketFile->load(blockNumber,this->bucketActual);
+	myOstream << "	Bucket "<< blockNumber << ": (" << this->bucketActual->getDepth() << "," << this->bucketActual->countElements() << ")" << endl;
+	this->bucketActual->toHuman();
+	myOstream << std::endl;
+
+	return myOstream;
+}
+
 vector<KeyValue> Directory::getValue(Offset blockNumber){
 
 	this->bucketFile->load(blockNumber,this->bucketActual);
@@ -459,6 +479,31 @@ vector<KeyValue> Directory::getAllValues(){
 
 	return values;
 
+}
+
+ostream& Directory::inform (ostream& myOstream){
+
+	string message = "-Tabla (Profundidad global: ";
+	message.append(Helper::IntToString((int)this -> depth));
+	message.append(")");
+
+	myOstream << "-Tabla (Profundidad global: " << this->depth << ") " << std::endl;
+
+	std::set<Offset> offsets;
+	for (Offset block= 0 ; (unsigned)block < this->directoryFile->blocks() ; block++){
+		this->directoryFile->load(block,this->tabla);
+		this->tabla->toHuman(&offsets, myOstream);
+	}
+
+	myOstream << std::endl << std::endl;
+	myOstream << "-Buckets : Profundidad, Cantidad de Elementos " << std::endl;
+	for (std::set<Offset>::iterator it = offsets.begin(); it != offsets.end(); it++){
+		this->inform(*it);
+	}
+
+	myOstream << "=========================================" << std::endl;
+
+	return myOstream;
 }
 
 void Directory::inform (){

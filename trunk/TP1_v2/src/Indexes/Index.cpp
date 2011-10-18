@@ -14,32 +14,23 @@ Index::Index(string filename) {
 
 }
 
-vector<int> Index::GetIds(int idKey){
-
-	string key = Helper::IntToString(idKey);
-	vector<int> ids;
+vector<Key> Index::GetIds(Key key){
 
 	if ((this->directorio->existKey(key))){
 
 		string values = directorio->find(key);
-		vector<string> splitedVs = Helper::split(values, '|');
-
-		for(int i = 0; i < splitedVs.size(); i++){
-			ids.push_back(Helper::StringToInt(splitedVs[i]));
-		}
-
-		return ids;
+		return Helper::split(values, '|');
 	}
 	else {
-		return ids;
+		vector<Key> aux;
+		return aux;
 	}
 
 }
 
-void Index::RefreshIndex(int idKey, vector<int> idsValues){
+void Index::RefreshIndex(Key key, vector<Key> values){
 
-	string key = Helper::IntToString(idKey);
-	string fields = Helper::concatenar(idsValues, "|");
+	string fields = Helper::concatenar(values, "|");
 
 	if (!(this->directorio->existKey(key))){
 		this->directorio->insert(key,fields);
@@ -59,15 +50,13 @@ void Index::RefreshIndex(int idKey, vector<int> idsValues){
 //Esto tiene un bug: por ejemplo en un Conteo, cuando se le cambia el idEleccion,
 //se actualiza el regsitro de esa idEleccion
 //pero no se borra el idConteo del registro de idEleccion que tenia
-void Index::AppendToIndex(int idKey, int idValue){
+void Index::AppendToIndex(Key key, Key value){
 
-	cout << "Agrego al indice: Key: " << idKey << " - id Value: " << idValue << endl;
+	cout << "Agrego al indice: Key: " << key << " - id Value: " << value << endl;
 
-	string key = Helper::IntToString(idKey);
-	string field = Helper::IntToString(idValue);
 
 	if (!(this->directorio->existKey(key))){
-		this->directorio->insert(key,field);
+		this->directorio->insert(key,value);
 	}
 	else{
 
@@ -77,7 +66,7 @@ void Index::AppendToIndex(int idKey, int idValue){
 
 		bool founded = false;
 		for(int i = 0; i < splited.size() && !founded; i++){
-			if(splited[i] == field){
+			if(splited[i] == value){
 				founded = true;
 			}
 		}
@@ -85,7 +74,7 @@ void Index::AppendToIndex(int idKey, int idValue){
 		//Si la lista no esta ya indexada con ese idEleccion, la agrego. Si no, no hago nada.
 		if(!founded){
 			oldFields.append("|");
-			oldFields.append(field);
+			oldFields.append(value);
 			this->directorio->modify(key, oldFields);
 		}
 	}

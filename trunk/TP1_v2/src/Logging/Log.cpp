@@ -25,15 +25,16 @@ void Log::WriteLog(std::string message, char* filename){
     time.append(" - ");
 
 	string line;
-	//ifstream myfile (filename);
-	std::fstream myfile;
-	myfile.open(filename, std::ios::app);
+	ofstream logFile;
+	logFile.open(filename, ios::app);
 
-	cout << "--------------------------------Ecribo en el file "<< filename << endl;
+	if(logFile.is_open()){
 
-	if(myfile.is_open()){
-		myfile << time.append(message);
-		myfile.close();
+		time.append(" - ");
+		time.append(message);
+		logFile.write(time.c_str(), time.size());
+
+		logFile.close();
 	}
 
 		/*

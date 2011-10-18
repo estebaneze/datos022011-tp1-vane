@@ -15,6 +15,7 @@
 
 #include <vector>
 #include <string>
+
 using namespace std;
 
 #define BUFFERTABLE 512
@@ -42,6 +43,7 @@ class Directory{
 		void tryCombine(unsigned int);
 		void redistribuirTabla(Bucket * auxBucket, unsigned int pos);
 		vector<KeyValue> getValue(Offset blockNumber);
+		void Log(Key key, string value);
 
 	public:
 		Directory(string, unsigned int);
@@ -52,6 +54,8 @@ class Directory{
 		bool modify(Key, string);
 		string find(Key);
 		void inform();
+		ostream& inform (ostream& myOstream);
+		ostream& inform (Offset blockNumber, ostream& myOstream);
 		void inform(Offset blockNumber);
 		bool existKey (Key key);
 

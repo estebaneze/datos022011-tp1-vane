@@ -12,6 +12,7 @@
 #include "../Common/Identities.h"
 #include "../Indexes/Index.h"
 #include "../Entidades/Conteo.h"
+#include "../Common/Helper.h"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ class ABMConteo {
 
 	public:
 
-		ABMConteo(string BPTree);/*pasar sin extension*/
+		ABMConteo(string BPTree, string indexByDistritoFile, string indexByListaFile, string indexByEleccionFile);/*pasar sin extension*/
 		void mostrarConteoPorPantalla();
 		virtual ~ABMConteo();
 		int Add(int idLista, int idDistrito, int idEleccion);

@@ -418,12 +418,16 @@ void LeafNode::exportNode(){
 
 
 ostream& LeafNode::printMe(ostream& myOstream){
+
 	std::vector<Element* >::iterator it;
+
 	myOstream<<"Nodo: "<<getOffset()<<" ";
+
 	for(it=getElementsBegin();it!=getElementsEnds();it++){
 		Element* elem=(*it);
 		myOstream<<*elem<<" ";
 	}
+
 	myOstream<<endl;
 	return myOstream;
 

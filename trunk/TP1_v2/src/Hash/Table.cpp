@@ -138,6 +138,19 @@ void Table::toHuman(std::set<Offset>* offsets){
 	}
 }
 
+ostream& Table::toHuman(std::set<Offset>* offsets, ostream& myOstream){
+
+	std::vector<Offset>::iterator it ;
+
+	//Muestro por pantalla los datos almacenados
+	for(it = this->buckets.begin(); it < this->buckets.end(); it++){
+		offsets->insert(*it);
+		myOstream << "  " << (*it);
+	}
+
+	return myOstream;
+}
+
 void Table::toHumanOffsets(std::set<Offset>* offsets){
 
 	std::vector<Offset>::iterator it ;
