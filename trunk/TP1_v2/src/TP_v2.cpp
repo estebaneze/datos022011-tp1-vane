@@ -41,6 +41,9 @@ using namespace std;
 
 void testABMDistrito()
 {
+	system("rm distri.lore");
+	system("rm distri.lore.fs");
+
 	Distrito d1 = Distrito(6,"Esteban Echeverria");
 	Distrito d2 = Distrito(7,"Lomas de zamora");
 	ABMDistrito *abmDistrito = new ABMDistrito("distri.lore");
