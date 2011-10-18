@@ -36,6 +36,9 @@ int ABMCandidato::Add(int idLista, int idVotante, int idCargo){
 
 		this->directorio->insert(Helper::IntToString(idCandidato), fields2);
 
+		HashLog::LogProcess(this->directorio,"Candidato_HashProccess.log");
+		HashLog::LogInsert(Helper::IntToString(idCandidato),fields2,"Candidato_HashOperation.log");
+
 		return idCandidato;
 	}
 
@@ -46,7 +49,10 @@ int ABMCandidato::Add(int idLista, int idVotante, int idCargo){
 bool ABMCandidato::Delete(int idCandidato){
 
 	if (this->directorio->existKey(Helper::IntToString(idCandidato))){
-		return (this->directorio->remove(Helper::IntToString(idCandidato)));
+		this->directorio->remove(Helper::IntToString(idCandidato));
+		HashLog::LogProcess(this->directorio,"Candidato_HashProccess.log");
+		HashLog::LogDelete(Helper::IntToString(idCandidato),"","Candidato_HashOperation.log");
+		return true;
 	}
 	else {
 		return false;
@@ -65,6 +71,8 @@ void ABMCandidato::Modify(Candidato candidato){
 		string fields1 = Helper::concatenar(Helper::IntToString(candidato.GetIdLista()),Helper::IntToString(candidato.GetIdVotante()),"|");
 		string fields2 = Helper::concatenar(fields1,Helper::IntToString(candidato.GetIdCargo()),"|");
 
+		HashLog::LogProcess(this->directorio,"Candidato_HashProccess.log");
+		HashLog::LogModify(Helper::IntToString(candidato.GetId()),fields2,"Candidato_HashOperation.log");
 		/*string fields = Helper::IntToString(candidato.GetIdLista());
 		fields.append("|");
 		fields.append(Helper::IntToString(candidato.GetIdVotante()));

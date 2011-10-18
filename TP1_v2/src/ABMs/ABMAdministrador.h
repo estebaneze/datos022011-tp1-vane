@@ -11,6 +11,7 @@
 #include "../Common/Common.h"
 #include "../Entidades/Administrador.h"
 #include "../Hash/Directory.h"
+#include "../Logging/HashLog.h"
 
 class ABMAdministrador {
 public:

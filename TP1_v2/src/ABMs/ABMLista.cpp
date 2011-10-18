@@ -47,7 +47,10 @@ void ABMLista::Add(Lista lista){
 bool ABMLista::Delete(Lista lista){
 
 	if (this->directorio->existKey(lista.GetNombre())){
-		return (this->directorio->remove(lista.GetNombre()));
+		this->directorio->remove(lista.GetNombre());
+		HashLog::LogDelete(lista.GetNombre(),Helper::IntToString(lista.GetEleccion()),"Lista_HashOperation.log");
+		HashLog::LogProcess(this->directorio,"Lista_HashProccess.log");
+		return true;
 	}
 	else{
 		return false;
@@ -62,6 +65,9 @@ void ABMLista::ModifyEleccion(Lista lista){
 	if (this->directorio->existKey(lista.GetNombre())){
 		this->directorio->modify(lista.GetNombre(),Helper::IntToString(lista.GetEleccion()));
 		this->index->AppendListaToIndex(lista.GetEleccion(), lista.GetNombre());	//Tengo que refrescar el indice en todos los Adds!!!
+
+		HashLog::LogModify(lista.GetNombre(),Helper::IntToString(lista.GetEleccion()),"Lista_HashOperation.log");
+		HashLog::LogProcess(this->directorio,"Lista_HashProccess.log");
 	}
 	else{
 		cout << "No existe la lista " << lista.GetNombre() << endl;

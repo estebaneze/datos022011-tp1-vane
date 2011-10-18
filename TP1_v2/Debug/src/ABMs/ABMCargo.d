@@ -16,7 +16,9 @@ src/ABMs/ABMCargo.d src/ABMs/ABMCargo.o: ../src/ABMs/ABMCargo.cpp \
  ../src/ABMs/../Hash/../Persistencia/AdmEspacioDisponible.h \
  ../src/ABMs/../Hash/../Persistencia/Archivo.h \
  ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h \
- ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h
+ ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h \
+ ../src/ABMs/../Logging/HashLog.h \
+ ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/../Logging/Log.h
 
 ../src/ABMs/ABMCargo.h:
 
@@ -65,3 +67,9 @@ src/ABMs/ABMCargo.d src/ABMs/ABMCargo.o: ../src/ABMs/ABMCargo.cpp \
 ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h:
 
 ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h:
+
+../src/ABMs/../Logging/HashLog.h:
+
+../src/ABMs/../Logging/../Hash/Directory.h:
+
+../src/ABMs/../Logging/Log.h:

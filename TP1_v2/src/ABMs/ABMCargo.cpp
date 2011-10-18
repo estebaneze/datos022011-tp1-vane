@@ -25,6 +25,9 @@ int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
 		string field = nombre.append("|");
 		field.append(Helper::concatenar(cargosSecundarios, "|"));
 		this->directorio->insert(Helper::IntToString(idCargo), field);
+
+		HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
+		HashLog::LogInsert(Helper::IntToString(idCargo),field,"Cargo_HashOperation.log");
 		return idCargo;
 	}
 	else{
@@ -36,7 +39,10 @@ int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
 bool ABMCargo::Delete(int idCargo){
 
 	if (this->directorio->existKey(Helper::IntToString(idCargo))){
-		return (this->directorio->remove(Helper::IntToString(idCargo)));
+		this->directorio->remove(Helper::IntToString(idCargo));
+		HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
+		HashLog::LogDelete(Helper::IntToString(idCargo),"","Cargo_HashOperation.log");
+		return true;
 	}
 	else {
 		return false;
@@ -51,7 +57,11 @@ void ABMCargo::Modify(Cargo cargo){
 
 	if (this->directorio->existKey(id)){
 
-		this->directorio->modify(id,Helper::concatenar(cargosSecundarios, "|"));
+		string aux = Helper::concatenar(cargosSecundarios, "|");
+		this->directorio->modify(id,aux);
+		HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
+		HashLog::LogModify(Helper::IntToString(cargo.GetId()),aux,"Cargo_HashOperation.log");
+
 	}
 
 }

@@ -11,7 +11,7 @@
 #include "../Common/Common.h"
 #include "../Entidades/Cargo.h"
 #include "../Hash/Directory.h"
-
+#include "../Logging/HashLog.h"
 //Cargo ((cargo)i, (cargo)*): Hash
 
 class ABMCargo {

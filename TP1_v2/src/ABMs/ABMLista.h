@@ -13,6 +13,7 @@
 #include "../Hash/Directory.h"
 #include "../Indexes/ListaIndex.h"
 #include "../Logging/HashLog.h"
+#include "../utils/ConfigFile.h"
 
 class ABMLista {
 

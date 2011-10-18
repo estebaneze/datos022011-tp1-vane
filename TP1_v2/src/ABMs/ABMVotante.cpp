@@ -41,7 +41,10 @@ void ABMVotante::Add(Votante votante){
 
 		this->directorio->insert(Helper::LongToString(votante.GetDni()),aux);
 
-		HashLog::LogProcess(this->directorio,"Votante_HasProcess.log");
+		HashLog::LogProcess(this->directorio,"Votante_HashProcess.log");
+		HashLog::LogInsert(Helper::LongToString(votante.GetDni()),aux,"Votante_HashOperation.log");
+
+
 	}
 }
 
@@ -49,7 +52,15 @@ void ABMVotante::Add(Votante votante){
 bool ABMVotante::Delete(Votante votante){
 
 	if (this->directorio->existKey(Helper::LongToString(votante.GetDni()))){
-		return (this->directorio->remove(Helper::LongToString(votante.GetDni())));
+		this->directorio->remove(Helper::LongToString(votante.GetDni()));
+
+		string aux= Helper::concatenar(votante.GetNombreYApellido(),votante.GetClave(),"|");
+				aux = Helper::concatenar(aux,votante.GetDomicilio(),"|");
+				aux = Helper::concatenar(aux,Helper::IntToString(votante.GetDistrito()),"|");
+
+		HashLog::LogProcess(this->directorio,"Votante_HashProcess.log");
+		HashLog::LogDelete(Helper::LongToString(votante.GetDni()),aux,"Votante_HashOperation.log");
+		return true;
 	}
 	else{
 		return false;
@@ -74,6 +85,10 @@ void ABMVotante::Modify(Votante votante){
 		}
 
 		this->directorio->modify(Helper::LongToString(votante.GetDni()),aux);
+
+
+		HashLog::LogProcess(this->directorio,"Votante_HashProcess.log");
+		HashLog::LogModify(Helper::LongToString(votante.GetDni()),aux,"Votante_HashOperation.log");
 	}
 
 }

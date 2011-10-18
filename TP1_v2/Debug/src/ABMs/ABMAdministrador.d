@@ -17,7 +17,9 @@ src/ABMs/ABMAdministrador.d src/ABMs/ABMAdministrador.o: \
  ../src/ABMs/../Hash/../Persistencia/AdmEspacioDisponible.h \
  ../src/ABMs/../Hash/../Persistencia/Archivo.h \
  ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h \
- ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h
+ ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h \
+ ../src/ABMs/../Logging/HashLog.h \
+ ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/../Logging/Log.h
 
 ../src/ABMs/ABMAdministrador.h:
 
@@ -66,3 +68,9 @@ src/ABMs/ABMAdministrador.d src/ABMs/ABMAdministrador.o: \
 ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h:
 
 ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h:
+
+../src/ABMs/../Logging/HashLog.h:
+
+../src/ABMs/../Logging/../Hash/Directory.h:
+
+../src/ABMs/../Logging/Log.h:
