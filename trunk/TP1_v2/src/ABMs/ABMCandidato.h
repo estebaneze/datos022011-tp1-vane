@@ -12,6 +12,7 @@
 #include "../Entidades/Candidato.h"
 #include "../Hash/Directory.h"
 #include "../Indexes/Index.h"
+#include "../Logging/HashLog.h"
 //Candidato (((lista)ie, (votante)ie, (cargo)ie)i): Hash
 
 class ABMCandidato {

@@ -30,6 +30,9 @@ void ABMAdministrador::Add(Administrador admin){
 
 	if (!(this->directorio->existKey(admin.GetUsuario()))){
 		this->directorio->insert(admin.GetUsuario(),admin.GetClave());
+
+		HashLog::LogProcess(this->directorio,"Admin_HashProccess.log");
+		HashLog::LogInsert(admin.GetUsuario(),admin.GetClave(),"Admin_HashOperation.log");
 	}
 }
 
@@ -37,7 +40,10 @@ void ABMAdministrador::Add(Administrador admin){
 bool ABMAdministrador::Delete(Administrador admin){
 
 	if (this->directorio->existKey(admin.GetUsuario())){
-		return (this->directorio->remove(admin.GetUsuario()));
+		this->directorio->remove(admin.GetUsuario());
+		HashLog::LogProcess(this->directorio,"Admin_HashProccess.log");
+		HashLog::LogDelete(admin.GetUsuario(),admin.GetClave(),"Admin_HashOperation.log");
+		return true;
 	}
 	else{
 		return false;
@@ -51,6 +57,8 @@ void ABMAdministrador::ModifyPassword(Administrador admin){
 
 	if (this->directorio->existKey(admin.GetUsuario())){
 		this->directorio->modify(admin.GetUsuario(),admin.GetClave());
+		HashLog::LogProcess(this->directorio,"Admin_HashProccess.log");
+		HashLog::LogModify(admin.GetUsuario(),admin.GetClave(),"Admin_HashOperation.log");
 	}
 
 }
