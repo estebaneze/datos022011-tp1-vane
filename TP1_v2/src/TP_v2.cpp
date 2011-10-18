@@ -46,7 +46,7 @@ void testABMDistrito()
 
 	Distrito d1 = Distrito(6,"Esteban Echeverria");
 	Distrito d2 = Distrito(7,"Lomas de zamora");
-	ABMDistrito *abmDistrito = new ABMDistrito("distri.lore");
+	ABMDistrito *abmDistrito = new ABMDistrito("dis_lore");
 
 	cout << "Pruebo el alta de dos distritos:"<<endl;
 	abmDistrito->Add(d1);
@@ -66,44 +66,39 @@ void testABMDistrito()
 
 void testConteo(){
 
-	ABMConteo abm = ABMConteo("conteo.bt", "indexConteoDistrito.ix", "indexConteoEleccion.ix", "indexConteoLista.ix");
+	ABMConteo *abm = new ABMConteo("conteo_ri");
 
-	cout << endl << "Nuevo registro de conteo" << endl;
-	cout << "Id distrito: ";
-	string idDistrito = "4";
-	//cin >> idDistrito;
+	/*
+	int idDistrito;
+	int idLista;
+	int idEleccion = 1;
 
-	cout << "Id Lista: ";
-	string idLista = "4";
-	//cin >> idLista;
+	for (int i=0; i<5; i++)
+	{
+		idDistrito = i;
 
-	cout << "Id Eleccion: ";
-	string idEleccion = "4";
-	//cin >> idEleccion;
-
-	abm.Add(Helper::StringToInt(idLista), Helper::StringToInt(idDistrito), Helper::StringToInt(idEleccion));
-
-	/*cout << endl << endl;
-	cout << "Ingrese id distrito a buscar: ";
-	cin >> idDistrito;
-
-
-	vector<Conteo> conteos = abm.GetConteoByDistrito(Helper::StringToInt(idDistrito));
-	cout << "Conteos del distrito: " << idDistrito << endl;
-	for(int i = 0; i < conteos.size(); i++){
-		cout << conteos[i].GetId() << endl;
+		for (int j=20; j<25; j++)
+		{
+			idLista = j;
+			abm.Add(idLista, idDistrito, idEleccion);
+		}
 	}
+	*/
 
-	cout << endl << endl;
-	cout << "Ingrese id Lista a buscar: ";
-	cin >> idLista;
-
-	conteos = abm.GetConteoByLista(Helper::StringToInt(idLista));
-	cout << "Conteos del lista :" << idLista << endl;
+/*
+	string idDistritoReporte = "3";
+	vector<Conteo> conteos = abm.GetConteoByDistrito(Helper::StringToInt(idDistritoReporte));
+	cout << "Conteos del distrito: " << idDistritoReporte << endl;
 	for(int i = 0; i < conteos.size(); i++){
-		cout << conteos[i].GetId() << endl;
+		cout << "Conteo:" <<conteos[i].GetId() << endl;
+		cout << "Distrito:" << conteos[i].GetIdDistrito() << endl;
+		cout << "Lista:" << conteos[i].GetIdLista() << endl;
+		cout << "Eleccion:" << conteos[i].GetIdEleccion() << endl;
 	}
-	 */
+	*/
+
+	cout << "Arbol Conteo:"<<endl;
+	abm->mostrarConteoPorPantalla();
 }
 
 
@@ -369,9 +364,9 @@ int main( int arg, char *argv[] ){
 //	BPlusTreeTest btest = BPlusTreeTest();
 //	btest.run();
 
-//	testConteo();
+	testConteo();
 	//pruebaListas();
-	testABMDistrito();
+	//testABMDistrito();
 	//pruebaArbol();
 
 	//testLogging();
