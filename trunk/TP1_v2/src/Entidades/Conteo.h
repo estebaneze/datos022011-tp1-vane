@@ -5,26 +5,26 @@
  *      Author: minnie
  */
 
+#include "../Common/Common.h"
+
 #ifndef CONTEO_H_
 #define CONTEO_H_
 
 //Conteo (((lista)ie, (distrito)ie, (eleccion)ie)i, cantidad): Arbol B+
 
-using namespace std;
-
 class Conteo {
 
 	public:
-		Conteo(int idLista, int idDistrito, int idEleccion, int idConteo);
+		Conteo(std::string  idLista, int idDistrito, int idEleccion, int idConteo);
 		virtual ~Conteo();
-		int GetIdLista();
+		string  GetIdLista();
 		int GetIdDistrito();
 		int GetIdEleccion();
 		void AddVoto();
 		int GetCountVotos();
 		int GetId();
 	private:
-		int _idLista;
+		string  _idLista;
 		int _idDistrito;
 		int _idEleccion;
 		int _countVotos;
