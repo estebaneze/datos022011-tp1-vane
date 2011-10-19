@@ -28,6 +28,11 @@ class ABMConteo {
 		vector<Conteo> GetConteoByEleccion(int idEleccion);
 		Conteo* GetConteo(int idConteo);
 
+		/* Le suma un voto al registro y devuelve la cantidad de votos totales */
+		int AddVoto(int idConteo);
+
+		/*Busca el registro de Conteo segun la lisa, distrito y eleccion y le suma un voto. Devuelve la cantidad de votos totales*/
+		int AddVoto(string idLista, int idDistrito, int idEleccion);
 	private:
 		BPlusTree* bplusTree;
 		Index* indexByDistrito;

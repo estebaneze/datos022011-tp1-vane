@@ -489,31 +489,83 @@ void testConteo2(){
 
 void Votar(Votante* votante){
 
-	ABMConteo abm = ABMConteo();//, "conteoIxDistrito", "conteoIxLista", "conteoIxEleccion");
+	cout << "--------------------------------------------------------------------" << endl;
+	cout << "--------------------------------------------------------------------" << endl;
+	ABMConteo *abm = new ABMConteo();
 
-	//Registros de conteo
-	for (int i = 0;  i < 10; i++){
-		int id = abm.Add("1", votante->GetDistrito() + 1, i+1);
-	}
-
-	for (int i = 10;  i < 20; i++){
-		int id = abm.Add("1", votante->GetDistrito(), i+1);
-	}
-
-
-
-	//Falta buscar por eleccion
-	cout << "Listas disponibles en su distrito(" << votante->GetDistrito() <<  "): " << endl;
-	ABMLista ls = ABMLista("listas.gs", "ixListas");
-	//ls.GetListasByEleccion()
-
+	int idDistrito;
 	string idLista;
-	cout << "Id de lista que desea votar: ";
-	cin >> idLista;
-	vector<Conteo> c = abm.GetConteoByLista(idLista);
-	//c->AddVoto();
+	int idEleccion = 1;
 
-	//cout << endl << c->GetCountVotos() << endl;
+	//for (int i=0; i<100; i++)
+	//{
+		//idDistrito = i;
+
+		for (int j = 1; j < 10; j++)
+		{
+			idLista = Helper::IntToString(j);
+			if(j > 6){
+				abm->Add(idLista, votante->GetDistrito(), 17);	//Le asigno algunas listas al distrito del votante para probar
+			}
+			else{
+				abm->Add(idLista, j+2, j+1);
+			}
+		}
+	//}
+
+		cout << "\n\n\nRegistros de Conteo:\n\n";
+		abm->mostrarConteoPorPantalla();
+		cout << "\n\n\n";
+
+		cout << "--------------------------------------------------------------------" << endl;
+		cout << "Usted va a votar en la elección número: 17" << endl;	//ACA HAY QUE SELECCIONAR LA ELECCION POR LA FECHA DE HOY, FALTAN HACER LOS INDICES DE ELECCION POR FECHA
+		cout << "--------------------------------------------------------------------\n\n\n" << endl;
+
+	string continuar = "yes";
+
+	while(continuar == "yes"){
+
+
+		cout << "Listas disponibles en su distrito(" << votante->GetDistrito() <<  "): " << endl;
+		vector<Conteo> byDistrito = abm->GetConteoByDistrito(votante->GetDistrito());
+		for(int i = 0; i < byDistrito.size(); i++){
+
+			if(byDistrito[i].GetIdEleccion() == 17)	{//17 es la eleccion que le toca votar (HAY QUE SELECCIONAR LA ELECCION POR LA FECHA DE HOY)
+				cout << "	Lista: " << byDistrito[i].GetIdLista() << endl;
+			}
+
+		}
+
+		idLista;
+		cout << endl << endl << endl << "Ingrese la lista que desee votar: ";
+		cin >> idLista;
+
+		//Votar:
+		bool founded = false;
+		for(int i = 0; i < byDistrito.size(); i++){
+
+			if(byDistrito[i].GetIdLista() == idLista && byDistrito[i].GetIdEleccion() == 17){
+				//Encontre el registro en el cual tengo que votar
+				Conteo c = byDistrito[i];
+				int cantidadVotos = abm->AddVoto(c.GetId());
+				cout <<endl<<endl<<endl <<  "Usted voto la Lista " << c.GetIdLista() << ". Tiene un total del votos de: " << cantidadVotos << endl;
+				founded = true;
+			}
+		}
+		if(!founded){
+			cout << endl<<endl << "La lista ingresada no fue encontrada -----------------------" << endl;
+		}
+
+		/***************************************
+		 * ESTO ES PARA PROBAR QUE SE VAYAN SUMANDO LOS VOTOS - NO VA A ESTAR ASI POR QUE CADA PERSONA TIENE QUE VOTAR UNA SOLA VEZ
+		 * ADEMAS ME FALTA ANOTAR EN CADA ELECCION QUE LA PERSONA YA VOTO
+		*/
+
+		cout << "Votar de nuevo (yes/no):";
+		cin >> continuar;
+	}
+
+	cout << endl << endl << "Adios!!! --------------------------------------------------------------------" << endl << endl;
 }
 
 void Ingresar(){
@@ -529,9 +581,9 @@ void Ingresar(){
 
 	ABMVotante abm = ABMVotante("votantes.ga");
 	Votante* votante = abm.GetVotante(Helper::StringToLong(dni));
-	votante->Authenticate(clave);
-	if(votante != NULL){
-		cout << "Bienvenido " << votante->GetNombreYApellido() << ". Usted pertenece al distrito: " << votante->GetDistrito() << endl;
+	bool login = votante->Authenticate(clave);
+	if(login){
+		cout << "\n\n\nBienvenido " << votante->GetNombreYApellido() << ". Usted pertenece al distrito: " << votante->GetDistrito() << endl<< endl<< endl;
 		Votar(votante);
 	}
 	else{
@@ -547,7 +599,7 @@ void agregarVotantes(){
 
 	for(int i = 1; i < 400; i++){
 
-		string nombre = "Candidato ";
+		string nombre = "Votante ";
 		string clave = "password";
 		Votante votante = Votante(i, nombre.append(Helper::IntToString(i)), clave.append(Helper::IntToString(i)), "domicilio", i+1);
 		votantes.Add(votante);
@@ -584,11 +636,13 @@ void agregarDistritos(){
 	}
 }
 
+
 int main( int arg, char *argv[] ){
 
 	//agregarDistritos();
-	//Ingresar();
-	//agregarVotantes();
+
+	agregarVotantes();
+	Ingresar();
 	//testCandidato2();
 
 //	BPlusTreeTest btest = BPlusTreeTest();
@@ -598,7 +652,7 @@ int main( int arg, char *argv[] ){
 
 //	testConteo();
 	//pruebaListas();
-	pruebaListas2();
+//	pruebaListas2();
 //	testABMDistrito();
 	//pruebaArbol();
 

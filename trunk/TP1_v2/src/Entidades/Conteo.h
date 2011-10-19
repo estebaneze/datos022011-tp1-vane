@@ -15,12 +15,14 @@
 class Conteo {
 
 	public:
+		Conteo();
 		Conteo(std::string  idLista, int idDistrito, int idEleccion, int idConteo);
+		Conteo(std::string  idLista, int idDistrito, int idEleccion, int idConteo, int cantVotos);
 		virtual ~Conteo();
 		string  GetIdLista();
 		int GetIdDistrito();
 		int GetIdEleccion();
-		void AddVoto();
+		int AddVoto();
 		int GetCountVotos();
 		int GetId();
 	private:
