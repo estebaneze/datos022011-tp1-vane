@@ -169,29 +169,113 @@ void pruebaListas(){
 }
 
 
+
+void pruebaListas2(){
+
+	ABMLista Listas = ABMLista("lista.ga", "indexLista.ix");
+
+	Lista l1 = Lista("alonso8", 2);
+	Lista l2 = Lista("dos", 3);
+	Lista l3 = Lista("tres", 4);
+	Lista l4 = Lista("cuatro", 2);
+	Lista l5 = Lista("cinco", 3);
+	Lista l6 = Lista("seis", 4);
+	Lista l7 = Lista("siete", 4);
+	Lista l8 = Lista("ocho", 4);
+	Lista l9 = Lista("aa",9);
+	Listas.Add(l1);
+	Listas.Add(l2);
+	Listas.Add(l3);
+	Listas.Add(l4);
+	Listas.Add(l5);
+	Listas.Add(l6);
+	Listas.Add(l7);
+	Listas.Add(l8);
+	Listas.Add(l9);
+
+	cout << endl << endl;
+	//Listas.Add(l8);
+	cout << "Listas: " << endl;
+	vector<Lista> ls = Listas.GetListas();
+		for(int i = 0; i < ls.size(); i++){
+			cout << ls[i].GetNombre() << " - Eleccion: " << ls[i].GetEleccion() << endl;
+	}
+
+	//Listas.mostrarListasPorPantalla();
+
+		cout << endl << endl << "------------------------------------------" << endl;;
+
+		vector<Lista> ls2 = Listas.GetListasByEleccion(3);
+			cout << "\nListas correspondientes a la elccion " << 3 << endl << endl;
+			for(int i = 0; i < ls2.size(); i++){
+					cout << ls2[i].GetNombre() << " - Eleccion: " << ls2[i].GetEleccion() << endl;
+			}
+
+			cout << endl << endl;
+
+			ls2 = Listas.GetListasByEleccion(7);
+				cout << "\nListas correspondientes a la elccion " << 7 << endl << endl;
+				for(int i = 0; i < ls2.size(); i++){
+						cout << ls2[i].GetNombre() << " - Eleccion: " << ls2[i].GetEleccion() << endl;
+				}
+
+
+	cout << endl << endl << "------------------------------------------" << endl << "Modificar lista " << endl << "Ingrese Nombre de Lista: ";
+	string nombreLista;
+	cin >> nombreLista;
+	cout << "Ingrese id Eleccion: ";
+	string idEleccion;
+	cin >> idEleccion;
+
+
+	cout << endl << endl << "Modificar lista - Nombre:" << nombreLista<< "- Eleccion: " << idEleccion<<endl;
+
+	Lista l = Lista(nombreLista, Helper::StringToInt(idEleccion));
+	Listas.Modify(l);
+
+	//Listas.mostrarListasPorPantalla();
+
+	cout << endl;
+/*	cout << "Listas: " << endl;
+	ls = Listas.GetListas();
+	for(int i = 0; i < ls.size(); i++){
+		cout << ls[i].GetNombre() << " - Eleccion: " << ls[i].GetEleccion() << endl;
+	}
+*/
+	cout << endl << endl << "------------------------------------------" << endl;;
+	 ls2 = Listas.GetListasByEleccion(7);
+		cout << "\nListas correspondientes a la elccion " << 7 << endl << endl;
+		for(int i = 0; i < ls2.size(); i++){
+				cout << ls2[i].GetNombre() << " - Eleccion: " << ls2[i].GetEleccion() << endl;
+		}
+
+		cout << endl << endl << "------------------------------------------" << endl;;
+		 ls2 = Listas.GetListasByEleccion(3);
+			cout << "\nListas correspondientes a la elccion " << 3 << endl << endl;
+			for(int i = 0; i < ls2.size(); i++){
+					cout << ls2[i].GetNombre() << " - Eleccion: " << ls2[i].GetEleccion() << endl;
+			}
+
+}
+
+
 void testCandidato2(){
 
 	cout << endl;
 	ABMCandidato abmc = ABMCandidato("candidato.ga");
 	cout << endl;
 
-	for(int i = 1; i < 20; i++){
+	for(int i = 1; i < 5; i++){
 		abmc.Add(i,i,i);
 	}
 
-	cout << "Candidatos: "<< endl;
-	abmc.mostrarCandidatosPorPantalla();
-
-	cout << "-----------------------------------------------------";
-	cout << "-----------------------------------------------------" << endl;
-	cout << "prueba abmc.GetCandidatos(): " << endl;
 	vector<Candidato> cs = abmc.GetCandidatos();
-
 	cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;
 	for(int i = 0; i < cs.size(); i++){
 		cout << cs[i].GetId() << " - lista: " << cs[i].GetIdLista() << " - cargo: " << cs[i].GetIdCargo() << " - votante: " << cs[i].GetIdVotante() <<endl;
 	}
 	cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;
+	cout << "------------------------------------------------------------------" << endl;
 
 
 }
@@ -505,15 +589,16 @@ int main( int arg, char *argv[] ){
 	//agregarDistritos();
 	//Ingresar();
 	//agregarVotantes();
-	testCandidato2();
+	//testCandidato2();
 
 //	BPlusTreeTest btest = BPlusTreeTest();
 //	btest.run();
 
 	//testConteo2();
 
-	testConteo();
+//	testConteo();
 	//pruebaListas();
+	pruebaListas2();
 //	testABMDistrito();
 	//pruebaArbol();
 

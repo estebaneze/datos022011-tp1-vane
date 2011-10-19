@@ -8,6 +8,7 @@
 #include "Lista.h"
 
 Lista::Lista(string nombre, int idEleccion) {
+
 	_nombre = nombre;
 	_idEleccion = idEleccion;
 

@@ -76,8 +76,6 @@ string Helper::concatenar(vector<string> values, string delimitador){
 			aux.append(delimitador);
 	}
 
-	cout << "Concat: " << aux.c_str() << endl;
-
 	return aux;
 
 }
@@ -93,8 +91,6 @@ string Helper::concatenar(vector<int> values, string delimitador){
 			aux.append(delimitador);
 	}
 
-	cout << "Concat: " << aux.c_str() << endl;
-
 	return aux;
 
 }
@@ -105,8 +101,6 @@ string Helper::concatenar(string value1,string value2, string delimitador){
 	aux.append(value1);
 	aux.append(delimitador);
 	aux.append(value2);
-
-	cout << aux.c_str() << endl;
 
 	return aux;
 

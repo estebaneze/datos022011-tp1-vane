@@ -19,7 +19,6 @@ using namespace std;
 class ABMConteo {
 
 	public:
-
 		ABMConteo();
 		void mostrarConteoPorPantalla();
 		virtual ~ABMConteo();
@@ -27,6 +26,8 @@ class ABMConteo {
 		vector<Conteo> GetConteoByDistrito(int idDistrito);
 		vector<Conteo> GetConteoByLista(string idLista);
 		vector<Conteo> GetConteoByEleccion(int idEleccion);
+		Conteo* GetConteo(int idConteo);
+
 	private:
 		BPlusTree* bplusTree;
 		Index* indexByDistrito;
