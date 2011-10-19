@@ -7,7 +7,7 @@
 
 #include "Conteo.h"
 
-Conteo::Conteo(int idLista, int idDistrito, int idEleccion, int idConteo) {
+Conteo::Conteo(string idLista, int idDistrito, int idEleccion, int idConteo) {
 
 	this->_idDistrito = idDistrito;
 	this-> _idLista = idLista;
@@ -16,7 +16,7 @@ Conteo::Conteo(int idLista, int idDistrito, int idEleccion, int idConteo) {
 
 }
 
-int Conteo::GetIdLista(){
+string Conteo::GetIdLista(){
 	return _idLista;
 }
 
