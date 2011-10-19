@@ -7,6 +7,13 @@
 
 #include "Helper.h"
 
+string Helper::FloatToString(float value){
+
+	std::stringstream out;
+	out << value;
+	return out.str();
+}
+
 string Helper::LongToString(long value){
 
 	std::stringstream out;

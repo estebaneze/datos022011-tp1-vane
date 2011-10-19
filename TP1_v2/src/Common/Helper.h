@@ -29,6 +29,7 @@ using namespace std;
 
 class Helper {
 	public:
+		static string FloatToString(float value);
 		static string LongToString(long value);
 		static long StringToLong(string value);
 		static string IntToString(int value);
