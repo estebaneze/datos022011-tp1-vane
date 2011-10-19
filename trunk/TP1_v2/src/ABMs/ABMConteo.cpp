@@ -22,12 +22,12 @@ ABMConteo::ABMConteo() {
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
 /********* OJO: BUG EN EL INDICE, VER IMPLE DEL INDICE *****************/
-int ABMConteo::Add(int idLista, int idDistrito, int idEleccion){
+int ABMConteo::Add(string idLista, int idDistrito, int idEleccion){
 
 	int idConteo = Identities::GetNextIdConteo();
 
 	Key key = Helper::IntToString(idConteo);
-	string str = Helper::IntToString(idLista).append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion));
+	string str = idLista.append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion));
 	Data data = (Data)str.c_str();
 	int longData = str.length();
 
@@ -36,7 +36,7 @@ int ABMConteo::Add(int idLista, int idDistrito, int idEleccion){
 
 	//Actualizo los indices
 	this->indexByDistrito->AppendToIndex(Helper::IntToString(idDistrito), Helper::IntToString(idConteo));
-	this->indexByLista->AppendToIndex(Helper::IntToString(idLista), Helper::IntToString(idConteo));
+	this->indexByLista->AppendToIndex(idLista, Helper::IntToString(idConteo));
 	this->indexByEleccion->AppendToIndex(Helper::IntToString(idEleccion), Helper::IntToString(idConteo));
 
 	return idConteo;
@@ -52,7 +52,7 @@ vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
 		int kint = Helper::StringToInt(ids[i]);
 		Element* elemento = this->bplusTree->findExact(ids[i]);
 		vector<string> splited = Helper::split(elemento->getData(), '|');
-		Conteo c = Conteo(Helper::StringToInt(splited[0]), Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), Helper::StringToInt(ids[i]));
+		Conteo c = Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), Helper::StringToInt(ids[i]));
 
 		conteos.push_back(c);
 	}
@@ -71,23 +71,23 @@ vector<Conteo> ABMConteo::GetConteoByEleccion(int idEleccion){
 
 		vector<string> splited = Helper::split(elemento->getData(), '|');
 
-		Conteo c = Conteo(Helper::StringToInt(splited[0]), Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), Helper::StringToInt(ids[i]));
+		Conteo c = Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), Helper::StringToInt(ids[i]));
 		conteos.push_back(c);
 	}
 
 	return conteos;
 }
 
-vector<Conteo> ABMConteo::GetConteoByLista(int idLista){
+vector<Conteo> ABMConteo::GetConteoByLista(string idLista){
 
 
 	vector<Conteo> conteos;
-	vector<Key> ids = this->indexByLista->GetIds(Helper::IntToString(idLista));
+	vector<Key> ids = this->indexByLista->GetIds(idLista);
 
 	for(int i = 0; i < ids.size(); i++){
 		Element* elemento = this->bplusTree->findExact(ids[i]);
 		vector<string> splited = Helper::split(elemento->getData(), '|');
-		Conteo c = Conteo(Helper::StringToInt(splited[0]), Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), Helper::StringToInt(ids[i]));
+		Conteo c = Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), Helper::StringToInt(ids[i]));
 
 		conteos.push_back(c);
 	}
