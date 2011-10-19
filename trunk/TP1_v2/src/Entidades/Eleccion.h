@@ -6,6 +6,7 @@
  */
 
 #include "../Common/Common.h"
+#include "../utils/Fecha.h"
 
 #ifndef ELECCION_H_
 #define ELECCION_H_
@@ -13,20 +14,19 @@
 class Eleccion {
 
 	public:
-		Eleccion(int idCargo, Date date);
+		Eleccion(int idCargo, Fecha date);
 		virtual ~Eleccion();
-		Date GetDate();
+		Fecha GetDate();
 		int GetIdCargo();
-		int GetId();
-		vector<int> GetDistritos();
+		IntegerList GetDistritos();
 		void AddDistrito(int idDistrito);
 		void RemoveDistrito(int idDistrito);
 
 	private:
 		int _id;
-		Date _date;
+		Fecha _date;
 		int _idCargo;
-		vector<int> _distritos;
+		IntegerList _distritos;
 };
 
 #endif /* ELECCION_H_ */

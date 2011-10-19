@@ -21,13 +21,5 @@
 
 using namespace std;
 
-struct Date{
-
-	ushort Day;
-	ushort Month;
-	ushort Year;
-};
-
-
 #endif /* COMMON_H_ */
 

@@ -7,7 +7,7 @@
 
 #include "Eleccion.h"
 
-Eleccion::Eleccion(int idCargo, Date date) {
+Eleccion::Eleccion(int idCargo, Fecha date) {
 
 	_idCargo = idCargo;
 	_date = date;
@@ -16,19 +16,15 @@ Eleccion::Eleccion(int idCargo, Date date) {
 
 void Eleccion::RemoveDistrito(int idDistrito){
 
-	//_distritos.Remove(idDistrito);
-}
-
-int Eleccion::GetId(){
-	return _id;
+	_distritos.Remove(idDistrito);
 }
 
 void Eleccion::AddDistrito(int idDistrito){
 
-	_distritos.push_back(idDistrito);
+	_distritos.Add(idDistrito);
 }
 
-Date Eleccion::GetDate(){
+Fecha Eleccion::GetDate(){
 	return _date;
 }
 
@@ -36,7 +32,7 @@ int Eleccion::GetIdCargo(){
 	return _idCargo;
 }
 
-vector<int> Eleccion::GetDistritos(){
+IntegerList Eleccion::GetDistritos(){
 	return _distritos;
 }
 
