@@ -14,8 +14,10 @@
 #include "../Logging/HashLog.h"
 
 class ABMVotante {
+
 public:
-	ABMVotante(string file);
+
+	ABMVotante();
 	virtual ~ABMVotante();
 	bool existKey(Votante votante);
 	void Add(Votante votante);

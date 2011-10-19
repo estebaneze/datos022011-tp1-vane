@@ -10,9 +10,10 @@
 /*
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
-ABMVotante::ABMVotante(string file) {
+ABMVotante::ABMVotante() {
 
-	this->file = file;
+	string hashFile = "conteo";
+	this->file = hashFile;
 	this->directorio = new Directory(file,2048);
 
 	//Descomentar esto si quiere verse el contenido del archivo por pantalla

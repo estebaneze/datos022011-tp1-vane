@@ -12,7 +12,9 @@
 #include "../Common/Identities.h"
 #include "../Indexes/Index.h"
 #include "../Entidades/Conteo.h"
+#include "../Entidades/Votante.h"
 #include "../Common/Helper.h"
+#include "ABMVotante.h"
 
 using namespace std;
 
@@ -29,15 +31,19 @@ class ABMConteo {
 		Conteo* GetConteo(int idConteo);
 
 		/* Le suma un voto al registro y devuelve la cantidad de votos totales */
-		int AddVoto(int idConteo);
+		void AddVoto(int idConteo, Votante* votante);
 
 		/*Busca el registro de Conteo segun la lisa, distrito y eleccion y le suma un voto. Devuelve la cantidad de votos totales*/
-		int AddVoto(string idLista, int idDistrito, int idEleccion);
+		void AddVoto(string idLista, int idDistrito, int idEleccion, Votante* votante);
+
 	private:
 		BPlusTree* bplusTree;
 		Index* indexByDistrito;
 		Index* indexByEleccion;
 		Index* indexByLista;
+
+		/* Le avisa al Votante que ya voto en esta eleccion */
+		void NotifyVotante(Votante* votante, int idEleccion);
 };
 
 #endif /* ABMCONTEO_H_ */

@@ -84,6 +84,10 @@ void Votante::AgregarEleccion(int idEleccion){
 	}
 }
 
+void Votante::SetEleccionesVotadas(IntegerList eleccionesVotadas){
+	this->_listaElecciones = eleccionesVotadas;
+}
+
 Votante::~Votante() {
 	// TODO Auto-generated destructor stub
 }
