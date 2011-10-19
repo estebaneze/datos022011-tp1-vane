@@ -29,6 +29,8 @@ class Index {
 		 * Id Key, lo crea */
 		void AppendToIndex(Key key, Key value);
 
+		void AppendToIndex(Key key,Key oldKey, Key value);
+
 
 	private:
 		string hashFile;

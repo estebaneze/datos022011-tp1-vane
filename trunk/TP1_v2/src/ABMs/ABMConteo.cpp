@@ -42,6 +42,14 @@ int ABMConteo::Add(string idLista, int idDistrito, int idEleccion){
 	return idConteo;
 }
 
+Conteo* ABMConteo::GetConteo(int idConteo){
+
+	Element* elemento = this->bplusTree->findExact(Helper::IntToString(idConteo));
+	vector<string> splited = Helper::split(elemento->getData(), '|');
+	return new Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), idConteo);
+
+}
+
 vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
 
 	vector<Conteo> conteos;

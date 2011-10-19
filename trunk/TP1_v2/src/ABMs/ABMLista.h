@@ -11,7 +11,7 @@
 #include "../Common/Common.h"
 #include "../Entidades/Lista.h"
 #include "../Hash/Directory.h"
-#include "../Indexes/ListaIndex.h"
+#include "../Indexes/Index.h"
 #include "../Logging/HashLog.h"
 #include "../utils/ConfigFile.h"
 
@@ -23,7 +23,7 @@ class ABMLista {
 		bool existKey(Lista lista);
 		void Add(Lista lista);
 		bool Delete(Lista lista);
-		void ModifyEleccion(Lista lista);
+		void Modify(Lista lista);
 		vector<Lista> GetListas();
 		Lista* GetLista(std::string nombre);
 		void mostrarListasPorPantalla();
@@ -32,7 +32,7 @@ class ABMLista {
 	private:
 			string hashFile;
 			Directory* directorio;
-			ListaIndex* index;
+			Index* index;
 };
 
 #endif /* ABMLISTA_H_ */
