@@ -9,6 +9,7 @@ CPP_SRCS += \
 ../src/ABMs/ABMCargo.cpp \
 ../src/ABMs/ABMConteo.cpp \
 ../src/ABMs/ABMDistrito.cpp \
+../src/ABMs/ABMEleccion.cpp \
 ../src/ABMs/ABMLista.cpp \
 ../src/ABMs/ABMVotante.cpp 
 
@@ -18,6 +19,7 @@ OBJS += \
 ./src/ABMs/ABMCargo.o \
 ./src/ABMs/ABMConteo.o \
 ./src/ABMs/ABMDistrito.o \
+./src/ABMs/ABMEleccion.o \
 ./src/ABMs/ABMLista.o \
 ./src/ABMs/ABMVotante.o 
 
@@ -27,6 +29,7 @@ CPP_DEPS += \
 ./src/ABMs/ABMCargo.d \
 ./src/ABMs/ABMConteo.d \
 ./src/ABMs/ABMDistrito.d \
+./src/ABMs/ABMEleccion.d \
 ./src/ABMs/ABMLista.d \
 ./src/ABMs/ABMVotante.d 
 

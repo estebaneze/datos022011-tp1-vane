@@ -249,6 +249,7 @@ void Directory::replaceTable(Offset oldOffset, Offset newOffset){
  * o tira la excepcion en caso de no encontrar el elemento
  **/
 string Directory::find (Key key){
+
 	// busco la posicion de la tabla correspondiente a la dispersion.
 	unsigned int pos = buscarPosicionTabla(key);
 	// obtengo el offset del Bucket correspondiente a esa posicion.
@@ -265,6 +266,7 @@ string Directory::find (Key key){
  */
 bool Directory::existKey (Key key){
 	// busco la posicion de la tabla correspondiente a la dispersion.
+
 	unsigned int pos = buscarPosicionTabla(key);
 	// obtengo el offset del Bucket correspondiente a esa posicion.
 	Offset offset = tabla->getElement(pos);

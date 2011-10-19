@@ -68,6 +68,7 @@ void ABMDistrito::Modify(Distrito distrito){
  * Falta implementar
  */
 vector<Distrito> ABMDistrito::GetDistritos(){
+
 	vector<Distrito> distritos;
 	return distritos;
 }

@@ -56,7 +56,8 @@ src/TP_v2.d src/TP_v2.o: ../src/TP_v2.cpp ../src/BPlusTreeTest.h \
  ../src/ABMs/../BPlusTree/BPlusTree.h ../src/ABMs/../Common/Identities.h \
  ../src/ABMs/../Entidades/Conteo.h ../src/ABMs/../Common/Helper.h \
  ../src/ABMs/ABMDistrito.h ../src/ABMs/../Entidades/Distrito.h \
- ../src/ABMs/../BPlusTree/Element.h
+ ../src/ABMs/../BPlusTree/Element.h ../src/ABMs/ABMVotante.h \
+ ../src/ABMs/../Entidades/Votante.h
 
 ../src/BPlusTreeTest.h:
 
@@ -213,3 +214,7 @@ src/TP_v2.d src/TP_v2.o: ../src/TP_v2.cpp ../src/BPlusTreeTest.h \
 ../src/ABMs/../Entidades/Distrito.h:
 
 ../src/ABMs/../BPlusTree/Element.h:
+
+../src/ABMs/ABMVotante.h:
+
+../src/ABMs/../Entidades/Votante.h:
