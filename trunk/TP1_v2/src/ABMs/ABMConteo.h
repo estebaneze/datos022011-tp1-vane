@@ -20,7 +20,7 @@ class ABMConteo {
 
 	public:
 
-		ABMConteo(string BPTree, string indexByDistritoFile, string indexByListaFile, string indexByEleccionFile);/*pasar sin extension*/
+		ABMConteo();
 		void mostrarConteoPorPantalla();
 		virtual ~ABMConteo();
 		int Add(int idLista, int idDistrito, int idEleccion);
@@ -28,7 +28,6 @@ class ABMConteo {
 		vector<Conteo> GetConteoByLista(int idLista);
 		vector<Conteo> GetConteoByEleccion(int idEleccion);
 	private:
-		string bpTreeFile;
 		BPlusTree* bplusTree;
 		Index* indexByDistrito;
 		Index* indexByEleccion;
