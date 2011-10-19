@@ -7,12 +7,26 @@
 
 #include "Conteo.h"
 
+Conteo::Conteo(){
+	this->_countVotos = 0;
+}
+
 Conteo::Conteo(string idLista, int idDistrito, int idEleccion, int idConteo) {
 
 	this->_idDistrito = idDistrito;
 	this-> _idLista = idLista;
 	this->_idEleccion = idEleccion;
 	this->_id = idConteo;
+	this->_countVotos = 0;
+}
+
+Conteo::Conteo(string idLista, int idDistrito, int idEleccion, int idConteo, int cantVotos) {
+
+	this->_idDistrito = idDistrito;
+	this-> _idLista = idLista;
+	this->_idEleccion = idEleccion;
+	this->_id = idConteo;
+	this->_countVotos = cantVotos;
 
 }
 
@@ -28,8 +42,16 @@ int Conteo::GetIdEleccion(){
 	return _idEleccion;
 }
 
-void Conteo::AddVoto(){
-	this->_countVotos = this->_countVotos++;
+int Conteo::AddVoto(){
+
+	if(this->_countVotos <= 0){
+		this->_countVotos = 1;
+	}
+	else{
+		this->_countVotos = this->_countVotos++;
+	}
+
+	return _countVotos;
 }
 
 int Conteo::GetCountVotos(){
