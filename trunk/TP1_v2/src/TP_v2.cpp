@@ -78,7 +78,7 @@ void testConteo(){
 		for (int j=100; j<200; j++)
 		{
 			idLista = j;
-			abm->Add(idLista, idDistrito, idEleccion);
+			abm->Add(Helper::IntToString(idLista), idDistrito, idEleccion);
 		}
 	}
 
@@ -378,7 +378,7 @@ void testConteo2(){
 	string idEleccion = "4";
 	cin >> idEleccion;
 
-	abm.Add(Helper::StringToInt(idLista), Helper::StringToInt(idDistrito), Helper::StringToInt(idEleccion));
+	abm.Add(idLista, Helper::StringToInt(idDistrito), Helper::StringToInt(idEleccion));
 
 	cout << endl << endl;
 	cout << "Ingrese id distrito a buscar: ";
@@ -395,7 +395,7 @@ void testConteo2(){
 	cout << "Ingrese id Lista a buscar: ";
 	cin >> idLista;
 
-	conteos = abm.GetConteoByLista(Helper::StringToInt(idLista));
+	conteos = abm.GetConteoByLista(idLista);
 	cout << "Conteos del lista :" << idLista << endl;
 	for(int i = 0; i < conteos.size(); i++){
 		cout << conteos[i].GetId() << endl;
@@ -409,11 +409,11 @@ void Votar(Votante* votante){
 
 	//Registros de conteo
 	for (int i = 0;  i < 10; i++){
-		int id = abm.Add(1, votante->GetDistrito() + 1, i+1);
+		int id = abm.Add("1", votante->GetDistrito() + 1, i+1);
 	}
 
 	for (int i = 10;  i < 20; i++){
-		int id = abm.Add(1, votante->GetDistrito(), i+1);
+		int id = abm.Add("1", votante->GetDistrito(), i+1);
 	}
 
 
@@ -426,7 +426,7 @@ void Votar(Votante* votante){
 	string idLista;
 	cout << "Id de lista que desea votar: ";
 	cin >> idLista;
-	vector<Conteo> c = abm.GetConteoByLista(Helper::StringToInt(idLista));
+	vector<Conteo> c = abm.GetConteoByLista(idLista);
 	//c->AddVoto();
 
 	//cout << endl << c->GetCountVotos() << endl;
