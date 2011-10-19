@@ -67,28 +67,27 @@ void testABMDistrito()
 
 void testConteo(){
 
-	ABMConteo *abm = new ABMConteo("conteo_ri", "indexDistrito", "indexLista", "indexEleccion");
+	ABMConteo *abm = new ABMConteo();
 
-	/*
 	int idDistrito;
 	int idLista;
 	int idEleccion = 1;
 
-	for (int i=0; i<5; i++)
+	for (int i=0; i<100; i++)
 	{
 		idDistrito = i;
 
-		for (int j=20; j<25; j++)
+		for (int j=100; j<200; j++)
 		{
 			idLista = j;
-			abm.Add(idLista, idDistrito, idEleccion);
+			abm->Add(idLista, idDistrito, idEleccion);
 		}
 	}
-	*/
 
-/*
+	abm->mostrarConteoPorPantalla();
+	/*
 	string idDistritoReporte = "3";
-	vector<Conteo> conteos = abm.GetConteoByDistrito(Helper::StringToInt(idDistritoReporte));
+	vector<Conteo> conteos = abm->GetConteoByDistrito(Helper::StringToInt(idDistritoReporte));
 	cout << "Conteos del distrito: " << idDistritoReporte << endl;
 	for(int i = 0; i < conteos.size(); i++){
 		cout << "Conteo:" <<conteos[i].GetId() << endl;
@@ -97,9 +96,6 @@ void testConteo(){
 		cout << "Eleccion:" << conteos[i].GetIdEleccion() << endl;
 	}
 	*/
-
-	cout << "Arbol Conteo:"<<endl;
-	abm->mostrarConteoPorPantalla();
 }
 
 
@@ -369,7 +365,7 @@ void testConteo2(){
 	//system("rm conteo.bt.bpt");
 	//system("rm conteo.bt.bpt.fs");
 
-	ABMConteo abm = ABMConteo("conteo.bt", "indexConteoDistrito.ix", "indexConteoEleccion.ix", "indexConteoLista.ix");
+	ABMConteo abm = ABMConteo();
 
 	cout << endl << "Nuevo registro de conteo" << endl;
 	cout << "Id distrito: ";
@@ -419,7 +415,7 @@ int main( int arg, char *argv[] ){
 
 	//testConteo2();
 
-//	testConteo();
+	testConteo();
 	pruebaListas();
 //	testABMDistrito();
 	//pruebaArbol();
