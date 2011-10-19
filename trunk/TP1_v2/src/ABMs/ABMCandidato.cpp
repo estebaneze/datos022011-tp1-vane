@@ -13,7 +13,7 @@
 ABMCandidato::ABMCandidato(string hashFile) {
 
 	this->hashFile= hashFile;
-	this->directorio = new Directory(hashFile,2048);
+	this->directorio = new Directory(hashFile,512);
 
 	//Descomentar esto si quiere verse el contenido del archivo por pantalla
 	//this->directorio->inform();

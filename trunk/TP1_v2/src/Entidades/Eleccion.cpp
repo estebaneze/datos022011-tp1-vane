@@ -16,12 +16,16 @@ Eleccion::Eleccion(int idCargo, Date date) {
 
 void Eleccion::RemoveDistrito(int idDistrito){
 
-	_distritos.Remove(idDistrito);
+	//_distritos.Remove(idDistrito);
+}
+
+int Eleccion::GetId(){
+	return _id;
 }
 
 void Eleccion::AddDistrito(int idDistrito){
 
-	_distritos.Add(idDistrito);
+	_distritos.push_back(idDistrito);
 }
 
 Date Eleccion::GetDate(){
@@ -32,7 +36,7 @@ int Eleccion::GetIdCargo(){
 	return _idCargo;
 }
 
-IntegerList Eleccion::GetDistritos(){
+vector<int> Eleccion::GetDistritos(){
 	return _distritos;
 }
 

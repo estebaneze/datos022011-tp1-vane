@@ -17,7 +17,8 @@ class Eleccion {
 		virtual ~Eleccion();
 		Date GetDate();
 		int GetIdCargo();
-		IntegerList GetDistritos();
+		int GetId();
+		vector<int> GetDistritos();
 		void AddDistrito(int idDistrito);
 		void RemoveDistrito(int idDistrito);
 
@@ -25,7 +26,7 @@ class Eleccion {
 		int _id;
 		Date _date;
 		int _idCargo;
-		IntegerList _distritos;
+		vector<int> _distritos;
 };
 
 #endif /* ELECCION_H_ */

@@ -130,9 +130,11 @@ vector<Votante> ABMVotante::GetVotantes(){
  */
 Votante* ABMVotante::GetVotante(long dni){
 
-	if (!(this->directorio->existKey(Helper::LongToString(dni)))){
+
+	if ((this->directorio->existKey(Helper::LongToString(dni)))){
 
 		string values = directorio->find(Helper::LongToString(dni));
+
 		vector<string> splitedVs = Helper::split(values, '|');
 
 		string _nombreYApellido  = splitedVs[0];
@@ -146,7 +148,9 @@ Votante* ABMVotante::GetVotante(long dni){
 
 		return new Votante(dni, _nombreYApellido, _clave, _domicilio, _idDistrito);
 	}
-	else return NULL;
+	else {
+		return NULL;
+	}
 }
 
 bool ABMVotante::existKey(Votante votante){

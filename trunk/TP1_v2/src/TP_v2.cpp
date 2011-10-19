@@ -29,13 +29,11 @@ Administrador ((usuario)i, clave): Hash
 #include <stdio.h>
 
 #include "Logging/Log.h"
-//#include "Common/Common.h"
 #include "ABMs/ABMCandidato.h"
-//#include "Common/Entidades.h"
 #include "ABMs/ABMLista.h"
 #include "ABMs/ABMConteo.h"
 #include "ABMs/ABMDistrito.h"
-//#include "Entidades/Lista.h"
+#include "ABMs/ABMVotante.h"
 
 using namespace std;
 
@@ -405,10 +403,109 @@ void testConteo2(){
 
 }
 
+void Votar(Votante* votante){
+
+	ABMConteo abm = ABMConteo();//, "conteoIxDistrito", "conteoIxLista", "conteoIxEleccion");
+
+	//Registros de conteo
+	for (int i = 0;  i < 10; i++){
+		int id = abm.Add(1, votante->GetDistrito() + 1, i+1);
+	}
+
+	for (int i = 10;  i < 20; i++){
+		int id = abm.Add(1, votante->GetDistrito(), i+1);
+	}
+
+
+
+	//Falta buscar por eleccion
+	cout << "Listas disponibles en su distrito(" << votante->GetDistrito() <<  "): " << endl;
+	ABMLista ls = ABMLista("listas.gs", "ixListas");
+	//ls.GetListasByEleccion()
+
+	string idLista;
+	cout << "Id de lista que desea votar: ";
+	cin >> idLista;
+	vector<Conteo> c = abm.GetConteoByLista(Helper::StringToInt(idLista));
+	//c->AddVoto();
+
+	//cout << endl << c->GetCountVotos() << endl;
+}
+
+void Ingresar(){
+
+	cout << endl;
+	cout << "Ingrese dni:";
+	string dni;// = "377";
+	cin >> dni;
+
+	cout << "Ingrese clave:";
+	string clave;// = "password377";
+	cin >> clave;
+
+	ABMVotante abm = ABMVotante("votantes.ga");
+	Votante* votante = abm.GetVotante(Helper::StringToLong(dni));
+	votante->Authenticate(clave);
+	if(votante != NULL){
+		cout << "Bienvenido " << votante->GetNombreYApellido() << ". Usted pertenece al distrito: " << votante->GetDistrito() << endl;
+		Votar(votante);
+	}
+	else{
+		cout << "La clave ingresada es incorrecta" << endl;
+	}
+}
+
+
+
+void agregarVotantes(){
+
+	ABMVotante votantes = ABMVotante("votantes.ga");
+
+	for(int i = 1; i < 400; i++){
+
+		string nombre = "Candidato ";
+		string clave = "password";
+		Votante votante = Votante(i, nombre.append(Helper::IntToString(i)), clave.append(Helper::IntToString(i)), "domicilio", i+1);
+		votantes.Add(votante);
+	}
+
+	cout << endl << endl;
+	cout << "--------------------- Votantes ---------------------------" << endl << endl;
+	vector<Votante> lista = votantes.GetVotantes();
+	for(int i = 0; i < lista.size(); i++){
+		Votante v = lista[i];
+		cout << "Dni: "<< v.GetDni() << ". Nombre" << v.GetNombreYApellido() << ". Clave: " << v.GetClave() << endl;
+	}
+}
+
+void agregarDistritos(){
+
+	system("rm distritos.ga.bpt");
+	system("rm distritos.ga.bpt.fs");
+
+	ABMDistrito abm = ABMDistrito("distritos.ga");
+
+	for(int i = 1; i < 50	; i++){
+		string distrito = "Distrito ";
+		distrito.append(Helper::IntToString(i));
+		abm.Add(distrito);
+	}
+
+	cout << endl << endl;
+	cout << "--------------------- Disritos ---------------------------" << endl << endl;
+	vector<Distrito> lista = abm.GetDistritos();
+	for(int i = 0; i < lista.size(); i++){
+		Distrito d = lista[i];
+		cout << "Id: " << d.GetId() << ". Nombre: " << d.GetNombre() << endl;
+	}
+}
 
 int main( int arg, char *argv[] ){
 
-	//testCandidato2();
+	//agregarDistritos();
+	//Ingresar();
+	//agregarVotantes();
+	testCandidato2();
 
 //	BPlusTreeTest btest = BPlusTreeTest();
 //	btest.run();
@@ -416,7 +513,7 @@ int main( int arg, char *argv[] ){
 	//testConteo2();
 
 	testConteo();
-	pruebaListas();
+	//pruebaListas();
 //	testABMDistrito();
 	//pruebaArbol();
 
