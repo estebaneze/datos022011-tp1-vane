@@ -149,15 +149,6 @@ bool LeafNode::insertar(Element* elemToInsert){
 
 		std::vector<Element*>::iterator it;
 
-		if(elemToInsert->getKey() == "9")
-		{
-			cout << "Elements: "<< endl;
-			for(int i = 0; i < this->elements.size(); i++){
-
-				if(this->elements[i]->getKey() == elemToInsert->getKey())
-					cout << this->elements[i]->getKey() << endl;
-			}
-		}
 		it = find_if(this->elements.begin(), this->elements.end(), bind2nd(EqualElementComparator(),elemToInsert));
 		//it = find (elements.begin(), elements.end(), elemToInsert);
 
@@ -183,6 +174,7 @@ LeafNode *LeafNode::find(Key key) {
 }
 
 Element *LeafNode::findExact(Key key) {
+
 	std::vector<Element*>::iterator it = getElementsBegin();
 
 	while(it != getElementsEnds()) {
@@ -421,7 +413,7 @@ ostream& LeafNode::printMe(ostream& myOstream){
 
 	std::vector<Element* >::iterator it;
 
-	myOstream<<"Nodo: "<<getOffset()<<" ";
+	myOstream<<"Nodo Hoja: "<<getOffset()<<" ";
 
 	for(it=getElementsBegin();it!=getElementsEnds();it++){
 		Element* elem=(*it);
