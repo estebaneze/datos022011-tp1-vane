@@ -6,14 +6,15 @@
  */
 #include "ABMConteo.h"
 
-ABMConteo::ABMConteo(string BPTree, string indexByDistritoFile, string indexByListaFile, string indexByEleccionFile) {
+ABMConteo::ABMConteo() {
 
-	this->bpTreeFile= Helper::concatenar(BPTree,"bpt",".");
-	this->bplusTree = new BPlusTree(2048,this->bpTreeFile);
+	string mainTreeName = "conteo";
+	int bufferSize = ConfigurationMananger::getInstance()->getBufferSizeTree();
+	this->bplusTree = new BPlusTree(bufferSize,Helper::concatenar(mainTreeName,"bpt","."));
 
-	this->indexByDistrito = new Index(Helper::concatenar(BPTree,"Distrito","_"));
-	this->indexByLista = new Index(Helper::concatenar(BPTree,"Lista","_"));
-	this->indexByEleccion = new Index(Helper::concatenar(BPTree,"Eleccion","_"));
+	this->indexByDistrito = new Index(Helper::concatenar(mainTreeName,"Distrito","_"));
+	this->indexByLista = new Index(Helper::concatenar(mainTreeName,"Lista","_"));
+	this->indexByEleccion = new Index(Helper::concatenar(mainTreeName,"Eleccion","_"));
 
 }
 
@@ -25,43 +26,30 @@ int ABMConteo::Add(int idLista, int idDistrito, int idEleccion){
 
 	int idConteo = Identities::GetNextIdConteo();
 
-	if(this->bplusTree->find(Helper::IntToString(idConteo)) != NULL){
+	Key key = Helper::IntToString(idConteo);
+	string str = Helper::IntToString(idLista).append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion));
+	Data data = (Data)str.c_str();
+	int longData = str.length();
 
-		Key key = Helper::IntToString(idConteo);
-		string str = Helper::IntToString(idLista).append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion));
-		Data data = (Data)str.c_str();
-		int longData = str.length();
+	Element * element=new Element(key, data, longData);
+	this->bplusTree->insert(element);
 
-		cout << data << endl;
+	//Actualizo los indices
+	this->indexByDistrito->AppendToIndex(Helper::IntToString(idDistrito), Helper::IntToString(idConteo));
+	this->indexByLista->AppendToIndex(Helper::IntToString(idLista), Helper::IntToString(idConteo));
+	this->indexByEleccion->AppendToIndex(Helper::IntToString(idEleccion), Helper::IntToString(idConteo));
 
-		Element * element=new Element(key, data, longData);
-		this->bplusTree->insert(element);
-
-		cout << endl;
-		this->bplusTree->exportTree();
-		cout << endl;
-
-		//Actualizo los indices
-		this->indexByDistrito->AppendToIndex(Helper::IntToString(idDistrito), Helper::IntToString(idConteo));
-		this->indexByLista->AppendToIndex(Helper::IntToString(idLista), Helper::IntToString(idConteo));
-		this->indexByEleccion->AppendToIndex(Helper::IntToString(idEleccion), Helper::IntToString(idConteo));
-
-		return idConteo;
-	}
-	else{
-		cout << "La clave " << idConteo << endl;
-		return -1;
-	}
+	return idConteo;
 }
 
 vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
-
 
 	vector<Conteo> conteos;
 	vector<Key> ids = this->indexByDistrito->GetIds(Helper::IntToString(idDistrito));
 
 	for(int i = 0; i < ids.size(); i++){
 
+		int kint = Helper::StringToInt(ids[i]);
 		Element* elemento = this->bplusTree->findExact(ids[i]);
 		vector<string> splited = Helper::split(elemento->getData(), '|');
 		Conteo c = Conteo(Helper::StringToInt(splited[0]), Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), Helper::StringToInt(ids[i]));
@@ -112,6 +100,12 @@ void ABMConteo::mostrarConteoPorPantalla(){
 }
 
 ABMConteo::~ABMConteo() {
+	bplusTree->deleteTree();
+	delete this->bplusTree;
+
+	delete this->indexByDistrito;
+	delete this->indexByEleccion;
+	delete this->indexByLista;
 }
 
 
