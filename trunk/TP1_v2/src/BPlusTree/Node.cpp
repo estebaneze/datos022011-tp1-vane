@@ -613,7 +613,7 @@ int Node::getDataSize() {
 
 ostream& Node::printMe(ostream& myOstream) {
 	std::vector<KeyElement*>::iterator it;
-	myOstream << "Nodo: " << getOffset() << " Left OffSet: " << getLeftNode()
+	myOstream << "Nodo Hijo: " << getOffset() << " Left OffSet: " << getLeftNode()
 			<< " Elementos Key: ";
 	KeyElement* keyElement;
 	for (it = getKeyElementsBegin(); it != getKeyElementsEnds(); it++) {
