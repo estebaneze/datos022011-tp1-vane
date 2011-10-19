@@ -10,7 +10,7 @@
 Fecha::Fecha() {
 }
 
-Fecha::Fecha(ushort dia, ushort mes, ushort anio) {
+Fecha::Fecha(short dia, short mes, short anio) {
 	this->dia = dia;
 	this->mes = mes;
 	this->anio = anio;
@@ -29,27 +29,27 @@ std::string Fecha::getStrFecha(){
 	return Helper::concatenar(Helper::concatenar(sanio,smes,""),sdia,"");
 }
 
-ushort Fecha::getAnio() const{
+short Fecha::getAnio() const{
     return anio;
 }
 
-ushort Fecha::getDia() const{
+short Fecha::getDia() const{
     return dia;
 }
 
-ushort Fecha::getMes() const{
+short Fecha::getMes() const{
     return mes;
 }
 
-void Fecha::setAnio(ushort anio){
+void Fecha::setAnio(short anio){
     this->anio = anio;
 }
 
-void Fecha::setDia(ushort dia){
+void Fecha::setDia(short dia){
     this->dia = dia;
 }
 
-void Fecha::setMes(ushort mes){
+void Fecha::setMes(short mes){
     this->mes = mes;
 }
 

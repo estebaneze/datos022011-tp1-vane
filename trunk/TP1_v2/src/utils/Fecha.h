@@ -14,20 +14,20 @@ public:
 
 	virtual ~Fecha();
 	Fecha();
-	Fecha(ushort dia, ushort mes, ushort anio);
+	Fecha(short dia, short mes, short anio);
 	Fecha(std::string fecha);
 	string getStrFecha();
-	ushort getAnio() const;
-	ushort getDia() const;
-	ushort getMes() const;
-	void setAnio(ushort anio);
-	void setDia(ushort dia);
-	void setMes(ushort mes);
+	short getAnio() const;
+	short getDia() const;
+	short getMes() const;
+	void setAnio(short anio);
+	void setDia(short dia);
+	void setMes(short mes);
 
 private:
-	ushort dia;
-	ushort mes;
-	ushort anio;
+	short dia;
+	short mes;
+	short anio;
 };
 
 #endif /* FECHA_H_ */

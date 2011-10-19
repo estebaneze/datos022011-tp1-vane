@@ -26,7 +26,7 @@ class Votante {
 	    void SetDomicilio(string domicilio);
 	    void SetIdDistrito(int idDistrito);
 	    void SetNombreYApellido(string nombreYApellido);
-
+	    void SetEleccionesVotadas(IntegerList eleccionesVotadas);
 		void AgregarEleccion(int idEleccion);	//Agrega una eleccion a la lista de elccioes en las que voto
 		bool Authenticate(string clave);	//Este método lo usamos para cuando el usuario ingresa al sistema
 		bool VotoEnEleccion(int idEleccion);

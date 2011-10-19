@@ -77,6 +77,8 @@ void ABMEleccion::Modify(Eleccion eleccion){
 		int longData = auxValueBtree.length();
 		Element * elemento = new Element(value,data,longData);
 		this->bpPlusTree->modify(elemento);
+
+		//Actualizo el indice
 	}
 }
 
@@ -84,8 +86,12 @@ void ABMEleccion::Modify(Eleccion eleccion){
  * Falta implementar
  */
 vector<Eleccion> ABMEleccion::GetElecciones(){
-	vector<Eleccion> elecciones;
-	return elecciones;
+
+	cout << endl << endl;
+	cout << "****************************** Warning ********************************************" << endl;
+	cout << "------------------------- ABMEleccion::GetElecciones NOT IMPLEMENTED ------------------------------" << endl;
+	cout << "***********************************************************************************" << endl;
+	cout << endl << endl;
 }
 
 /*

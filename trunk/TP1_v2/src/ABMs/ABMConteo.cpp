@@ -43,9 +43,16 @@ int ABMConteo::Add(string idLista, int idDistrito, int idEleccion){
 }
 
 /* Le suma un voto al registro y devuelve la cantidad de votos totales */
-int ABMConteo::AddVoto(int idConteo){
+void ABMConteo::AddVoto(int idConteo, Votante* votante){
 
 	Conteo* c = this->GetConteo(idConteo);
+
+	if(votante->VotoEnEleccion(c->GetIdEleccion())){
+		cout << "-------------------------------------------------------------------------------------------------------------" << endl;
+		cout << "\n\n\El votante " << votante->GetNombreYApellido() << " ya voto en la elecciï¿½n " << c->GetIdEleccion() << endl;
+		cout << "-------------------------------------------------------------------------------------------------------------" << endl;
+
+	}
 
 	if(c != NULL){
 
@@ -59,19 +66,36 @@ int ABMConteo::AddVoto(int idConteo){
 		Data data = (Data)str.c_str();
 		int longData = str.length();
 
-
 		Element * element=new Element(key, data, longData);
 		this->bplusTree->modify(element);
 
-		return c->GetCountVotos();
+		this->NotifyVotante(votante, c->GetIdEleccion());
+
+		cout <<endl<<endl<<endl <<  "Usted voto la Lista " << c->GetIdLista() << ". Tiene un total del votos de: " << c->GetCountVotos() << endl;
 	}
 
-	return -1;
+	cout << "-------------------------------------------------------------------------------------------------------------" << endl;
+	cout << "\n\n\Error: no se encontro el registro de conteo para realizar la votacion " << c->GetIdEleccion() << endl;
+	cout << "-------------------------------------------------------------------------------------------------------------" << endl;
 
 }
 
+/* Le avisa al Votante que ya voto en esta eleccion */
+void ABMConteo::NotifyVotante(Votante* votante, int idEleccion){
+
+	//Hay que guardar en la entidad Votante el ide de eleccion, para que quede el registro de que ya voto en esta eleccion y no puede volver a votar
+	ABMVotante abmVotantes = ABMVotante();
+	votante->AgregarEleccion(idEleccion);
+
+	//(long dni, string nombreYApellido, string clave, string domicilio, int idDistrito);
+	Votante v = Votante(votante->GetDni(), votante->GetNombreYApellido(), votante->GetClave(), votante->GetDomicilio(), votante->GetDistrito());
+	v.SetEleccionesVotadas(votante->GetEleccionesVotadas());
+
+	abmVotantes.Modify(v);
+}
+
 /*Busca el registro de Conteo segun la lisa, distrito y eleccion y le suma un voto. Devuelve la cantidad de votos totales*/
-int ABMConteo::AddVoto(string idLista, int idDistrito, int idEleccion){
+void ABMConteo::AddVoto(string idLista, int idDistrito, int idEleccion, Votante* votante){
 
 	vector<Conteo> byEleccion = this->GetConteoByEleccion(idEleccion);
 
@@ -86,8 +110,7 @@ int ABMConteo::AddVoto(string idLista, int idDistrito, int idEleccion){
 	}
 
 	if(!founded){
-		cout << "Error: ----------------- No se puede realizar la votación para la Lista " << idLista <<  " en el Distrito " << idDistrito << " en la Eleccion " << idEleccion << endl;
-		return -1;
+		cout << "Error: ----------------- No se puede realizar la votaciï¿½n para la Lista " << idLista <<  " en el Distrito " << idDistrito << " en la Eleccion " << idEleccion << endl;
 	}
 
 	int cantVotos = c.AddVoto();
@@ -103,7 +126,7 @@ int ABMConteo::AddVoto(string idLista, int idDistrito, int idEleccion){
 	Element * element=new Element(key, data, longData);
 	this->bplusTree->modify(element);
 
-	return cantVotos;
+	this->NotifyVotante(votante, c.GetIdEleccion());
 }
 
 Conteo* ABMConteo::GetConteo(int idConteo){

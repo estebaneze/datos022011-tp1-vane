@@ -34,6 +34,7 @@ Administrador ((usuario)i, clave): Hash
 #include "ABMs/ABMConteo.h"
 #include "ABMs/ABMDistrito.h"
 #include "ABMs/ABMVotante.h"
+#include "ABMs/ABMEleccion.h"
 
 using namespace std;
 
@@ -536,7 +537,7 @@ void Votar(Votante* votante){
 
 		}
 
-		idLista;
+
 		cout << endl << endl << endl << "Ingrese la lista que desee votar: ";
 		cin >> idLista;
 
@@ -547,8 +548,7 @@ void Votar(Votante* votante){
 			if(byDistrito[i].GetIdLista() == idLista && byDistrito[i].GetIdEleccion() == 17){
 				//Encontre el registro en el cual tengo que votar
 				Conteo c = byDistrito[i];
-				int cantidadVotos = abm->AddVoto(c.GetId());
-				cout <<endl<<endl<<endl <<  "Usted voto la Lista " << c.GetIdLista() << ". Tiene un total del votos de: " << cantidadVotos << endl;
+				abm->AddVoto(c.GetId(), votante);
 				founded = true;
 			}
 		}
@@ -579,7 +579,7 @@ void Ingresar(){
 	string clave;// = "password377";
 	cin >> clave;
 
-	ABMVotante abm = ABMVotante("votantes.ga");
+	ABMVotante abm = ABMVotante();
 	Votante* votante = abm.GetVotante(Helper::StringToLong(dni));
 	bool login = votante->Authenticate(clave);
 	if(login){
@@ -595,7 +595,7 @@ void Ingresar(){
 
 void agregarVotantes(){
 
-	ABMVotante votantes = ABMVotante("votantes.ga");
+	ABMVotante votantes = ABMVotante();
 
 	for(int i = 1; i < 400; i++){
 
@@ -639,24 +639,25 @@ void agregarDistritos(){
 
 int main( int arg, char *argv[] ){
 
-	//agregarDistritos();
+		agregarDistritos();
 
-	agregarVotantes();
-	Ingresar();
-	//testCandidato2();
+		//agregarVotantes();
+		Ingresar();
+		//testCandidato2();
 
-//	BPlusTreeTest btest = BPlusTreeTest();
-//	btest.run();
+	//	BPlusTreeTest btest = BPlusTreeTest();
+	//	btest.run();
 
-	//testConteo2();
+		//testConteo2();
 
-//	testConteo();
-	//pruebaListas();
-//	pruebaListas2();
-//	testABMDistrito();
-	//pruebaArbol();
+	//	testConteo();
+		//pruebaListas();
+	//	pruebaListas2();
+	//	testABMDistrito();
+		//pruebaArbol();
 
-	//testLogging();
+		//testLogging();
+
 	cout << endl;
 	return system("");
 }
