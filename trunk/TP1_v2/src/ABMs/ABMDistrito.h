@@ -13,6 +13,7 @@
 #include "../BPlusTree/BPlusTree.h"
 #include "../utils/ConfigFile.h"
 #include "../BPlusTree/Element.h"
+#include "../Logging/BPlusTreeLog.h"
 
 
 class ABMDistrito {
