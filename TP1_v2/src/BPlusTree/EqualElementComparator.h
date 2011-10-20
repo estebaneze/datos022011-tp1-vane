@@ -1,8 +1,8 @@
 /*
  * EqualElementComparator.h
  *
- *  Created on: Apr 26, 2010
- *      Author: carlos
+ *  Created on: Octubre 2011
+ *      Author: Grupo Milanesio
  */
 
 #ifndef EQUALELEMENTCOMPARATOR_H_
