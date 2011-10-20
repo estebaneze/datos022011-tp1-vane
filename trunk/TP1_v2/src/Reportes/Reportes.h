@@ -19,6 +19,9 @@ class Reportes {
 		static void reportePorEleccion(int idEleccion);
 		static void reportePorLista(string lista);
 		static void reportePorDistrito(int idDistrito);
+
+	private:
+		//TODO: ESTA ORDENANDO DE MENOR A MAYOR. TIENE QUE SER AL REVES.
 		static vector<Conteo> OrderByCantidadVotos(vector<Conteo> resultados);
 		static vector<Conteo> OrderByFecha(vector<Conteo> resultados);
 };

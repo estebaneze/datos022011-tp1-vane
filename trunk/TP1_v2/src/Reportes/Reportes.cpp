@@ -7,6 +7,10 @@
 
 #include "Reportes.h"
 
+/*TODO: como eleccion no tiene id numerico, este metodo tendria que recibir:
+ * un objeto Eleccion o una Fecha y IdCargo (que son las dos cosas que identifican a la eleccion)
+*/
+
 void Reportes::reportePorEleccion(int IdEleccion)
 {
 	/*std::cout << "**********************************************************" << std::endl;
@@ -54,11 +58,14 @@ void Reportes::reportePorLista(string lista)
 		cout << "eleccion: " << resultados[i].GetIdDistrito() << ". Votos:  " << resultados[i].GetCountVotos() << endl;
 	}
 	cout << endl << endl;
+
+	//Primero ordeno por fecha de eleccion
 	resultados = Reportes::OrderByFecha(resultados);
 	vector<Conteo>::iterator it = resultados.begin();
 
 	Conteo conteo = (Conteo) *it;
 
+	//Agrupo por fecha de eleccion
 	vector< vector<Conteo> > resAgrupados;
 	vector<Conteo> c1;
 	resAgrupados.push_back(c1);
@@ -84,6 +91,14 @@ void Reportes::reportePorLista(string lista)
 
 	}
 
+	//Ordeno los registro que ya estan agrupados por cantidad de votos
+	vector< vector<Conteo> >::iterator it2 = resAgrupados.begin();
+	vector<Conteo> cs  = (vector<Conteo>) *it2;
+	for (it2 = resAgrupados.begin(); it2 != resAgrupados.end(); it++) {
+		cs = *it2;
+		cs = Reportes::OrderByCantidadVotos(cs);
+	}
+
 	cout << endl << endl << endl;
 	cout << "Reporte por lista:" << endl << endl;
 
@@ -102,22 +117,73 @@ void Reportes::reportePorLista(string lista)
 
 void Reportes::reportePorDistrito(int idDistrito)
 {
-	return;
+	ABMConteo *abmConteo = new ABMConteo();
+
+	vector<Conteo> resultados =  abmConteo->GetConteoByDistrito(idDistrito);
+	for(int i = 0; i < resultados.size(); i++){
+		cout << "eleccion: " << resultados[i].GetIdDistrito() << ". Votos:  " << resultados[i].GetCountVotos() << endl;
+	}
+	cout << endl << endl;
+
+	//Primero ordeno por fecha de eleccion
+	resultados = Reportes::OrderByFecha(resultados);
+	vector<Conteo>::iterator it = resultados.begin();
+
+	Conteo conteo = (Conteo) *it;
+
+	//Agrupo por fecha de eleccion
+	vector< vector<Conteo> > resAgrupados;
+	vector<Conteo> c1;
+	resAgrupados.push_back(c1);
+	int j = 0;
+	string idEleccionActual = conteo.GetEleccion()->GetId();
+
+	//Tengo que agrupar por eleccion
+	for (it = resultados.begin(); it != resultados.end(); it++) {
+
+		conteo = (Conteo) *it;
+
+		string idEleccionAux = conteo.GetEleccion()->GetId();
+		cout << "eleccion " << idEleccionAux << endl;;
+		if(idEleccionAux == idEleccionActual){
+			resAgrupados[j].push_back(conteo);
+		}
+		else{	//Nuevo grupo de eleccion
+			vector<Conteo> cs;
+			cs.push_back(conteo);
+			resAgrupados.push_back(cs);
+			j++;
+		}
+
+	}
+
+	//Ordeno los registro que ya estan agrupados por cantidad de votos
+	vector< vector<Conteo> >::iterator it2 = resAgrupados.begin();
+	vector<Conteo> cs  = (vector<Conteo>) *it2;
+	for (it2 = resAgrupados.begin(); it2 != resAgrupados.end(); it++) {
+		cs = *it2;
+		cs = Reportes::OrderByCantidadVotos(cs);
+	}
+
+	cout << endl << endl << endl;
+	cout << "Reporte por lista:" << endl << endl;
+
+	for(int i = 0; i < resAgrupados.size(); i++){
+
+		vector<Conteo> cs = resAgrupados[i];
+		cout << "Eleccion: " << cs[0].GetEleccion()->GetId() << endl;
+
+		for(int j = 0; j < cs.size(); j++){
+			Conteo res = cs[j];
+			cout << "		Distrito: " << res.GetIdDistrito() << " tiene " << res.GetCountVotos() << " votos." << endl;
+		}
+	}
+
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-/* Ordena el vector de Conteos por cantidad de votos. */
+/* Ordena el vector de Conteos por cantidad de votos.
+ * TODO: ESTA ORDENANDO DE MENOR A MAYOR. TIENE QUE SER AL REVES.
+ * */
 vector<Conteo> Reportes::OrderByCantidadVotos(vector<Conteo> resultados){
 
 	Conteo aux;
