@@ -28,6 +28,7 @@ Administrador ((usuario)i, clave): Hash
 #include <iterator>
 #include <stdio.h>
 
+#include "Reportes/Reportes.h"
 #include "Logging/Log.h"
 #include "ABMs/ABMCandidato.h"
 #include "ABMs/ABMLista.h"
@@ -70,31 +71,67 @@ void testConteo(){
 
 	int idDistrito;
 	int idLista;
-	int idEleccion = 1;
 
-	for (int i=0; i<100; i++)
+	int dia = 1;
+	/*for (int i=0; i<100; i++)
 	{
 		idDistrito = i;
-
-		for (int j=100; j<200; j++)
+*/
+		for (int j=100; j<120; j++)
 		{
 			idLista = j;
-			abm->Add(Helper::IntToString(idLista), idDistrito, idEleccion);
+			abm->Add(Helper::IntToString(idLista), j-56, new Eleccion(45, Fecha(dia,1,2011)));
+			dia++;
 		}
-	}
+	//}
 
 	abm->mostrarConteoPorPantalla();
-	/*
-	string idDistritoReporte = "3";
-	vector<Conteo> conteos = abm->GetConteoByDistrito(Helper::StringToInt(idDistritoReporte));
-	cout << "Conteos del distrito: " << idDistritoReporte << endl;
-	for(int i = 0; i < conteos.size(); i++){
-		cout << "Conteo:" <<conteos[i].GetId() << endl;
-		cout << "Distrito:" << conteos[i].GetIdDistrito() << endl;
-		cout << "Lista:" << conteos[i].GetIdLista() << endl;
-		cout << "Eleccion:" << conteos[i].GetIdEleccion() << endl;
+	cout << endl << endl << endl;
+
+	vector<Conteo> c1 = abm->GetConteoByEleccion(new Eleccion(45, Fecha(1,1,2011)));
+	vector<Conteo> c2 = abm->GetConteoByEleccion(new Eleccion(45, Fecha(2,1,2011)));
+	vector<Conteo> c3 = abm->GetConteoByEleccion(new Eleccion(45, Fecha(3,1,2011)));
+
+	cout << "Conteos de la eleccion: 45 1-1-2011:"<< endl;
+	for(int i = 0; i < c1.size(); i++){
+		cout << "Id de Conteo:" <<c1[i].GetId() << endl;
+		cout << "Distrito:" << c1[i].GetIdDistrito() << endl;
+		cout << "Lista:" << c1[i].GetIdLista() << endl;
+		cout << "Eleccion:" << c1[i].GetEleccion()->GetDate().getStrFecha()  << endl;
 	}
-	*/
+
+	cout<< endl << endl << "Conteos de la eleccion: 45 2-1-2011:"<< endl;
+		for(int i = 0; i < c2.size(); i++){
+			cout << "Conteo:" << c2[i].GetId() << endl;
+			cout << "Distrito:" << c2[i].GetIdDistrito() << endl;
+			cout << "Lista:" << c2[i].GetIdLista() << endl;
+			cout << "Eleccion:" << c2[i].GetEleccion()->GetDate().getStrFecha() << endl;
+		}
+
+		cout<< endl << endl << "Conteos de la eleccion: 45 3-1-2011:"<< endl;
+				for(int i = 0; i < c3.size(); i++){
+					cout << "Conteo:" << c3[i].GetId() << endl;
+					cout << "Distrito:" << c3[i].GetIdDistrito() << endl;
+					cout << "Lista:" << c3[i].GetIdLista() << endl;
+					cout << "Eleccion:" << c3[i].GetEleccion()->GetDate().getStrFecha()<< endl;
+				}
+
+
+		cout << endl << endl << endl;
+		string distrito;
+		cout << "Ingrese distrito: ";
+		cin >> distrito;
+
+		c3 = abm->GetConteoByDistrito(Helper::StringToInt(distrito));
+		cout<< endl << endl << "Conteos del disrito: " << distrito << endl;
+		for(int i = 0; i < c3.size(); i++){
+			cout << "Conteo:" << c3[i].GetId() << endl;
+			cout << "Distrito:" << c3[i].GetIdDistrito() << endl;
+			cout << "Lista:" << c3[i].GetIdLista() << endl;
+			cout << "Eleccion:" << c3[i].GetEleccion()->GetDate().getStrFecha()<< endl;
+		}
+
+
 }
 
 
@@ -447,7 +484,7 @@ void testConteo2(){
 
 	//system("rm conteo.bt.bpt");
 	//system("rm conteo.bt.bpt.fs");
-
+/*
 	ABMConteo abm = ABMConteo();
 
 	cout << endl << "Nuevo registro de conteo" << endl;
@@ -485,7 +522,7 @@ void testConteo2(){
 	for(int i = 0; i < conteos.size(); i++){
 		cout << conteos[i].GetId() << endl;
 	}
-
+*/
 }
 
 void Votar(Votante* votante){
@@ -498,6 +535,8 @@ void Votar(Votante* votante){
 	string idLista;
 	int idEleccion = 1;
 
+	Eleccion* e1 = new Eleccion(1, Fecha(2,3,2010));
+	Eleccion* e2 = new Eleccion(1, Fecha(2,2,2010));
 	//for (int i=0; i<100; i++)
 	//{
 		//idDistrito = i;
@@ -506,10 +545,10 @@ void Votar(Votante* votante){
 		{
 			idLista = Helper::IntToString(j);
 			if(j > 6){
-				abm->Add(idLista, votante->GetDistrito(), 17);	//Le asigno algunas listas al distrito del votante para probar
+				abm->Add(idLista, votante->GetDistrito(), e1);	//Le asigno algunas listas al distrito del votante para probar
 			}
 			else{
-				abm->Add(idLista, j+2, j+1);
+				abm->Add(idLista, j+2, e2);
 			}
 		}
 	//}
@@ -531,7 +570,7 @@ void Votar(Votante* votante){
 		vector<Conteo> byDistrito = abm->GetConteoByDistrito(votante->GetDistrito());
 		for(int i = 0; i < byDistrito.size(); i++){
 
-			if(byDistrito[i].GetIdEleccion() == 17)	{//17 es la eleccion que le toca votar (HAY QUE SELECCIONAR LA ELECCION POR LA FECHA DE HOY)
+			if(byDistrito[i].GetEleccion()->GetId() == "17")	{//17 es la eleccion que le toca votar (HAY QUE SELECCIONAR LA ELECCION POR LA FECHA DE HOY)
 				cout << "	Lista: " << byDistrito[i].GetIdLista() << endl;
 			}
 
@@ -545,7 +584,7 @@ void Votar(Votante* votante){
 		bool founded = false;
 		for(int i = 0; i < byDistrito.size(); i++){
 
-			if(byDistrito[i].GetIdLista() == idLista && byDistrito[i].GetIdEleccion() == 17){
+			if(byDistrito[i].GetIdLista() == idLista && byDistrito[i].GetEleccion()->GetId() == "17"){
 				//Encontre el registro en el cual tengo que votar
 				Conteo c = byDistrito[i];
 				abm->AddVoto(c.GetId(), votante);
@@ -636,13 +675,97 @@ void agregarDistritos(){
 	}
 }
 
+void testReportes(Votante* votante){
+
+		/* initialize random seed: */
+	srand ( time(NULL) );
+	cout << endl << endl;
+
+	int number;
+
+	ABMConteo abmc = ABMConteo();
+
+	ABMEleccion abme = ABMEleccion();
+	Eleccion* e1 = new Eleccion(1, Fecha(2,3,2010));
+	Eleccion* e2 = new Eleccion(1, Fecha(22,3,2010));
+	Eleccion* e3 = new Eleccion(1, Fecha(23,3,2010));
+	Eleccion* e4 = new Eleccion(1, Fecha(23,3,2009));
+
+	abme.Add(e1);
+	abme.Add(e2);
+	abme.Add(e3);
+	abme.Add(e4);
+
+	string lista = "1";
+	for(int i = 0; i < 5; i++){
+
+		number = rand() % 100;
+		Conteo c;
+	  if(i > 3)
+		  c = Conteo(lista, 12, e1, 1, number);
+	  else
+		  c = Conteo(lista, 23, e2, 1, number);
+
+	  int idConteo = abmc.Add(c.GetIdLista(), c.GetIdDistrito(), c.GetEleccion());
+
+	  int cant = 2 * i;
+	  for(int j = 1; j <= cant; j++){
+		  abmc.AddVoto(idConteo, votante);
+	  }
+	}
+
+	lista = "12";
+	for(int i = 0; i < 5; i++){
+
+		number = rand() % 100;
+		Conteo c;
+	  if(i > 3)
+		  c = Conteo(lista, 12, e3, 3, number);
+	  else
+		  c = Conteo(lista, 23, e4, 4, number);
+
+	  int idConteo = abmc.Add(c.GetIdLista(), c.GetIdDistrito(), c.GetEleccion());
+
+	  int cant = 2 * i;
+	  for(int j = 1; j <= cant; j++){
+		  abmc.AddVoto(idConteo, votante);
+	  }
+	}
+
+	lista = "11";
+	for(int i = 0; i < 5; i++){
+
+		number = rand() % 100;
+		Conteo c;
+	  if(i > 3)
+		  c = Conteo(lista, 12, e2, 3, number);
+	  else
+		  c = Conteo(lista, 23, e3, 3, number);
+
+	  int idConteo = abmc.Add(c.GetIdLista(), c.GetIdDistrito(), c.GetEleccion());
+
+	  int cant = 2 * i;
+	  for(int j = 1; j <= cant; j++){
+		  abmc.AddVoto(idConteo, votante);
+	  }
+	}
+
+	vector<Conteo> resultados = abmc.GetConteoByLista("11");
+
+	for(int i = 0; i < resultados.size(); i++){
+		cout << "eleccion: " << resultados[i].GetIdDistrito() << ". Votos:  " << resultados[i].GetCountVotos() << endl;
+	}
+}
 
 int main( int arg, char *argv[] ){
 
-		agregarDistritos();
+	testConteo();
+	//testReportes();
+
+		//agregarDistritos();
 
 		//agregarVotantes();
-		Ingresar();
+		//Ingresar();
 		//testCandidato2();
 
 	//	BPlusTreeTest btest = BPlusTreeTest();
@@ -658,6 +781,6 @@ int main( int arg, char *argv[] ){
 
 		//testLogging();
 
-	cout << endl;
+	cout << endl << endl << "Done!!!!!!!!!!" << endl;
 	return system("");
 }

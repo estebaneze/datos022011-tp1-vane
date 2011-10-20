@@ -37,10 +37,16 @@ void ABMVotante::Add(Votante* votante){
 		aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),"|");
 
 		//recorro la lista de eleccion y agrego todos los IdEleccion al string aux
+//<<<<<<< .mine
+		for (unsigned int i=0;i<(votante->GetEleccionesVotadas().size());i++){
+			aux = Helper::concatenar(aux,votante->GetEleccionesVotadas()[i].GetId(),"|");
+		}
+/*=======
 		for (unsigned int i=0;i<(votante->GetEleccionesVotadas().GetSize());i++){
 			aux = Helper::concatenar(aux,Helper::IntToString(votante->GetEleccionesVotadas().Get(i)),"|");
+>>>>>>> .r74
 		}
-
+*/
 		this->directorio->insert(Helper::LongToString(votante->GetDni()),aux);
 
 		HashLog::LogProcess(this->directorio,"Votante_HashProcess.log");
@@ -82,10 +88,16 @@ void ABMVotante::Modify(Votante *votante){
 		aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),"|");
 
 		//recorro la lista de eleccion y agrego todos los IdEleccion al string aux
+//<<<<<<< .mine
+		for (unsigned int i=0;i<(votante->GetEleccionesVotadas().size());i++){
+			aux = Helper::concatenar(aux,votante->GetEleccionesVotadas()[i].GetId(),"|");
+		}
+			/*=======
 		for (unsigned int i=0;i<(votante->GetEleccionesVotadas().GetSize());i++){
 			aux = Helper::concatenar(aux,Helper::IntToString(votante->GetEleccionesVotadas().Get(i)),"|");
+>>>>>>> .r74
 		}
-
+*/
 		this->directorio->modify(Helper::LongToString(votante->GetDni()),aux);
 
 
@@ -98,6 +110,8 @@ void ABMVotante::Modify(Votante *votante){
  * Devuelve un vector con los votantes sin las listas de elecciones
  * habria que implementar otro metodo en VOTANTE para obtener sus listas
  * ya qyue en el constructor se inicia con una lista vacia
+ *
+ *TODO: levantar la lista de elecciones en las que ya voto
  */
 vector<Votante> ABMVotante::GetVotantes(){
 
@@ -119,7 +133,7 @@ vector<Votante> ABMVotante::GetVotantes(){
 			/*for (unsigned int j=4; j < splitedVs.size() ;j++){
 				_listaElecciones.Add(Helper::StringToInt(splitedVs[j]));
 			}*/
-
+			cout << "Falta agregar la lista de elecciones en las que voto " << endl;
 			votantes.push_back(Votante(_dni, _nombreYApellido, _clave, _domicilio, _idDistrito));
 
 		}
@@ -129,6 +143,7 @@ vector<Votante> ABMVotante::GetVotantes(){
 
 /*
  * Devuelve votante sin su lista de elecciones, si no existe el nombre NULL
+ * TODO:Falta agregar la lista de elecciones en las que voto
  */
 Votante* ABMVotante::GetVotante(long dni){
 
@@ -147,7 +162,7 @@ Votante* ABMVotante::GetVotante(long dni){
 		/*for (unsigned int j=4; j < splitedVs.size() ;j++){
 			_listaElecciones.Add(Helper::StringToInt(splitedVs[j]));
 		}*/
-
+		cout << "Falta agregar la lista de elecciones en las que voto " << endl;
 		return new Votante(dni, _nombreYApellido, _clave, _domicilio, _idDistrito);
 	}
 	else {

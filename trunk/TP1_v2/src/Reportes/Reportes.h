@@ -17,8 +17,10 @@
 class Reportes {
 	public:
 		static void reportePorEleccion(int idEleccion);
-		static void reportePorLista(int idLista);
+		static void reportePorLista(string lista);
 		static void reportePorDistrito(int idDistrito);
+		static vector<Conteo> OrderByCantidadVotos(vector<Conteo> resultados);
+		static vector<Conteo> OrderByFecha(vector<Conteo> resultados);
 };
 
 #endif /* REPORTES_H_ */

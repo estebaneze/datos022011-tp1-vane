@@ -19,8 +19,6 @@ ABMLista::ABMLista(string hashFile, string indexFile) {
 	//this->directorio->inform();
 
 	// OJO! el tamaño lo tioene que leer desde un archivo de configuracion
-
-
 }
 
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion

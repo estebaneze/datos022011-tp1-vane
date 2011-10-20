@@ -6,6 +6,7 @@
  */
 
 #include "../Common/Common.h"
+#include "Eleccion.h"
 
 #ifndef CONTEO_H_
 #define CONTEO_H_
@@ -16,19 +17,19 @@ class Conteo {
 
 	public:
 		Conteo();
-		Conteo(std::string  idLista, int idDistrito, int idEleccion, int idConteo);
-		Conteo(std::string  idLista, int idDistrito, int idEleccion, int idConteo, int cantVotos);
+		Conteo(std::string  idLista, int idDistrito, Eleccion* eleccion, int idConteo);
+		Conteo(std::string  idLista, int idDistrito, Eleccion* eleccion, int idConteo, int cantVotos);
 		virtual ~Conteo();
 		string  GetIdLista();
 		int GetIdDistrito();
-		int GetIdEleccion();
+		Eleccion* GetEleccion();
 		int AddVoto();
 		int GetCountVotos();
 		int GetId();
 	private:
 		string  _idLista;
 		int _idDistrito;
-		int _idEleccion;
+		Eleccion* _eleccion;
 		int _countVotos;
 		int _id;
 };

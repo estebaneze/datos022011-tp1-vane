@@ -14,7 +14,7 @@ Votante::Votante(long dni, string nombreYApellido, string clave, string domicili
 	_clave = clave;
 	_domicilio = domicilio;
 	_idDistrito = idDistrito;
-	_listaElecciones = IntegerList();
+//	_listaElecciones = IntegerList();
 }
 
 bool Votante::Authenticate(string clave){
@@ -42,7 +42,7 @@ int Votante::GetDistrito(){
 }
 
 //Ids de las elecciones en las que ya voto
-IntegerList Votante::GetEleccionesVotadas(){
+vector<Eleccion> Votante::GetEleccionesVotadas(){
 	return _listaElecciones;
 }
 
@@ -71,21 +71,28 @@ void Votante::SetNombreYApellido(string nombreYApellido)
     _nombreYApellido = nombreYApellido;
 }
 
-bool Votante::VotoEnEleccion(int idEleccion){
+bool Votante::VotoEnEleccion(Eleccion* eleccion){
 
-	return (this->_listaElecciones.IsInList(idEleccion));
+	vector<Eleccion>::iterator it = _listaElecciones.begin();
+	Eleccion e = (Eleccion) *it;
+
+	for (it = _listaElecciones.begin(); it != _listaElecciones.end(); it++) {
+
+		e = (Eleccion) *it;
+		if(e.GetId() == eleccion->GetId())
+			return true;
+	}
+
+	return false;
 }
 
 //Agrega una eleccion a la lista de elccioes en las que voto
-void Votante::AgregarEleccion(int idEleccion){
+void Votante::AgregarEleccion(Eleccion* eleccion){
 
-	if(!_listaElecciones.IsInList(idEleccion)){
-		_listaElecciones.Add(idEleccion);
+	if(!this->VotoEnEleccion(eleccion)){
+		Eleccion e = Eleccion(eleccion->GetIdCargo(), eleccion->GetDate());
+		this->_listaElecciones.push_back(e);
 	}
-}
-
-void Votante::SetEleccionesVotadas(IntegerList eleccionesVotadas){
-	this->_listaElecciones = eleccionesVotadas;
 }
 
 Votante::~Votante() {

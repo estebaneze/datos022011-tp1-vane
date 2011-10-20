@@ -14,17 +14,18 @@
 class Eleccion {
 
 	public:
+		Eleccion(const Eleccion &e);
 		Eleccion(int idCargo, Fecha date);
 		virtual ~Eleccion();
-		int GetId();
+		//int GetId();
 		Fecha GetDate();
 		int GetIdCargo();
 		IntegerList GetDistritos();
 		void AddDistrito(int idDistrito);
 		void RemoveDistrito(int idDistrito);
-
+		string GetId();	/* El id lo armamos: fecha_idcargo (NO CON |, PORQUE EN LAS DEMAS ENTIDADES SE CONFUNDIRIA CON LA CLAVE IDENTIFICADOR DEL ARBOL O HASH) */
 	private:
-		int _id;
+		//int _id;
 		Fecha _date;
 		int _idCargo;
 		IntegerList _distritos;
