@@ -9,11 +9,11 @@
 /*
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
-ABMLista::ABMLista(string hashFile, string indexFile) {
+ABMLista::ABMLista() {
 
-	this->hashFile= hashFile;
+	this->hashFile= "lista";
 	this->directorio = new Directory(hashFile,64);
-	this->index = new Index(indexFile);
+	this->index = new Index("IndexLista");
 
 	//Descomentar esto si quiere verse el contenido del archivo por pantalla
 	//this->directorio->inform();
@@ -29,12 +29,12 @@ void ABMLista::Add(Lista* lista){
 
 	if (!(this->directorio->existKey(lista->GetNombre()))){
 
-		this->directorio->insert(lista->GetNombre(),Helper::IntToString(lista->GetEleccion()));
-		this->index->AppendToIndex(Helper::IntToString(lista->GetEleccion()), lista->GetNombre());	//Tengo que refrescar el indice en todos los Adds!!!
+		this->directorio->insert(lista->GetNombre(),lista->GetEleccion());
+		this->index->AppendToIndex(lista->GetEleccion(), lista->GetNombre());	//Tengo que refrescar el indice en todos los Adds!!!
 
 		//logueo operacion y proceso
 
-		HashLog::LogInsert(lista->GetNombre(),Helper::IntToString(lista->GetEleccion()),"Lista_HashOperation.log");
+		HashLog::LogInsert(lista->GetNombre(),lista->GetEleccion(),"Lista_HashOperation.log");
 		HashLog::LogProcess(this->directorio,"Lista_HashProccess.log");
 	}
 	else{
@@ -47,7 +47,7 @@ bool ABMLista::Delete(Lista *lista){
 
 	if (this->directorio->existKey(lista->GetNombre())){
 		this->directorio->remove(lista->GetNombre());
-		HashLog::LogDelete(lista->GetNombre(),Helper::IntToString(lista->GetEleccion()),"Lista_HashOperation.log");
+		HashLog::LogDelete(lista->GetNombre(),lista->GetEleccion(),"Lista_HashOperation.log");
 		HashLog::LogProcess(this->directorio,"Lista_HashProccess.log");
 		return true;
 	}
@@ -65,13 +65,13 @@ void ABMLista::Modify(Lista *lista){
 	if (this->directorio->existKey(lista->GetNombre())){
 
 		Lista* oldLista = this->GetLista(lista->GetNombre());
-		string idOldEleccion = Helper::IntToString(oldLista->GetEleccion());
+		string idOldEleccion = oldLista->GetEleccion();
 
-		this->directorio->modify(lista->GetNombre(),Helper::IntToString(lista->GetEleccion()));
+		this->directorio->modify(lista->GetNombre(),lista->GetEleccion());
 
-		this->index->AppendToIndex(Helper::IntToString(lista->GetEleccion()), idOldEleccion , lista->GetNombre());	//Tengo que refrescar el indice en todos los Adds!!!
+		this->index->AppendToIndex(lista->GetEleccion(), idOldEleccion , lista->GetNombre());	//Tengo que refrescar el indice en todos los Adds!!!
 
-		HashLog::LogModify(lista->GetNombre(),Helper::IntToString(lista->GetEleccion()),"Lista_HashOperation.log");
+		HashLog::LogModify(lista->GetNombre(),lista->GetEleccion(),"Lista_HashOperation.log");
 		HashLog::LogProcess(this->directorio,"Lista_HashProccess.log");
 	}
 	else{
@@ -92,7 +92,7 @@ vector<Lista> ABMLista::GetListas(){
 		for(unsigned int i = 0; i < values.size(); i++){
 
 			string nombre = values[i].Key;
-			int idEleccion = Helper::StringToInt(values[i].Value);
+			string idEleccion = values[i].Value;
 
 			listas.push_back(Lista(nombre,idEleccion));
 
@@ -116,27 +116,25 @@ Lista* ABMLista::GetLista(std::string nombre){
 
 	if ((this->directorio->existKey(nombre))){
 
-		int auxInt = Helper::StringToInt(directorio->find(nombre));
-
-		return new Lista(nombre,auxInt);
+		return new Lista(nombre,directorio->find(nombre));
 	}
 	else{
 		return NULL;
 	}
 }
 
-bool ABMLista::existKey(Lista* lista){
+bool ABMLista::existKey(string key){
 
-	return this->directorio->existKey(lista->GetNombre());
+	return this->directorio->existKey(key);
 }
 
 void ABMLista::mostrarListasPorPantalla(){
 	this->directorio->inform();
 }
 
-vector<Lista> ABMLista::GetListasByEleccion(int idEleccion){
+vector<Lista> ABMLista::GetListasByEleccion(string idEleccion){
 
-	vector<Key> values = this->index->GetIds(Helper::IntToString(idEleccion));
+	vector<Key> values = this->index->GetIds(idEleccion);
 
 	vector<Lista> listas;
 

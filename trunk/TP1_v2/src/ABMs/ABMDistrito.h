@@ -31,9 +31,9 @@ class ABMDistrito {
 		Distrito * GetDistrito(int idDistrito);
 		void mostrarDistritosPorPantalla();
 	private:
-			string bpTreeFile;
-			BPlusTree* bpPlusTree;
-
+		string bpTreeFile;
+		BPlusTree* bpPlusTree;
+		bool Exists(string nombreDistrito);
 };
 
 #endif /* ABMDISTRITO_H_ */

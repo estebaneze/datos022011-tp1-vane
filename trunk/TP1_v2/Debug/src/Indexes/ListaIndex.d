@@ -24,10 +24,11 @@ src/Indexes/ListaIndex.d src/Indexes/ListaIndex.o: \
  ../src/Indexes/../Common/../Entidades/Cargo.h \
  ../src/Indexes/../Common/../Entidades/Administrador.h \
  ../src/Indexes/../Common/../Entidades/Conteo.h \
- ../src/Indexes/../Common/../Entidades/Distrito.h \
  ../src/Indexes/../Common/../Entidades/Eleccion.h \
  ../src/Indexes/../Common/../Entidades/../utils/Fecha.h \
  ../src/Indexes/../Common/../Entidades/../utils/../Common/Common.h \
+ ../src/Indexes/../Common/../Entidades/Distrito.h \
+ ../src/Indexes/../Common/../Entidades/Eleccion.h \
  ../src/Indexes/../Common/../Entidades/Lista.h \
  ../src/Indexes/../Common/../Entidades/Votante.h \
  ../src/Indexes/../Common/Common.h
@@ -88,13 +89,15 @@ src/Indexes/ListaIndex.d src/Indexes/ListaIndex.o: \
 
 ../src/Indexes/../Common/../Entidades/Conteo.h:
 
-../src/Indexes/../Common/../Entidades/Distrito.h:
-
 ../src/Indexes/../Common/../Entidades/Eleccion.h:
 
 ../src/Indexes/../Common/../Entidades/../utils/Fecha.h:
 
 ../src/Indexes/../Common/../Entidades/../utils/../Common/Common.h:
+
+../src/Indexes/../Common/../Entidades/Distrito.h:
+
+../src/Indexes/../Common/../Entidades/Eleccion.h:
 
 ../src/Indexes/../Common/../Entidades/Lista.h:
 

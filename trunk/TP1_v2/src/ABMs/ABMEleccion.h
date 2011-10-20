@@ -26,6 +26,7 @@ class ABMEleccion {
 		bool Exists(Eleccion* eleccion);
 		bool Exists(int idEleccion);
 		bool ExistsKey(Key idEleccion);
+		bool ExistsKey(Fecha fecha,int idCargo);
 		int Add(Eleccion* eleccion);
 		bool Delete(Eleccion* eleccion);
 		void Modify(Eleccion* eleccion);

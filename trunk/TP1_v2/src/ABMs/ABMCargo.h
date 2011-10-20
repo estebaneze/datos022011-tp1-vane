@@ -12,12 +12,13 @@
 #include "../Entidades/Cargo.h"
 #include "../Hash/Directory.h"
 #include "../Logging/HashLog.h"
+#include "../Indexes/Index.h"
 //Cargo ((cargo)i, (cargo)*): Hash
 
 class ABMCargo {
 
 	public:
-		ABMCargo(string hashFile);
+		ABMCargo();
 		virtual ~ABMCargo();
 		bool Exists(Cargo cargo);
 		int Add(string nombre, vector<int> cargosSecundarios);
@@ -30,7 +31,8 @@ class ABMCargo {
 	private:
 		string hashFile;
 		Directory* directorio;
-
+		bool Exists(string nombreCargo);
+		//vector<Cargo> cargos;	//Va guardando en memoria los cargos que tiene la tabla de hash --si queda tiempo lo implemento
 };
 
 #endif /* ABMCARGO_H_ */

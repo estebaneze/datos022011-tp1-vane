@@ -147,6 +147,21 @@ bool ABMEleccion::ExistsKey(Key key){
 	else return true;
 }
 
+bool ABMEleccion::ExistsKey(Fecha fecha, int idCargo){
+
+	Eleccion *eleccion = new Eleccion(idCargo,fecha);
+
+	if(this->bpPlusTree->findExact(eleccion->GetId()) == NULL){
+		delete eleccion;
+		return false;
+	}
+	else {
+		delete eleccion;
+		return true;
+	}
+}
+
+
 /*
  * Imprime por pantalla el arbol de elecciones
  */

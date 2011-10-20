@@ -20,9 +20,9 @@ ListaIndex::~ListaIndex() {
 /*
  * Pisa el valor del indice con "listas"
  */
-void ListaIndex::RefreshIndexLista(int idEleccion, vector<string> listas){
+void ListaIndex::RefreshIndexLista(string idEleccion, vector<string> listas){
 
-	string key = Helper::IntToString(idEleccion);
+	string key = idEleccion;
 	string fields = Helper::concatenar(listas, "|");
 
 	if (!(this->directorio->existKey(key))){
@@ -90,9 +90,9 @@ void ListaIndex::RefreshIndexLista(int idEleccion, vector<string> listas){
 
 //Esto tiene un bug: cuando se le cambia el idEleccion a la lista, se actualiza el regsitro de esa idEleccion
 //pero no se borra la lista del registro de la idEleccion que tenia
-void ListaIndex::AppendListaToIndex(int idEleccion, string lista){
+void ListaIndex::AppendListaToIndex(string idEleccion, string lista){
 
-	string key = Helper::IntToString(idEleccion);
+	string key = idEleccion;
 
 	if (!(this->directorio->existKey(key))){
 		this->directorio->insert(key,lista);
@@ -173,9 +173,9 @@ void ListaIndex::AppendListaToIndex(int idEleccion, string lista){
 }
 
 
-vector<Lista> ListaIndex::GetListasByIdEleccion(int idEleccion){
+vector<Lista> ListaIndex::GetListasByIdEleccion(string idEleccion){
 
-	string key = Helper::IntToString(idEleccion);
+	string key = idEleccion;
 	vector<Lista> listas;
 
 	if ((this->directorio->existKey(key))){

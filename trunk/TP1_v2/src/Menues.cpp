@@ -31,12 +31,12 @@ void Menues::MenuPpal()
 		printf("\n\n");
 		switch (opcion) {
 			case 1:
-				fin=1;
+
 				//menu votante
 				MenuVotante();
 				break;
 			case 2:
-				fin=1;
+
 				//menu admin
 				MenuAdmin();
 				break;
@@ -54,54 +54,61 @@ void Menues::MenuPpal()
 
 void Menues::MenuAdmin()
 {
-	int fin=0;
-		int opcion;
+int fin=0;
+int opcion;
 
-		while (fin==0){
+	while (fin==0){
 
-			system("clear");
-			printf("=============\n");
-			printf("ADMINISTRADOR\n");
-			printf("=============\n\n");
-			printf("\t1. Ingresar al sistema\n");
-			printf("\t2. Crear Administrador\n");
-			printf("\t3. Modificar Administrador\n");
-			printf("\t4. Borrar Administrador\n");
-			printf("\t5. Volver al menu principal\n\n");
-			printf("\tIngrese una opcion: ");
-			scanf("%i",&opcion);
-			switch (opcion) {
+		system("clear");
+		printf("=============\n");
+		printf("ADMINISTRADOR\n");
+		printf("=============\n\n");
+		printf("\t1. Ingresar al sistema\n");
+		printf("\t2. Crear Administrador\n");
+		printf("\t3. Modificar Administrador\n");
+		printf("\t4. Borrar Administrador\n");
+		printf("\t5. Volver al menu principal\n\n");
+		printf("\tIngrese una opcion: ");
+		scanf("%i",&opcion);
+
+		switch (opcion) {
 				case 1:{
 
-					cout << endl << endl;
-					cout << "Ingrese usuario: ";
-					string usuario;
-					cin >> usuario;
+						bool listo=false;
+						ABMAdministrador *adm = new ABMAdministrador("administrador.ga");
+						while (!listo){
+							cout << endl << endl;
+							cout << "Ingrese usuario: ";
+							string usuario;
+							cin >> usuario;
 
-					ABMAdministrador *adm = new ABMAdministrador("administrador.ga");
+							if (adm->existKey(usuario)){
+								cout << endl;
+								cout << "Ingrese password: ";
+								string pass;
+								cin >> pass;
 
-					if (adm->existKey(usuario)){
-						cout << endl;
-						cout << "Ingrese password: ";
-						string pass;
-						cin >> pass;
+								if (adm->GetAdmin(usuario)->GetClave()==pass){
 
-						if (adm->GetAdmin(usuario)->GetClave()==pass){
-							MenuABM();
+									MenuABM();
+									listo=true;
+								}
+								else {
+									cout << endl;
+									cout << "Password incorrecta, presione una tecla para reintentar o [q] para volver" ;
+									cin >> pass;
+									if (pass=="q") listo=true;
+								}
+							}
+							else{
+								cout << "No existe el usuario ingresado, presione una tecla para reintentar o [q] para volver" ;
+
+								cin >> usuario;
+								if (usuario=="q") listo=true;
+								break;
+							}
 						}
-						else {
-							cout << endl;
-							cout << "Password incorrecta, presione una tecla para reintentar o [q] para volver" ;
-							cin >> pass;
-							if (pass=="q") MenuPpal();
-						}
-					}
-					else{
-						cout << "No existe el usuario ingresado" << endl;
-						cin >> usuario;
-						break;
-					}
-
+						delete adm;
 					break;
 				}
 				case 2:	{
@@ -209,7 +216,7 @@ void Menues::MenuAdmin()
 					}
 				case 5:
 					fin=1;
-					this->MenuPpal();
+
 					break;
 				default:
 					fin=0;
@@ -248,7 +255,7 @@ void Menues::MenuVotante()
 
 								printf("\n\n");
 								printf("\tIngrese DNI: ");
-								scanf("\t%d",&dni);
+								cin >> dni;
 
 
 									if (votantes.existKey(dni)){
@@ -362,33 +369,307 @@ void Menues::MenuABM(){
 
 		switch (opcion) {
 			case 1:	{
-
-					bool listo=false;
-
-					while (!listo){
-						string nombre;
-						cout << "Ingrese nuevo nombre de distrito: ";
-						cin >> nombre;
-
-						ABMDistrito *dis = new ABMDistrito("distrito");
-
-						cout << "Distrito agregado con ID: " << dis->Add(nombre) << endl << endl;
-						cin >> nombre;
-						listo = true;
-						delete dis;
-						}
+					MenuABMDistrito();
 
 					break;
 					}
 			case 2:
 					{
+					MenuABMVotante();
+					break;
+					}
+			case 3:
+					{
+					MenuABMEleccion();
+					break;
+					}
+			case 4:
+					{
+					MenuABMCargo();
+					break;
+					}
+
+			case 5:
+					{
+					MenuABMLista();
+					break;
+					}
+
+			case 6:
+					{
+					MenuABMCandidato();
+					break;
+					}
+			case 7:
+					{
+					Reportes();
+					break;
+					}
+
+			case 8:
+					{
+					fin=1;
+
+					break;
+					}
+
+			default:
+					fin=0;
+					break;
+
+						}
+				}
+
+
+}
+
+void Menues::MenuABMDistrito(){
+
+int fin=0;
+int opcion;
+
+	while (fin==0){
+		system("clear");
+		printf("============\n");
+		printf("ABM DISTRITO\n");
+		printf("============\n\n");
+		printf("\t1. Alta Distrito \n");
+		printf("\t2. Baja Distrito \n");
+		printf("\t3. Modificacion Distrito\n");
+		printf("\t4. Volver\n\n");
+
+		printf("\tIngrese una opcion: ");
+		scanf("%i",&opcion);
+
+		switch (opcion) {
+					case 1:	{
+							system("clear");
+							bool listo=false;
+							ABMDistrito *dis = new ABMDistrito("distrito");
+
+							cout << "ALTA DISTRITO" << endl;
+							cout << "-------------" << endl << endl;
+
+							while (!listo){
+								string nombre;
+
+								cout << "Ingrese nuevo nombre de distrito: ";
+								cin >> nombre;
+
+								int ok = dis->Add(nombre);
+								if (ok!=-1){
+									cout << "Distrito agregado con ID: " << ok << endl << endl;
+									cin >> nombre;
+									listo = true;
+								}
+								else{
+									cout << "Ya existe el distrito ingresado, presione una tecla para reintentar o [q] para volver";
+									cin >> nombre;
+									if (nombre=="q") listo=true;
+								}
+
+							}
+							delete dis;
+
+							break;
+							}
+					case 2:	{
+							system("clear");
+							bool listo=false;
+							while (!listo){
+								int id;
+								cout << "BAJA DISTRITO" << endl;
+								cout << "-------------" << endl << endl;
+								cout << "Ingrese ID del distrito: ";
+								cin >> id;
+								ABMDistrito *dis = new ABMDistrito("distrito");
+
+								cout << "Se elimino el distrito ID : " << dis->Delete(id) << endl << endl;
+								cin >> id;
+								listo = true;
+								delete dis;
+								}
+							break;
+							}
+					case 3:
+							{
+							// FALTA SOLO ESTE CASO
+							break;
+							}
+					case 4:
+							{
+							fin=1;
+							break;
+							}
+					default:
+							fin=0;
+							break;
+					}
+		}
+
+
+
+
+
+}
+
+void Menues::MenuABMLista()
+{
+	int fin=0;
+	int opcion;
+
+		while (fin==0){
+			system("clear");
+			printf("=========\n");
+			printf("ABM LISTA\n");
+			printf("=========\n\n");
+			printf("\t1. Alta Lista \n");
+			printf("\t2. Baja Lista \n");
+			printf("\t3. Modificacion Lista\n");
+			printf("\t4. Volver\n\n");
+			printf("\tIngrese una opcion: ");
+			scanf("%i",&opcion);
+			cout << endl;
+			switch (opcion) {
+						case 1:	{
+							bool listo=false;
+							ABMLista *abmLista = new ABMLista();
+							system("clear");
+							printf("ALTA LISTA\n");
+							printf("------------\n\n");
+
+							while (!listo){
+								string nombre;
+								cout << "Ingrese nombre de la Lista: ";
+								cin >> nombre;
+								cout << endl;
+
+								if (!abmLista->existKey(nombre)){
+
+									ABMEleccion *abmEleccion = new ABMEleccion();
+									string eleccion;
+									bool listo2=false;
+									while (!listo2){
+										cout << "Ingrese el ID_Eleccion asociada a la Lista: ";
+										cin >> eleccion;
+										cout << endl;
+										if (abmEleccion->ExistsKey(eleccion)) {
+											Lista *lista = new Lista(nombre,eleccion);
+											abmLista->Add(lista);
+											listo2=true;
+
+											delete lista;
+										}
+										else{
+											cout << "No existe el ID Eleccion, presione una tecla para reintentar o [q] para salir";
+											string c;
+											cin >> c;
+											if (c=="q") {
+
+												listo2=true;
+											}
+										}
+									}
+									listo=true;
+								}
+								else{
+									//existe
+									cout << "La lista ingresada ya existe, presione una tecla para reintentar o [q] para salir";
+									string c;
+									cin >> c;
+									if (c=="q") listo=true;
+								}
+
+							}
+							delete abmLista;
+							break;
+
+						}
+						case 2:{
+							bool listo=false;
+							ABMLista *abmLista = new ABMLista();
+							system("clear");
+							printf("BAJA LISTA\n");
+							printf("----------\n\n");
+
+							while (!listo){
+								string nombre;
+								cout << "Ingrese nombre de la Lista: ";
+								cin >> nombre;
+								cout << endl;
+
+								if (!abmLista->existKey(nombre)){
+
+									listo = abmLista->Delete(abmLista->GetLista(nombre));
+									}
+								else{
+									cout << "No existe la lista "<< nombre << ", presione una tecla para reintentar o [q] para salir";
+									string c;
+									cin >> c;
+									if (c=="q") listo=true;
+									}
+							}
+							delete abmLista;
+							break;
+						}
+						case 3:{
+								//falta esto solo
+								break;
+								}
+						case 4:{
+								fin=1;
+								break;
+								}
+						default:{
+							fin=0;
+							break;
+						}
+			}
+		}
+}
+
+void Menues::MenuABMCargo()
+{
+}
+
+void Menues::MenuABMCandidato()
+{
+}
+
+void Menues::Reportes()
+{
+}
+
+void Menues::MenuABMVotante()
+{
+int fin=0;
+int opcion;
+
+	while (fin==0){
+		system("clear");
+		printf("============\n");
+		printf("ABM VOTANTE\n");
+		printf("============\n\n");
+		printf("\t1. Alta votante \n");
+		printf("\t2. Baja votante \n");
+		printf("\t3. Modificacion votante\n");
+		printf("\t4. Volver\n\n");
+		printf("\tIngrese una opcion: ");
+		scanf("%i",&opcion);
+
+		switch (opcion) {
+					case 1:	{
 						bool listo=false;
+						ABMVotante *vot = new ABMVotante("votante");
 
 						while (!listo){
 							string dni;
+							system("clear");
+							printf("ALTA VOTANTE\n");
+							printf("------------\n\n");
+
 							cout << "Ingrese DNI del usuario: ";
 							cin >> dni;
-							ABMVotante *vot = new ABMVotante("votante");
 
 							if (!vot->existKey(Helper::StringToLong(dni))){
 
@@ -414,9 +695,13 @@ void Menues::MenuABM(){
 								if (dis->Exists(id_distrito)){
 									Votante *votante = new Votante(Helper::StringToLong(dni),_nombreYApellido,_clave,_domicilio,id_distrito);
 									vot->Add(votante);
-									delete vot;
+
 									delete votante;
 									listo=true;
+									cout << endl << endl;
+									cout << "votante agregado satisfactoriamente.";
+									cin >> dni;
+
 								}
 								else {
 									cout << "No existe el IdDistrito ingresado, presione una tecla para reintentar o [q] para volver";
@@ -432,57 +717,306 @@ void Menues::MenuABM(){
 								cin >> dni;
 								if (dni=="q") listo=true;
 							}
-						}
-
-					break;
-					}
-			case 3:
-					{
-					fin=1;
-					break;
-					}
-			case 4:
-					{
-					fin=1;
-					break;
-					}
-
-			case 5:
-					{
-					fin=1;
-					break;
-					}
-
-			case 6:
-					{
-					fin=1;
-					break;
-					}
-			case 7:
-					{
-					fin=1;
-					break;
-					}
-
-			case 8:
-					{
-					fin=1;
-					MenuAdmin();
-					break;
-					}
-
-			default:
-					fin=0;
-					break;
 
 						}
-				}
+						delete vot;
+						break;
+							}
+					case 2:	{
+							bool listo=false;
+							ABMVotante *vot = new ABMVotante("votante");
+							while (!listo){
+								system("clear");
+								printf("BAJA VOTANTE\n");
+								printf("------------\n\n");
 
+								string dni;
+								cout << "Ingrese DNI del usuario: ";
+								cin >> dni;
+
+								if (vot->existKey(Helper::StringToLong(dni))){
+									vot->Delete(vot->GetVotante(Helper::StringToLong(dni)));
+
+									cout << endl << endl;
+									cout << "votante eliminado." << endl;
+									cout << "Presione una tecla para eliminar otro o [q] para volver";
+									cin >> dni;
+									listo =true;
+								}
+								else{
+									cout << endl << endl;
+									cout << "No existe el votante, presione una tecla para reintentar o [q] para volver";
+									cin >> dni;
+									if (dni=="q") listo=true;
+								}
+
+							}
+							delete vot;
+							break;
+							}
+					case 3:
+							{
+								//FALTA SOLO ESTE CASO
+								break;
+							}
+					case 4:
+							{
+							fin=1;
+							break;
+							}
+					default:
+							fin=0;
+							break;
+					}
+		}
 
 }
 
+void Menues::MenuABMEleccion()
+{
+	int fin=0;
+	int opcion;
+
+		while (fin==0){
+			system("clear");
+			printf("============\n");
+			printf("ABM ELECCION\n");
+			printf("============\n\n");
+			printf("\t1. Alta eleccion \n");
+			printf("\t2. Baja eleccion \n");
+			printf("\t3. Modificar eleccion\n");
+			printf("\t4. Volver\n\n");
+			printf("\tIngrese una opcion: ");
+			scanf("%i",&opcion);
+
+			switch (opcion) {
+						case 1:	{
+							bool listo=false;
+							ABMEleccion *el = new ABMEleccion();
+
+							while (!listo){
+								string dni;
+								system("clear");
+								printf("ALTA ELECCION\n");
+								printf("------------\n\n");
+
+								short dia,mes,anio;
+								cout << "Ingrese fecha de la eleccion: "<<endl;
+								cout << "Año: ";
+								cin >> anio;
+								cout << endl << "Mes: ";
+								cin >> mes;
+								cout << endl << "Dia: ";
+								cin >> dia;
+								cout << endl << endl;
+								//habria que validar fecha
+								Fecha fecha = Fecha(dia,mes,anio);
+
+								bool listo2=false;
+								while (!listo2){
+									string nombre;
+									int idCargo;
+									cout << "Ingrese nombre cargo principal: ";
+									cin >> nombre;
+
+
+									//busco si existe el nombre
+									ABMCargo *abmCargo = new ABMCargo();
+
+									bool existNombre=false;
+									vector<Cargo> vecCargos = abmCargo->GetCargos();
+
+									for (unsigned int i=0;((i<vecCargos.size()) && (!existNombre));i++){
+
+										if ((vecCargos.at(i).GetNombre())==nombre){
+											existNombre=true;
+											idCargo= vecCargos.at(i).GetId();
+										}
+									}
+									delete abmCargo;
+
+									if (!existNombre){
+										cout << endl << endl;
+										cout << "El cargo no existente, presione una tecla para reintentar o [q] para volver";
+										cin >> nombre;
+										if (nombre=="q") {
+											listo2=true;
+											listo=true;
+										}
+									}
+									else{
+
+										//verifico que la eleccion (fecha_idcargo) no exista
+										Eleccion *eleccion = new Eleccion(idCargo,fecha);
+										int existe = el->Add(eleccion);
+
+										if (existe==0){
+											bool finCargaDistrito=false;
+											ABMDistrito *dis = new ABMDistrito("distrito");
+											IntegerList distritos;
+
+											//cargo lista de distritos para la eleccion
+											while(!finCargaDistrito){
+												int id_distrito;
+												string op;
+												cout << "Desea carga un IDDistrito a la eleccion, escriba [s]=SI o [n]=terminar: ";
+												cin >> op;
+
+												if (op=="s"){
+
+													cout << endl;
+													cout << "Ingrese ID del distrito: ";
+													cin >> id_distrito;
+													cout << endl;
+
+													if (dis->Exists(id_distrito)){
+														distritos.Add(id_distrito);
+														cout << "Id distrito "<< id_distrito << " cargado con exito" << endl;
+
+														}
+													else {
+														cout << "No existe el IdDistrito " << id_distrito << " , presione una tecla para reintentar o [q] para terminar";
+														string c;
+														cin >> c;
+														if (c=="q") finCargaDistrito=true;
+
+														}
+												}
+												else {
+													//termine de cargar la eleccion, vuelvo al menu
+													finCargaDistrito=true;
+												}
+											}//fin de carga de distritos
+
+										delete dis;
+
+										//guardo eleccion
+										for (int i=0;i<distritos.GetSize();i++){
+											eleccion->AddDistrito(distritos.Get(i));
+										}
+
+										el->Modify(eleccion);
+										listo2=true;
+										listo=true;
+
+										}
+										else{
+											cout << endl;
+											cout << "Ya existe la eleccion (Fecha y Cargo) ingresa, presione una tecla para volver."<< endl;
+											char c;
+											cin >> c;
+											listo=true;
+										}
+										delete eleccion;
+									}
+
+								}
+							}
+
+
+
+							delete el;
+							break;
+								}
+						case 2:	{
+								bool listo = false;
+								ABMEleccion *el = new ABMEleccion();
+
+								while (!listo){
+									string dni;
+									system("clear");
+									printf("BAJA ELECCION\n");
+									printf("------------\n\n");
+
+									short dia,mes,anio;
+									cout << "Ingrese fecha de la eleccion: "<<endl;
+									cout << "Año: ";
+									cin >> anio;
+									cout << endl << "Mes: ";
+									cin >> mes;
+									cout << endl << "Dia: ";
+									cin >> dia;
+									cout << endl << endl;
+									//habria que validar fecha
+									Fecha fecha = Fecha(dia,mes,anio);
+
+									bool listo2=false;
+									while (!listo2){
+										string nombre;
+										int idCargo;
+										cout << "Ingrese nombre cargo principal: ";
+										cin >> nombre;
+
+
+										//busco si existe el nombre
+										ABMCargo *abmCargo = new ABMCargo();
+
+										bool existNombre=false;
+										vector<Cargo> vecCargos = abmCargo->GetCargos();
+
+										for (unsigned int i=0;((i<vecCargos.size()) && (!existNombre));i++){
+
+											if ((vecCargos.at(i).GetNombre())==nombre){
+												existNombre=true;
+												idCargo= vecCargos.at(i).GetId();
+											}
+										}
+										delete abmCargo;
+										if (!existNombre){
+											cout << endl << endl;
+											cout << "El cargo no existente, presione una tecla para reintentar o [q] para volver";
+											cin >> nombre;
+											if (nombre=="q") {
+												listo2=true;
+												listo=true;
+											}
+										}
+										else{
+											//verifico que la eleccion (fecha_idcargo) no exista
+											Eleccion *eleccion = new Eleccion(idCargo,fecha);
+
+											if (el->Delete(eleccion)){
+												cout <<endl;
+												cout << "Eleccion eliminada, presione una teclado para volver al menu"<< endl;
+												char c;
+												cin >> c;
+												listo=true;
+												listo2=true;
+											}
+											else{
+												cout <<endl;
+												cout << "No existe eleccion ingresada, presione una teclado para volver al menu"<< endl;
+												char c;
+												cin >> c;
+												listo=true;
+												listo2=true;
+											}
+										}
+									}
+								}
+								break;
+								}
+						case 3:
+								{
+									//FALTA SOLO ESTE CASO
+									break;
+								}
+						case 4:
+								{
+								fin=1;
+								break;
+								}
+						default:
+								fin=0;
+								break;
+						}
+			}
+}
+
+
+
 Menues::~Menues() {
-	// TODO Auto-generated destructor stub
+
 }
 
 

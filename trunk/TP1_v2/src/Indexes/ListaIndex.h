@@ -18,9 +18,9 @@ class ListaIndex {
 	public:
 		ListaIndex(string filename);
 		virtual ~ListaIndex();
-		vector<Lista> GetListasByIdEleccion(int idEleccion);
-		void RefreshIndexLista(int idEleccion, vector<string> listas);
-		void AppendListaToIndex(int idEleccion, string lista);
+		vector<Lista> GetListasByIdEleccion(string idEleccion);
+		void RefreshIndexLista(string idEleccion, vector<string> listas);
+		void AppendListaToIndex(string idEleccion, string lista);
 
 	private:
 		string hashFile;
