@@ -65,7 +65,8 @@ void ABMDistrito::Modify(Distrito distrito){
 		Data data = (Data)str.c_str();
 		int longData = str.length();
 		Element * elemento = new Element(Helper::IntToString(distrito.GetId()),data,longData);
-		BPlusTreeLog::LogModify(Helper::IntToString(distrito.GetId()),data,"Lista_HashOperation.log");
+		//logueo el modify
+		BPlusTreeLog::LogModify(Helper::IntToString(distrito.GetId()),data,"Distrito_BPlusTreeOperation.log");
 		BPlusTreeLog::LogProcess(this->bpPlusTree,"Distrito_BPlusTreeProccess.log");
 		this->bpPlusTree->modify(elemento);
 	}
