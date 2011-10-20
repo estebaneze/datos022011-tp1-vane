@@ -22,8 +22,6 @@ ABMEleccion::ABMEleccion() {
  */
 int ABMEleccion::Add(Eleccion* eleccion){
 
-	/*string fecha = eleccion.GetDate().getStrFecha();
-	string value =  Helper::concatenar(fecha,Helper::IntToString(eleccion.GetIdCargo()),"_");*/
 	string value = eleccion->GetId(); //NO PUEDO HACER EL ID DE LA ELECCION CON "|" PORQUE SE CONFUNDE CUANDO LO QUIERO USAR EN LAS OTRAS ENTIDADES
 
 	if (!Exists(eleccion)){
@@ -55,8 +53,6 @@ int ABMEleccion::Add(Eleccion* eleccion){
  */
 bool ABMEleccion::Delete(Eleccion* eleccion){
 
-/*	string fecha = eleccion->GetDate().getStrFecha();
-	string value =  Helper::concatenar(fecha,Helper::IntToString(eleccion->GetIdCargo()),"_");*/
 	string value = eleccion->GetId();
 
 	if (ExistsKey(value)){
@@ -77,8 +73,6 @@ bool ABMEleccion::Delete(Eleccion* eleccion){
 */
 void ABMEleccion::Modify(Eleccion* eleccion){
 
-	/*string fecha = eleccion->GetDate().getStrFecha();
-	string value =  Helper::concatenar(fecha,Helper::IntToString(eleccion.GetIdCargo()),"|");*/
 	string value = eleccion->GetId();
 
 	if (ExistsKey(value)){
@@ -137,9 +131,6 @@ Eleccion* ABMEleccion::GetEleccion(string idEleccion){
  * Devuelve true si el eleccion existe en el arbol, sino false.
  */
 bool ABMEleccion::Exists(Eleccion* eleccion){
-
-	/*string fecha = eleccion->GetDate().getStrFecha();
-	string value =  Helper::concatenar(fecha,Helper::IntToString(eleccion.GetIdCargo()),"|");*/
 
 	string value = eleccion->GetId();
 
