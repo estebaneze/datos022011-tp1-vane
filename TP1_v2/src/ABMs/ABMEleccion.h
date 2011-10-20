@@ -15,6 +15,7 @@
 #include "../Common/Identities.h"
 #include "../Indexes/Index.h"
 #include "../BPlusTree/Element.h"
+#include "../Logging/BPlusTreeLog.h"
 
 
 class ABMEleccion {
