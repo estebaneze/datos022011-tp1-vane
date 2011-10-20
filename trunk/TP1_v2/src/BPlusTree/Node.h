@@ -1,8 +1,8 @@
 /*
  * node.h
  *
- *  Created on: Apr 3, 2010
- *      Author: sergio
+ *  Created on: Octubre 2011
+ *      Author: Grupo Milanesio
  */
 
 #ifndef NODE_H_

@@ -1,8 +1,8 @@
 /*
  * NodeFactory.h
  *
- *  Created on: Apr 25, 2010
- *      Author: carlos
+ *  Created on: Octubre 2011
+ *      Author: Grupo Milanesio
  */
 
 #ifndef NODEFACTORY_H_
