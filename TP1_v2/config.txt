@@ -3,16 +3,11 @@
 #############################
 
 
-blockSize 			= 24576  	#Tamaño del bloque para el hash
-treeBlockSize 		= 24576 	#Tamaño del bloque para el arbol
+blockSize 		= 24576  	#Tamaño del bloque para el hash
+treeBlockSize 		= 128    	#Tamaño del bloque para el arbol
 hashBlockSize 		= 4096 		#Tamaño del bloque para el arbol
-chargePercent		= 0.8 		#Porcentaje de carga
+chargePercent		= 0.1 		#Porcentaje de carga
 minRecordSizeTree	= 0			#Tamaño minimo del bloque
-maxRecordSizeTree	= 245760
 maxRecordPercent	= 0.2 		#Porcentaje maximo del registro
-precision			= 16		#
-exclusion			= true 		#Si trabaja con exclusion el PPMC
-ppmclogger			= true
-arithmeticlogger	= true
 
 EndConfigFile
