@@ -49,7 +49,9 @@ src/ABMs/ABMEleccion.d src/ABMs/ABMEleccion.o: \
  ../src/ABMs/../Indexes/../Hash/../Persistencia/PersistorBase.h \
  ../src/ABMs/../Indexes/../Hash/../Persistencia/exceptions/PersistExceptions.h \
  ../src/ABMs/../Indexes/../Common/Common.h \
- ../src/ABMs/../BPlusTree/Element.h
+ ../src/ABMs/../BPlusTree/Element.h ../src/ABMs/../Logging/BPlusTreeLog.h \
+ ../src/ABMs/../Logging/../BPlusTree/BPlusTree.h \
+ ../src/ABMs/../Logging/Log.h
 
 ../src/ABMs/ABMEleccion.h:
 
@@ -158,3 +160,9 @@ src/ABMs/ABMEleccion.d src/ABMs/ABMEleccion.o: \
 ../src/ABMs/../Indexes/../Common/Common.h:
 
 ../src/ABMs/../BPlusTree/Element.h:
+
+../src/ABMs/../Logging/BPlusTreeLog.h:
+
+../src/ABMs/../Logging/../BPlusTree/BPlusTree.h:
+
+../src/ABMs/../Logging/Log.h:

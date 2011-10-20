@@ -20,16 +20,18 @@ ABMDistrito::ABMDistrito(string bpTreeFile) {
 int ABMDistrito::Add(string nombre){
 
 	int idDistrito = Identities::GetNextIdDistrito();
-	cout<<"antes in"<<endl;
-	if (!Exists(idDistrito)){
-		cout<<"antes jfkdjfin"<<endl;
+	//cout<<"antes in"<<endl;
+
+	if (!Exists(nombre)){
+	//	cout<<"antes jfkdjfin"<<endl;
 
 		Data data = (Data)nombre.c_str();
-		cout << "Insertando el D: " << idDistrito << nombre << endl;
+		//cout << "Insertando el D: " << idDistrito << nombre << endl;
 
 		int longData = nombre.length();
 		Element * elemento = new Element(Helper::IntToString(idDistrito),data,longData);
-		cout<<"antes insert"<<endl;
+		//cout<<"antes insert"<<endl;
+
 		this->bpPlusTree->insert(elemento);
 		//logueo el add
 		BPlusTreeLog::LogInsert(Helper::IntToString(idDistrito),data,"Distrito_BPlusTreeOperation.log");
@@ -37,6 +39,8 @@ int ABMDistrito::Add(string nombre){
 
 		return idDistrito;
 	}
+
+	cout << "El Distrito con el nombre " << nombre << " ya fue ingresado " << endl;
 	return -1;
 }
 
@@ -74,8 +78,11 @@ void ABMDistrito::Modify(Distrito distrito){
 
 /*
  * Falta implementar
+ *TODO: implementar
  */
 vector<Distrito> ABMDistrito::GetDistritos(){
+
+	cout << endl << endl << "************WARNING: IMPLEMENTAR " << "ABMDistrito::GetDistritos()" << endl << endl;
 
 	vector<Distrito> distritos;
 	return distritos;
@@ -92,16 +99,21 @@ Distrito* ABMDistrito::GetDistrito(int idDistrito){
 		Element* el = bpPlusTree->findExact(distritoId);
 		int idDist= Helper::StringToInt(el->getKey());
 		return new Distrito(idDist, "");
-	} else return NULL;
+	}
+	else {
+		return NULL;
+	}
 }
 
 /**
  * Devuelve true si el distrito existe en el arbol, sino false.
  */
 bool ABMDistrito::Exists(Distrito distrito){
+
 	if(this->bpPlusTree->findExact(Helper::IntToString(distrito.GetId()))==NULL)
 		return false;
-	else return true;
+	else
+		return true;
 }
 
 /**
@@ -111,6 +123,21 @@ bool ABMDistrito::Exists(int idDistrito){
 	if(this->bpPlusTree->findExact(Helper::IntToString(idDistrito))==NULL)
 		return false;
 	else return true;
+}
+
+/**
+ * Devuelve true si el distrito existe en el arbol, sino false.
+ */
+bool ABMDistrito::Exists(string nombreDistrito){
+
+	vector<Distrito> distritosActuales = this->GetDistritos();
+
+	for(int i = 0; i < distritosActuales.size(); i++){
+		if(distritosActuales[i].GetNombre() == nombreDistrito)
+			return true;
+	}
+
+	return false;
 }
 
 /*

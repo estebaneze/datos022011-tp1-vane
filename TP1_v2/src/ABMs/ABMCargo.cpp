@@ -8,10 +8,11 @@
 #include "ABMCargo.h"
 
 
-ABMCargo::ABMCargo(string hashFile) {
+ABMCargo::ABMCargo() {
 
-	this->hashFile= hashFile;
+	this->hashFile= "cargo.ga";
 	this->directorio = new Directory(hashFile,2048);
+
 
 }
 
@@ -20,7 +21,8 @@ int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
 
 	int idCargo = Identities::GetNextIdCargo();
 
-	if (!(this->directorio->existKey(Helper::IntToString(idCargo)))){
+	//if (!(this->directorio->existKey(Helper::IntToString(idCargo)))){
+	if(!this->Exists(nombre)){	//Si no existe un cargo con el mismo nombre
 
 		string field = nombre.append("|");
 		field.append(Helper::concatenar(cargosSecundarios, "|"));
@@ -28,9 +30,14 @@ int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
 
 		HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
 		HashLog::LogInsert(Helper::IntToString(idCargo),field,"Cargo_HashOperation.log");
+
+		//Actualizo la lista de cargos del abm *******++ si queda tiempo lo implemento bien (Vane)
+		//this->cargos.push_back(Cargo(idCargo, nombre, cargosSecundarios));
+
 		return idCargo;
 	}
 	else{
+		cout << "El Cargo con el nombre " << nombre << " ya fue ingresado " << endl;
 		return -1;
 	}
 }
@@ -39,9 +46,27 @@ int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
 bool ABMCargo::Delete(int idCargo){
 
 	if (this->directorio->existKey(Helper::IntToString(idCargo))){
+
 		this->directorio->remove(Helper::IntToString(idCargo));
+
 		HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
 		HashLog::LogDelete(Helper::IntToString(idCargo),"","Cargo_HashOperation.log");
+
+		//Actualizo la lista de cargos del abm *******++ si queda tiempo lo implemento bien (Vane)
+		/*int index = 0;
+		for(index = 0; index < cargos.size(); index++){
+
+			if(cargos[index].GetId() == idCargo){
+				break;
+			}
+		}
+
+		//borro del vector el elemento en la posicion i
+		if(index < this->cargos.size()){
+			this->cargos.erase(cargos.begin() + index);
+		}
+			*/
+
 		return true;
 	}
 	else {
@@ -62,8 +87,16 @@ void ABMCargo::Modify(Cargo cargo){
 		HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
 		HashLog::LogModify(Helper::IntToString(cargo.GetId()),aux,"Cargo_HashOperation.log");
 
+		/*
+		//Actualizo la lista de cargos del abm *******++ si queda tiempo lo implemento bien (Vane)
+		for(int i = 0; i < cargos.size(); i++){
+			if(cargos[i].GetId() == cargo.GetId()){
+				cargos[i] = cargo;
+				break;
+			}
+		}
+		*/
 	}
-
 }
 
 vector<Cargo> ABMCargo::GetCargos(){
@@ -131,6 +164,19 @@ Cargo* ABMCargo::GetCargo(int idCargo){
 
 bool ABMCargo::Exists(Cargo cargo){
 	return this->directorio->existKey(Helper::IntToString(cargo.GetId()));
+}
+
+bool ABMCargo::Exists(string nombreCargo){
+
+	vector<Cargo> cargosActuales = this->GetCargos();
+
+	for(int i = 0; i < cargosActuales.size(); i++){
+
+		if(cargosActuales[i].GetNombre() == nombreCargo)
+			return true;
+	}
+
+	return false;
 }
 
 void ABMCargo::mostrarCargosPorPantalla(){

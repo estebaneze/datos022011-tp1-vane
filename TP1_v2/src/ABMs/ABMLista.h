@@ -18,16 +18,16 @@
 class ABMLista {
 
 	public:
-		ABMLista(string HashFile, string indexFile);
+		ABMLista();
 		virtual ~ABMLista();
-		bool existKey(Lista* lista);
+		bool existKey(string key);
 		void Add(Lista* lista);
 		bool Delete(Lista* lista);
 		void Modify(Lista* lista);
 		vector<Lista> GetListas();
 		Lista* GetLista(std::string nombre);
 		void mostrarListasPorPantalla();
-		vector<Lista> GetListasByEleccion(int idEleccion);
+		vector<Lista> GetListasByEleccion(string idEleccion);
 
 	private:
 			string hashFile;

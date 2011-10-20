@@ -18,7 +18,10 @@ src/ABMs/ABMCargo.d src/ABMs/ABMCargo.o: ../src/ABMs/ABMCargo.cpp \
  ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h \
  ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h \
  ../src/ABMs/../Logging/HashLog.h \
- ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/../Logging/Log.h
+ ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/../Logging/Log.h \
+ ../src/ABMs/../Indexes/Index.h \
+ ../src/ABMs/../Indexes/../Hash/Directory.h \
+ ../src/ABMs/../Indexes/../Common/Common.h
 
 ../src/ABMs/ABMCargo.h:
 
@@ -73,3 +76,9 @@ src/ABMs/ABMCargo.d src/ABMs/ABMCargo.o: ../src/ABMs/ABMCargo.cpp \
 ../src/ABMs/../Logging/../Hash/Directory.h:
 
 ../src/ABMs/../Logging/Log.h:
+
+../src/ABMs/../Indexes/Index.h:
+
+../src/ABMs/../Indexes/../Hash/Directory.h:
+
+../src/ABMs/../Indexes/../Common/Common.h:

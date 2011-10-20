@@ -20,6 +20,7 @@
 #include "ABMs/ABMDistrito.h"
 #include "ABMs/ABMEleccion.h"
 #include "Indexes/ListaIndex.h"
+#include "utils/Fecha.h"
 
 class Menues {
 public:
@@ -30,6 +31,13 @@ public:
 	void Menu_EleccionesXDistrito_votante(Votante* votante);
 	void Menu_ListasXEleccion(Eleccion* eleccion);
 	void MenuABM();
+	void MenuABMDistrito();
+	void MenuABMVotante();
+	void MenuABMEleccion();
+	void MenuABMCargo();
+	void MenuABMLista();
+	void MenuABMCandidato();
+	void Reportes();
 	virtual ~Menues();
 };
 

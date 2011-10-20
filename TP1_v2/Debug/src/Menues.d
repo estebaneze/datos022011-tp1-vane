@@ -4,6 +4,9 @@ src/Menues.d src/Menues.o: ../src/Menues.cpp ../src/Menues.h \
  ../src/ABMs/../Common/Helper.h ../src/ABMs/../Common/../Logging/Log.h \
  ../src/ABMs/../Entidades/Votante.h \
  ../src/ABMs/../Entidades/../Common/Common.h \
+ ../src/ABMs/../Entidades/Eleccion.h \
+ ../src/ABMs/../Entidades/../utils/Fecha.h \
+ ../src/ABMs/../Entidades/../utils/../Common/Common.h \
  ../src/ABMs/../Hash/Directory.h ../src/ABMs/../Hash/Table.h \
  ../src/ABMs/../Hash/../Persistencia/Block.h \
  ../src/ABMs/../Hash/../Persistencia/ISerializable.h \
@@ -53,25 +56,25 @@ src/Menues.d src/Menues.o: ../src/Menues.cpp ../src/Menues.h \
  ../src/ABMs/../BPlusTree/../Logging/Log.h \
  ../src/ABMs/../Common/Identities.h ../src/ABMs/../Entidades/Conteo.h \
  ../src/ABMs/../Common/Helper.h ../src/ABMs/ABMVotante.h \
- ../src/ABMs/ABMDistrito.h ../src/ABMs/../Entidades/Distrito.h \
+ ../src/ABMs/ABMEleccion.h ../src/ABMs/../Entidades/Eleccion.h \
  ../src/ABMs/../BPlusTree/Element.h ../src/ABMs/../Logging/BPlusTreeLog.h \
  ../src/ABMs/../Logging/../BPlusTree/BPlusTree.h \
- ../src/ABMs/ABMEleccion.h ../src/ABMs/../Entidades/Eleccion.h \
- ../src/ABMs/../Entidades/../utils/Fecha.h \
- ../src/ABMs/../Entidades/../utils/../Common/Common.h \
- ../src/Indexes/ListaIndex.h ../src/Indexes/../Hash/KeyValue.h \
- ../src/Indexes/../Hash/Directory.h ../src/Indexes/../Common/Entidades.h \
+ ../src/ABMs/ABMDistrito.h ../src/ABMs/../Entidades/Distrito.h \
+ ../src/ABMs/ABMEleccion.h ../src/Indexes/ListaIndex.h \
+ ../src/Indexes/../Hash/KeyValue.h ../src/Indexes/../Hash/Directory.h \
+ ../src/Indexes/../Common/Entidades.h \
  ../src/Indexes/../Common/../Entidades/Candidato.h \
  ../src/Indexes/../Common/../Entidades/Cargo.h \
  ../src/Indexes/../Common/../Entidades/Administrador.h \
  ../src/Indexes/../Common/../Entidades/Conteo.h \
  ../src/Indexes/../Common/../Entidades/../Common/Common.h \
- ../src/Indexes/../Common/../Entidades/Distrito.h \
  ../src/Indexes/../Common/../Entidades/Eleccion.h \
  ../src/Indexes/../Common/../Entidades/../utils/Fecha.h \
+ ../src/Indexes/../Common/../Entidades/Distrito.h \
+ ../src/Indexes/../Common/../Entidades/Eleccion.h \
  ../src/Indexes/../Common/../Entidades/Lista.h \
  ../src/Indexes/../Common/../Entidades/Votante.h \
- ../src/Indexes/../Common/Common.h
+ ../src/Indexes/../Common/Common.h ../src/utils/Fecha.h
 
 ../src/Menues.h:
 
@@ -90,6 +93,12 @@ src/Menues.d src/Menues.o: ../src/Menues.cpp ../src/Menues.h \
 ../src/ABMs/../Entidades/Votante.h:
 
 ../src/ABMs/../Entidades/../Common/Common.h:
+
+../src/ABMs/../Entidades/Eleccion.h:
+
+../src/ABMs/../Entidades/../utils/Fecha.h:
+
+../src/ABMs/../Entidades/../utils/../Common/Common.h:
 
 ../src/ABMs/../Hash/Directory.h:
 
@@ -211,9 +220,9 @@ src/Menues.d src/Menues.o: ../src/Menues.cpp ../src/Menues.h \
 
 ../src/ABMs/ABMVotante.h:
 
-../src/ABMs/ABMDistrito.h:
+../src/ABMs/ABMEleccion.h:
 
-../src/ABMs/../Entidades/Distrito.h:
+../src/ABMs/../Entidades/Eleccion.h:
 
 ../src/ABMs/../BPlusTree/Element.h:
 
@@ -221,13 +230,11 @@ src/Menues.d src/Menues.o: ../src/Menues.cpp ../src/Menues.h \
 
 ../src/ABMs/../Logging/../BPlusTree/BPlusTree.h:
 
+../src/ABMs/ABMDistrito.h:
+
+../src/ABMs/../Entidades/Distrito.h:
+
 ../src/ABMs/ABMEleccion.h:
-
-../src/ABMs/../Entidades/Eleccion.h:
-
-../src/ABMs/../Entidades/../utils/Fecha.h:
-
-../src/ABMs/../Entidades/../utils/../Common/Common.h:
 
 ../src/Indexes/ListaIndex.h:
 
@@ -247,14 +254,18 @@ src/Menues.d src/Menues.o: ../src/Menues.cpp ../src/Menues.h \
 
 ../src/Indexes/../Common/../Entidades/../Common/Common.h:
 
-../src/Indexes/../Common/../Entidades/Distrito.h:
-
 ../src/Indexes/../Common/../Entidades/Eleccion.h:
 
 ../src/Indexes/../Common/../Entidades/../utils/Fecha.h:
+
+../src/Indexes/../Common/../Entidades/Distrito.h:
+
+../src/Indexes/../Common/../Entidades/Eleccion.h:
 
 ../src/Indexes/../Common/../Entidades/Lista.h:
 
 ../src/Indexes/../Common/../Entidades/Votante.h:
 
 ../src/Indexes/../Common/Common.h:
+
+../src/utils/Fecha.h:
