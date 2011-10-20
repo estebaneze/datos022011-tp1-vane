@@ -630,14 +630,128 @@ void Menues::MenuABMLista()
 
 void Menues::MenuABMCargo()
 {
+	int fin=0;
+	int opcion;
+
+	while (fin==0){
+		system("clear");
+		printf("=========\n");
+		printf("ABM CARGO\n");
+		printf("=========\n\n");
+		printf("\t1. Alta Cargo \n");
+		printf("\t2. Baja Cargo \n");
+		printf("\t3. Modificacion Cargo\n");
+		printf("\t4. Volver\n\n");
+		printf("\tIngrese una opcion: ");
+		scanf("%i",&opcion);
+		cout << endl;
+
+		switch (opcion) {
+					case 1:	{
+						break;
+
+						}
+					case 2:{
+						break;
+					}
+					case 3:{
+						break;
+					}
+					case 4:{
+						fin=1;
+						break;
+					}
+					default:{
+						fin=0;
+						break;
+					}
+		}
+	}
+
 }
 
 void Menues::MenuABMCandidato()
 {
+	int fin=0;
+	int opcion;
+
+	while (fin==0){
+		system("clear");
+		printf("=============\n");
+		printf("ABM CANDIDATO\n");
+		printf("=============\n\n");
+		printf("\t1. Alta Candidato \n");
+		printf("\t2. Baja Candidato \n");
+		printf("\t3. Modificacion Candidato\n");
+		printf("\t4. Volver\n\n");
+		printf("\tIngrese una opcion: ");
+		scanf("%i",&opcion);
+		cout << endl;
+
+		switch (opcion) {
+					case 1:	{
+						break;
+
+						}
+					case 2:{
+						break;
+					}
+					case 3:{
+						break;
+					}
+					case 4:{
+						fin=1;
+						break;
+					}
+					default:{
+						fin=0;
+						break;
+					}
+		}
+	}
+
 }
 
 void Menues::Reportes()
 {
+int fin=0;
+int opcion;
+
+while (fin==0){
+	system("clear");
+	printf("========\n");
+	printf("REPORTES\n");
+	printf("========\n\n");
+	printf("\t1. Reporte por Eleccion \n");
+	printf("\t2. Reporte por Lista\n");
+	printf("\t3. Reporte por Distrito\n");
+	printf("\t4. Volver\n\n");
+	printf("\tIngrese una opcion: ");
+	scanf("%i",&opcion);
+	cout << endl;
+
+	switch (opcion) {
+				case 1:	{
+					break;
+
+					}
+				case 2:{
+					break;
+				}
+				case 3:{
+					break;
+				}
+				case 4:{
+					fin=1;
+					break;
+				}
+				default:{
+					fin=0;
+					break;
+				}
+	}
+}
+
 }
 
 void Menues::MenuABMVotante()
