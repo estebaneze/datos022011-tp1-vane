@@ -11,20 +11,20 @@ Conteo::Conteo(){
 	this->_countVotos = 0;
 }
 
-Conteo::Conteo(string idLista, int idDistrito, int idEleccion, int idConteo) {
+Conteo::Conteo(string idLista, int idDistrito, Eleccion* eleccion, int idConteo) {
 
 	this->_idDistrito = idDistrito;
 	this-> _idLista = idLista;
-	this->_idEleccion = idEleccion;
+	this->_eleccion = eleccion;
 	this->_id = idConteo;
 	this->_countVotos = 0;
 }
 
-Conteo::Conteo(string idLista, int idDistrito, int idEleccion, int idConteo, int cantVotos) {
+Conteo::Conteo(string idLista, int idDistrito, Eleccion* eleccion, int idConteo, int cantVotos) {
 
 	this->_idDistrito = idDistrito;
 	this-> _idLista = idLista;
-	this->_idEleccion = idEleccion;
+	this->_eleccion = eleccion;
 	this->_id = idConteo;
 	this->_countVotos = cantVotos;
 
@@ -38,8 +38,8 @@ int Conteo::GetIdDistrito(){
 	return _idDistrito;
 }
 
-int Conteo::GetIdEleccion(){
-	return _idEleccion;
+Eleccion* Conteo::GetEleccion(){
+	return _eleccion;
 }
 
 int Conteo::AddVoto(){

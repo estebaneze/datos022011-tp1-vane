@@ -22,12 +22,12 @@ ABMConteo::ABMConteo() {
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
 /********* OJO: BUG EN EL INDICE, VER IMPLE DEL INDICE *****************/
-int ABMConteo::Add(string idLista, int idDistrito, int idEleccion){
+int ABMConteo::Add(string idLista, int idDistrito, Eleccion* eleccion){
 
 	int idConteo = Identities::GetNextIdConteo();
 
 	Key key = Helper::IntToString(idConteo);
-	string str = idLista.append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion));
+	string str = idLista.append("|").append(Helper::IntToString(idDistrito)).append("|").append(eleccion->GetId());
 	Data data = (Data)str.c_str();
 	int longData = str.length();
 
@@ -37,7 +37,10 @@ int ABMConteo::Add(string idLista, int idDistrito, int idEleccion){
 	//Actualizo los indices
 	this->indexByDistrito->AppendToIndex(Helper::IntToString(idDistrito), Helper::IntToString(idConteo));
 	this->indexByLista->AppendToIndex(idLista, Helper::IntToString(idConteo));
-	this->indexByEleccion->AppendToIndex(Helper::IntToString(idEleccion), Helper::IntToString(idConteo));
+
+	//Esta es la clave de la eleccion dentro de conteo
+	cout << "Esta es la clave de la eleccion dentro de conteo " << eleccion->GetId() << endl;
+	this->indexByEleccion->AppendToIndex(eleccion->GetId(), Helper::IntToString(idConteo));
 
 	return idConteo;
 }
@@ -47,9 +50,9 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
 
 	Conteo* c = this->GetConteo(idConteo);
 
-	if(votante->VotoEnEleccion(c->GetIdEleccion())){
+	if(votante->VotoEnEleccion(c->GetEleccion())){
 		cout << "-------------------------------------------------------------------------------------------------------------" << endl;
-		cout << "\n\n\El votante " << votante->GetNombreYApellido() << " ya voto en la elecci�n " << c->GetIdEleccion() << endl;
+		cout << "\n\n\El votante " << votante->GetNombreYApellido() << " ya voto en la elecci�n " << c->GetEleccion()->GetId() << endl;
 		cout << "-------------------------------------------------------------------------------------------------------------" << endl;
 
 	}
@@ -61,41 +64,46 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
 		Key key = Helper::IntToString(idConteo);
 		string str = c->GetIdLista();										//agrego lista
 		str.append("|").append(Helper::IntToString(c->GetIdDistrito()));	//agrego id Distrot
-		str.append("|").append(Helper::IntToString(c->GetIdEleccion()));	//agrego id eleccion
+
+		//Esta es la clave de la eleccion dentro de conteo
+		cout << "Esta es la clave de la eleccion dentro de conteo " << c->GetEleccion()->GetId() << endl;
+		str.append("|").append(c->GetEleccion()->GetId());	//agrego id eleccion
+
 		str.append("|").append(Helper::IntToString(c->GetCountVotos()));	//agrego cantidad de votos
+
 		Data data = (Data)str.c_str();
 		int longData = str.length();
 
 		Element * element=new Element(key, data, longData);
 		this->bplusTree->modify(element);
 
-		this->NotifyVotante(votante, c->GetIdEleccion());
+		this->NotifyVotante(votante, (Eleccion*)c->GetEleccion());
 
 		cout <<endl<<endl<<endl <<  "Usted voto la Lista " << c->GetIdLista() << ". Tiene un total del votos de: " << c->GetCountVotos() << endl;
 	}
 
 	cout << "-------------------------------------------------------------------------------------------------------------" << endl;
-	cout << "\n\n\Error: no se encontro el registro de conteo para realizar la votacion " << c->GetIdEleccion() << endl;
+	cout << "\n\n\Error: no se encontro el registro de conteo para realizar la votacion " << c->GetEleccion()->GetId() << endl;
 	cout << "-------------------------------------------------------------------------------------------------------------" << endl;
 
 }
 
 /* Le avisa al Votante que ya voto en esta eleccion */
-void ABMConteo::NotifyVotante(Votante* votante, int idEleccion){
+void ABMConteo::NotifyVotante(Votante* votante, Eleccion* eleccion){
 
 	//Hay que guardar en la entidad Votante el ide de eleccion, para que quede el registro de que ya voto en esta eleccion y no puede volver a votar
 	ABMVotante abmVotantes = ABMVotante("votante");
-	votante->AgregarEleccion(idEleccion);
+	votante->AgregarEleccion(eleccion);
 
-	//(long dni, string nombreYApellido, string clave, string domicilio, int idDistrito);
+	/*//(long dni, string nombreYApellido, string clave, string domicilio, int idDistrito);
 	Votante *v = new Votante(votante->GetDni(), votante->GetNombreYApellido(), votante->GetClave(), votante->GetDomicilio(), votante->GetDistrito());
 	v->SetEleccionesVotadas(votante->GetEleccionesVotadas());
-
-	abmVotantes.Modify(v);
+*/
+	abmVotantes.Modify(votante);
 }
 
 /*Busca el registro de Conteo segun la lisa, distrito y eleccion y le suma un voto. Devuelve la cantidad de votos totales*/
-void ABMConteo::AddVoto(string idLista, int idDistrito, int idEleccion, Votante* votante){
+/*void ABMConteo::AddVoto(string idLista, int idDistrito, int idEleccion, Votante* votante){
 
 	vector<Conteo> byEleccion = this->GetConteoByEleccion(idEleccion);
 
@@ -128,6 +136,7 @@ void ABMConteo::AddVoto(string idLista, int idDistrito, int idEleccion, Votante*
 
 	this->NotifyVotante(votante, c.GetIdEleccion());
 }
+*/
 
 Conteo* ABMConteo::GetConteo(int idConteo){
 
@@ -140,7 +149,18 @@ Conteo* ABMConteo::GetConteo(int idConteo){
 		cantVotos = Helper::StringToInt(splited[3]);
 	}
 
-	return new Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), idConteo, cantVotos);
+	return new Conteo(splited[0], Helper::StringToInt(splited[1]), this->GenerateEleccion(splited[2]), idConteo, cantVotos);
+}
+
+Eleccion* ABMConteo::GenerateEleccion(string idEleccion){
+
+	vector<string> splitedEleccion = Helper::split(idEleccion, '_');
+	int idCargo = Helper::StringToInt(splitedEleccion[1]);
+
+	Fecha fecha = Fecha(splitedEleccion[0]);
+	Eleccion* e = new Eleccion(idCargo, fecha);
+
+	return e;
 }
 
 vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
@@ -158,17 +178,16 @@ vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
 			cantVotos = Helper::StringToInt(splited[3]);
 		}
 
-		conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), kint, cantVotos));
+		conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), this->GenerateEleccion(splited[2]), kint, cantVotos));
 	}
 
 	return conteos;
 }
 
-vector<Conteo> ABMConteo::GetConteoByEleccion(int idEleccion){
-
+vector<Conteo> ABMConteo::GetConteoByEleccion(Eleccion* eleccion){
 
 	vector<Conteo> conteos;
-	vector<Key> ids = this->indexByEleccion->GetIds(Helper::IntToString(idEleccion));
+	vector<Key> ids = this->indexByEleccion->GetIds(eleccion->GetId());
 
 	for(int i = 0; i < ids.size(); i++){
 
@@ -180,7 +199,7 @@ vector<Conteo> ABMConteo::GetConteoByEleccion(int idEleccion){
 			cantVotos = Helper::StringToInt(splited[3]);
 		}
 
-		conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), kint, cantVotos));
+		conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), eleccion, kint, cantVotos));
 	}
 
 	return conteos;
@@ -202,7 +221,10 @@ vector<Conteo> ABMConteo::GetConteoByLista(string idLista){
 			cantVotos = Helper::StringToInt(splited[3]);
 		}
 
-		conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), kint, cantVotos));
+		ABMEleccion abm = ABMEleccion();
+		Eleccion* e = abm.GetEleccion(splited[2]);
+
+		conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), e, kint, cantVotos));
 	}
 
 	return conteos;

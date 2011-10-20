@@ -20,16 +20,16 @@
 class ABMEleccion {
 
 	public:
-		ABMEleccion(string bpTreeFile);
+		ABMEleccion();
 		virtual ~ABMEleccion();
-		bool Exists(Eleccion eleccion);
+		bool Exists(Eleccion* eleccion);
 		bool Exists(int idEleccion);
 		bool ExistsKey(Key idEleccion);
-		int Add(Eleccion eleccion);
-		bool Delete(Eleccion eleccion);
-		void Modify(Eleccion eleccion);
+		int Add(Eleccion* eleccion);
+		bool Delete(Eleccion* eleccion);
+		void Modify(Eleccion* eleccion);
 		vector<Eleccion> GetElecciones();
-		Eleccion * GetEleccion(Fecha fecha, int cargo);
+		Eleccion* GetEleccion(string idEleccion);
 		void mostrarEleccionesPorPantalla();
 	private:
 			string bpTreeFile;
