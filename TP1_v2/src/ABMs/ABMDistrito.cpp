@@ -7,13 +7,11 @@
 #include "ABMDistrito.h"
 
 /*
- * creo el arbol y le paso el nombre del archivo a generar y tamaño del bloque
+ * Creo el arbol y le paso el nombre del archivo a generar
  */
 ABMDistrito::ABMDistrito(string bpTreeFile) {
-
-	this->bpTreeFile= Helper::concatenar(bpTreeFile,"bpt",".");
-	this->bpPlusTree = new BPlusTree(2048,this->bpTreeFile);
-	// OJO! el tamaño lo tioene que leer desde un archivo de configuracion
+	int bufferSize = ConfigurationMananger::getInstance()->getBufferSizeTree();
+	this->bpPlusTree = new BPlusTree(bufferSize,Helper::concatenar(bpTreeFile,"bpt","."));
 }
 
 /*
@@ -22,18 +20,23 @@ ABMDistrito::ABMDistrito(string bpTreeFile) {
 int ABMDistrito::Add(string nombre){
 
 	int idDistrito = Identities::GetNextIdDistrito();
-
+	cout<<"antes in"<<endl;
 	if (!Exists(idDistrito)){
+		cout<<"antes jfkdjfin"<<endl;
 
-		cout << "Insertando el Distrito: " << idDistrito << endl << endl;;
 		Data data = (Data)nombre.c_str();
+		cout << "Insertando el D: " << idDistrito << nombre << endl;
+
 		int longData = nombre.length();
 		Element * elemento = new Element(Helper::IntToString(idDistrito),data,longData);
+		cout<<"antes insert"<<endl;
 		this->bpPlusTree->insert(elemento);
+		//logueo el add
+		BPlusTreeLog::LogInsert(Helper::IntToString(idDistrito),data,"Distrito_BPlusTreeOperation.log");
+		BPlusTreeLog::LogProcess(this->bpPlusTree,"Distrito_BPlusTreeProccess.log");
 
 		return idDistrito;
 	}
-
 	return -1;
 }
 
@@ -43,11 +46,13 @@ int ABMDistrito::Add(string nombre){
 bool ABMDistrito::Delete(int idDistrito){
 
 	if (ExistsKey(Helper::IntToString(idDistrito))){
+		Distrito * d = this->GetDistrito(idDistrito);
 		this->bpPlusTree->remove(Helper::IntToString(idDistrito));
+		//logueo el delete
+		BPlusTreeLog::LogDelete(Helper::IntToString(idDistrito),d->GetNombre(),"Distrito_BPlusTreeOperation.log");
+		BPlusTreeLog::LogProcess(this->bpPlusTree,"Distrito_BPlusTreeProccess.log");
 		return true;
-	} else {
-		return false;
-	}
+	} else return false;
 }
 
 /*
@@ -60,6 +65,8 @@ void ABMDistrito::Modify(Distrito distrito){
 		Data data = (Data)str.c_str();
 		int longData = str.length();
 		Element * elemento = new Element(Helper::IntToString(distrito.GetId()),data,longData);
+		BPlusTreeLog::LogModify(Helper::IntToString(distrito.GetId()),data,"Lista_HashOperation.log");
+		BPlusTreeLog::LogProcess(this->bpPlusTree,"Distrito_BPlusTreeProccess.log");
 		this->bpPlusTree->modify(elemento);
 	}
 }
@@ -81,15 +88,10 @@ Distrito* ABMDistrito::GetDistrito(int idDistrito){
 	string distritoId = Helper::IntToString(idDistrito);
 
 	if (ExistsKey(distritoId)){
-
 		Element* el = bpPlusTree->findExact(distritoId);
 		int idDist= Helper::StringToInt(el->getKey());
-
 		return new Distrito(idDist, "");
-	}
-	else {
-		return NULL;
-	}
+	} else return NULL;
 }
 
 /**
