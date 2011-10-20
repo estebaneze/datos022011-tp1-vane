@@ -7,18 +7,21 @@ CPP_SRCS += \
 ../src/utils/BitFile.cpp \
 ../src/utils/ConfigFile.cpp \
 ../src/utils/ConfigurationMananger.cpp \
+../src/utils/Fecha.cpp \
 ../src/utils/utiles.cpp 
 
 OBJS += \
 ./src/utils/BitFile.o \
 ./src/utils/ConfigFile.o \
 ./src/utils/ConfigurationMananger.o \
+./src/utils/Fecha.o \
 ./src/utils/utiles.o 
 
 CPP_DEPS += \
 ./src/utils/BitFile.d \
 ./src/utils/ConfigFile.d \
 ./src/utils/ConfigurationMananger.d \
+./src/utils/Fecha.d \
 ./src/utils/utiles.d 
 
 

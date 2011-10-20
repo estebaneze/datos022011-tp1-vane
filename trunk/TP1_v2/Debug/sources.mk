@@ -27,6 +27,7 @@ src/utils \
 src/strategies \
 src/exceptions \
 src \
+src/Reportes \
 src/Persistencia \
 src/Logging \
 src/Indexes \

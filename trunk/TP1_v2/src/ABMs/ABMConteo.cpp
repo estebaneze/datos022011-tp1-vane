@@ -84,12 +84,12 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
 void ABMConteo::NotifyVotante(Votante* votante, int idEleccion){
 
 	//Hay que guardar en la entidad Votante el ide de eleccion, para que quede el registro de que ya voto en esta eleccion y no puede volver a votar
-	ABMVotante abmVotantes = ABMVotante();
+	ABMVotante abmVotantes = ABMVotante("votante");
 	votante->AgregarEleccion(idEleccion);
 
 	//(long dni, string nombreYApellido, string clave, string domicilio, int idDistrito);
-	Votante v = Votante(votante->GetDni(), votante->GetNombreYApellido(), votante->GetClave(), votante->GetDomicilio(), votante->GetDistrito());
-	v.SetEleccionesVotadas(votante->GetEleccionesVotadas());
+	Votante *v = new Votante(votante->GetDni(), votante->GetNombreYApellido(), votante->GetClave(), votante->GetDomicilio(), votante->GetDistrito());
+	v->SetEleccionesVotadas(votante->GetEleccionesVotadas());
 
 	abmVotantes.Modify(v);
 }

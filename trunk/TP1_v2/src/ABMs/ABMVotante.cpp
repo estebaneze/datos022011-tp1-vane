@@ -10,9 +10,10 @@
 /*
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
-ABMVotante::ABMVotante() {
+ABMVotante::ABMVotante(string file) {
 
-	string hashFile = "conteo";
+	string hashFile = file;
+	//string hashFile = "conteo";
 	this->file = hashFile;
 	this->directorio = new Directory(file,2048);
 
@@ -27,40 +28,40 @@ ABMVotante::ABMVotante() {
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
-void ABMVotante::Add(Votante votante){
+void ABMVotante::Add(Votante* votante){
 
-	if (!(this->directorio->existKey(Helper::LongToString(votante.GetDni())))){
+	if (!(this->directorio->existKey(Helper::LongToString(votante->GetDni())))){
 
-		string aux= Helper::concatenar(votante.GetNombreYApellido(),votante.GetClave(),"|");
-		aux = Helper::concatenar(aux,votante.GetDomicilio(),"|");
-		aux = Helper::concatenar(aux,Helper::IntToString(votante.GetDistrito()),"|");
+		string aux= Helper::concatenar(votante->GetNombreYApellido(),votante->GetClave(),"|");
+		aux = Helper::concatenar(aux,votante->GetDomicilio(),"|");
+		aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),"|");
 
 		//recorro la lista de eleccion y agrego todos los IdEleccion al string aux
-		for (unsigned int i=0;i<(votante.GetEleccionesVotadas().GetSize());i++){
-			aux = Helper::concatenar(aux,Helper::IntToString(votante.GetEleccionesVotadas().Get(i)),"|");
+		for (unsigned int i=0;i<(votante->GetEleccionesVotadas().GetSize());i++){
+			aux = Helper::concatenar(aux,Helper::IntToString(votante->GetEleccionesVotadas().Get(i)),"|");
 		}
 
-		this->directorio->insert(Helper::LongToString(votante.GetDni()),aux);
+		this->directorio->insert(Helper::LongToString(votante->GetDni()),aux);
 
 		HashLog::LogProcess(this->directorio,"Votante_HashProcess.log");
-		HashLog::LogInsert(Helper::LongToString(votante.GetDni()),aux,"Votante_HashOperation.log");
+		HashLog::LogInsert(Helper::LongToString(votante->GetDni()),aux,"Votante_HashOperation.log");
 
 
 	}
 }
 
 /**Elimina un votante, si no exite arroja un excepcion, informa true si elimino sino false*/
-bool ABMVotante::Delete(Votante votante){
+bool ABMVotante::Delete(Votante *votante){
 
-	if (this->directorio->existKey(Helper::LongToString(votante.GetDni()))){
-		this->directorio->remove(Helper::LongToString(votante.GetDni()));
+	if (this->directorio->existKey(Helper::LongToString(votante->GetDni()))){
+		this->directorio->remove(Helper::LongToString(votante->GetDni()));
 
-		string aux= Helper::concatenar(votante.GetNombreYApellido(),votante.GetClave(),"|");
-				aux = Helper::concatenar(aux,votante.GetDomicilio(),"|");
-				aux = Helper::concatenar(aux,Helper::IntToString(votante.GetDistrito()),"|");
+		string aux= Helper::concatenar(votante->GetNombreYApellido(),votante->GetClave(),"|");
+				aux = Helper::concatenar(aux,votante->GetDomicilio(),"|");
+				aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),"|");
 
 		HashLog::LogProcess(this->directorio,"Votante_HashProcess.log");
-		HashLog::LogDelete(Helper::LongToString(votante.GetDni()),aux,"Votante_HashOperation.log");
+		HashLog::LogDelete(Helper::LongToString(votante->GetDni()),aux,"Votante_HashOperation.log");
 		return true;
 	}
 	else{
@@ -71,25 +72,25 @@ bool ABMVotante::Delete(Votante votante){
 /**Modifica votante pasado por parametro
 * si la encuentra la modifica sino no hace nada
 */
-void ABMVotante::Modify(Votante votante){
+void ABMVotante::Modify(Votante *votante){
 
-	if (this->directorio->existKey(Helper::LongToString(votante.GetDni()))){
+	if (this->directorio->existKey(Helper::LongToString(votante->GetDni()))){
 
 		//concateno todos los campos de votante para luego guardarlo
-		string aux= Helper::concatenar(votante.GetNombreYApellido(),votante.GetClave(),"|");
-		aux = Helper::concatenar(aux,votante.GetDomicilio(),"|");
-		aux = Helper::concatenar(aux,Helper::IntToString(votante.GetDistrito()),"|");
+		string aux= Helper::concatenar(votante->GetNombreYApellido(),votante->GetClave(),"|");
+		aux = Helper::concatenar(aux,votante->GetDomicilio(),"|");
+		aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),"|");
 
 		//recorro la lista de eleccion y agrego todos los IdEleccion al string aux
-		for (unsigned int i=0;i<(votante.GetEleccionesVotadas().GetSize());i++){
-			aux = Helper::concatenar(aux,Helper::IntToString(votante.GetEleccionesVotadas().Get(i)),"|");
+		for (unsigned int i=0;i<(votante->GetEleccionesVotadas().GetSize());i++){
+			aux = Helper::concatenar(aux,Helper::IntToString(votante->GetEleccionesVotadas().Get(i)),"|");
 		}
 
-		this->directorio->modify(Helper::LongToString(votante.GetDni()),aux);
+		this->directorio->modify(Helper::LongToString(votante->GetDni()),aux);
 
 
 		HashLog::LogProcess(this->directorio,"Votante_HashProcess.log");
-		HashLog::LogModify(Helper::LongToString(votante.GetDni()),aux,"Votante_HashOperation.log");
+		HashLog::LogModify(Helper::LongToString(votante->GetDni()),aux,"Votante_HashOperation.log");
 	}
 
 }
@@ -154,8 +155,8 @@ Votante* ABMVotante::GetVotante(long dni){
 	}
 }
 
-bool ABMVotante::existKey(Votante votante){
-	return this->directorio->existKey(Helper::LongToString(votante.GetDni()));
+bool ABMVotante::existKey(long dni){
+	return this->directorio->existKey(Helper::LongToString(dni));
 }
 
 //muestrp key (dni) y resto de los elementos todos concatenados

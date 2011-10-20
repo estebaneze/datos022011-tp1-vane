@@ -40,24 +40,16 @@ src/TP_v2.d src/TP_v2.o: ../src/TP_v2.cpp ../src/BPlusTreeTest.h \
  ../src/ABMs/../Logging/HashLog.h \
  ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/../Logging/Log.h \
  ../src/ABMs/ABMLista.h ../src/ABMs/../Entidades/Lista.h \
- ../src/ABMs/../Indexes/ListaIndex.h \
- ../src/ABMs/../Indexes/../Hash/KeyValue.h \
- ../src/ABMs/../Indexes/../Common/Entidades.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Candidato.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Cargo.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/../Common/Common.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Administrador.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Conteo.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Distrito.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Eleccion.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Lista.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Votante.h \
  ../src/ABMs/../utils/ConfigFile.h ../src/ABMs/ABMConteo.h \
  ../src/ABMs/../BPlusTree/BPlusTree.h ../src/ABMs/../Common/Identities.h \
- ../src/ABMs/../Entidades/Conteo.h ../src/ABMs/../Common/Helper.h \
+ ../src/ABMs/../Entidades/Conteo.h ../src/ABMs/../Entidades/Votante.h \
+ ../src/ABMs/../Common/Helper.h ../src/ABMs/ABMVotante.h \
  ../src/ABMs/ABMDistrito.h ../src/ABMs/../Entidades/Distrito.h \
- ../src/ABMs/../BPlusTree/Element.h ../src/ABMs/ABMVotante.h \
- ../src/ABMs/../Entidades/Votante.h
+ ../src/ABMs/../BPlusTree/Element.h ../src/ABMs/../Logging/BPlusTreeLog.h \
+ ../src/ABMs/../Logging/../BPlusTree/BPlusTree.h ../src/ABMs/ABMVotante.h \
+ ../src/ABMs/ABMEleccion.h ../src/ABMs/../Entidades/Eleccion.h \
+ ../src/ABMs/../Entidades/../utils/Fecha.h \
+ ../src/ABMs/../Entidades/../utils/../Common/Common.h
 
 ../src/BPlusTreeTest.h:
 
@@ -173,30 +165,6 @@ src/TP_v2.d src/TP_v2.o: ../src/TP_v2.cpp ../src/BPlusTreeTest.h \
 
 ../src/ABMs/../Entidades/Lista.h:
 
-../src/ABMs/../Indexes/ListaIndex.h:
-
-../src/ABMs/../Indexes/../Hash/KeyValue.h:
-
-../src/ABMs/../Indexes/../Common/Entidades.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Candidato.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Cargo.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/../Common/Common.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Administrador.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Conteo.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Distrito.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Eleccion.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Lista.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Votante.h:
-
 ../src/ABMs/../utils/ConfigFile.h:
 
 ../src/ABMs/ABMConteo.h:
@@ -207,7 +175,11 @@ src/TP_v2.d src/TP_v2.o: ../src/TP_v2.cpp ../src/BPlusTreeTest.h \
 
 ../src/ABMs/../Entidades/Conteo.h:
 
+../src/ABMs/../Entidades/Votante.h:
+
 ../src/ABMs/../Common/Helper.h:
+
+../src/ABMs/ABMVotante.h:
 
 ../src/ABMs/ABMDistrito.h:
 
@@ -215,6 +187,16 @@ src/TP_v2.d src/TP_v2.o: ../src/TP_v2.cpp ../src/BPlusTreeTest.h \
 
 ../src/ABMs/../BPlusTree/Element.h:
 
+../src/ABMs/../Logging/BPlusTreeLog.h:
+
+../src/ABMs/../Logging/../BPlusTree/BPlusTree.h:
+
 ../src/ABMs/ABMVotante.h:
 
-../src/ABMs/../Entidades/Votante.h:
+../src/ABMs/ABMEleccion.h:
+
+../src/ABMs/../Entidades/Eleccion.h:
+
+../src/ABMs/../Entidades/../utils/Fecha.h:
+
+../src/ABMs/../Entidades/../utils/../Common/Common.h:

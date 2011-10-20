@@ -17,19 +17,8 @@ src/ABMs/ABMLista.d src/ABMs/ABMLista.o: ../src/ABMs/ABMLista.cpp \
  ../src/ABMs/../Hash/../Persistencia/Archivo.h \
  ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h \
  ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h \
- ../src/ABMs/../Indexes/ListaIndex.h \
- ../src/ABMs/../Indexes/../Hash/KeyValue.h \
+ ../src/ABMs/../Indexes/Index.h \
  ../src/ABMs/../Indexes/../Hash/Directory.h \
- ../src/ABMs/../Indexes/../Common/Entidades.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Candidato.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/../Common/Common.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Cargo.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Administrador.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Conteo.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Distrito.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Eleccion.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Lista.h \
- ../src/ABMs/../Indexes/../Common/../Entidades/Votante.h \
  ../src/ABMs/../Indexes/../Common/Common.h \
  ../src/ABMs/../Logging/HashLog.h \
  ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/../Logging/Log.h \
@@ -83,31 +72,9 @@ src/ABMs/ABMLista.d src/ABMs/ABMLista.o: ../src/ABMs/ABMLista.cpp \
 
 ../src/ABMs/../Hash/../Persistencia/exceptions/PersistExceptions.h:
 
-../src/ABMs/../Indexes/ListaIndex.h:
-
-../src/ABMs/../Indexes/../Hash/KeyValue.h:
+../src/ABMs/../Indexes/Index.h:
 
 ../src/ABMs/../Indexes/../Hash/Directory.h:
-
-../src/ABMs/../Indexes/../Common/Entidades.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Candidato.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/../Common/Common.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Cargo.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Administrador.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Conteo.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Distrito.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Eleccion.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Lista.h:
-
-../src/ABMs/../Indexes/../Common/../Entidades/Votante.h:
 
 ../src/ABMs/../Indexes/../Common/Common.h:
 

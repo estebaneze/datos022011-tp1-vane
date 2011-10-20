@@ -17,12 +17,12 @@ class ABMVotante {
 
 public:
 
-	ABMVotante();
+	ABMVotante(string file);
 	virtual ~ABMVotante();
-	bool existKey(Votante votante);
-	void Add(Votante votante);
-	bool Delete(Votante votante);
-	void Modify(Votante votante);
+	bool existKey(long dni);
+	void Add(Votante *votante);
+	bool Delete(Votante *votante);
+	void Modify(Votante *votante);
 	vector<Votante> GetVotantes();
 	Votante* GetVotante(long dni);
 

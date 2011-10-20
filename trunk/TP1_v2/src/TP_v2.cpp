@@ -110,15 +110,15 @@ void pruebaListas(){
 
 	ABMLista Listas = ABMLista("lista.ga", "indexLista.ix");
 
-	Lista l1 = Lista("alonso8", 2);
-	Lista l2 = Lista("dos", 3);
-	Lista l3 = Lista("tres", 4);
-	Lista l4 = Lista("cuatro", 2);
-	Lista l5 = Lista("cinco", 3);
-	Lista l6 = Lista("seis", 4);
-	Lista l7 = Lista("siete", 4);
-	Lista l8 = Lista("ocho", 4);
-	Lista l9 = Lista("aa",9);
+	Lista *l1 = new Lista("alonso8", 2);
+	Lista *l2 = new Lista("dos", 3);
+	Lista *l3 = new Lista("tres", 4);
+	Lista *l4 = new Lista("cuatro", 2);
+	Lista *l5 = new Lista("cinco", 3);
+	Lista *l6 = new Lista("seis", 4);
+	Lista *l7 = new Lista("siete", 4);
+	Lista *l8 = new Lista("ocho", 4);
+	Lista *l9 = new Lista("aa",9);
 	Listas.Add(l1);
 	Listas.Add(l2);
 	Listas.Add(l3);
@@ -175,24 +175,24 @@ void pruebaListas2(){
 
 	ABMLista Listas = ABMLista("lista.ga", "indexLista.ix");
 
-	Lista l1 = Lista("alonso8", 2);
-	Lista l2 = Lista("dos", 3);
-	Lista l3 = Lista("tres", 4);
-	Lista l4 = Lista("cuatro", 2);
-	Lista l5 = Lista("cinco", 3);
-	Lista l6 = Lista("seis", 4);
-	Lista l7 = Lista("siete", 4);
-	Lista l8 = Lista("ocho", 4);
-	Lista l9 = Lista("aa",9);
-	Listas.Add(l1);
-	Listas.Add(l2);
-	Listas.Add(l3);
-	Listas.Add(l4);
-	Listas.Add(l5);
-	Listas.Add(l6);
-	Listas.Add(l7);
-	Listas.Add(l8);
-	Listas.Add(l9);
+	Lista *l1 = new Lista("alonso8", 2);
+		Lista *l2 = new Lista("dos", 3);
+		Lista *l3 = new Lista("tres", 4);
+		Lista *l4 = new Lista("cuatro", 2);
+		Lista *l5 = new Lista("cinco", 3);
+		Lista *l6 = new Lista("seis", 4);
+		Lista *l7 = new Lista("siete", 4);
+		Lista *l8 = new Lista("ocho", 4);
+		Lista *l9 = new Lista("aa",9);
+		Listas.Add(l1);
+		Listas.Add(l2);
+		Listas.Add(l3);
+		Listas.Add(l4);
+		Listas.Add(l5);
+		Listas.Add(l6);
+		Listas.Add(l7);
+		Listas.Add(l8);
+		Listas.Add(l9);
 
 	cout << endl << endl;
 	//Listas.Add(l8);
@@ -231,7 +231,7 @@ void pruebaListas2(){
 
 	cout << endl << endl << "Modificar lista - Nombre:" << nombreLista<< "- Eleccion: " << idEleccion<<endl;
 
-	Lista l = Lista(nombreLista, Helper::StringToInt(idEleccion));
+	Lista *l = new Lista(nombreLista, Helper::StringToInt(idEleccion));
 	Listas.Modify(l);
 
 	//Listas.mostrarListasPorPantalla();
@@ -519,7 +519,7 @@ void Votar(Votante* votante){
 		cout << "\n\n\n";
 
 		cout << "--------------------------------------------------------------------" << endl;
-		cout << "Usted va a votar en la elección número: 17" << endl;	//ACA HAY QUE SELECCIONAR LA ELECCION POR LA FECHA DE HOY, FALTAN HACER LOS INDICES DE ELECCION POR FECHA
+		cout << "Usted va a votar en la elecciï¿½n nï¿½mero: 17" << endl;	//ACA HAY QUE SELECCIONAR LA ELECCION POR LA FECHA DE HOY, FALTAN HACER LOS INDICES DE ELECCION POR FECHA
 		cout << "--------------------------------------------------------------------\n\n\n" << endl;
 
 	string continuar = "yes";
@@ -579,7 +579,7 @@ void Ingresar(){
 	string clave;// = "password377";
 	cin >> clave;
 
-	ABMVotante abm = ABMVotante();
+	ABMVotante abm = ABMVotante("votante");
 	Votante* votante = abm.GetVotante(Helper::StringToLong(dni));
 	bool login = votante->Authenticate(clave);
 	if(login){
@@ -595,13 +595,13 @@ void Ingresar(){
 
 void agregarVotantes(){
 
-	ABMVotante votantes = ABMVotante();
+	ABMVotante votantes = ABMVotante("votante");
 
 	for(int i = 1; i < 400; i++){
 
 		string nombre = "Votante ";
 		string clave = "password";
-		Votante votante = Votante(i, nombre.append(Helper::IntToString(i)), clave.append(Helper::IntToString(i)), "domicilio", i+1);
+		Votante *votante = new Votante(i, nombre.append(Helper::IntToString(i)), clave.append(Helper::IntToString(i)), "domicilio", i+1);
 		votantes.Add(votante);
 	}
 

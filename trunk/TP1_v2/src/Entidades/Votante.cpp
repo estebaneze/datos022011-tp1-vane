@@ -30,7 +30,7 @@ string Votante::GetNombreYApellido(){
 }
 
 string Votante::GetClave(){
-	return _clave;
+	return this->_clave;
 }
 
 string Votante::GetDomicilio(){

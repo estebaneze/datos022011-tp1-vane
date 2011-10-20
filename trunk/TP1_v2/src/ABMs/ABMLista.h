@@ -20,10 +20,10 @@ class ABMLista {
 	public:
 		ABMLista(string HashFile, string indexFile);
 		virtual ~ABMLista();
-		bool existKey(Lista lista);
-		void Add(Lista lista);
-		bool Delete(Lista lista);
-		void Modify(Lista lista);
+		bool existKey(Lista* lista);
+		void Add(Lista* lista);
+		bool Delete(Lista* lista);
+		void Modify(Lista* lista);
 		vector<Lista> GetListas();
 		Lista* GetLista(std::string nombre);
 		void mostrarListasPorPantalla();

@@ -34,7 +34,10 @@ src/ABMs/ABMDistrito.d src/ABMs/ABMDistrito.o: \
  ../src/ABMs/../BPlusTree/EqualElementComparator.h \
  ../src/ABMs/../BPlusTree/NodeFactory.h \
  ../src/ABMs/../BPlusTree/../Logging/Log.h \
- ../src/ABMs/../utils/ConfigFile.h ../src/ABMs/../BPlusTree/Element.h
+ ../src/ABMs/../utils/ConfigFile.h ../src/ABMs/../BPlusTree/Element.h \
+ ../src/ABMs/../Logging/BPlusTreeLog.h \
+ ../src/ABMs/../Logging/../BPlusTree/BPlusTree.h \
+ ../src/ABMs/../Logging/Log.h
 
 ../src/ABMs/ABMDistrito.h:
 
@@ -113,3 +116,9 @@ src/ABMs/ABMDistrito.d src/ABMs/ABMDistrito.o: \
 ../src/ABMs/../utils/ConfigFile.h:
 
 ../src/ABMs/../BPlusTree/Element.h:
+
+../src/ABMs/../Logging/BPlusTreeLog.h:
+
+../src/ABMs/../Logging/../BPlusTree/BPlusTree.h:
+
+../src/ABMs/../Logging/Log.h:
