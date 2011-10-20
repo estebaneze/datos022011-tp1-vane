@@ -38,6 +38,9 @@ int ABMEleccion::Add(Eleccion* eleccion){
 		int longData = auxValueBtree.length();
 		Element * elemento = new Element(value,data,longData);
 		this->bpPlusTree->insert(elemento);
+		//logueo el add
+		BPlusTreeLog::LogInsert(value,auxValueBtree,"Eleccion_BPlusTreeOperation.log");
+		BPlusTreeLog::LogProcess(this->bpPlusTree,"Eleccion_BPlusTreeProccess.log");
 
 		//Agrego al indice
 		this->indexByFecha->AppendToIndex(eleccion->GetDate().getStrFecha(),value);
@@ -58,6 +61,13 @@ bool ABMEleccion::Delete(Eleccion* eleccion){
 
 	if (ExistsKey(value)){
 		this->bpPlusTree->remove(value);
+		string auxValueBtree;
+		for (unsigned int i=0;i<(eleccion->GetDistritos().GetSize());i++){
+			auxValueBtree = Helper::concatenar(auxValueBtree,Helper::IntToString(eleccion->GetDistritos().Get(i)),"|");
+		}
+		//logueo el delete
+		BPlusTreeLog::LogDelete(value,auxValueBtree,"Eleccion_BPlusTreeOperation.log");
+		BPlusTreeLog::LogProcess(this->bpPlusTree,"Eleccion_BPlusTreeProccess.log");
 		return true;
 	} else return false;
 }
@@ -73,7 +83,6 @@ void ABMEleccion::Modify(Eleccion* eleccion){
 
 	if (ExistsKey(value)){
 
-		cout << "Insertando la eleccion: " << value << endl << endl;
 		string auxValueBtree;
 		for (unsigned int i=0;i<(eleccion->GetDistritos().GetSize());i++){
 			auxValueBtree = Helper::concatenar(auxValueBtree,Helper::IntToString(eleccion->GetDistritos().Get(i)),"|");
@@ -83,7 +92,9 @@ void ABMEleccion::Modify(Eleccion* eleccion){
 		int longData = auxValueBtree.length();
 		Element * elemento = new Element(value,data,longData);
 		this->bpPlusTree->modify(elemento);
-
+		//logueo el modify
+		BPlusTreeLog::LogModify(value,auxValueBtree,"Eleccion_BPlusTreeOperation.log");
+		BPlusTreeLog::LogProcess(this->bpPlusTree,"Eleccion_BPlusTreeProccess.log");
 		//TODO: Actualizo el indice
 
 	}
