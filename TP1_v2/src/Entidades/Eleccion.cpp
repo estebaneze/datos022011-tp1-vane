@@ -14,6 +14,11 @@ Eleccion::Eleccion(int idCargo, Fecha date) {
 
 }
 
+int Eleccion::GetId()
+{
+	return this->_id;
+}
+
 void Eleccion::RemoveDistrito(int idDistrito){
 
 	_distritos.Remove(idDistrito);

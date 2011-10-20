@@ -26,23 +26,23 @@ ABMAdministrador::ABMAdministrador(string file) {
 /**Agrega un nuevo admin, si ya existe no hace nada
  *
  */
-void ABMAdministrador::Add(Administrador admin){
+void ABMAdministrador::Add(Administrador* admin){
 
-	if (!(this->directorio->existKey(admin.GetUsuario()))){
-		this->directorio->insert(admin.GetUsuario(),admin.GetClave());
+	if (!(this->directorio->existKey(admin->GetUsuario()))){
+		this->directorio->insert(admin->GetUsuario(),admin->GetClave());
 
 		HashLog::LogProcess(this->directorio,"Admin_HashProccess.log");
-		HashLog::LogInsert(admin.GetUsuario(),admin.GetClave(),"Admin_HashOperation.log");
+		HashLog::LogInsert(admin->GetUsuario(),admin->GetClave(),"Admin_HashOperation.log");
 	}
 }
 
 /**Elimina una Admin, si no exite arroja un excepcion, informa true si elimino sino false*/
-bool ABMAdministrador::Delete(Administrador admin){
+bool ABMAdministrador::Delete(Administrador* admin){
 
-	if (this->directorio->existKey(admin.GetUsuario())){
-		this->directorio->remove(admin.GetUsuario());
+	if (this->directorio->existKey(admin->GetUsuario())){
+		this->directorio->remove(admin->GetUsuario());
 		HashLog::LogProcess(this->directorio,"Admin_HashProccess.log");
-		HashLog::LogDelete(admin.GetUsuario(),admin.GetClave(),"Admin_HashOperation.log");
+		HashLog::LogDelete(admin->GetUsuario(),admin->GetClave(),"Admin_HashOperation.log");
 		return true;
 	}
 	else{
@@ -53,12 +53,12 @@ bool ABMAdministrador::Delete(Administrador admin){
 /**Modifica el password de un admin pasada por parametro
 * si lo encuentra la modifica sino no hace nada
 */
-void ABMAdministrador::ModifyPassword(Administrador admin){
+void ABMAdministrador::ModifyPassword(Administrador* admin){
 
-	if (this->directorio->existKey(admin.GetUsuario())){
-		this->directorio->modify(admin.GetUsuario(),admin.GetClave());
+	if (this->directorio->existKey(admin->GetUsuario())){
+		this->directorio->modify(admin->GetUsuario(),admin->GetClave());
 		HashLog::LogProcess(this->directorio,"Admin_HashProccess.log");
-		HashLog::LogModify(admin.GetUsuario(),admin.GetClave(),"Admin_HashOperation.log");
+		HashLog::LogModify(admin->GetUsuario(),admin->GetClave(),"Admin_HashOperation.log");
 	}
 
 }
@@ -92,15 +92,15 @@ vector<Administrador> ABMAdministrador::GetAdmins(){
  */
 Administrador* ABMAdministrador::GetAdmin(std::string nombre){
 
-	if (!(this->directorio->existKey(nombre))){
+	if ((this->directorio->existKey(nombre))){
 
 		return new Administrador(nombre,directorio->find(nombre));
 	}
 	else return NULL;
 }
 
-bool ABMAdministrador::existKey(Administrador admin){
-	return this->directorio->existKey(admin.GetUsuario());
+bool ABMAdministrador::existKey(string admin){
+	return this->directorio->existKey(admin);
 }
 
 void ABMAdministrador::mostrarAdminsPorPantalla(){
@@ -109,4 +109,5 @@ void ABMAdministrador::mostrarAdminsPorPantalla(){
 
 ABMAdministrador::~ABMAdministrador() {
 	// TODO Auto-generated destructor stub
+	delete(this->directorio);
 }

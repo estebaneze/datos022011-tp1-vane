@@ -1,5 +1,12 @@
 src/ABMs/ABMEleccion.d src/ABMs/ABMEleccion.o: \
  ../src/ABMs/ABMEleccion.cpp ../src/ABMs/ABMEleccion.h \
+ ../src/ABMs/../Common/Common.h ../src/ABMs/../Common/IntegerList.h \
+ ../src/ABMs/../Common/Identities.h ../src/ABMs/../Common/Helper.h \
+ ../src/ABMs/../Common/../Logging/Log.h \
+ ../src/ABMs/../Entidades/Eleccion.h \
+ ../src/ABMs/../Entidades/../Common/Common.h \
+ ../src/ABMs/../Entidades/../utils/Fecha.h \
+ ../src/ABMs/../Entidades/../utils/../Common/Common.h \
  ../src/ABMs/../BPlusTree/BPlusTree.h \
  ../src/ABMs/../BPlusTree/../utils/const.h \
  ../src/ABMs/../BPlusTree/BNode.h \
@@ -29,7 +36,7 @@ src/ABMs/ABMEleccion.d src/ABMs/ABMEleccion.o: \
  ../src/ABMs/../BPlusTree/EqualElementComparator.h \
  ../src/ABMs/../BPlusTree/NodeFactory.h \
  ../src/ABMs/../BPlusTree/../Logging/Log.h \
- ../src/ABMs/../Common/Identities.h ../src/ABMs/../Common/Helper.h \
+ ../src/ABMs/../utils/ConfigFile.h ../src/ABMs/../Common/Identities.h \
  ../src/ABMs/../Indexes/Index.h \
  ../src/ABMs/../Indexes/../Hash/Directory.h \
  ../src/ABMs/../Indexes/../Hash/Table.h \
@@ -42,15 +49,27 @@ src/ABMs/ABMEleccion.d src/ABMs/ABMEleccion.o: \
  ../src/ABMs/../Indexes/../Hash/../Persistencia/PersistorBase.h \
  ../src/ABMs/../Indexes/../Hash/../Persistencia/exceptions/PersistExceptions.h \
  ../src/ABMs/../Indexes/../Common/Common.h \
- ../src/ABMs/../Indexes/../Common/IntegerList.h \
- ../src/ABMs/../Indexes/../Common/Identities.h \
- ../src/ABMs/../Indexes/../Common/../Logging/Log.h \
- ../src/ABMs/../Indexes/../Common/Helper.h \
- ../src/ABMs/../Entidades/Eleccion.h \
- ../src/ABMs/../Entidades/../Common/Common.h \
- ../src/ABMs/../Common/Helper.h
+ ../src/ABMs/../BPlusTree/Element.h
 
 ../src/ABMs/ABMEleccion.h:
+
+../src/ABMs/../Common/Common.h:
+
+../src/ABMs/../Common/IntegerList.h:
+
+../src/ABMs/../Common/Identities.h:
+
+../src/ABMs/../Common/Helper.h:
+
+../src/ABMs/../Common/../Logging/Log.h:
+
+../src/ABMs/../Entidades/Eleccion.h:
+
+../src/ABMs/../Entidades/../Common/Common.h:
+
+../src/ABMs/../Entidades/../utils/Fecha.h:
+
+../src/ABMs/../Entidades/../utils/../Common/Common.h:
 
 ../src/ABMs/../BPlusTree/BPlusTree.h:
 
@@ -110,9 +129,9 @@ src/ABMs/ABMEleccion.d src/ABMs/ABMEleccion.o: \
 
 ../src/ABMs/../BPlusTree/../Logging/Log.h:
 
-../src/ABMs/../Common/Identities.h:
+../src/ABMs/../utils/ConfigFile.h:
 
-../src/ABMs/../Common/Helper.h:
+../src/ABMs/../Common/Identities.h:
 
 ../src/ABMs/../Indexes/Index.h:
 
@@ -138,16 +157,4 @@ src/ABMs/ABMEleccion.d src/ABMs/ABMEleccion.o: \
 
 ../src/ABMs/../Indexes/../Common/Common.h:
 
-../src/ABMs/../Indexes/../Common/IntegerList.h:
-
-../src/ABMs/../Indexes/../Common/Identities.h:
-
-../src/ABMs/../Indexes/../Common/../Logging/Log.h:
-
-../src/ABMs/../Indexes/../Common/Helper.h:
-
-../src/ABMs/../Entidades/Eleccion.h:
-
-../src/ABMs/../Entidades/../Common/Common.h:
-
-../src/ABMs/../Common/Helper.h:
+../src/ABMs/../BPlusTree/Element.h:

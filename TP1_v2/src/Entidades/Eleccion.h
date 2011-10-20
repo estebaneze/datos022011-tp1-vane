@@ -16,6 +16,7 @@ class Eleccion {
 	public:
 		Eleccion(int idCargo, Fecha date);
 		virtual ~Eleccion();
+		int GetId();
 		Fecha GetDate();
 		int GetIdCargo();
 		IntegerList GetDistritos();
