@@ -21,6 +21,7 @@ class ABMCargo {
 		ABMCargo();
 		virtual ~ABMCargo();
 		bool Exists(Cargo cargo);
+		bool Exists(int idCargo);
 		int Add(string nombre, vector<int> cargosSecundarios);
 		bool Delete(int idCargo);
 		void Modify(Cargo cargo);

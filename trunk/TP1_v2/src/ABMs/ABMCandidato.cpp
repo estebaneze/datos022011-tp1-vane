@@ -10,9 +10,9 @@
 /*
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
-ABMCandidato::ABMCandidato(string hashFile) {
+ABMCandidato::ABMCandidato() {
 
-	this->hashFile= hashFile;
+	this->hashFile= "candidato";
 	this->directorio = new Directory(hashFile,512);
 
 	//Descomentar esto si quiere verse el contenido del archivo por pantalla
@@ -25,13 +25,13 @@ ABMCandidato::ABMCandidato(string hashFile) {
 
 /**Agrego un candidato, lo guarda en hash con el formato idLista|idVotante|idCargo
  */
-int ABMCandidato::Add(int idLista, int idVotante, int idCargo){
+int ABMCandidato::Add(string idLista, long idVotante, int idCargo){
 
 	int idCandidato = Identities::GetNextIdCandidato();
 
 	if (!(this->directorio->existKey(Helper::IntToString(idCandidato)))){
 
-		string fields1 = Helper::concatenar(Helper::IntToString(idLista),Helper::IntToString(idVotante),"|");
+		string fields1 = Helper::concatenar(idLista,Helper::LongToString(idVotante),"|");
 		string fields2 = Helper::concatenar(fields1,Helper::IntToString(idCargo),"|");
 
 		this->directorio->insert(Helper::IntToString(idCandidato), fields2);
@@ -62,17 +62,17 @@ bool ABMCandidato::Delete(int idCandidato){
 /**Modifica el idEleccion de una candidato pasada por parametro
 * si la encuentra la modifica sino no hace nada
 */
-void ABMCandidato::Modify(Candidato candidato){
+void ABMCandidato::Modify(Candidato *candidato){
 
-	string id = Helper::IntToString(candidato.GetId());
+	string id = Helper::IntToString(candidato->GetId());
 	if (this->directorio->existKey(id)){
 
 
-		string fields1 = Helper::concatenar(Helper::IntToString(candidato.GetIdLista()),Helper::IntToString(candidato.GetIdVotante()),"|");
-		string fields2 = Helper::concatenar(fields1,Helper::IntToString(candidato.GetIdCargo()),"|");
+		string fields1 = Helper::concatenar(candidato->GetIdLista(),Helper::LongToString(candidato->GetIdVotante()),"|");
+		string fields2 = Helper::concatenar(fields1,Helper::IntToString(candidato->GetIdCargo()),"|");
 
 		HashLog::LogProcess(this->directorio,"Candidato_HashProccess.log");
-		HashLog::LogModify(Helper::IntToString(candidato.GetId()),fields2,"Candidato_HashOperation.log");
+		HashLog::LogModify(Helper::IntToString(candidato->GetId()),fields2,"Candidato_HashOperation.log");
 		/*string fields = Helper::IntToString(candidato.GetIdLista());
 		fields.append("|");
 		fields.append(Helper::IntToString(candidato.GetIdVotante()));
@@ -93,8 +93,8 @@ vector<Candidato> ABMCandidato::GetCandidatos(){
 
 		vector<string> splitedVs = Helper::split(values[i].Value, '|');
 
-		int idLista  = Helper::StringToInt(splitedVs[0]);
-		int idVotante = Helper::StringToInt(splitedVs[1]);
+		string idLista  = splitedVs[0];
+		long idVotante = Helper::StringToLong(splitedVs[1]);
 		int idCargo = Helper::StringToInt(splitedVs[2]);
 		int idCandidato = Helper::StringToInt(values[i].Key);
 
@@ -117,8 +117,8 @@ Candidato* ABMCandidato::GetCandidato(int idCandidato){
 		string values = directorio->find(candidatoId);
 		vector<string> splitedVs = Helper::split(values, '|');
 
-		int idLista  = Helper::StringToInt(splitedVs[0]);
-		int idVotante = Helper::StringToInt(splitedVs[1]);
+		string idLista  = splitedVs[0];
+		long idVotante = Helper::StringToLong(splitedVs[1]);
 		int idCargo = Helper::StringToInt(splitedVs[2]);
 
 		return new Candidato(idLista, idVotante, idCargo, idCandidato);
@@ -129,8 +129,8 @@ Candidato* ABMCandidato::GetCandidato(int idCandidato){
 
 }
 
-bool ABMCandidato::Exists(Candidato candidato){
-	return this->directorio->existKey(Helper::IntToString(candidato.GetId()));
+bool ABMCandidato::Exists(Candidato *candidato){
+	return this->directorio->existKey(Helper::IntToString(candidato->GetId()));
 }
 
 void ABMCandidato::mostrarCandidatosPorPantalla(){

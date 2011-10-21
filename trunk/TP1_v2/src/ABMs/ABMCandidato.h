@@ -18,12 +18,12 @@
 class ABMCandidato {
 
 	public:
-		ABMCandidato(string HashFile);
+		ABMCandidato();
 		virtual ~ABMCandidato();
-		bool Exists(Candidato candidato);
-		int Add(int idLista, int idVotante, int idCargo);
+		bool Exists(Candidato *candidato);
+		int Add(string idLista,long idVotante, int idCargo);
 		bool Delete(int idCandidato);
-		void Modify(Candidato candidato);
+		void Modify(Candidato *candidato);
 		vector<Candidato> GetCandidatos();
 		Candidato* GetCandidato(int idCandidato);
 		void mostrarCandidatosPorPantalla();
