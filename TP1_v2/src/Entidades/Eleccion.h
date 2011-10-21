@@ -20,7 +20,7 @@ class Eleccion {
 		//int GetId();
 		Fecha GetDate();
 		int GetIdCargo();
-		IntegerList GetDistritos();
+		vector<int> GetDistritos();
 		void AddDistrito(int idDistrito);
 		void RemoveDistrito(int idDistrito);
 		string GetId();	/* El id lo armamos: fecha_idcargo (NO CON |, PORQUE EN LAS DEMAS ENTIDADES SE CONFUNDIRIA CON LA CLAVE IDENTIFICADOR DEL ARBOL O HASH) */
@@ -28,7 +28,7 @@ class Eleccion {
 		//int _id;
 		Fecha _date;
 		int _idCargo;
-		IntegerList _distritos;
+		vector<int> _distritos;
 };
 
 #endif /* ELECCION_H_ */

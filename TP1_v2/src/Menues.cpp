@@ -272,7 +272,7 @@ void Menues::MenuVotante()
 											printf("Password Incorreca\n");
 											cin >> c;
 											this->MenuVotante();
-											}
+										}
 									}
 									else{
 										printf("No existe el usuario ingresado\n\n\n");
@@ -299,9 +299,73 @@ void Menues::MenuVotante()
 ///FALTAN METODOS PARA QUE FUNCIONE
 void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 {
+	ABMEleccion es = ABMEleccion();
+	ABMConteo cs = ABMConteo();
+
 	system("clear");
 	cout << endl << endl;
 	cout << "Bienvenido " << votante->GetNombreYApellido() << ", usted pertenece el distrito: " << votante->GetDistrito() << endl;
+
+	cout << "Usted puede votar en las siguientes elecciones: " << endl;
+
+
+	Fecha fecha = Fecha(21,10,2011);	//TODO: tomar la fecha de hoy
+	vector<Eleccion> elecciones = es.GetByFecha(&fecha);
+
+	//Le muestro las elecciones que no esten en su lista de elecciones ya votadas
+	for(int i = 0; i < elecciones.size(); i++){
+
+		if(!votante->VotoEnEleccion(elecciones[i])){
+			cout << elecciones[i].GetIdCargo() << endl;
+		}
+	}
+
+	string elecc;
+	cout << "Ingrese la eleccion en la cual quiera votar (seleccione un número de arriba): ";
+	cin >> elecc;
+
+	int idCargo = Helper::StringToInt(elecc);
+
+	//ME quedo con la que quiere votar
+	Eleccion e = elecciones[0];
+	bool founded = false;
+	for(int i = 0; i < elecciones.size(); i++){
+		if(elecciones[i].GetIdCargo() == idCargo){
+			e = elecciones[i];
+			founded = true;
+			break;
+		}
+	}
+
+	if(founded){
+
+		vector<Conteo> conteos = cs.GetConteoByEleccion(e);
+
+		for(int i = 0; i < conteos.size(); i++){
+			cout << "Lista " << conteos[i].GetIdLista() << endl;
+		}
+
+		string idLista;
+		cout << "Ingrese lista a votar:";
+		cin >> idLista;
+
+		bool listaFounded = false;;
+		for(int i = 0; i < conteos.size(); i++){
+
+			if(conteos[i].GetIdLista() == idLista){
+				cs.AddVoto(conteos[i].GetId(), votante);
+				listaFounded = true;
+				break;
+			}
+		}
+
+		if(!listaFounded){
+			cout << "Ingreso una lista incorrecta" << endl;
+		}
+		else{
+			cout << "La opción ingresada no es válida" << endl;
+		}
+	}
 
 }
 
@@ -954,7 +1018,7 @@ while (fin==0){
 void Menues::MenuABMVotante()
 {
 int fin=0;
-int opcion;
+int opcion=1;
 
 	while (fin==0){
 		system("clear");
@@ -969,6 +1033,7 @@ int opcion;
 		scanf("%i",&opcion);
 
 		switch (opcion) {
+
 					case 1:	{
 						bool listo=false;
 						ABMVotante *vot = new ABMVotante();
@@ -991,16 +1056,25 @@ int opcion;
 								cout << "Ingrese Nombre y Apellido: ";
 								cin >> _nombreYApellido;
 								cout << endl;
-								cout << "Ingrese clave: ";
-								cin >> _clave;
-								cout << endl;
+
+//								cout << "Ingrese clave: ";
+	//							cin >> _clave;
+		//						cout << endl;
+
 								cout << "Ingrese domicilio: ";
 								cin >> _domicilio;
 								cout << endl;
+								//_clave = dni;
 
+								cout << "Ingrese clave:";
+								cin>>_clave;
+								cout << endl;
+
+								string distrito;
 								int id_distrito;
 								cout << "Ingrese IdDistrito: ";
-								cin >> id_distrito;
+								cin >> distrito;
+								id_distrito = Helper::StringToInt(distrito);
 
 								ABMDistrito *dis = new ABMDistrito("distrito");
 								if (dis->Exists(id_distrito)){

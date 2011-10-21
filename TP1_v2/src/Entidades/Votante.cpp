@@ -86,6 +86,21 @@ bool Votante::VotoEnEleccion(Eleccion* eleccion){
 	return false;
 }
 
+bool Votante::VotoEnEleccion(Eleccion eleccion){
+
+	vector<Eleccion>::iterator it = _listaElecciones.begin();
+	Eleccion e = (Eleccion) *it;
+
+	for (it = _listaElecciones.begin(); it != _listaElecciones.end(); it++) {
+
+		e = (Eleccion) *it;
+		if(e.GetId() == eleccion.GetId())
+			return true;
+	}
+
+	return false;
+}
+
 //Agrega una eleccion a la lista de elccioes en las que voto
 void Votante::AgregarEleccion(Eleccion* eleccion){
 

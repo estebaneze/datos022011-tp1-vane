@@ -94,6 +94,13 @@ bool operator > (Fecha& fecha1, Fecha& fecha2){
 	return !(fecha1 < fecha2);
 }
 
+bool operator == (Fecha& fecha1, Fecha& fecha2){
+
+	return(fecha1.anio == fecha2.anio &&
+			fecha1.mes == fecha2.mes &&
+			fecha1.dia == fecha1.dia);
+}
+
 Fecha::~Fecha() {
 }
 

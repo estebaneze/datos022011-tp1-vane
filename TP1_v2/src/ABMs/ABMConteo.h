@@ -27,7 +27,9 @@ class ABMConteo {
 		virtual ~ABMConteo();
 		int Add(string idLista, int idDistrito, Eleccion* eleccion);
 		vector<Conteo> GetConteoByDistrito(int idDistrito);
+		vector<Conteo> GetConteoByDistritoYFecha(int idDistrito, Fecha fecha);
 		vector<Conteo> GetConteoByLista(string idLista);
+		vector<Conteo> GetConteoByEleccion(Eleccion eleccion);
 		vector<Conteo> GetConteoByEleccion(Eleccion* eleccion);
 		Conteo* GetConteo(int idConteo);
 
