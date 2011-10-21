@@ -804,9 +804,9 @@ int main( int arg, char *argv[] ){
 	//pruebaArbol();
 	//testLogging();
 
-	//Menues menu;
-	//menu.MenuPpal();
-	testABMDistrito();
+	Menues menu;
+	menu.MenuPpal();
+	//testABMDistrito();
 
 	/*time_t rawtime;
     time ( &rawtime );

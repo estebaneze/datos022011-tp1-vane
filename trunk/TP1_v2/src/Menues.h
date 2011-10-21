@@ -20,6 +20,8 @@
 #include "ABMs/ABMDistrito.h"
 #include "ABMs/ABMEleccion.h"
 #include "utils/Fecha.h"
+#include "Logging/Log.h"
+#include <ctime>
 
 class Menues {
 public:
@@ -38,6 +40,9 @@ public:
 	void MenuABMCandidato();
 	void Reportes();
 	virtual ~Menues();
+
+private:
+	Fecha fechaActual();
 };
 
 #endif /* MENUES_H_ */
