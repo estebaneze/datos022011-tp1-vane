@@ -60,21 +60,7 @@ src/Menues.d src/Menues.o: ../src/Menues.cpp ../src/Menues.h \
  ../src/ABMs/../BPlusTree/Element.h ../src/ABMs/../Logging/BPlusTreeLog.h \
  ../src/ABMs/../Logging/../BPlusTree/BPlusTree.h \
  ../src/ABMs/ABMDistrito.h ../src/ABMs/../Entidades/Distrito.h \
- ../src/ABMs/ABMEleccion.h ../src/Indexes/ListaIndex.h \
- ../src/Indexes/../Hash/KeyValue.h ../src/Indexes/../Hash/Directory.h \
- ../src/Indexes/../Common/Entidades.h \
- ../src/Indexes/../Common/../Entidades/Candidato.h \
- ../src/Indexes/../Common/../Entidades/Cargo.h \
- ../src/Indexes/../Common/../Entidades/Administrador.h \
- ../src/Indexes/../Common/../Entidades/Conteo.h \
- ../src/Indexes/../Common/../Entidades/../Common/Common.h \
- ../src/Indexes/../Common/../Entidades/Eleccion.h \
- ../src/Indexes/../Common/../Entidades/../utils/Fecha.h \
- ../src/Indexes/../Common/../Entidades/Distrito.h \
- ../src/Indexes/../Common/../Entidades/Eleccion.h \
- ../src/Indexes/../Common/../Entidades/Lista.h \
- ../src/Indexes/../Common/../Entidades/Votante.h \
- ../src/Indexes/../Common/Common.h ../src/utils/Fecha.h
+ ../src/ABMs/ABMEleccion.h ../src/utils/Fecha.h
 
 ../src/Menues.h:
 
@@ -235,37 +221,5 @@ src/Menues.d src/Menues.o: ../src/Menues.cpp ../src/Menues.h \
 ../src/ABMs/../Entidades/Distrito.h:
 
 ../src/ABMs/ABMEleccion.h:
-
-../src/Indexes/ListaIndex.h:
-
-../src/Indexes/../Hash/KeyValue.h:
-
-../src/Indexes/../Hash/Directory.h:
-
-../src/Indexes/../Common/Entidades.h:
-
-../src/Indexes/../Common/../Entidades/Candidato.h:
-
-../src/Indexes/../Common/../Entidades/Cargo.h:
-
-../src/Indexes/../Common/../Entidades/Administrador.h:
-
-../src/Indexes/../Common/../Entidades/Conteo.h:
-
-../src/Indexes/../Common/../Entidades/../Common/Common.h:
-
-../src/Indexes/../Common/../Entidades/Eleccion.h:
-
-../src/Indexes/../Common/../Entidades/../utils/Fecha.h:
-
-../src/Indexes/../Common/../Entidades/Distrito.h:
-
-../src/Indexes/../Common/../Entidades/Eleccion.h:
-
-../src/Indexes/../Common/../Entidades/Lista.h:
-
-../src/Indexes/../Common/../Entidades/Votante.h:
-
-../src/Indexes/../Common/Common.h:
 
 ../src/utils/Fecha.h:

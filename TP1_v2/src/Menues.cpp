@@ -648,6 +648,83 @@ void Menues::MenuABMCargo()
 
 		switch (opcion) {
 					case 1:	{
+						bool listo=false;
+						ABMCargo *abmCargo = new ABMCargo();
+						system("clear");
+						printf("ALTA CARGO\n");
+						printf("----------\n\n");
+
+						while (!listo){
+							string nombre;
+							cout << "Ingrese nombre del cargo principal: ";
+							cin >> nombre;
+							cout << endl;
+
+							vector<Cargo> vCargos = abmCargo->GetCargos();
+							bool existe=false;
+
+							for (unsigned int i=0;(i<vCargos.size() && (!existe));i++){
+
+								if (vCargos.at(i).GetNombre()==nombre){
+									existe=true;
+								}
+							}
+
+							if (!existe){
+								bool listo2=false;
+								vector<int> vecCargosSec;
+
+								while (!listo2){
+									cout << "Desea ingresar cargo secundario? presione [s] u otra para terminar: ";
+									string op;
+									cin >> op;
+									if (op=="s"){
+										string sec;
+										cout << "Ingrese nombre del cargo secundario: ";
+										cin >> sec;
+										cout << endl;
+										bool existeSec=false;
+										int idSec;
+										for (unsigned int i=0;(i<vCargos.size() && (!existeSec));i++){
+
+											if (vCargos.at(i).GetNombre()==sec){
+											existeSec=true;
+											idSec = vCargos.at(i).GetId();
+											}
+
+										}
+										if (existeSec){
+											vecCargosSec.push_back(idSec);
+										}
+										else{
+											cout << "No existe el cargo secundario ingresado, ingrese [q] para salir u otra para reintentar: ";
+											string op;
+											cin >> op;
+											if (op=="q") {
+												listo2=true;
+												listo=true;
+											}
+										}
+
+									}
+									else{
+										//hay que chequear el add que me parece que no funciona bien
+										abmCargo->Add(nombre,vecCargosSec);
+										listo2=true;
+										listo=true;
+									}
+								}
+							}
+							else{
+								cout << "Ya existe el cargo ingresado, ingrese [q] para salir u otra para reintentar: ";
+								string op;
+								cin >> op;
+								if (op=="q") listo=true;
+							}
+
+
+						}
+						delete abmCargo;
 						break;
 
 						}
@@ -687,9 +764,129 @@ void Menues::MenuABMCandidato()
 		printf("\tIngrese una opcion: ");
 		scanf("%i",&opcion);
 		cout << endl;
-
+		//Candidato (((lista)ie, (votante)ie, (cargo)ie)i): Hash
 		switch (opcion) {
 					case 1:	{
+						bool listo=false;
+						ABMCandidato *abm = new ABMCandidato();
+						system("clear");
+						printf("ALTA CANDIDATO\n");
+						printf("----------\n\n");
+
+						while (!listo){
+							long dni;
+							cout << "Ingrese DNI del candidato (debe existir como votante): ";
+							cin >> dni;
+							cout << endl;
+
+							ABMVotante *abmVot = new ABMVotante();
+
+							if (abmVot->existKey(dni)){
+								//existe dni, ahora pregunto por la lista
+
+								ABMLista *abmLista = new ABMLista();
+								bool listoLista=false;
+
+								while (!listoLista){
+									string lista;
+									cout << "Ingrese nombre de lista a pertenecer: ";
+									cin >> lista;
+									cout << endl;
+
+									if (abmLista->existKey(lista)){
+										//existe lista ahora pregunto por cargo
+
+										//antes obtengo eleccion asociada la lista
+										string id_eleccion = abmLista->GetLista(lista)->GetEleccion();
+
+										ABMEleccion *abmEleccion = new ABMEleccion();
+										//obtengo cargo principal asociada a la eleccion
+										int id_cargo = abmEleccion->GetEleccion(id_eleccion)->GetIdCargo();
+
+										ABMCargo *abmCargo = new ABMCargo();
+										// obtengo los cargos secundarios
+										vector<int>	vCargos = abmCargo->GetCargo(id_cargo)->GetCargosSecundarios();
+
+										bool listoCargo=false;
+
+										while (!listoCargo){
+											int id;
+											cout << "Ingrese IdCargo a postularse: ";
+											cin >> id;
+											cout << endl;
+
+											bool valido=false;
+											if (abmCargo->Exists(id)){
+												//me fijo si el id es del cargo ppal
+												if (id_cargo==id) valido=true;
+												//busco en los cargos secundarios
+												for (int i=0;i<vCargos.size() && !valido;i++){
+													if (vCargos.at(i)==id){
+														valido=true;
+													}
+												}
+
+												//si el cargo es valido entonces creo el candidato
+												if (valido){
+													int ok = abm->Add(lista,dni,id);
+													if (ok!=-1){
+														cout<< endl;
+														cout << "Candidato creado exitosamente, presione una tecla para volver.";
+														string op;
+														cin >> op;
+														listo=true;
+														listoCargo=true;
+														listoLista=true;
+													}
+													else{
+														cout<< endl;
+														cout << "Candidato existente, presione una tecla para volver al menu.";
+														string op;
+														cin >> op;
+														listo=true;
+														listoCargo=true;
+														listoLista=true;
+													}
+												}
+
+											}
+											else{
+												cout << "No existe Idcargo ingresado, presione una tecla para reintentar o [q] para salir: ";
+												string op;
+												cin >> op;
+												if (op=="q") {
+													listoLista=true;
+													listo=true;
+													listoCargo=true;
+												}
+											}
+
+										}
+										delete abmCargo;
+										delete abmEleccion;
+									}
+									else{
+										cout << "No existe lista ingresada, presione una tecla para reintentar o [q] para salir: ";
+										string op;
+										cin >> op;
+										if (op=="q") {
+											listoLista=true;
+											listo=true;
+										}
+									}
+								}
+								delete abmLista;
+							}
+							else{
+								cout << "No existe DNI ingresado, presione una tecla para reintentar o [q] para salir: ";
+								string op;
+								cin >> op;
+								if (op=="q") listo=true;
+							}
+
+							delete abmVot;
+						}
+						delete abm;
 						break;
 
 						}

@@ -299,8 +299,8 @@ void pruebaListas2(){
 
 void testCandidato2(){
 
-	cout << endl;
-	ABMCandidato abmc = ABMCandidato("candidato.ga");
+	/*cout << endl;
+	ABMCandidato abmc = ABMCandidato();
 	cout << endl;
 
 	for(int i = 1; i < 5; i++){
@@ -315,14 +315,14 @@ void testCandidato2(){
 	cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;
 	cout << "------------------------------------------------------------------" << endl;
 
-
+*/
 }
 
 
 void testCandidato(){
 
 	cout << endl;
-	ABMCandidato abmc = ABMCandidato("candidato.ga");
+	ABMCandidato abmc = ABMCandidato();
 
 	string dni;
 	string idLista;
@@ -356,10 +356,10 @@ void testCandidato(){
 	cout << endl;
 	cout << endl;
 
-	Candidato c3=Candidato(3, 3, 3, 3);
-	Candidato c4=Candidato(3, 3, 3, 4);
-	Candidato c5=Candidato(3, 3, 3, 5);
-	Candidato c10=Candidato(3, 3, 3, 10);
+	Candidato *c3 = new Candidato("3", 3, 3, 3);
+	Candidato *c4 = new Candidato("3", 3, 3, 4);
+	Candidato *c5 = new Candidato("3", 3, 3, 5);
+	Candidato *c10 = new Candidato("3", 3, 3, 10);
 	cout << "Existe candidato 3 ? -->" << abmc.Exists(c3) << endl;
 	cout << "Existe candidato 4 ? -->" << abmc.Exists(c4) << endl;
 	cout << "Existe candidato 5 ? -->" << abmc.Exists(c5) << endl;
@@ -401,7 +401,7 @@ void testCandidato(){
 	cout << "Id Lista: ";
 	cin >> idLista;
 	//(int idLista, int idVotante, int idCargo, int idCandidato);
-	Candidato c1 = Candidato(Helper::StringToInt(idLista), Helper::StringToInt(dni), Helper::StringToInt(idCargo), Helper::StringToInt(idCandidato));
+	Candidato *c1 = new Candidato(idLista, Helper::StringToLong(dni), Helper::StringToInt(idCargo), Helper::StringToInt(idCandidato));
 	abmc.Modify(c1);
 	cout << "Candidatos: "<< endl;
 	abmc.mostrarCandidatosPorPantalla();
@@ -809,8 +809,8 @@ int main( int arg, char *argv[] ){
 
 		//testLogging();
 
-	//Menues menu;
-	//menu.MenuPpal();
+	Menues menu;
+	menu.MenuPpal();
 
 	//testReportes();
 

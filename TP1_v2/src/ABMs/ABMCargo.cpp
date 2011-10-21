@@ -10,7 +10,7 @@
 
 ABMCargo::ABMCargo() {
 
-	this->hashFile= "cargo.ga";
+	this->hashFile= "cargo";
 	this->directorio = new Directory(hashFile,2048);
 
 
@@ -165,6 +165,11 @@ Cargo* ABMCargo::GetCargo(int idCargo){
 bool ABMCargo::Exists(Cargo cargo){
 	return this->directorio->existKey(Helper::IntToString(cargo.GetId()));
 }
+
+bool ABMCargo::Exists(int id){
+	return this->directorio->existKey(Helper::IntToString(id));
+}
+
 
 bool ABMCargo::Exists(string nombreCargo){
 
