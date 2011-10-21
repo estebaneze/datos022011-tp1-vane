@@ -47,11 +47,15 @@ void testABMDistrito()
 	cout <<endl<<endl;
 	string d1 = "Esteban Echeverria";
 	string d2 = "Lomas de zamora";
+	string d3 = "Avellaneda";
+	string d4 = "Lanus";
 	ABMDistrito *abmDistrito = new ABMDistrito("dis_lore");
 
 	cout << "Pruebo el alta de dos distritos:"<<endl;
 	int id1 = abmDistrito->Add(d1);
 	int id2 = abmDistrito->Add(d2);
+	int id3 = abmDistrito->Add(d3);
+	int id4 = abmDistrito->Add(d4);
 	abmDistrito->mostrarDistritosPorPantalla();
 
 	cout << "Pruebo el alter de uno:"<<endl;
@@ -787,31 +791,29 @@ void testEleccionesIndex(){
 
 int main( int arg, char *argv[] ){
 
-//	testConteo();
+	//	testConteo();
 	//testReportes();
 
-		//agregarDistritos();
-
-		//agregarVotantes();
-		//Ingresar();
-		//testCandidato2();
+	//agregarDistritos();
+	//agregarVotantes();
+	//Ingresar();
+	//testCandidato2();
 
 	//	BPlusTreeTest btest = BPlusTreeTest();
 	//	btest.run();
 
-		//testConteo2();
+	//testConteo2();
 
 	//	testConteo();
-		//pruebaListas();
+	//pruebaListas();
 	//	pruebaListas2();
 	//	testABMDistrito();
-		//pruebaArbol();
+	//pruebaArbol();
+	//testLogging();
 
-		//testLogging();
-
-	Menues menu;
-	menu.MenuPpal();
-
+	//Menues menu;
+	//menu.MenuPpal();
+	testABMDistrito();
 	//testReportes();
 
 	return system("");
