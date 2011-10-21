@@ -145,7 +145,7 @@ void BPlusTree::insert(Element* element, int modifyOrInsert) {
 		}
 
 
-		this->Log(element);
+		//this->Log(element);
 	}
 
 }
