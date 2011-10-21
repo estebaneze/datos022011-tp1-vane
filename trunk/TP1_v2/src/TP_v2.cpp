@@ -39,6 +39,8 @@ Administrador ((usuario)i, clave): Hash
 #include "Menues.h"
 using namespace std;
 
+
+
 void testABMDistrito()
 {
 	system("rm dis_lore.bpt");
@@ -92,9 +94,9 @@ void testConteo(){
 	abm->mostrarConteoPorPantalla();
 	cout << endl << endl << endl;
 
-	vector<Conteo> c1 = abm->GetConteoByEleccion(new Eleccion(45, Fecha(1,1,2011)));
-	vector<Conteo> c2 = abm->GetConteoByEleccion(new Eleccion(45, Fecha(2,1,2011)));
-	vector<Conteo> c3 = abm->GetConteoByEleccion(new Eleccion(45, Fecha(3,1,2011)));
+	vector<Conteo> c1 = abm->GetConteoByEleccion(Eleccion(45, Fecha(1,1,2011)));
+	vector<Conteo> c2 = abm->GetConteoByEleccion(Eleccion(45, Fecha(2,1,2011)));
+	vector<Conteo> c3 = abm->GetConteoByEleccion(Eleccion(45, Fecha(3,1,2011)));
 
 	cout << "Conteos de la eleccion: 45 1-1-2011:"<< endl;
 	for(int i = 0; i < c1.size(); i++){
@@ -138,14 +140,6 @@ void testConteo(){
 
 }
 
-
-void pruebaArbol()
-{
-	/*ABMConteo *abmConteo = new ABMConteo("lista.ri", "indexConteo.ix");
-	abmConteo->Add(1, 1, 1);
-	abmConteo->mostrarListasPorPantalla();*/
-
-}
 
 void pruebaListas(){
 
@@ -209,8 +203,6 @@ void pruebaListas(){
 	}*/
 
 }
-
-
 
 void pruebaListas2(){
 
@@ -687,8 +679,6 @@ void testReportes(){
 	ABMVotante abmv = ABMVotante();
 	votante = abmv.GetVotante(399);
 
-
-
 	/* initialize random seed: */
 	srand ( time(NULL) );
 	cout << endl << endl;
@@ -789,6 +779,9 @@ void testEleccionesIndex(){
 	cout << endl << endl << "Done!!!!!!!!!!" << endl;
 }
 
+
+
+
 int main( int arg, char *argv[] ){
 
 	//	testConteo();
@@ -814,7 +807,17 @@ int main( int arg, char *argv[] ){
 	//Menues menu;
 	//menu.MenuPpal();
 	testABMDistrito();
-	//testReportes();
 
+	/*time_t rawtime;
+    time ( &rawtime );
+    std:string time(ctime(&rawtime));
+
+    vector<string> s = Helper::split(time, ' ');
+    for(int i = 0; i < s.size(); i++)
+    {
+    	cout << s[i] << endl;
+    }
+*/
 	return system("");
 }
+

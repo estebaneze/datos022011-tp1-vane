@@ -18,8 +18,7 @@ ABMEleccion::ABMEleccion() {
 	this->bpPlusTree = new BPlusTree(bufferSize,"eleccion.bpt");
 
 	this->indexByFecha = new Index(Helper::concatenar(bpTreeFile,"Fecha","_"));
-
-
+	this->indexByDistrito = new Index(Helper::concatenar(bpTreeFile,"Distrito","_"));
 }
 
 /*
@@ -27,26 +26,33 @@ ABMEleccion::ABMEleccion() {
  */
 int ABMEleccion::Add(Eleccion* eleccion){
 
-	string value = eleccion->GetId(); //NO PUEDO HACER EL ID DE LA ELECCION CON "|" PORQUE SE CONFUNDE CUANDO LO QUIERO USAR EN LAS OTRAS ENTIDADES
-	cout << value << endl;
+	string idEleccion = eleccion->GetId(); //NO PUEDO HACER EL ID DE LA ELECCION CON "|" PORQUE SE CONFUNDE CUANDO LO QUIERO USAR EN LAS OTRAS ENTIDADES
+	cout << idEleccion << endl;
 	if (!Exists(eleccion)){
 
-		cout << "Insertando la eleccion: " << value << endl << endl;
+		cout << "Insertando la eleccion: " << idEleccion << endl << endl;
 		string auxValueBtree;
-		for (unsigned int i=0;i<(eleccion->GetDistritos().GetSize());i++){
-			auxValueBtree = Helper::concatenar(auxValueBtree,Helper::IntToString(eleccion->GetDistritos().Get(i)),"|");
+		for (unsigned int i=0;i<(eleccion->GetDistritos().size());i++){
+			auxValueBtree = Helper::concatenar(auxValueBtree,Helper::IntToString(eleccion->GetDistritos()[i]),"|");
 		}
 
 		Data data = (Data)auxValueBtree.c_str();
 		int longData = auxValueBtree.length();
-		Element * elemento = new Element(value,data,longData);
+		Element * elemento = new Element(idEleccion,data,longData);
 		this->bpPlusTree->insert(elemento);
 		//logueo el add
-		BPlusTreeLog::LogInsert(value,auxValueBtree,"Eleccion_BPlusTreeOperation.log");
+		BPlusTreeLog::LogInsert(idEleccion,auxValueBtree,"Eleccion_BPlusTreeOperation.log");
 		BPlusTreeLog::LogProcess(this->bpPlusTree,"Eleccion_BPlusTreeProccess.log");
 
 		//Agrego al indice
-		this->indexByFecha->AppendToIndex(eleccion->GetDate().getStrFecha(),value);
+		this->indexByFecha->AppendToIndex(eleccion->GetDate().getStrFecha(),idEleccion);
+
+		//Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
+		vector<int> distritos = eleccion->GetDistritos();
+		for(int i = 0; i< distritos.size(); i++){
+
+			this->indexByDistrito->AppendToIndex(Helper::IntToString(distritos[i]), idEleccion);
+		}
 
 		return 0;
 	}
@@ -62,11 +68,13 @@ bool ABMEleccion::Delete(Eleccion* eleccion){
 
 	if (ExistsKey(value)){
 
+		vector<int> distritos = eleccion->GetDistritos();
+
 		this->bpPlusTree->remove(value);
 		string auxValueBtree;
 
-		for (unsigned int i=0;i<(eleccion->GetDistritos().GetSize());i++){
-			auxValueBtree = Helper::concatenar(auxValueBtree,Helper::IntToString(eleccion->GetDistritos().Get(i)),"|");
+		for (unsigned int i=0;i<(eleccion->GetDistritos().size());i++){
+			auxValueBtree = Helper::concatenar(auxValueBtree,Helper::IntToString(eleccion->GetDistritos()[i]),"|");
 		}
 
 		//logueo el delete
@@ -75,6 +83,12 @@ bool ABMEleccion::Delete(Eleccion* eleccion){
 
 		//Elimino del indice
 		this->indexByFecha->DeleteFromIndex(eleccion->GetDate().getStrFecha(),value);
+
+		//Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
+		for(int i = 0; i< distritos.size(); i++){
+
+			this->indexByDistrito->DeleteFromIndex(Helper::IntToString(distritos[i]), eleccion->GetId());
+		}
 
 		return true;
 
@@ -92,9 +106,16 @@ void ABMEleccion::Modify(Eleccion* eleccion){
 
 	if (ExistsKey(value)){
 
+		//primero borro el id de eleccion en los distritos que este indexado, despues agrego los que tengo ahora
+		Eleccion* old = this->GetEleccion(eleccion->GetId());
+		vector<int> oldDistritos = old->GetDistritos();	//Me traigo los distritos que tiene ahora (antes de modificarla)
+		for(int i = 0; i< oldDistritos.size(); i++){
+			this->indexByDistrito->DeleteFromIndex(Helper::IntToString(oldDistritos[i]), eleccion->GetId());
+		}
+
 		string auxValueBtree;
-		for (unsigned int i=0;i<(eleccion->GetDistritos().GetSize());i++){
-			auxValueBtree = Helper::concatenar(auxValueBtree,Helper::IntToString(eleccion->GetDistritos().Get(i)),"|");
+		for (unsigned int i=0;i<(eleccion->GetDistritos().size());i++){
+			auxValueBtree = Helper::concatenar(auxValueBtree,Helper::IntToString(eleccion->GetDistritos()[i]),"|");
 		}
 
 		Data data = (Data)auxValueBtree.c_str();
@@ -108,6 +129,12 @@ void ABMEleccion::Modify(Eleccion* eleccion){
 
 		//Aca no hay que modificar el indice, ya que lo que se indexa es la fecha, que me devuelve los ids de elcciones correspondientes
 			//a esa fecha, pero eso nunca se modifica.
+
+		//Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
+		vector<int> distritos = eleccion->GetDistritos();
+		for(int i = 0; i< distritos.size(); i++){
+			this->indexByDistrito->AppendToIndex(Helper::IntToString(distritos[i]), eleccion->GetId());
+		}
 	}
 }
 
@@ -184,6 +211,42 @@ bool ABMEleccion::ExistsKey(Fecha fecha, int idCargo){
  */
 void ABMEleccion::mostrarEleccionesPorPantalla(){
 	this->bpPlusTree->exportTree();
+}
+
+vector<Eleccion> ABMEleccion::GetByFecha(Fecha* fecha){
+
+	vector<Key> byFecha = this->indexByFecha->GetIds(fecha->getStrFecha());
+	vector<Eleccion> elecciones;
+
+	for(int i = 0; i < byFecha.size(); i++){
+
+		string idEleccion = byFecha[i];
+		vector<string> splited = Helper::split(idEleccion, '_');	//ESto es fecha_idCargo
+		Fecha f = Fecha(splited[0]);
+		int idCargo = Helper::StringToInt(splited[1]);
+
+		elecciones.push_back(Eleccion(idCargo, f));
+	}
+
+	return elecciones;
+}
+
+vector<Eleccion> ABMEleccion::GetByFechaYDistrito(Fecha* fecha, int idDistrito){
+
+	vector<Key> byFecha = this->indexByFecha->GetIds(fecha->getStrFecha());
+	vector<Eleccion> elecciones;
+
+	for(int i = 0; i < byFecha.size(); i++){
+
+		string idEleccion = byFecha[i];
+		vector<string> splited = Helper::split(idEleccion, '_');	//ESto es fecha_idCargo
+		Fecha f = Fecha(splited[0]);
+		int idCargo = Helper::StringToInt(splited[1]);
+
+		elecciones.push_back(Eleccion(idCargo, f));
+	}
+
+	return elecciones;
 }
 
 ABMEleccion::~ABMEleccion() {

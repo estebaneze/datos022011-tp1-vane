@@ -33,11 +33,13 @@ class ABMEleccion {
 		vector<Eleccion> GetElecciones();
 		Eleccion* GetEleccion(string idEleccion);
 		void mostrarEleccionesPorPantalla();
+		vector<Eleccion> GetByFecha(Fecha* fecha);
+		vector<Eleccion> GetByFechaYDistrito(Fecha* fecha, int idDistrito);
 	private:
 			string bpTreeFile;
 			BPlusTree* bpPlusTree;
 			Index* indexByFecha;
-
+			Index* indexByDistrito;
 };
 
 #endif /* ABMELECCION_H_ */

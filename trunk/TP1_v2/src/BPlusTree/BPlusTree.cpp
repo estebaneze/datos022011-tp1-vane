@@ -23,6 +23,7 @@ void BPlusTree::insert(Element* element) {
 }
 
 LeafNode* BPlusTree::getLeftLeafNodo(BNode* actualNode) {
+
 	if (actualNode->getLevel() > 0) {
 		Node *internalNode = (Node*) actualNode;
 		BNode *leftNode = NodeFactory::createNodeForSearch(

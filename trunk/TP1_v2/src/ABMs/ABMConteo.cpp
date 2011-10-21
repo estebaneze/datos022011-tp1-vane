@@ -184,6 +184,27 @@ vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
 	return conteos;
 }
 
+vector<Conteo> ABMConteo::GetConteoByEleccion(Eleccion eleccion){
+
+	vector<Conteo> conteos;
+	vector<Key> ids = this->indexByEleccion->GetIds(eleccion.GetId());
+
+	for(int i = 0; i < ids.size(); i++){
+
+		int kint = Helper::StringToInt(ids[i]);
+		Element* elemento = this->bplusTree->findExact(ids[i]);
+		vector<string> splited = Helper::split(elemento->getData(), '|');
+		int cantVotos = 0;
+		if(splited.size() == 4){	//si ya tiene registrado algun voto
+			cantVotos = Helper::StringToInt(splited[3]);
+		}
+
+		conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), new Eleccion(eleccion.GetIdCargo(), eleccion.GetDate()), kint, cantVotos));
+	}
+
+	return conteos;
+}
+
 vector<Conteo> ABMConteo::GetConteoByEleccion(Eleccion* eleccion){
 
 	vector<Conteo> conteos;
@@ -232,6 +253,27 @@ vector<Conteo> ABMConteo::GetConteoByLista(string idLista){
 
 void ABMConteo::mostrarConteoPorPantalla(){
 	this->bplusTree->exportTree();
+}
+
+vector<Conteo> ABMConteo::GetConteoByDistritoYFecha(int idDistrito, Fecha fecha){
+
+	vector<Conteo> conteos;
+
+	//Conteo (((lista)ie, (distrito)ie, (eleccion)ie)i, cantidad): Arbol B+
+	vector<Conteo> conteosByDistrito = this->GetConteoByDistrito(idDistrito);
+
+	//Ya se que estos registros de conteo son del distrito == idDistrito
+	//Busco cuales referencian a una eleccion que tenga date == fecha
+	for(int i = 0; i < conteosByDistrito.size(); i++){
+
+		Conteo c = conteosByDistrito[i];
+		Fecha fechaEleccion = c.GetEleccion()->GetDate();
+		if(fechaEleccion < fecha){
+			conteos.push_back(c);
+		}
+	}
+
+	return conteos;
 }
 
 ABMConteo::~ABMConteo() {

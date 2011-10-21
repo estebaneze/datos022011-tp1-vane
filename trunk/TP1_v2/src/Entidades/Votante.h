@@ -29,6 +29,7 @@ class Votante {
 	    void SetNombreYApellido(string nombreYApellido);
 		void AgregarEleccion(Eleccion* eleccion);	//Agrega una eleccion a la lista de elccioes en las que voto
 		bool Authenticate(string clave);	//Este método lo usamos para cuando el usuario ingresa al sistema
+		bool VotoEnEleccion(Eleccion eleccion);
 		bool VotoEnEleccion(Eleccion* eleccion);
 
 	private:

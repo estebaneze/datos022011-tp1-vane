@@ -40,12 +40,22 @@ string Eleccion::GetId(){
 
 void Eleccion::RemoveDistrito(int idDistrito){
 
-	_distritos.Remove(idDistrito);
+	int index = 0;
+	bool founded = false;
+
+	for(int i = 0; i < _distritos.size() && !founded; i++){
+		if(idDistrito == _distritos[i]){
+			index = i;
+			founded = true;
+		}
+	}
+
+	_distritos.erase(_distritos.begin() + index);
 }
 
 void Eleccion::AddDistrito(int idDistrito){
 
-	_distritos.Add(idDistrito);
+	_distritos.push_back(idDistrito);
 }
 
 Fecha Eleccion::GetDate(){
@@ -56,7 +66,7 @@ int Eleccion::GetIdCargo(){
 	return _idCargo;
 }
 
-IntegerList Eleccion::GetDistritos(){
+vector<int> Eleccion::GetDistritos(){
 	return _distritos;
 }
 

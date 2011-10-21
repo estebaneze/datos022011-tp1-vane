@@ -25,6 +25,7 @@ class Fecha {
 		void setMes(short mes);
 		friend bool operator < (Fecha& fecha1, Fecha& fecha2);
 		friend bool operator > (Fecha& fecha1, Fecha& fecha2);
+		friend bool operator == (Fecha& fecha1, Fecha& fecha2);
 
 	private:
 		short dia;
