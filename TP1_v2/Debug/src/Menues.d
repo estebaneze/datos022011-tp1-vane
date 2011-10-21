@@ -60,7 +60,7 @@ src/Menues.d src/Menues.o: ../src/Menues.cpp ../src/Menues.h \
  ../src/ABMs/../BPlusTree/Element.h ../src/ABMs/../Logging/BPlusTreeLog.h \
  ../src/ABMs/../Logging/../BPlusTree/BPlusTree.h \
  ../src/ABMs/ABMDistrito.h ../src/ABMs/../Entidades/Distrito.h \
- ../src/ABMs/ABMEleccion.h ../src/utils/Fecha.h
+ ../src/ABMs/ABMEleccion.h ../src/utils/Fecha.h ../src/Logging/Log.h
 
 ../src/Menues.h:
 
@@ -223,3 +223,5 @@ src/Menues.d src/Menues.o: ../src/Menues.cpp ../src/Menues.h \
 ../src/ABMs/ABMEleccion.h:
 
 ../src/utils/Fecha.h:
+
+../src/Logging/Log.h:

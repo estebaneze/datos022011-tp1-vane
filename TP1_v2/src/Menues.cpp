@@ -8,39 +8,42 @@
 #include "Menues.h"
 
 Menues::Menues() {
-	// TODO Auto-generated constructor stub
+
 
 }
 
 void Menues::MenuPpal()
 {
 	int fin=0;
-	int opcion;
+	char opcion;
 
 	while (fin==0){
 		system("clear");
 		printf("\n\n");
+		printf("Fecha Actual: ");
+	    cout	<< this->fechaActual().getDia() << "-"<< this->fechaActual().getMes() <<"-"<<this->fechaActual().getAnio() <<endl;
 		printf("==========================================\n");
 		printf("Bienvenido al sistema electronico de votos\n");
 		printf("==========================================\n\n");
+
 		printf("\t1. Votante\n");
 		printf("\t2. Administrador\n");
 		printf("\t3. Salir\n\n");
 		printf("\tIngrese una opcion: ");
-		scanf("%i",&opcion);
+		opcion=getchar();
 		printf("\n\n");
 		switch (opcion) {
-			case 1:
+			case '1':
 
 				//menu votante
 				MenuVotante();
 				break;
-			case 2:
+			case '2':
 
 				//menu admin
 				MenuAdmin();
 				break;
-			case 3:
+			case '3':
 				fin=1;
 				break;
 			default:
@@ -55,7 +58,7 @@ void Menues::MenuPpal()
 void Menues::MenuAdmin()
 {
 int fin=0;
-int opcion;
+char opcion;
 
 	while (fin==0){
 
@@ -69,10 +72,10 @@ int opcion;
 		printf("\t4. Borrar Administrador\n");
 		printf("\t5. Volver al menu principal\n\n");
 		printf("\tIngrese una opcion: ");
-		scanf("%i",&opcion);
+		opcion=getchar();
 
 		switch (opcion) {
-				case 1:{
+				case '1':{
 
 						bool listo=false;
 						ABMAdministrador *adm = new ABMAdministrador("administrador.ga");
@@ -111,7 +114,7 @@ int opcion;
 						delete adm;
 					break;
 				}
-				case 2:	{
+				case '2':	{
 						ABMAdministrador *abmAdmin = new ABMAdministrador("administrador.ga");
 						bool listo = false;
 
@@ -144,7 +147,7 @@ int opcion;
 							delete abmAdmin;
 						break;
 				}
-				case 3:{
+				case '3':{
 						ABMAdministrador *abmAdmin = new ABMAdministrador("administrador.ga");
 						bool listo = false;
 
@@ -183,7 +186,7 @@ int opcion;
 					break;
 					}
 
-				case 4:
+				case '4':
 					{
 						ABMAdministrador *abmAdmin = new ABMAdministrador("administrador.ga");
 						bool listo = false;
@@ -214,7 +217,7 @@ int opcion;
 
 						break;
 					}
-				case 5:
+				case '5':
 					fin=1;
 
 					break;
@@ -233,7 +236,10 @@ void Menues::MenuVotante()
 	char c; //auxiliar
 
 	int fin=0;
-	int opcion;
+	char opcion;
+	bool autenticado=false;	//para que no tenga que loguearse siempre
+
+	ABMVotante *votantes = new ABMVotante();
 
 	while (fin==0){
 			system("clear");
@@ -243,49 +249,50 @@ void Menues::MenuVotante()
 			printf("\t1. Ingresar al sistema\n");
 			printf("\t2. Volver al menu principal\n\n");
 			printf("\tIngrese una opcion: ");
-			scanf("%i",&opcion);
+			opcion=getchar();
 
 			switch (opcion) {
-							case 1:
+							case '1':
 								{
-								fin=1;
+								if (!autenticado){
+									//ABMVotante votantes = ABMVotante();
 
-								ABMVotante votantes = ABMVotante();
+									printf("\n\n");
+									printf("\tIngrese DNI: ");
+									cin >> dni;
 
+										if (votantes->existKey(dni)){
+											Votante* votante = votantes->GetVotante(dni);
 
-								printf("\n\n");
-								printf("\tIngrese DNI: ");
-								cin >> dni;
+											printf("\tIngrese password: ");
+											cin >> pass;
 
+											if (votante->Authenticate(pass)){
+												autenticado=true;
+												Menu_EleccionesXDistrito_votante(votante);
+											}
+											else{
+												printf("Password Incorreca\n");
+												cin >> c;
 
-									if (votantes.existKey(dni)){
-										Votante* votante = votantes.GetVotante(dni);
-
-										printf("\tIngrese password: ");
-										cin >> pass;
-
-										if (votante->Authenticate(pass)){
-
-											Menu_EleccionesXDistrito_votante(votante);
+											}
 										}
 										else{
-											printf("Password Incorreca\n");
+											printf("No existe el usuario ingresado, presione ua tecla para continuar. \n\n\n");
 											cin >> c;
-											this->MenuVotante();
-										}
-									}
-									else{
-										printf("No existe el usuario ingresado\n\n\n");
-										cin >> c;
-										this->MenuVotante();
-									}
 
+										}
+								}
+								else{
+									Votante* votante = votantes->GetVotante(dni);
+									Menu_EleccionesXDistrito_votante(votante);
+								}
 
 								}
 								break;
-							case 2:
+							case '2':
 								fin=1;
-								this->MenuPpal();	//menu admin
+								//this->MenuPpal();	//menu admin
 								break;
 							default:
 								fin=0;
@@ -294,6 +301,7 @@ void Menues::MenuVotante()
 					}
 			}
 
+	delete votantes;
 }
 
 ///FALTAN METODOS PARA QUE FUNCIONE
@@ -306,64 +314,88 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 	cout << endl << endl;
 	cout << "Bienvenido " << votante->GetNombreYApellido() << ", usted pertenece el distrito: " << votante->GetDistrito() << endl;
 
-	cout << "Usted puede votar en las siguientes elecciones: " << endl;
-
-
-	Fecha fecha = Fecha(21,10,2011);	//TODO: tomar la fecha de hoy
+	bool listoEleccion = false;
+	Fecha fecha = this->fechaActual();
 	vector<Eleccion> elecciones = es.GetByFecha(&fecha);
 
-	//Le muestro las elecciones que no esten en su lista de elecciones ya votadas
-	for(int i = 0; i < elecciones.size(); i++){
+	while(!listoEleccion){
+		cout << "Usted puede votar en las siguientes elecciones: " << endl;
 
-		if(!votante->VotoEnEleccion(elecciones[i])){
-			cout << elecciones[i].GetIdCargo() << endl;
-		}
-	}
+		//Le muestro las elecciones que no esten en su lista de elecciones ya votadas
+		for(unsigned int i = 0; i < elecciones.size(); i++){
 
-	string elecc;
-	cout << "Ingrese la eleccion en la cual quiera votar (seleccione un número de arriba): ";
-	cin >> elecc;
-
-	int idCargo = Helper::StringToInt(elecc);
-
-	//ME quedo con la que quiere votar
-	Eleccion e = elecciones[0];
-	bool founded = false;
-	for(int i = 0; i < elecciones.size(); i++){
-		if(elecciones[i].GetIdCargo() == idCargo){
-			e = elecciones[i];
-			founded = true;
-			break;
-		}
-	}
-
-	if(founded){
-
-		vector<Conteo> conteos = cs.GetConteoByEleccion(e);
-
-		for(int i = 0; i < conteos.size(); i++){
-			cout << "Lista " << conteos[i].GetIdLista() << endl;
-		}
-
-		string idLista;
-		cout << "Ingrese lista a votar:";
-		cin >> idLista;
-
-		bool listaFounded = false;;
-		for(int i = 0; i < conteos.size(); i++){
-
-			if(conteos[i].GetIdLista() == idLista){
-				cs.AddVoto(conteos[i].GetId(), votante);
-				listaFounded = true;
-				break;
+			if(!votante->VotoEnEleccion(elecciones[i])){
+				cout << elecciones[i].GetIdCargo() << endl;
 			}
 		}
 
-		if(!listaFounded){
-			cout << "Ingreso una lista incorrecta" << endl;
+		string elecc;
+		cout << "Ingrese la eleccion en la cual quiera votar (seleccione un número de arriba): ";
+		cin >> elecc;
+
+		int idCargo = Helper::StringToInt(elecc);
+
+		//ME quedo con la que quiere votar
+		Eleccion e = elecciones[0];
+		bool founded = false;
+		for(unsigned int i = 0; i < elecciones.size() && (!founded); i++){
+			if(elecciones[i].GetIdCargo() == idCargo){
+				e = elecciones[i];
+				founded = true;
+			}
+		}
+
+		if(founded){
+			vector<Conteo> conteos = cs.GetConteoByEleccion(e);
+			bool listoLista=false;
+
+			while (!listoLista){
+					for(unsigned int i = 0; i < conteos.size(); i++){
+						cout << "Lista " << conteos[i].GetIdLista() << endl;
+					}
+					int idConteoLista;
+					string idLista;
+					cout << "Ingrese lista a votar: ";
+					cin >> idLista;
+
+					bool listaFounded = false;;
+					for(unsigned int i = 0; (i < conteos.size()) && (!listaFounded); i++){
+
+						if(conteos[i].GetIdLista() == idLista) {
+							listaFounded = true;
+							idConteoLista=conteos[i].GetId(); //obtengo el id de conteo para usar en el ADD
+						}
+
+					}
+
+					if(!listaFounded){
+						cout << "Lista incorrecta, presione una tecla para reintentar o [q] para salir: ";
+						string op;
+						cin >> op;
+						if (op=="q") {
+							listoEleccion=true;
+							listoLista=true;
+						}
+					}
+					else{
+						cout << "Esta seguro de votar la lista " << idLista << "? . Ingrese tecla [s]=Confirma u otra para relegir.";
+						string op;
+						cin >> op;
+						if (op=="s"){
+							cs.AddVoto(idConteoLista, votante); //debe hacerse una confirmacion aun
+							listoEleccion=true;
+							listoLista=true;
+							cout << "Votacion realizada con exito, presione una tecla para volver al menu";
+							cin >> op;
+						}
+					}
+			}
 		}
 		else{
-			cout << "La opción ingresada no es válida" << endl;
+			cout << "Eleccion inválida, presione una tecla para reintentar o [q] para salir: ";
+			string op;
+			cin >> op;
+			if (op=="q") listoEleccion=true;
 		}
 	}
 
@@ -1403,6 +1435,22 @@ void Menues::MenuABMEleccion()
 Menues::~Menues() {
 
 }
+
+Fecha Menues::fechaActual()
+{
+	time_t tSac =time(NULL);
+	tm tms = *localtime(&tSac);
+
+	Fecha fecha;
+	fecha.setDia(tms.tm_mday);
+	fecha.setMes(tms.tm_mon+1);
+	fecha.setAnio(tms.tm_year+1900);
+
+	return fecha;
+
+}
+
+
 
 
 
