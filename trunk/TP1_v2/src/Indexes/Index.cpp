@@ -81,6 +81,39 @@ void Index::AppendToIndex(Key key, Key value){
 
 }
 
+void Index::DeleteFromIndex(Key key, Key value){
+
+	cout << "Voy a borrar " << value << endl;
+
+	if ((this->directorio->existKey(key))){
+
+		//Lo busco
+		string oldFields = this->directorio->find(key);
+		vector<string> splited = Helper::split(oldFields, '|');
+
+		cout << "Los valores del indice: " << Helper::concatenar(splited, "|") << endl;
+
+		bool founded = false;
+		int index = 0;
+		for(int i = 0; i < splited.size() && !founded; i++){
+			if(splited[i] == value){
+				index  = i;
+				founded = true;
+			}
+		}
+
+		//Borro el "value" del registro de la "key"
+		splited.erase(splited.begin() + index);
+
+		//Vuelvo a actualizar el registro con esta clave
+		if(founded){
+			cout << "Los valores del indice: " << Helper::concatenar(splited, "|") << endl;
+			this->directorio->modify(key, Helper::concatenar(splited, "|"));
+		}
+
+	}
+}
+
 void Index::AppendToIndex(Key key,Key oldKey, Key value){
 
 	//cout << "Agrego al indice: Key: " << key << " - id Value: " << value << endl;

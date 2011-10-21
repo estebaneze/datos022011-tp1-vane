@@ -19,7 +19,6 @@
 #include "ABMs/ABMConteo.h"
 #include "ABMs/ABMDistrito.h"
 #include "ABMs/ABMEleccion.h"
-#include "Indexes/ListaIndex.h"
 #include "utils/Fecha.h"
 
 class Menues {

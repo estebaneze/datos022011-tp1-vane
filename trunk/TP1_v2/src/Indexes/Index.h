@@ -31,7 +31,7 @@ class Index {
 
 		void AppendToIndex(Key key,Key oldKey, Key value);
 
-
+		void DeleteFromIndex(Key key, Key value);
 	private:
 		string hashFile;
 		Directory* directorio;

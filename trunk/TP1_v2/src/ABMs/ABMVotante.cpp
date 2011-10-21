@@ -10,9 +10,9 @@
 /*
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
-ABMVotante::ABMVotante(string file) {
+ABMVotante::ABMVotante() {
 
-	string hashFile = file;
+	string hashFile = "votante.ga";
 	//string hashFile = "conteo";
 	this->file = hashFile;
 	this->directorio = new Directory(file,2048);

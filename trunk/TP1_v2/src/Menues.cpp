@@ -250,7 +250,7 @@ void Menues::MenuVotante()
 								{
 								fin=1;
 
-								ABMVotante votantes = ABMVotante("votantes.ga");
+								ABMVotante votantes = ABMVotante();
 
 
 								printf("\n\n");
@@ -774,7 +774,7 @@ int opcion;
 		switch (opcion) {
 					case 1:	{
 						bool listo=false;
-						ABMVotante *vot = new ABMVotante("votante");
+						ABMVotante *vot = new ABMVotante();
 
 						while (!listo){
 							string dni;
@@ -838,7 +838,7 @@ int opcion;
 							}
 					case 2:	{
 							bool listo=false;
-							ABMVotante *vot = new ABMVotante("votante");
+							ABMVotante *vot = new ABMVotante();
 							while (!listo){
 								system("clear");
 								printf("BAJA VOTANTE\n");
