@@ -116,7 +116,7 @@ BNode* Node::findChild(Element* elementToFind) {
 	//para de buscar cuando, encuentro el elemento, obtengo uno mayor (entonces es el anterior) o es el ultimo elemento y es menor.
 
 	//Menores a izquiera y mayores o iguales a derecha
-
+	//cout << "ERROR";
 	vector<KeyElement*>::iterator it;
 
 	bool found = false;
@@ -160,8 +160,10 @@ bool Node::insertar(Element* elemToInsert) {
 
 	BNode* childNodeToSearch = this->findChild(elemToInsert);
 
+	cout << "Si no aparece el mensaje NO PINCHE es porque muere en el metodo doInsertOrModifyInChild de la clase Node: "<<endl;
 	bool hasChanged = doInsertOrModifyInChild(childNodeToSearch, elemToInsert,
 			INSERT);
+	cout << "NO PINCHE"<<endl;
 	delete childNodeToSearch;
 	return hasChanged;
 }
