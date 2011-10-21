@@ -618,7 +618,7 @@ void Ingresar(){
 	string clave;// = "password377";
 	cin >> clave;
 
-	ABMVotante abm = ABMVotante("votante");
+	ABMVotante abm = ABMVotante();
 	Votante* votante = abm.GetVotante(Helper::StringToLong(dni));
 	bool login = votante->Authenticate(clave);
 	if(login){
@@ -634,7 +634,7 @@ void Ingresar(){
 
 void agregarVotantes(){
 
-	ABMVotante votantes = ABMVotante("votante");
+	ABMVotante votantes = ABMVotante();
 
 	for(int i = 1; i < 400; i++){
 
@@ -675,9 +675,17 @@ void agregarDistritos(){
 	}
 }
 
-void testReportes(Votante* votante){
+void testReportes(){
 
-		/* initialize random seed: */
+	agregarVotantes();
+
+	Votante* votante;
+	ABMVotante abmv = ABMVotante();
+	votante = abmv.GetVotante(399);
+
+
+
+	/* initialize random seed: */
 	srand ( time(NULL) );
 	cout << endl << endl;
 
@@ -757,6 +765,26 @@ void testReportes(Votante* votante){
 	}
 }
 
+void testEleccionesIndex(){
+
+
+	ABMEleccion cs = ABMEleccion();
+	cs.Add(new Eleccion(1, Fecha(1,1,2003)));
+	cs.Add(new Eleccion(1, Fecha(1,6,2003)));
+	cs.Add(new Eleccion(5, Fecha(1,6,2003)));
+	cs.Add(new Eleccion(6, Fecha(1,7,2003)));
+	cs.Add(new Eleccion(7, Fecha(1,7,2003)));
+	cs.Add(new Eleccion(19, Fecha(1,7,2003)));
+
+	cs.Add(new Eleccion(46, Fecha(1,7,2003)));
+	cs.Add(new Eleccion(75, Fecha(1,7,2003)));
+	cs.Add(new Eleccion(197, Fecha(1,7,2003)));
+
+	cs.Delete(new Eleccion(7, Fecha(1,7,2003)));
+
+	cout << endl << endl << "Done!!!!!!!!!!" << endl;
+}
+
 int main( int arg, char *argv[] ){
 
 //	testConteo();
@@ -780,8 +808,11 @@ int main( int arg, char *argv[] ){
 		//pruebaArbol();
 
 		//testLogging();
-	Menues menu;
-	menu.MenuPpal();
-	cout << endl << endl << "Done!!!!!!!!!!" << endl;
+
+	//Menues menu;
+	//menu.MenuPpal();
+
+	//testReportes();
+
 	return system("");
 }

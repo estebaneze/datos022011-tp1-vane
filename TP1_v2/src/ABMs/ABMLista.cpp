@@ -24,7 +24,6 @@ ABMLista::ABMLista() {
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
-/********* OJO: BUG EN EL INDICE, VER IMPLE DEL INDICE *****************/
 void ABMLista::Add(Lista* lista){
 
 	if (!(this->directorio->existKey(lista->GetNombre()))){
@@ -46,9 +45,14 @@ void ABMLista::Add(Lista* lista){
 bool ABMLista::Delete(Lista *lista){
 
 	if (this->directorio->existKey(lista->GetNombre())){
+
 		this->directorio->remove(lista->GetNombre());
+
 		HashLog::LogDelete(lista->GetNombre(),lista->GetEleccion(),"Lista_HashOperation.log");
 		HashLog::LogProcess(this->directorio,"Lista_HashProccess.log");
+
+		this->index->DeleteFromIndex(lista->GetEleccion(), lista->GetNombre());
+
 		return true;
 	}
 	else{

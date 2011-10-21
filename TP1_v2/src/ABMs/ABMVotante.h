@@ -17,7 +17,7 @@ class ABMVotante {
 
 public:
 
-	ABMVotante(string file);
+	ABMVotante();
 	virtual ~ABMVotante();
 	bool existKey(long dni);
 	void Add(Votante *votante);
@@ -28,8 +28,8 @@ public:
 
 	void mostrarVotantesPorPantalla();
 private:
-		string file;
-		Directory* directorio;
+	string file;
+	Directory* directorio;
 
 };
 

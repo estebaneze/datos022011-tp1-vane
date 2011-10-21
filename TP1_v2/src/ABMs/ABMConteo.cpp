@@ -92,7 +92,7 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
 void ABMConteo::NotifyVotante(Votante* votante, Eleccion* eleccion){
 
 	//Hay que guardar en la entidad Votante el ide de eleccion, para que quede el registro de que ya voto en esta eleccion y no puede volver a votar
-	ABMVotante abmVotantes = ABMVotante("votante");
+	ABMVotante abmVotantes = ABMVotante();
 	votante->AgregarEleccion(eleccion);
 
 	/*//(long dni, string nombreYApellido, string clave, string domicilio, int idDistrito);
