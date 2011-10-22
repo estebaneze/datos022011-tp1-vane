@@ -45,7 +45,7 @@ int ABMConteo::Add(string idLista, int idDistrito, int idEleccion){
         this->indexByEleccion->AppendToIndex(idEleccion, Helper::IntToString(idConteo));
 
         BPlusTreeLog::LogInsert(key, data, "Conteo_BPlusTreeOperation.log");
-        BPlusTreeLog::LogProcess(key, data, "Conteo_BPlusTreeProcess.log");
+        BPlusTreeLog::LogProcess(this->bplusTree, "Conteo_BPlusTreeProcess.log");
 
         return idConteo;
 }
@@ -85,7 +85,7 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
                 this->bplusTree->modify(element);
 
                 BPlusTreeLog::LogModify(key, data, "Conteo_BPlusTreeOperation.log");
-                BPlusTreeLog::LogProcess(key, data, "Conteo_BPlusTreeProcess.log");
+                BPlusTreeLog::LogProcess(this->bplusTree, "Conteo_BPlusTreeProcess.log");
 
                 this->NotifyVotante(votante, idEleccion);
 
