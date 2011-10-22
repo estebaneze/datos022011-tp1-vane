@@ -124,16 +124,6 @@ void BPlusTree::Log(Element* element){
 //*****************************************//
 void BPlusTree::insert(Element* element, int modifyOrInsert) {
 
-        switch (modifyOrInsert) {
-                case INSERT:
-                        cout << endl << "bptree insert key:" << element->getKey() << ". Data: " << element->getData() << endl;
-                break;
-                case MODIFY:
-                        cout << endl << "bptree modify key:" << element->getKey() << ". Data: " << element->getData() << endl;
-                break;
-        }
-
-
         this->validateElementSize(element);
 
         KeyElement* keyOverflow = NULL;
@@ -141,9 +131,11 @@ void BPlusTree::insert(Element* element, int modifyOrInsert) {
 
         switch (modifyOrInsert) {
         case INSERT:
+				//TODO RIK LOG INSERT
                 modified = this->root->insertar(element);
                 break;
         case MODIFY:
+				//TODO RIK LOG MODIFICAR
                 modified = this->root->modify(element);
                 break;
         }
