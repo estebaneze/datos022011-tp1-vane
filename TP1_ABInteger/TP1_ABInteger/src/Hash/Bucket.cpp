@@ -69,7 +69,6 @@ bool Bucket::insertable(Key key, string value){
 	unsigned int BlockSize = key.size() + value.size() + (5*sizeof(int));
 	// si el elemento supera la capacidad de carga lanzo excepcion
 
-	cout << "feffsffdfsdf" << endl;
 	if (limit < BlockSize) throw new HashExceptions::ExtendedSizeException();
 	return (((float)tam) <= limit);
 }
