@@ -15,6 +15,6 @@ hashBSizeCargo = 512 #Tamaño del bucket para el hash
 hashBSizeLista = 512 #Tamaño del bucket para el hash
 hashBSizeVotante = 512 #Tamaño del bucket para el hash
 
-separador1 = | #TSeparador pipe
-separador2 = _ #Separador guion bajo
+separador1 = | 	#TSeparador pipe
+separador2 = _ 	#Separador guion bajo
 
