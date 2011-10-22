@@ -30,6 +30,14 @@ ConfigurationMananger::ConfigurationMananger() {
         configFile->readInto<string>(separador1,"separador1");
         configFile->readInto<string>(separador2,"separador2");
 
+    	configFile->readInto<string>(distritoFile,"distritoFile");
+    	configFile->readInto<string>(candidatoFile,"candidatoFile");
+    	configFile->readInto<string>(cargoFile,"cargoFile");
+    	configFile->readInto<string>(conteoFile,"conteoFile");
+    	configFile->readInto<string>(eleccionFile,"eleccionFile");
+    	configFile->readInto<string>(listaFile,"listaFile");
+    	configFile->readInto<string>(votanteFile,"votanteFile");
+
         //configFile->readInto(maxRecordPercent,"maxRecordPercent");
         maxRecordPercent = (1-chargeFactor)/2;
 
@@ -92,6 +100,34 @@ string ConfigurationMananger::getSeparador1(){
 
 string ConfigurationMananger::getSeparador2(){
         return this->separador2;
+}
+
+string ConfigurationMananger::getDistritoFile(){
+	return this->distritoFile;
+}
+
+string ConfigurationMananger::getCandidatoFile(){
+	return this->candidatoFile;
+}
+
+string ConfigurationMananger::getCargoFile(){
+	return this->cargoFile;
+}
+
+string ConfigurationMananger::getConteoFile(){
+	return this->conteoFile;
+}
+
+string ConfigurationMananger::getEleccionFile(){
+	return this->eleccionFile;
+}
+
+string ConfigurationMananger::getListaFile(){
+	return this->listaFile;
+}
+
+string ConfigurationMananger::getVotanteFile(){
+	return this->votanteFile;
 }
 
 ConfigurationMananger::~ConfigurationMananger() {

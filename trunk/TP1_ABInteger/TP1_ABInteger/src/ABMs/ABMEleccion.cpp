@@ -11,11 +11,11 @@
  * creo el arbol y le paso el nombre del archivo a generar y tamaño del bloque
  */
 ABMEleccion::ABMEleccion() {
+		this->bpTreeFile = ConfigurationMananger::getInstance()->getEleccionFile();
 
-        this->bpTreeFile = "eleccion.bpt";
-        int bufferSize = ConfigurationMananger::getInstance()->getBufferSizeTree();
+		int bufferSize = ConfigurationMananger::getInstance()->getBufferSizeTree();
 
-        this->bpPlusTree = new BPlusTree(bufferSize,"eleccion.bpt");
+        this->bpPlusTree = new BPlusTree(bufferSize,bpTreeFile);
 
         this->indexByFecha = new Index(Helper::concatenar(bpTreeFile,"Fecha",ConfigurationMananger::getInstance()->getSeparador2()));
         this->indexByDistrito = new Index(Helper::concatenar(bpTreeFile,"Distrito",ConfigurationMananger::getInstance()->getSeparador2()));

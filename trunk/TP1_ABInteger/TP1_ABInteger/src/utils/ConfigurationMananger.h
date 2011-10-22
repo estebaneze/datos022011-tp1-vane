@@ -49,7 +49,16 @@ private:
         string separador1;
         string separador2;
 
-
+    	/*
+    	 * Nombres de los archivos
+    	 */
+    	string candidatoFile;
+    	string cargoFile;
+    	string conteoFile;
+    	string eleccionFile;
+    	string listaFile;
+    	string votanteFile;
+    	string distritoFile;
         /**
          * Archivo de configuracion
          */
@@ -98,6 +107,16 @@ public:
          */
         string getSeparador1();
         string getSeparador2();
+    	/**
+    	 * Devuelve el nombre de los archivos
+    	 */
+    	string getCandidatoFile();
+    	string getCargoFile();
+    	string getConteoFile();
+    	string getEleccionFile();
+    	string getListaFile();
+    	string getVotanteFile();
+    	string getDistritoFile();
 };
 
 #endif /* CONFIGURATIONMANANGER_H_ */

@@ -7,8 +7,7 @@
 #include "ABMConteo.h"
 
 ABMConteo::ABMConteo() {
-
-        string mainTreeName = "conteo";
+		string mainTreeName = ConfigurationMananger::getInstance()->getConteoFile();
         int bufferSize = ConfigurationMananger::getInstance()->getBufferSizeTree();
         this->bplusTree = new BPlusTree(bufferSize,Helper::concatenar(mainTreeName,"bpt","."));
 
