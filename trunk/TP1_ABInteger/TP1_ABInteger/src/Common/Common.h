@@ -17,6 +17,7 @@
 #include "IntegerList.h"
 #include "Identities.h"
 #include "../Logging/Log.h"
+#include "../utils/ConfigurationMananger.h"
 #include "Helper.h"
 
 using namespace std;

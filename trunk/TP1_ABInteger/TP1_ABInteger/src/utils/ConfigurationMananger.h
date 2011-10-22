@@ -35,11 +35,21 @@ private:
 	int maxRecordSizeTree;
 
 	/**
+	 * Tamaño del bloque del los archivos de hash
+	 */
+	int hashBSizeCandidato;
+	int hashBSizeAdministrador;
+	int hashBSizeCargo;
+	int hashBSizeLista;
+	int hashBSizeVotante;
+
+	/**
 	 * Archivo de configuracion
 	 */
 	ConfigFile *configFile;
+
 public:
-	//Destructor
+
 	virtual ~ConfigurationMananger();
 
      /**
@@ -49,6 +59,7 @@ public:
 
 	ChargeFactor getChargeFactor();
 	int maxNodeLoadForInsert();
+
 	/**
 	 * Tamano que tiene el buffer, Nodo, o bloque
 	 */
@@ -65,6 +76,15 @@ public:
 	int getMinRecordSizeTree();
 
 	int getMaxRecordSizeTree();
+
+	/**
+	 * Devuelven el tamaño del bloque de los archivos de hash
+	 */
+	int getHashBSizeCandidato();
+	int getHashBSizeAdministrador();
+	int getHashBSizeCargo();
+	int getHashBSizeLista();
+	int getHashBSizeVotante();
 };
 
 #endif /* CONFIGURATIONMANANGER_H_ */
