@@ -11,18 +11,10 @@
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
 ABMVotante::ABMVotante() {
-
+	int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeVotante();
 	string hashFile = "votante.ga";
-	//string hashFile = "conteo";
 	this->file = hashFile;
-	this->directorio = new Directory(file,2048);
-
-	//Descomentar esto si quiere verse el contenido del archivo por pantalla
-	//this->directorio->inform();
-
-	// OJO! el tamaño lo tioene que leer desde un archivo de configuracion
-
-
+	this->directorio = new Directory(file, maxBucketSize);
 }
 
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
@@ -183,8 +175,6 @@ bool ABMVotante::existKey(long dni){
 void ABMVotante::mostrarVotantesPorPantalla(){
 	this->directorio->inform();
 }
-
-
 
 
 ABMVotante::~ABMVotante() {
