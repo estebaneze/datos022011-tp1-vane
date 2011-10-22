@@ -1,5 +1,4 @@
 #include "InsertBalanceStrategy.h"
-#include "../Persistencia/Persistor.h"
 #include "../Persistencia/PersistorBTree.h"
 #include "../BPlusTree/KeyElement.h"
 #include "BalanceStrategyFactory.h"
