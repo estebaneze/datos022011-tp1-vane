@@ -10,7 +10,6 @@
 #include <vector>
 #include <algorithm>
 #include "../Persistencia/PersistorBase.h"
-#include "../Persistencia/Persistor.h"
 #include <functional>
 #include "EqualElementComparator.h"
 class LeafNode: public BNode {
@@ -23,7 +22,7 @@ private:
 
 	int getDataElementsSize(std::vector<Element*> vector);
 public:
-	LeafNode();
+	LeafNode(PersistorBTree* p);
 	virtual ~LeafNode();
 
 
