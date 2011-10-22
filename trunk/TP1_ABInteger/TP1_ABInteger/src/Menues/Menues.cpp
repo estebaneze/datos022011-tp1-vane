@@ -1106,19 +1106,153 @@ while (fin==0){
 
 	switch (opcion) {
 				case '1':	{
+
+					cout << "Reporte por Eleccion" << endl << endl;
+					cout << "Ingrese Fecha de la eleccion. " << endl;
+					string anio;
+					string mes;
+					string dia;
+					string idCargo;
+
+					cout << "Anio: ";
+					cin >> anio;
+					cout << "Mes: ";
+					cin >> mes;
+					cout << "Dia: ";
+					cin >> dia;
+
+					Fecha* fecha = new Fecha(Helper::StringToInt(dia), Helper::StringToInt(mes),Helper::StringToInt(anio));
+
+					ABMCargo* abmCargos = new ABMCargo();
+					vector<Cargo> cargos = abmCargos->GetCargos();
+
+					cout << "Cargos: " << endl;
+					for(int i = 0; i < cargos.size(); i++){
+						cout << cargos[i].GetNombre() << " - Id: " << cargos[i].GetId() << endl;
+					}
+
+					cout << "Ingrese Id de Cargo:";
+					cin >> idCargo;
+
+					string cargoSelected;
+					bool founded = false;
+					for(int i = 0; i < cargos.size() && !founded; i++){
+
+						if(cargos[i].GetId() == Helper::StringToInt(idCargo)){
+							cargoSelected = cargos[i].GetNombre();
+							founded = true;
+						}
+					}
+
+					delete abmCargos;
+
+					if(founded){
+						ABMEleccion* abmEleccion = new ABMEleccion();
+						vector<Eleccion*> elecciones = abmEleccion->GetByFechaYCargo(fecha, Helper::StringToInt(idCargo));
+
+						delete abmEleccion;
+
+						if(elecciones.size() > 0 && elecciones[0] != NULL){
+							Reportes::reportePorEleccion(elecciones[0]->GetId());
+						}
+						else{
+							cout << endl << "No se encontro la eleccion para la Fecha y el Cargo indicado" << endl;
+						}
+					}
+					else{
+						cout << endl << "No se encontro la eleccion para la Fecha y el Cargo indicado" << endl;
+					}
+
+					cout << endl <<  "Presione cualquier tecla para continuar" << endl;
+					string c;
+					cin >> c;
+					//if (c=="q") listo=true;
+
 					break;
 
-					}
+				}
 				case '2':{
+
+					cout << "Reporte por Lista" << endl << endl;
+
+					ABMLista* abmLista = new ABMLista();
+
+					cout << "Listas disponibles:" << endl;
+					vector<Lista> listas = abmLista->GetListas();
+					for(int i = 0; i < listas.size(); i++){
+						cout << listas[i].GetNombre() << endl;
+					}
+
+					cout << "Ingrese la lista: " << endl;
+					string listaSelected;
+					cin >> listaSelected;
+
+					//Busco la lista seleccionada
+					bool founded = false;
+					for(int i = 0; i < listas.size(); i++){
+						if(listas[i].GetNombre() == listaSelected)
+							founded = true;
+					}
+
+					delete abmLista;
+					if(founded){
+						Reportes::reportePorLista(listaSelected);
+					}
+					else{
+						cout << "La Lista ingresada es incorrecta." << endl;
+					}
+
+
+					cout << endl <<  "Presione cualquier tecla para continuar" << endl;
+					string c;
+					cin >> c;
+					//if (c=="q") listo=true;
+
 					break;
 				}
 				case '3':{
+
+					cout << "Reporte por Distrito" << endl << endl;
+
+					ABMDistrito* abmDistrito = new ABMDistrito();
+
+					cout << "Distritos disponibles:" << endl;
+					vector<Distrito> distritos = abmDistrito->GetDistritos();
+
+					for(int i = 0; i < distritos.size(); i++){
+						cout << distritos[i].GetNombre() << endl;
+					}
+
+					cout << "Ingrese el Distrito: " << endl;
+					string distritoSelected;
+					cin >> distritoSelected;
+
+					//Busco la lista seleccionada
+					bool founded = false;
+					int idDistrito = 0;
+					for(int i = 0; i < distritos.size(); i++){
+						if(distritos[i].GetNombre() == distritoSelected)
+							founded = true;
+					}
+
+					delete abmDistrito;
+
+					if(founded){
+						Reportes::reportePorDistrito(idDistrito);
+					}
+					else{
+						cout << "La Lista ingresada es incorrecta." << endl;
+					}
+
+
+					cout << endl <<  "Presione cualquier tecla para continuar" << endl;
+					string c;
+					cin >> c;
+					//if (c=="q") listo=true;
+
 					break;
 				}
-				case '4':{
-					fin=1;
-					break;
-				}
+
 				default:{
 					fin=0;
 					break;

@@ -9,6 +9,9 @@
 #include <cstdlib>
 #include <vector>
 #include "../ABMs/ABMConteo.h"
+#include "../ABMs/ABMCargo.h"
+#include "../ABMs/ABMEleccion.h"
+#include "../ABMs/ABMDistrito.h"
 
 #ifndef REPORTES_H_
 #define REPORTES_H_

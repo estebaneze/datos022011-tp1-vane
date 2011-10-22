@@ -7,7 +7,7 @@
 
 #include "Reportes.h"
 
-/*TODO: este metodo tendria que recibir: fecha y cargo y de ahi buscar la eleccion, o el objecto Eleccion
+/*TODO: mostrar la cantidad de votos en porcentaje
  */
 
 void Reportes::reportePorEleccion(int idEleccion)
@@ -16,37 +16,24 @@ void Reportes::reportePorEleccion(int idEleccion)
 
 	vector<Conteo> resultados =  abmConteo->GetConteoByEleccion(idEleccion);
 
-	for(int i = 0; i < resultados.size(); i++){
-		cout << "eleccion: " << resultados[i].GetIdDistrito() << ". Votos:  " << resultados[i].GetCountVotos() << endl;
-	}
-
-	cout << endl << endl;
-
 	//Ordeno por cantidad de votos
 	resultados = Reportes::OrderByCantidadVotos(resultados);
 
-	cout << endl << endl << endl;
-	cout << "Reporte por Eleccion:" << endl << endl;
-
 	for(int i = 0; i < resultados.size(); i++){
-
-		Conteo c = resultados[i];
-		cout << "Eleccion: " << c.GetIdEleccion() << endl;
-
-		cout << "		Distrito: " << c.GetIdDistrito() << " tiene " << c.GetCountVotos() << " votos." << endl;
+		cout << "Lista: " << resultados[i].GetIdLista() << ". Votos:  " << resultados[i].GetCountVotos() << endl;
 	}
 
+	delete abmConteo;
 }
 
 void Reportes::reportePorLista(string lista)
 {
 	ABMConteo *abmConteo = new ABMConteo();
+	ABMEleccion* abmEleccion = new ABMEleccion();
+	ABMCargo* abmCargo = new ABMCargo();
+	ABMDistrito* abmDistrito = new ABMDistrito();
 
 	vector<Conteo> resultados =  abmConteo->GetConteoByLista(lista);
-	for(int i = 0; i < resultados.size(); i++){
-		cout << "eleccion: " << resultados[i].GetIdDistrito() << ". Votos:  " << resultados[i].GetCountVotos() << endl;
-	}
-	cout << endl << endl;
 
 	//Primero ordeno por fecha de eleccion
 	resultados = Reportes::OrderByFecha(resultados);
@@ -67,7 +54,7 @@ void Reportes::reportePorLista(string lista)
 		conteo = (Conteo) *it;
 
 		int idEleccionAux = conteo.GetIdEleccion();
-		cout << "eleccion " << idEleccionAux << endl;;
+
 		if(idEleccionAux == idEleccionActual){
 			resAgrupados[j].push_back(conteo);
 		}
@@ -89,30 +76,38 @@ void Reportes::reportePorLista(string lista)
 	}
 
 	cout << endl << endl << endl;
-	cout << "Reporte por lista:" << endl << endl;
 
 	for(int i = 0; i < resAgrupados.size(); i++){
 
+		Eleccion* e = abmEleccion->GetEleccion(conteo.GetIdDistrito());
+		string cargo = abmCargo->GetCargo(e->GetIdCargo())->GetNombre();
+		Fecha fecha = e->GetDate().getStrFecha();
+
 		vector<Conteo> cs = resAgrupados[i];
-		cout << "Eleccion: " << cs[0].GetIdEleccion() << endl;
+
+		cout << "Eleccion: (" << fecha.getStrFecha() << " - " << cargo << ")" << endl;
 
 		for(int j = 0; j < cs.size(); j++){
 			Conteo res = cs[j];
-			cout << "		Distrito: " << res.GetIdDistrito() << " tiene " << res.GetCountVotos() << " votos." << endl;
+			string distrito = abmDistrito->GetDistrito(res.GetIdDistrito())->GetNombre();
+			cout << "		Distrito: " << distrito << " tiene " << res.GetCountVotos() << " votos." << endl;
 		}
 	}
 
+	delete abmConteo;
+	delete abmEleccion;
+	delete abmCargo;
+	delete abmDistrito;
 }
 
 void Reportes::reportePorDistrito(int idDistrito)
 {
 	ABMConteo *abmConteo = new ABMConteo();
+	ABMEleccion* abmEleccion = new ABMEleccion();
+	ABMCargo* abmCargo = new ABMCargo();
+	ABMDistrito* abmDistrito = new ABMDistrito();
 
 	vector<Conteo> resultados =  abmConteo->GetConteoByDistrito(idDistrito);
-	for(int i = 0; i < resultados.size(); i++){
-		cout << "eleccion: " << resultados[i].GetIdDistrito() << ". Votos:  " << resultados[i].GetCountVotos() << endl;
-	}
-	cout << endl << endl;
 
 	//Primero ordeno por fecha de eleccion
 	resultados = Reportes::OrderByFecha(resultados);
@@ -133,7 +128,7 @@ void Reportes::reportePorDistrito(int idDistrito)
 		conteo = (Conteo) *it;
 
 		int idEleccionAux = conteo.GetIdEleccion();
-		cout << "eleccion " << idEleccionAux << endl;;
+
 		if(idEleccionAux == idEleccionActual){
 			resAgrupados[j].push_back(conteo);
 		}
@@ -155,18 +150,27 @@ void Reportes::reportePorDistrito(int idDistrito)
 	}
 
 	cout << endl << endl << endl;
-	cout << "Reporte por lista:" << endl << endl;
 
 	for(int i = 0; i < resAgrupados.size(); i++){
 
+		Eleccion* e = abmEleccion->GetEleccion(conteo.GetIdDistrito());
+		string cargo = abmCargo->GetCargo(e->GetIdCargo())->GetNombre();
+		Fecha fecha = e->GetDate().getStrFecha();
+
 		vector<Conteo> cs = resAgrupados[i];
-		cout << "Eleccion: " << cs[0].GetIdEleccion() << endl;
+
+		cout << "Eleccion: (" << fecha.getStrFecha() << " - " << cargo << ")" << endl;
 
 		for(int j = 0; j < cs.size(); j++){
 			Conteo res = cs[j];
-			cout << "		Distrito: " << res.GetIdDistrito() << " tiene " << res.GetCountVotos() << " votos." << endl;
+			cout << "		Lista: " << res.GetIdLista() << " tiene " << res.GetCountVotos() << " votos." << endl;
 		}
 	}
+
+	delete abmConteo;
+	delete abmEleccion;
+	delete abmCargo;
+	delete abmDistrito;
 
 }
 
