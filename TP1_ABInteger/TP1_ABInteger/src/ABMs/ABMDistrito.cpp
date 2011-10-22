@@ -11,7 +11,7 @@
  */
 ABMDistrito::ABMDistrito() {
 	string mainTreeName = ConfigurationMananger::getInstance()->getDistritoFile();
-	cout << "mainTreeName: "<< mainTreeName  << endl;
+	//cout << "mainTreeName: "<< mainTreeName  << endl;
 	int bufferSize = ConfigurationMananger::getInstance()->getBufferSizeTree();
 	this->bpPlusTree = new BPlusTree(bufferSize,mainTreeName);
 }

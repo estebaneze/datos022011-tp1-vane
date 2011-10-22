@@ -64,7 +64,6 @@ int ABMEleccion::Add(Eleccion* eleccion){
         }
 
         else {
-        	cout<<"existe id eleccion: "<<eleccion->GetIdCargo()<<endl;
         	return -1;
         }
 }
@@ -103,7 +102,6 @@ bool ABMEleccion::Delete(Eleccion* eleccion){
                 return true;
 
         } else {
-        	cout<<"No Existe no se puede eliminar: "<<eleccion->GetIdCargo()<<endl;
             return false;
         }
 }
@@ -249,17 +247,6 @@ vector<Eleccion> ABMEleccion::GetByFecha(Fecha* fecha){
 
         		Eleccion* e = this->GetEleccion(Helper::StringToInt(byFecha[i]));
 
-                /*string idEleccion = byFecha[i];
-                vector<string> splited = Helper::split(idEleccion, '_');        //ESto es fecha_idCargo
-                cout << "wexxzsdssdsds" << endl;
-
-                for(int i = 0; i < splited.size(); i++){
-                	cout << splited[i] << endl;
-                }
-
-                Fecha f = Fecha(splited[0]);
-                int idCargo = Helper::StringToInt(splited[1]);
-                */
         		cout << e->GetIdCargo() << " - " << e->GetDate().getStrFecha() << endl;
 
         		Eleccion eleccion = Eleccion(e->GetIdCargo(), e->GetDate());

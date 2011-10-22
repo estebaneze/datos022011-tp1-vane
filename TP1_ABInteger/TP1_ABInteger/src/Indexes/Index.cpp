@@ -94,7 +94,7 @@ void Index::DeleteFromIndex(KeyInt key, Key value){
 
 void Index::DeleteFromIndex(Key key, Key value){
 
-        cout << "Voy a borrar " << value << endl;
+        //cout << "Voy a borrar " << value << endl;
 
         if ((this->directorio->existKey(key))){
 
