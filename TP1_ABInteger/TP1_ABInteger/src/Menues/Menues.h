@@ -44,6 +44,7 @@ public:
 
 private:
 	Fecha fechaActual();
+	Votante* EditaVotante(string dni);
 };
 
 #endif /* MENUES_H_ */
