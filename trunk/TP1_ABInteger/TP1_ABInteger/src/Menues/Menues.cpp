@@ -564,75 +564,116 @@ int opcion;
 
 		switch (opcion) {
 					case 1:	{
-							system("clear");
-							bool listo=false;
-							ABMDistrito *dis = new ABMDistrito();
-
-							cout << "ALTA DISTRITO" << endl;
-							cout << "-------------" << endl << endl;
-
-							while (!listo){
-								string nombre;
-
-								cout << "Ingrese nuevo nombre de distrito: ";
-								cin >> nombre;
-
-								int ok = dis->Add(nombre);
-								if (ok!=-1){
-									cout << "Distrito agregado con ID: " << ok << endl << endl;
-									cin >> nombre;
-									listo = true;
-								}
-								else{
-									cout << "Ya existe el distrito ingresado, presione una tecla para reintentar o [q] para volver";
-									cin >> nombre;
-									if (nombre=="q") listo=true;
-								}
-
-
-							}
-							//delete dis;
-
-							break;
-							}
-					case 2:	{
-							system("clear");
-							bool listo=false;
-							while (!listo){
-								int id;
-								cout << "BAJA DISTRITO" << endl;
-								cout << "-------------" << endl << endl;
-								cout << "Ingrese ID del distrito: ";
-								cin >> id;
+								system("clear");
+								bool listo=false;
 								ABMDistrito *dis = new ABMDistrito();
 
-								cout << "Se elimino el distrito ID : " << dis->Delete(id) << endl << endl;
-								cin >> id;
-								listo = true;
-								delete dis;
+								cout << "ALTA DISTRITO" << endl;
+								cout << "-------------" << endl << endl;
+
+								while (!listo){
+									string nombre;
+									string input;
+
+									cout << "Ingrese nuevo nombre de distrito: ";
+									cin >> nombre;
+
+									int ok = dis->Add(nombre);
+									if (ok!=-1){
+										cout << "Distrito agregado con ID: " << ok << endl << endl;
+										cin >> input;
+										listo = true;
+									}
+									else{
+										cout << "Ya existe el distrito ingresado, presione una tecla para reintentar o [q] para volver";
+										cin >> input;
+										if (input=="q") listo=true;
+									}
 								}
-							break;
+								delete dis;
+
+								break;
+							}
+					case 2:	{
+								system("clear");
+								bool listo=false;
+								while (!listo){
+									int id;
+									string input;
+									cout << "BAJA DISTRITO" << endl;
+									cout << "-------------" << endl << endl;
+									cout << "Ingrese ID del distrito: ";
+									cin >> id;
+									ABMDistrito *dis = new ABMDistrito();
+
+									if (dis->Delete(id)){
+										cout << "Se elimino distrito" << endl << endl;
+										cin >> input;
+										listo = true;
+									}
+									else
+									{
+										cout << "No existe distrito ingresado, presione una tecla para reintentar o [q] para volver" << endl << endl;
+										cin >> input;
+										if (input=="q") listo=true;
+									}
+
+									delete dis;
+								}
+								break;
 							}
 					case 3:
 							{
-							// FALTA SOLO ESTE CASO
-							break;
+								system("clear");
+								bool listo=false;
+								while (!listo){
+									int id;
+									string nombre;
+									string input;
+									cout << "MODIFICACION DISTRITO" << endl;
+									cout << "---------------------" << endl << endl;
+									cout << "Ingrese ID del distrito: ";
+									cin >> id;
+									cout << "Ingrese nuevo nombre de distrito: ";
+									cin >> nombre;
+
+									ABMDistrito *dis = new ABMDistrito();
+									Distrito *disModifica = dis->GetDistrito(id);
+
+									if (disModifica != NULL){
+										disModifica->SetNombre(nombre);
+
+										dis->Modify(disModifica);
+
+										cout << "Se modifico distrito" << endl << endl;
+										cin >> input;
+										listo = true;
+
+									}
+									else
+									{
+										cout << "No existe distrito, presione una tecla para reintentar o [q] para volver" << endl << endl;
+										cin >> input;
+										if (input=="q") listo=true;
+									}
+
+									delete disModifica;
+									delete dis;
+								}
+								break;
 							}
 					case 4:
 							{
-							fin=1;
-							break;
+								fin=1;
+								break;
 							}
 					default:
-							fin=0;
-							break;
+							{
+								fin=0;
+								break;
+							}
 					}
 		}
-
-
-
-
-
 }
 
 void Menues::MenuABMLista()
