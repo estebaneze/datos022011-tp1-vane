@@ -73,7 +73,7 @@ void Test::testABMDistrito(){
         cout << endl<< "Pruebo modificar Distrito  con ID: " << d->GetId() << d->GetNombre() << endl;
         d->SetNombre("OHHH AMI ME MODIFICARON");
 
-        abmDistrito->Modify(*d);
+       // abmDistrito->Modify(*d);
         abmDistrito->mostrarDistritosPorPantalla();
 
         cout << endl<< endl;
