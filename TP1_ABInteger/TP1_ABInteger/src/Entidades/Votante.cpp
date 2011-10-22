@@ -73,6 +73,13 @@ void Votante::SetNombreYApellido(string nombreYApellido)
 
 bool Votante::VotoEnEleccion(Eleccion* eleccion){
 
+	for(int i = 0; i < _listaElecciones.size(); i++){
+		if(_listaElecciones[i] == eleccion->GetId())
+			return true;
+	}
+
+	return false;
+	/*
 	vector<int>::iterator it = _listaElecciones.begin();
 	int e = (int) *it;
 
@@ -83,12 +90,19 @@ bool Votante::VotoEnEleccion(Eleccion* eleccion){
 			return true;
 	}
 
-	return false;
+	return false;*/
 }
 
 bool Votante::VotoEnEleccion(int idEleccion){
 
-	vector<int>::iterator it = _listaElecciones.begin();
+	for(int i = 0; i < _listaElecciones.size(); i++){
+		if(_listaElecciones[i] == idEleccion)
+			return true;
+	}
+
+	return false;
+
+	/*vector<int>::iterator it = _listaElecciones.begin();
 	int e = (int) *it;
 
 	for (it = _listaElecciones.begin(); it != _listaElecciones.end(); it++) {
@@ -98,7 +112,7 @@ bool Votante::VotoEnEleccion(int idEleccion){
 			return true;
 	}
 
-	return false;
+	return false;*/
 }
 
 bool Votante::VotoEnEleccion(Eleccion eleccion){

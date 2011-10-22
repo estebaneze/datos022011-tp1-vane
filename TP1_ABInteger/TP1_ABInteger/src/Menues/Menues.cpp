@@ -325,37 +325,44 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 
 	Fecha fecha = this->fechaActual();
 
-	vector<Eleccion> elecciones = es.GetByFecha(&fecha);
+	vector<Eleccion*> elecciones = es.GetByFecha(&fecha);
 
 	while(!listoEleccion){
 		cout << "Usted puede votar en las siguientes elecciones: " << endl;
 
 		//Le muestro las elecciones que no esten en su lista de elecciones ya votadas
+		ABMCargo* cargos = new ABMCargo();
 		for(unsigned int i = 0; i < elecciones.size(); i++){
 
 			if(!votante->VotoEnEleccion(elecciones[i])){
-				cout << elecciones[i].GetIdCargo() << endl;
+				cout << " Cargo: " << cargos->GetCargo(elecciones[i]->GetIdCargo())->GetNombre() <<"(" << elecciones[i]->GetIdCargo() << ")" << endl;
 			}
 		}
 
-		string elecc;
+		delete cargos;
+
+		string idCargoSeleted;
 		cout << "Ingrese la eleccion en la cual quiera votar (seleccione un número de arriba): ";
-		cin >> elecc;
+		cin >> idCargoSeleted;
 
-		int idCargo = Helper::StringToInt(elecc);
+		int idCargo = Helper::StringToInt(idCargoSeleted);
 
-		//ME quedo con la que quiere votar
-		Eleccion e = elecciones[0];
+		//ME quedo con la que quiere votar. Busco las
+
+		Eleccion* e = elecciones[0];
+
 		bool founded = false;
 		for(unsigned int i = 0; i < elecciones.size() && (!founded); i++){
-			if(elecciones[i].GetIdCargo() == idCargo){
+			if(elecciones[i]->GetIdCargo() == idCargo){
 				e = elecciones[i];
 				founded = true;
 			}
 		}
 
 		if(founded){
-			vector<Conteo> conteos = cs.GetConteoByEleccion(e.GetId());
+
+			cout << "................." << e->GetId() << endl;
+			vector<Conteo> conteos = cs.GetConteoByEleccion(e->GetId());
 			bool listoLista=false;
 
 			for(unsigned int i = 0; i < conteos.size(); i++){
@@ -745,8 +752,14 @@ void Menues::MenuABMLista()
 								}
 
 							}
-							delete abmLista;
-							break;
+
+						string c;
+						cin >> c;
+						if (c=="q") listo=true;
+
+						delete abmLista;
+
+						break;
 
 						}
 						case '2':{
