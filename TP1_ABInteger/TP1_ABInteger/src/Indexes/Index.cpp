@@ -30,7 +30,7 @@ vector<Key> Index::GetIds(Key key){
 
 void Index::RefreshIndex(Key key, vector<Key> values){
 
-	string fields = Helper::concatenar(values, "|");
+	string fields = Helper::concatenar(values, ConfigurationMananger::getInstance()->getSeparador1());
 
 	if (!(this->directorio->existKey(key))){
 		this->directorio->insert(key,fields);
@@ -102,7 +102,7 @@ void Index::DeleteFromIndex(Key key, Key value){
 		string oldFields = this->directorio->find(key);
 		vector<string> splited = Helper::split(oldFields, '|');
 
-		cout << "Los valores del indice: " << Helper::concatenar(splited, "|") << endl;
+		cout << "Los valores del indice: " << Helper::concatenar(splited, ConfigurationMananger::getInstance()->getSeparador1()) << endl;
 
 		bool founded = false;
 		int index = 0;
@@ -118,8 +118,8 @@ void Index::DeleteFromIndex(Key key, Key value){
 
 		//Vuelvo a actualizar el registro con esta clave
 		if(founded){
-			cout << "Los valores del indice: " << Helper::concatenar(splited, "|") << endl;
-			this->directorio->modify(key, Helper::concatenar(splited, "|"));
+			cout << "Los valores del indice: " << Helper::concatenar(splited, ConfigurationMananger::getInstance()->getSeparador1()) << endl;
+			this->directorio->modify(key, Helper::concatenar(splited, ConfigurationMananger::getInstance()->getSeparador1()));
 		}
 
 	}
@@ -178,7 +178,7 @@ void Index::AppendToIndex(Key key,Key oldKey, Key value){
 //			cout << endl << endl << "La key " << oldKey << " tenia: " << fieldsOldKey << endl;
 			splitedOldKey.erase(splitedOldKey.begin() + position);
 
-			fieldsOldKey = Helper::concatenar(splitedOldKey, "|");
+			fieldsOldKey = Helper::concatenar(splitedOldKey, ConfigurationMananger::getInstance()->getSeparador1());
 
 //			cout << endl << endl << "La key " << oldKey << " ahora tiene: " << fieldsOldKey << endl;
 			this->directorio->modify(oldKey, fieldsOldKey);

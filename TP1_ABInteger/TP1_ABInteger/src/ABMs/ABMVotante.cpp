@@ -24,16 +24,16 @@ void ABMVotante::Add(Votante* votante){
 
 	if (!(this->directorio->existKey(Helper::LongToString(votante->GetDni())))){
 
-		string aux= Helper::concatenar(votante->GetNombreYApellido(),votante->GetClave(),"|");
-		aux = Helper::concatenar(aux,votante->GetDomicilio(),"|");
-		aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),"|");
+		string aux= Helper::concatenar(votante->GetNombreYApellido(),votante->GetClave(),ConfigurationMananger::getInstance()->getSeparador1());
+		aux = Helper::concatenar(aux,votante->GetDomicilio(),ConfigurationMananger::getInstance()->getSeparador1());
+		aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),ConfigurationMananger::getInstance()->getSeparador1());
 
 		//recorro la lista de eleccion y agrego todos los IdEleccion al string aux
 //<<<<<<< .mine
 		for (unsigned int i=0;i<(votante->GetEleccionesVotadas().size());i++){
 
 			string idE = Helper::IntToString(votante->GetEleccionesVotadas()[i]);
-			aux = Helper::concatenar(aux, idE,"|");
+			aux = Helper::concatenar(aux, idE,ConfigurationMananger::getInstance()->getSeparador1());
 		}
 /*=======
 		for (unsigned int i=0;i<(votante->GetEleccionesVotadas().GetSize());i++){
@@ -55,9 +55,9 @@ bool ABMVotante::Delete(Votante *votante){
 	if (this->directorio->existKey(Helper::LongToString(votante->GetDni()))){
 		this->directorio->remove(Helper::LongToString(votante->GetDni()));
 
-		string aux= Helper::concatenar(votante->GetNombreYApellido(),votante->GetClave(),"|");
-				aux = Helper::concatenar(aux,votante->GetDomicilio(),"|");
-				aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),"|");
+		string aux= Helper::concatenar(votante->GetNombreYApellido(),votante->GetClave(),ConfigurationMananger::getInstance()->getSeparador1());
+				aux = Helper::concatenar(aux,votante->GetDomicilio(),ConfigurationMananger::getInstance()->getSeparador1());
+				aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),ConfigurationMananger::getInstance()->getSeparador1());
 
 		HashLog::LogProcess(this->directorio,"Votante_HashProcess.log");
 		HashLog::LogDelete(Helper::LongToString(votante->GetDni()),aux,"Votante_HashOperation.log");
@@ -76,16 +76,16 @@ void ABMVotante::Modify(Votante *votante){
 	if (this->directorio->existKey(Helper::LongToString(votante->GetDni()))){
 
 		//concateno todos los campos de votante para luego guardarlo
-		string aux= Helper::concatenar(votante->GetNombreYApellido(),votante->GetClave(),"|");
-		aux = Helper::concatenar(aux,votante->GetDomicilio(),"|");
-		aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),"|");
+		string aux= Helper::concatenar(votante->GetNombreYApellido(),votante->GetClave(),ConfigurationMananger::getInstance()->getSeparador1());
+		aux = Helper::concatenar(aux,votante->GetDomicilio(),ConfigurationMananger::getInstance()->getSeparador1());
+		aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),ConfigurationMananger::getInstance()->getSeparador1());
 
 		//recorro la lista de eleccion y agrego todos los IdEleccion al string aux
 //<<<<<<< .mine
 		for (unsigned int i=0;i<(votante->GetEleccionesVotadas().size());i++){
 
 			string idE = Helper::IntToString(votante->GetEleccionesVotadas()[i]);
-			aux = Helper::concatenar(aux,idE,"|");
+			aux = Helper::concatenar(aux,idE,ConfigurationMananger::getInstance()->getSeparador1());
 		}
 			/*=======
 		for (unsigned int i=0;i<(votante->GetEleccionesVotadas().GetSize());i++){
