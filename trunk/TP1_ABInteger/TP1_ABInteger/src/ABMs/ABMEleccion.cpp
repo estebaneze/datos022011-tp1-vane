@@ -178,8 +178,10 @@ Eleccion* ABMEleccion::GetEleccion(int idEleccion){
 
                 //Busco  los distritos
                 Eleccion * eleccion =  new Eleccion(idCargo, fecha, idEleccion);
+                cout << "datos " << data << endl;
                 for(int i = 2; i < splited.size(); i++){
-                        eleccion->AddDistrito(Helper::StringToInt(splited[i]));
+                	cout << "los putos distritos " << splited[i] << endl;
+                      eleccion->AddDistrito(Helper::StringToInt(splited[i]));
                 }
 
                 return eleccion;
@@ -237,24 +239,25 @@ void ABMEleccion::mostrarEleccionesPorPantalla(){
         this->bpPlusTree->exportTree();
 }
 
-vector<Eleccion> ABMEleccion::GetByFecha(Fecha* fecha){
+vector<Eleccion*> ABMEleccion::GetByFecha(Fecha* fecha){
 
 
         vector<Key> byFecha = this->indexByFecha->GetIds(fecha->getStrFecha());
-        vector<Eleccion> elecciones;
+        vector<Eleccion*> elecciones;
 
         for(int i = 0; i < byFecha.size(); i++){
 
         		Eleccion* e = this->GetEleccion(Helper::StringToInt(byFecha[i]));
 
-        		cout << e->GetIdCargo() << " - " << e->GetDate().getStrFecha() << endl;
+        		//cout << e->GetIdCargo() << " - " << e->GetDate().getStrFecha() << endl;
 
-        		Eleccion eleccion = Eleccion(e->GetIdCargo(), e->GetDate());
+  /*      		Eleccion eleccion = Eleccion(e->GetIdCargo(), e->GetDate(), Helper::StringToInt(byFecha[i]));
         		vector<int> ds = e->GetDistritos();
         		for(int j = 0; j < ds.size(); j++){
-        			eleccion.AddDistrito(ds[i]);
+        			eleccion.AddDistrito(ds[j]);
         		}
-                elecciones.push_back(eleccion);
+*/
+                elecciones.push_back(e);
         }
 
         return elecciones;

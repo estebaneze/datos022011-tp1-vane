@@ -78,6 +78,20 @@ int main( int arg, char *argv[] ){
 		cout << "epepe" << endl;
 	}*/
 		//cout << "Ecnontre " << d->GetId() << " - " << d->GetNombre() << endl;
+/*
+	ABMConteo cs = ABMConteo();
+	for(int i = 0; i < 10; i++){
+
+		if(cs.ExistsKey(i)){
+			Conteo* c = cs.GetConteo(i);
+			if(c != NULL){
+				cout << c->GetId() << " - " <<  c->GetIdDistrito() << " - " << c->GetIdEleccion() << endl;
+			}
+		}
+
+	}
+
+	delete cs;*/
 
 	Menues menu;
 	menu.MenuPpal();

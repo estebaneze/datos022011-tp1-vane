@@ -30,6 +30,29 @@ void ABMLista::Add(Lista* lista){
 
                 HashLog::LogInsert(lista->GetNombre(),Helper::IntToString(lista->GetEleccion()),"Lista_HashOperation.log");
                 HashLog::LogProcess(this->directorio,"Lista_HashProccess.log");
+
+                //Tengo que crear los registros de conteo con la combinacion idLista, idEleccion, idDistrito con 0 votos
+                //Busco los distritos de esa eleccion
+                ABMConteo* conteos = new ABMConteo();
+
+                ABMEleccion* elecciones = new ABMEleccion();
+                Eleccion* e = elecciones->GetEleccion(lista->GetEleccion());
+                vector<int> distritos = e->GetDistritos();
+
+                for(int i = 0; i < distritos.size(); i++){
+                	cout << "el puto distritro " << distritos[i] << endl;
+                	conteos->Add(lista->GetNombre(), distritos[i], e->GetId());
+                }
+
+                //Conteos disponibles para la eleccion:2
+                cout << "----------------------------------" << endl;
+                cout << "pruebo como se agregaron los conteos: " << endl;
+                cout << distritos[0] << endl;
+                vector<Conteo> cs = conteos->GetConteoByDistrito(distritos[0]);
+                for(int j = 0; j < cs.size(); j++){
+                	cout << "Id conteo: "<< cs[j].GetId() << " - Cant votos: " << cs[j].GetCountVotos() << " - IdLista: " << cs[j].GetIdLista() << " - Id Distrito: " << cs[j].GetIdDistrito() << "Id Eleccion: " << cs[j].GetIdEleccion() << endl;
+                }
+                cout << "------------------" << endl << endl;
         }
         else{
                 cout << "Ya existe la Lista " << lista->GetNombre() << endl;

@@ -34,7 +34,7 @@ class ABMEleccion {
 		vector<Eleccion> GetElecciones();
 		Eleccion* GetEleccion(int idEleccion);
 		void mostrarEleccionesPorPantalla();
-		vector<Eleccion> GetByFecha(Fecha* fecha);
+		vector<Eleccion*> GetByFecha(Fecha* fecha);
 		vector<Eleccion> GetByFechaYDistrito(Fecha* fecha, int idDistrito);
 	private:
 			string bpTreeFile;

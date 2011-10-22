@@ -177,8 +177,13 @@ LeafNode *LeafNode::find(KeyInt key) {
 
 Element *LeafNode::findExact(KeyInt key) {
 
+	for(int i = 0; i < elements.size(); i++){
+		if(elements[i]->getKey() == key)
+			return elements[i];
+	}
 
-        std::vector<Element*>::iterator it = getElementsBegin();
+	return NULL;
+        /*std::vector<Element*>::iterator it = getElementsBegin();
 
         while(it != getElementsEnds()) {
 
@@ -191,7 +196,7 @@ Element *LeafNode::findExact(KeyInt key) {
 
         //throw new ElementNotFoundException();
         //cout << "no encontrado " << key << endl << endl << endl;
-        return NULL;
+        return NULL;*/
 }
 
 /**

@@ -69,15 +69,15 @@ void Test::testABMDistrito(){
 
 
         cout << endl<< endl;
-        Distrito * d = abmDistrito->GetDistrito(maximoID-50);
+  /*      Distrito * d = abmDistrito->GetDistrito(maximoID-50);
         cout << endl<< "Pruebo modificar Distrito  con ID: " << d->GetId() << d->GetNombre() << endl;
         d->SetNombre("OHHH AMI ME MODIFICARON");
 
        // abmDistrito->Modify(*d);
         abmDistrito->mostrarDistritosPorPantalla();
-
+*/
         cout << endl<< endl;
-        d = abmDistrito->GetDistrito(maximoID-5);
+        Distrito * d  = abmDistrito->GetDistrito(maximoID-5);
         cout << endl<< "Pruebo eliminar Distrito  con ID: " << d->GetId() << d->GetNombre() << endl;
 
         abmDistrito->Delete(d->GetId());

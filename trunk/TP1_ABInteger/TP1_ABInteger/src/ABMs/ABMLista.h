@@ -14,6 +14,8 @@
 #include "../Indexes/Index.h"
 #include "../Logging/HashLog.h"
 #include "../utils/ConfigFile.h"
+#include "../ABMs/ABMConteo.h"
+#include "../ABMs/ABMEleccion.h"
 
 class ABMLista {
 
