@@ -5,6 +5,8 @@
  *      Author: gabriel
  */
 
+//Conteo (((lista)ie, (distrito)ie, (eleccion)ie)i, cantidad): Arbol B+
+
 #ifndef ABMCONTEO_H_
 #define ABMCONTEO_H_
 

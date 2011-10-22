@@ -3,17 +3,18 @@
 #############################
 
 
-blockSize = 24576		#Tamaño del bloque para el hash
-treeBlockSize = 128		#Tamaño del bloque para el arbol
+blockSize = 24576		#TamaÃ±o del bloque para el hash
+treeBlockSize = 128		#TamaÃ±o del bloque para el arbol
+hashBlockSize = 4096 		#Tamaño del bloque para el arbol
 chargePercent = 0.1		#Porcentaje de carga
-minRecordSizeTree = 0		#Tamaño minimo del bloque
+minRecordSizeTree = 0		#TamaÃ±o minimo del bloque
 maxRecordPercent = 0.2		#Porcentaje maximo del registro
 
-hashBSizeCandidato = 512		#Tamaño del bucket para el hash
-hashBSizeAdministrador = 128		#Tamaño del bucket para el hash
-hashBSizeCargo = 512		#Tamaño del bucket para el hash
-hashBSizeLista = 512		#Tamaño del bucket para el hash
-hashBSizeVotante = 1024		#Tamaño del bucket para el hash
+hashBSizeCandidato = 512		#TamaÃ±o del bucket para el hash
+hashBSizeAdministrador = 512		#TamaÃ±o del bucket para el hash
+hashBSizeCargo = 512		#TamaÃ±o del bucket para el hash
+hashBSizeLista = 512		#TamaÃ±o del bucket para el hash
+hashBSizeVotante = 1024		#TamaÃ±o del bucket para el hash
 
 separador1 = |		#TSeparador pipe
 separador2 = _		#Separador guion bajo
