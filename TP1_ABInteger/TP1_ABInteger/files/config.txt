@@ -1,19 +1,20 @@
 #############################
-# ARCHIVO DE CONFIGURACION  #
+# ARCHIVO DE CONFIGURACION #
 #############################
 
 
-blockSize 		= 24576  	#Tamaño del bloque para el hash
-treeBlockSize 		= 128    	#Tamaño del bloque para el arbol
-chargePercent		= 0.1 		#Porcentaje de carga
-minRecordSizeTree	= 0			#Tamaño minimo del bloque
-maxRecordPercent	= 0.2 		#Porcentaje maximo del registro
+blockSize = 24576 #Tamaño del bloque para el hash
+treeBlockSize = 128 #Tamaño del bloque para el arbol
+chargePercent = 0.1 #Porcentaje de carga
+minRecordSizeTree = 0 #Tamaño minimo del bloque
+maxRecordPercent = 0.2 #Porcentaje maximo del registro
 
-hashBSizeCandidato 	= 512  	#Tamaño del bucket para el hash
-hashBSizeAdministrador  = 512  	#Tamaño del bucket para el hash
-hashBSizeCargo 	= 512  	#Tamaño del bucket para el hash
-hashBSizeLista 	= 512  	#Tamaño del bucket para el hash
-hashBSizeVotante = 512  	#Tamaño del bucket para el hash
+hashBSizeCandidato = 512 #Tamaño del bucket para el hash
+hashBSizeAdministrador = 512 #Tamaño del bucket para el hash
+hashBSizeCargo = 512 #Tamaño del bucket para el hash
+hashBSizeLista = 512 #Tamaño del bucket para el hash
+hashBSizeVotante = 512 #Tamaño del bucket para el hash
 
-separadorPipe = |  	#TSeparador pipe
-separadorGuionBajo = _		#Separador guion bajo
+separadorPipe = | #TSeparador pipe
+separadorGuionBajo = _ #Separador guion bajo
+
