@@ -159,6 +159,8 @@ Conteo* ABMConteo::GetConteo(int idConteo){
 		//ACA ESTA EL ERROR--VANE
 		return new Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), idConteo, cantVotos);
 	}
+
+	return NULL;
 }
 
 vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
