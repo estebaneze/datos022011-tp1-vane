@@ -27,7 +27,7 @@ class ABMLista {
 		vector<Lista> GetListas();
 		Lista* GetLista(std::string nombre);
 		void mostrarListasPorPantalla();
-		vector<Lista> GetListasByEleccion(string idEleccion);
+		vector<Lista> GetListasByEleccion(int idEleccion);
 
 	private:
 			string hashFile;
