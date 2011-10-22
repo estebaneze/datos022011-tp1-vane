@@ -10,42 +10,32 @@
 /*TODO: este metodo tendria que recibir: fecha y cargo y de ahi buscar la eleccion, o el objecto Eleccion
  */
 
-void Reportes::reportePorEleccion(int IdEleccion)
+void Reportes::reportePorEleccion(int idEleccion)
 {
-	/*std::cout << "**********************************************************" << std::endl;
-	std::cout << "TOTAL VOTOS LISTA PARA ELECCION: " << Helper::IntToString(IdEleccion) << std::endl;
-	std::cout << "**********************************************************" << std::endl << std::endl << std::endl;
-
-	std::cout << "Lista               %         (Total Votos)" << std::endl;
-	std::cout << "-----               -         -------------" << std::endl << std::endl << std::endl;
-
 	ABMConteo *abmConteo = new ABMConteo();
 
-	vector<Conteo> vectorConteo =  abmConteo->GetConteoByEleccion(IdEleccion);
-	vector<Conteo>::iterator it = vectorConteo.begin();
+	vector<Conteo> resultados =  abmConteo->GetConteoByEleccion(idEleccion);
 
-	Conteo conteo = (Conteo) *it;
-	string idLista = conteo.GetIdLista();
-	string idListaAux;
-
-	long totalVotosxEleccion = vectorConteo.size();
-	long totalVotosLista = 0;
-
-	for (it = vectorConteo.begin(); it != vectorConteo.end(); it++) {
-
-		conteo = (Conteo) *it;
-		idListaAux = conteo.GetIdLista();
-
-		if (idLista.compare(idListaAux) == 0)
-		{
-			std::cout << idLista << "    " << Helper::FloatToString(totalVotosLista/totalVotosxEleccion) << "    " << "(" << Helper::LongToString(totalVotosLista) << ")" << std::endl << std::endl;
-			totalVotosLista = 0;
-			idLista = idListaAux;
-		}
-
-		totalVotosLista++;
+	for(int i = 0; i < resultados.size(); i++){
+		cout << "eleccion: " << resultados[i].GetIdDistrito() << ". Votos:  " << resultados[i].GetCountVotos() << endl;
 	}
-*/
+
+	cout << endl << endl;
+
+	//Ordeno por cantidad de votos
+	resultados = Reportes::OrderByCantidadVotos(resultados);
+
+	cout << endl << endl << endl;
+	cout << "Reporte por Eleccion:" << endl << endl;
+
+	for(int i = 0; i < resultados.size(); i++){
+
+		Conteo c = resultados[i];
+		cout << "Eleccion: " << c.GetIdEleccion() << endl;
+
+		cout << "		Distrito: " << c.GetIdDistrito() << " tiene " << c.GetCountVotos() << " votos." << endl;
+	}
+
 }
 
 void Reportes::reportePorLista(string lista)
@@ -191,7 +181,7 @@ vector<Conteo> Reportes::OrderByCantidadVotos(vector<Conteo> resultados){
 
 		for (int j = i+1 ;j < resultados.size();j++)	{
 
-			if (resultados[i].GetCountVotos() > resultados[j].GetCountVotos()) {
+			if (resultados[i].GetCountVotos() < resultados[j].GetCountVotos()) {
 				aux = resultados[i];
 				resultados[i] = resultados[j];
 				resultados[j] = aux;
@@ -219,7 +209,7 @@ vector<Conteo> Reportes::OrderByFecha(vector<Conteo> resultados){
 			Fecha f2 = abmElecciones.GetEleccion(idE2)->GetDate();
 
 			//if (resultados[i].GetEleccion()->GetDate() > resultados[j].GetEleccion()->GetDate()) {
-			if(f1 > f2){
+			if(f1 < f2){
 				aux = resultados[i];
 				resultados[i] = resultados[j];
 				resultados[j] = aux;
