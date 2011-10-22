@@ -2,20 +2,14 @@
 #include "../strategies/UnderflorRootStrategy.h"
 #include "../exceptions/OverflowException.h"
 BPlusTree::BPlusTree(int blockSize, string fileName) {
-	Persistor::init(fileName, blockSize);
-	PersistorBTree* p = Persistor::getInstance();
+	this->p = new PersistorBTree(fileName, blockSize);
 
-	this->root = p->getRoot();
+	this->root = this->p->getRoot();
 	this->current = this->getLeftLeafNodo(root);
 }
 
-BPlusTree::BPlusTree(){
-	PersistorBTree* p = Persistor::getInstance();
-
-	this->root = p->getRoot();
-	this->current = this->getLeftLeafNodo(root);
-}
 BPlusTree::~BPlusTree() {
+	delete this->p;
 }
 
 void BPlusTree::insert(Element* element) {
@@ -26,8 +20,8 @@ LeafNode* BPlusTree::getLeftLeafNodo(BNode* actualNode) {
 	if (actualNode->getLevel() > 0) {
 		Node *internalNode = (Node*) actualNode;
 		BNode *leftNode = NodeFactory::createNodeForSearch(
-				actualNode->getLevel());
-		Persistor::getInstance()->load(internalNode->getLeftNode(), leftNode);
+				actualNode->getLevel(), this->p);
+		this->p->load(internalNode->getLeftNode(), leftNode);
 		this->getLeftLeafNodo(leftNode);
 	}
 
@@ -72,25 +66,25 @@ Element* BPlusTree::findExact(int key){
  * a recorrer con el primero
  */
 BNode* BPlusTree::next() {
-	LeafNode* nextNode = NodeFactory::createLeafNode();
-	Persistor::getInstance()->load(current->getNextNode(), nextNode);
+	LeafNode* nextNode = NodeFactory::createLeafNode(this->p);
+	this->p->load(current->getNextNode(), nextNode);
 
 	return nextNode;
 }
 
 BNode* BPlusTree::prev() {
-	LeafNode* prevNode = NodeFactory::createLeafNode();
-	Persistor::getInstance()->load(current->getPrevNode(), prevNode);
+	LeafNode* prevNode = NodeFactory::createLeafNode(this->p);
+	this->p->load(current->getPrevNode(), prevNode);
 
 	return prevNode;
 }
 
 void BPlusTree::deleteTree() {
-	Persistor::getInstance()->deleteFile();
+	this->p->deleteFile();
 }
 
 void BPlusTree::exportTree() {
-	this->root = Persistor::getInstance()->getRoot();
+	this->root = this->p->getRoot();
 	this->root->exportNode();
 	cout << endl;
 }
@@ -98,7 +92,7 @@ void BPlusTree::exportTree() {
 
 ostream& BPlusTree::printMe(ostream& myOstream){
 
-	this->root = Persistor::getInstance()->getRoot();
+	this->root = this->p->getRoot();
 	return this->root->printMe(myOstream);
 }
 
@@ -142,7 +136,6 @@ void BPlusTree::insert(Element* element, int modifyOrInsert) {
 
 	this->validateElementSize(element);
 
-	PersistorBTree* p = Persistor::getInstance();
 	KeyElement* keyOverflow = NULL;
 	bool modified = false;
 
@@ -160,14 +153,14 @@ void BPlusTree::insert(Element* element, int modifyOrInsert) {
 		//TODO pasarlo a una estrategia de balanceo de root;
 		if (this->root->isOverflowded(modifyOrInsert)) {
 			//como hubo overflow entonces, tengo que crear un nuevo root con esta clave
-			Node* newRoot = new Node();
+			Node* newRoot = new Node(this->p);
 			newRoot->setLevel(this->root->getLevel() + 1);
 			keyOverflow = this->root->doSplit();
 			newRoot->setOffset(this->root->getOffset());
-			p->add(this->root);
+			this->p->add(this->root);
 			newRoot->setLeftNode(this->root->getOffset());
 			newRoot->appendKeyElementInOrder(keyOverflow);
-			p->modify(newRoot);
+			this->p->modify(newRoot);
 
 			BNode* oldRoot = this->root;
 			this->root = newRoot;
@@ -183,10 +176,10 @@ void BPlusTree::insert(Element* element, int modifyOrInsert) {
 void BPlusTree::validateElementSize(Element* elm){
 
 	int maxRecordSize=ConfigurationMananger::getInstance()->getMaxRecordSizeTree();
-	cout << "		Tamaño registro: " << elm->getDataSize() << endl;
+	cout << "		Tamaï¿½o registro: " << elm->getDataSize() << endl;
 
 	if(elm->getDataSize() > maxRecordSize){
-		cout << "	******Error: Tamaño invalido de registro: ******" << elm->getDataSize() << endl;
+		cout << "	******Error: Tamaï¿½o invalido de registro: ******" << elm->getDataSize() << endl;
 		//throw new OverflowException("tamano invalido de registro");
 	}
 

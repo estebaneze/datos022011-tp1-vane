@@ -7,7 +7,6 @@
 #include "LeafNode.h"
 #include <string>
 #include "Element.h"
-#include "../Persistencia/Persistor.h"
 #include "NodeFactory.h"
 #include "../Common/Common.h"
 
@@ -17,6 +16,7 @@ class BPlusTree {
  private://variables privadas
     BNode* root;
     LeafNode* current;
+    PersistorBTree* p;
 
  private://metodos privados
     /**
