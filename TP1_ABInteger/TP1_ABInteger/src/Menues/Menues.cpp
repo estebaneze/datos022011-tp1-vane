@@ -32,6 +32,7 @@ void Menues::MenuPpal()
 		printf("\tIngrese una opcion: ");
 		opcion=getchar();
 		printf("\n\n");
+		cout << endl << endl;
 		switch (opcion) {
 			case '1':
 
@@ -140,6 +141,7 @@ char opcion;
 										cout << "Ya existe el usuario, presione cualquier tecla para reintentar o [q]=volver"<< endl << endl;
 										string op;
 										cin >> op;
+										cout << endl;
 										if (op=="q") MenuAdmin();
 										}
 
@@ -243,6 +245,7 @@ void Menues::MenuVotante()
 
 	while (fin==0){
 			system("clear");
+			cout << endl << endl<< endl;
 			printf("=======\n");
 			printf("VOTANTE\n");
 			printf("=======\n\n");
@@ -547,7 +550,7 @@ void Menues::MenuABM(){
 void Menues::MenuABMDistrito(){
 
 int fin=0;
-int opcion;
+char opcion;
 
 	while (fin==0){
 		system("clear");
@@ -560,10 +563,10 @@ int opcion;
 		printf("\t4. Volver\n\n");
 
 		printf("\tIngrese una opcion: ");
-		scanf("%i",&opcion);
+		cin >> opcion;
 
 		switch (opcion) {
-					case 1:	{
+					case '1':	{
 								system("clear");
 								bool listo=false;
 								ABMDistrito *dis = new ABMDistrito();
@@ -575,8 +578,6 @@ int opcion;
 									string nombre;
 									string input;
 
-									cout << "Ingrese nuevo nombre de distrito: ";
-									cin >> nombre;
 
 									int ok = dis->Add(nombre);
 									if (ok!=-1){
@@ -594,7 +595,7 @@ int opcion;
 
 								break;
 							}
-					case 2:	{
+					case '2':	{
 								system("clear");
 								bool listo=false;
 								while (!listo){
@@ -622,7 +623,7 @@ int opcion;
 								}
 								break;
 							}
-					case 3:
+					case '3':
 							{
 								system("clear");
 								bool listo=false;
@@ -662,7 +663,7 @@ int opcion;
 								}
 								break;
 							}
-					case 4:
+					case '4':
 							{
 								fin=1;
 								break;
@@ -679,7 +680,7 @@ int opcion;
 void Menues::MenuABMLista()
 {
 	int fin=0;
-	int opcion;
+	char opcion;
 
 		while (fin==0){
 			system("clear");
@@ -691,10 +692,10 @@ void Menues::MenuABMLista()
 			printf("\t3. Modificacion Lista\n");
 			printf("\t4. Volver\n\n");
 			printf("\tIngrese una opcion: ");
-			scanf("%i",&opcion);
+			cin >> opcion;
 			cout << endl;
 			switch (opcion) {
-						case 1:	{
+						case '1':	{
 							bool listo=false;
 							ABMLista *abmLista = new ABMLista();
 							system("clear");
@@ -748,7 +749,7 @@ void Menues::MenuABMLista()
 							break;
 
 						}
-						case 2:{
+						case '2':{
 							bool listo=false;
 							ABMLista *abmLista = new ABMLista();
 							system("clear");
@@ -775,11 +776,11 @@ void Menues::MenuABMLista()
 							delete abmLista;
 							break;
 						}
-						case 3:{
+						case '3':{
 								//falta esto solo
 								break;
 								}
-						case 4:{
+						case '4':{
 								fin=1;
 								break;
 								}
@@ -794,7 +795,7 @@ void Menues::MenuABMLista()
 void Menues::MenuABMCargo()
 {
 	int fin=0;
-	int opcion;
+	char opcion;
 
 	while (fin==0){
 		system("clear");
@@ -806,11 +807,11 @@ void Menues::MenuABMCargo()
 		printf("\t3. Modificacion Cargo\n");
 		printf("\t4. Volver\n\n");
 		printf("\tIngrese una opcion: ");
-		scanf("%i",&opcion);
+		cin >> opcion;
 		cout << endl;
 
 		switch (opcion) {
-					case 1:	{
+					case '1':	{
 						bool listo=false;
 						ABMCargo *abmCargo = new ABMCargo();
 						system("clear");
@@ -891,13 +892,13 @@ void Menues::MenuABMCargo()
 						break;
 
 						}
-					case 2:{
+					case '2':{
 						break;
 					}
-					case 3:{
+					case '3':{
 						break;
 					}
-					case 4:{
+					case '4':{
 						fin=1;
 						break;
 					}
@@ -913,7 +914,7 @@ void Menues::MenuABMCargo()
 void Menues::MenuABMCandidato()
 {
 	int fin=0;
-	int opcion;
+	char opcion;
 
 	while (fin==0){
 		system("clear");
@@ -925,11 +926,11 @@ void Menues::MenuABMCandidato()
 		printf("\t3. Modificacion Candidato\n");
 		printf("\t4. Volver\n\n");
 		printf("\tIngrese una opcion: ");
-		scanf("%i",&opcion);
+		cin >> opcion;
 		cout << endl;
 		//Candidato (((lista)ie, (votante)ie, (cargo)ie)i): Hash
 		switch (opcion) {
-					case 1:	{
+					case '1':	{
 						bool listo=false;
 						ABMCandidato *abm = new ABMCandidato();
 						system("clear");
@@ -1053,13 +1054,13 @@ void Menues::MenuABMCandidato()
 						break;
 
 						}
-					case 2:{
+					case '2':{
 						break;
 					}
-					case 3:{
+					case '3':{
 						break;
 					}
-					case 4:{
+					case '4':{
 						fin=1;
 						break;
 					}
@@ -1075,7 +1076,7 @@ void Menues::MenuABMCandidato()
 void Menues::Reportes()
 {
 int fin=0;
-int opcion;
+char opcion;
 
 while (fin==0){
 	system("clear");
@@ -1087,21 +1088,21 @@ while (fin==0){
 	printf("\t3. Reporte por Distrito\n");
 	printf("\t4. Volver\n\n");
 	printf("\tIngrese una opcion: ");
-	scanf("%i",&opcion);
+	cin >>opcion;
 	cout << endl;
 
 	switch (opcion) {
-				case 1:	{
+				case '1':	{
 					break;
 
 					}
-				case 2:{
+				case '2':{
 					break;
 				}
-				case 3:{
+				case '3':{
 					break;
 				}
-				case 4:{
+				case '4':{
 					fin=1;
 					break;
 				}
@@ -1117,7 +1118,7 @@ while (fin==0){
 void Menues::MenuABMVotante()
 {
 int fin=0;
-int opcion=1;
+char opcion=1;
 
 	while (fin==0){
 		system("clear");
@@ -1129,11 +1130,11 @@ int opcion=1;
 		printf("\t3. Modificacion votante\n");
 		printf("\t4. Volver\n\n");
 		printf("\tIngrese una opcion: ");
-		scanf("%i",&opcion);
+		cin >> opcion;
 
 		switch (opcion) {
 
-					case 1:	{
+					case '1':	{
 						bool listo=false;
 						ABMVotante *vot = new ABMVotante();
 
@@ -1206,7 +1207,7 @@ int opcion=1;
 						delete vot;
 						break;
 							}
-					case 2:	{
+					case '2':	{
 							bool listo=false;
 							ABMVotante *vot = new ABMVotante();
 							while (!listo){
@@ -1238,12 +1239,12 @@ int opcion=1;
 							delete vot;
 							break;
 							}
-					case 3:
+					case '3':
 							{
 								//FALTA SOLO ESTE CASO
 								break;
 							}
-					case 4:
+					case '4':
 							{
 							fin=1;
 							break;
@@ -1259,7 +1260,7 @@ int opcion=1;
 void Menues::MenuABMEleccion()
 {
 	int fin=0;
-	int opcion;
+	char opcion;
 
 		while (fin==0){
 			system("clear");
@@ -1271,10 +1272,10 @@ void Menues::MenuABMEleccion()
 			printf("\t3. Modificar eleccion\n");
 			printf("\t4. Volver\n\n");
 			printf("\tIngrese una opcion: ");
-			scanf("%i",&opcion);
+			cin >>opcion;
 
 			switch (opcion) {
-						case 1:	{
+						case '1':	{
 							bool listo=false;
 							ABMEleccion *el = new ABMEleccion();
 
@@ -1331,8 +1332,9 @@ void Menues::MenuABMEleccion()
 									if (!existNombre){
 										cout << endl << endl;
 										cout << "El cargo no existe, presione una tecla para reintentar o [q] para volver";
-										cin >> nombre;
-										if (nombre=="q") {
+										string op;
+										cin >> op;
+										if (op=="q") {
 											listo2=true;
 											listo=true;
 										}
@@ -1411,7 +1413,7 @@ void Menues::MenuABMEleccion()
 							delete el;
 							break;
 								}
-						case 2:	{
+						case '2':	{
 								bool listo = false;
 								ABMEleccion *el = new ABMEleccion();
 
@@ -1489,12 +1491,12 @@ void Menues::MenuABMEleccion()
 								}
 								break;
 								}
-						case 3:
+						case '3':
 								{
 									//FALTA SOLO ESTE CASO
 									break;
 								}
-						case 4:
+						case '4':
 								{
 								fin=1;
 								break;
