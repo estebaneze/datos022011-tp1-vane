@@ -9,17 +9,17 @@ OverflowStrategy::OverflowStrategy() {
  * Un overflow implica hacer un split, dividir los nodos en dos
  */
 bool OverflowStrategy::doBalance(Node* parent, BNode* child,BalanceStrategy* parentStrategy){
-	KeyElement* keyToInsert=NULL;
-		bool hasChanged=false;
-		PersistorBTree* p=Persistor::getInstance();
-		int typeofStrategy=parentStrategy->getTypeOfStrategy();
-		if(child->isOverflowded(typeofStrategy)){
-	        keyToInsert = child->doSplit();
-	        parent->appendKeyElementInOrder(keyToInsert);
-	        hasChanged = true;
-	    }
-	    p->modify(child);
-	    return hasChanged;
+        KeyElement* keyToInsert=NULL;
+                bool hasChanged=false;
+                PersistorBTree* p= parent->getPersistorInstance();
+                int typeofStrategy=parentStrategy->getTypeOfStrategy();
+                if(child->isOverflowded(typeofStrategy)){
+                keyToInsert = child->doSplit();
+                parent->appendKeyElementInOrder(keyToInsert);
+                hasChanged = true;
+            }
+            p->modify(child);
+            return hasChanged;
 
 }
 

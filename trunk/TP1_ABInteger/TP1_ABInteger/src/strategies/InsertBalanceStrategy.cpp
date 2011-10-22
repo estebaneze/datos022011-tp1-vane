@@ -1,5 +1,4 @@
 #include "InsertBalanceStrategy.h"
-#include "../Persistencia/Persistor.h"
 #include "../Persistencia/PersistorBTree.h"
 #include "../BPlusTree/KeyElement.h"
 #include "BalanceStrategyFactory.h"
@@ -13,7 +12,7 @@ InsertBalanceStrategy::~InsertBalanceStrategy() {
 }
 
 int InsertBalanceStrategy::getTypeOfStrategy(){
-	return INSERT;
+        return INSERT;
 }
 
 /**
@@ -21,13 +20,13 @@ int InsertBalanceStrategy::getTypeOfStrategy(){
  * Persistir la hijo es responsabilidad de esta clase.
  */
 bool InsertBalanceStrategy::doBalance(Node* parent,BNode* child){
-	bool hasChanged=false;
-	bool hasChangedForUnderflow;
-	ComposedBalanceStrategy* strategy=BalanceStrategyFactory::createComposedBalanceStrategy(OVERFLOW);
-	hasChanged=strategy->doBalance(parent,child,this);
-	strategy=BalanceStrategyFactory::createComposedBalanceStrategy(UNDERFLOW);
-	hasChangedForUnderflow=strategy->doBalance(parent,child,this);
-	hasChanged=hasChanged||hasChanged;
-	delete strategy;
+        bool hasChanged=false;
+        bool hasChangedForUnderflow;
+        ComposedBalanceStrategy* strategy=BalanceStrategyFactory::createComposedBalanceStrategy(OVERFLOW);
+        hasChanged=strategy->doBalance(parent,child,this);
+        strategy=BalanceStrategyFactory::createComposedBalanceStrategy(UNDERFLOW);
+        hasChangedForUnderflow=strategy->doBalance(parent,child,this);
+        hasChanged=hasChanged||hasChanged;
+        delete strategy;
     return hasChanged;
 }

@@ -10,28 +10,28 @@ UnderflowStrategy::UnderflowStrategy() {
  * Devolvemos true si cambio parent
  */
 bool UnderflowStrategy::doBalance(Node* parent, BNode* child,BalanceStrategy* parentStrategy){
-	//vemos si el hermano izquierdo tiene para prestarnos.
-	bool parentHasChanged=false;
+        //vemos si el hermano izquierdo tiene para prestarnos.
+        bool parentHasChanged=false;
 
-	if(child->isUnderflowded()){
-		if(parentStrategy->getTypeOfStrategy()==INSERT){
-			//Como es un insert solo verifico que el nodo hermano derecho pueda prestarme.
-			parentHasChanged=this->doBalaceForRightNode(parent,child);
-		}else{
-			parentHasChanged=this->doBalanceForLeftNode(parent,child);
-			if(!parentHasChanged){
-				parentHasChanged=this->doBalaceForRightNode(parent,child);
-			}
-			if(!parentHasChanged){
-				parentHasChanged=this->join(parent,child);
-			}
-		}
-	}else{
-		PersistorBTree* p=Persistor::getInstance();
-		p->modify(child);
-	}
+        if(child->isUnderflowded()){
+                if(parentStrategy->getTypeOfStrategy()==INSERT){
+                        //Como es un insert solo verifico que el nodo hermano derecho pueda prestarme.
+                        parentHasChanged=this->doBalaceForRightNode(parent,child);
+                }else{
+                        parentHasChanged=this->doBalanceForLeftNode(parent,child);
+                        if(!parentHasChanged){
+                                parentHasChanged=this->doBalaceForRightNode(parent,child);
+                        }
+                        if(!parentHasChanged){
+                                parentHasChanged=this->join(parent,child);
+                        }
+                }
+        }else{
+                PersistorBTree* p= parent->getPersistorInstance();
+                p->modify(child);
+        }
 
-	return parentHasChanged;
+        return parentHasChanged;
 }
 
 /**
@@ -42,24 +42,24 @@ bool UnderflowStrategy::doBalance(Node* parent, BNode* child,BalanceStrategy* pa
  * Algoritmo
  */
 bool UnderflowStrategy::join(Node* parent,BNode* childInUnderflow){
-		bool hasChanged=false;
-		PersistorBTree* p=Persistor::getInstance();
-		BNode* leftSibling=parent->getLeftSibling(childInUnderflow);
-		if(leftSibling!=NULL){
-			leftSibling->join(childInUnderflow);
-			parent->removeKey(childInUnderflow);
-			p->removeBlock(childInUnderflow->getOffset());
-			p->modify(leftSibling);
-			hasChanged=true;
-		}else{
-			BNode* rightSibling=parent->getRightSibling(childInUnderflow);
-			childInUnderflow->join(rightSibling);
-			p->removeBlock(rightSibling->getOffset());
-			parent->removeKey(rightSibling);
-			p->modify(childInUnderflow);
-			hasChanged=true;
-		}
-		return hasChanged;
+                bool hasChanged=false;
+                PersistorBTree* p= parent->getPersistorInstance();
+                BNode* leftSibling=parent->getLeftSibling(childInUnderflow);
+                if(leftSibling!=NULL){
+                        leftSibling->join(childInUnderflow);
+                        parent->removeKey(childInUnderflow);
+                        p->removeBlock(childInUnderflow->getOffset());
+                        p->modify(leftSibling);
+                        hasChanged=true;
+                }else{
+                        BNode* rightSibling=parent->getRightSibling(childInUnderflow);
+                        childInUnderflow->join(rightSibling);
+                        p->removeBlock(rightSibling->getOffset());
+                        parent->removeKey(rightSibling);
+                        p->modify(childInUnderflow);
+                        hasChanged=true;
+                }
+                return hasChanged;
 }
 
 /**
@@ -69,20 +69,20 @@ bool UnderflowStrategy::join(Node* parent,BNode* childInUnderflow){
  * Devolvemos true si cambio parent y por consiguiente pudo balancear
  */
 bool UnderflowStrategy::doBalanceForLeftNode(Node* parent, BNode* childInUnderflow){
-	bool hasChanged=false;
-	PersistorBTree* p=Persistor::getInstance();
+        bool hasChanged=false;
+        PersistorBTree* p= parent->getPersistorInstance();
 
-	BNode* leftSibling=parent->getLeftSibling(childInUnderflow);
-	if(leftSibling!=NULL){
-		hasChanged=leftSibling->leftBalanceWith(childInUnderflow);
-		if(hasChanged){
-			p->modify(leftSibling);
-			p->modify(childInUnderflow);
-			parent->changeKey(childInUnderflow);
-			hasChanged=true;
-		}
-	}
-	return hasChanged;
+        BNode* leftSibling=parent->getLeftSibling(childInUnderflow);
+        if(leftSibling!=NULL){
+                hasChanged=leftSibling->leftBalanceWith(childInUnderflow);
+                if(hasChanged){
+                        p->modify(leftSibling);
+                        p->modify(childInUnderflow);
+                        parent->changeKey(childInUnderflow);
+                        hasChanged=true;
+                }
+        }
+        return hasChanged;
 }
 /**
  * Verificarmos si el hermano  derecho tiene para prestarnos.
@@ -93,20 +93,20 @@ bool UnderflowStrategy::doBalanceForLeftNode(Node* parent, BNode* childInUnderfl
  *
  */
 bool UnderflowStrategy::doBalaceForRightNode(Node* parent, BNode* childInUnderflow){
-	bool hasChanged=false;
-	PersistorBTree* p=Persistor::getInstance();
-	BNode* rightSibling=parent->getRightSibling(childInUnderflow);
-	if(rightSibling!=NULL){
-		hasChanged=rightSibling->rightBalanceWith(childInUnderflow);
-		if(hasChanged){
-			//como cambio persisto el hijo derecho y quito la clave del padre cambiandola por la nueva
-			p->modify(rightSibling);
-			p->modify(childInUnderflow);
+        bool hasChanged=false;
+        PersistorBTree* p= parent->getPersistorInstance();
+        BNode* rightSibling=parent->getRightSibling(childInUnderflow);
+        if(rightSibling!=NULL){
+                hasChanged=rightSibling->rightBalanceWith(childInUnderflow);
+                if(hasChanged){
+                        //como cambio persisto el hijo derecho y quito la clave del padre cambiandola por la nueva
+                        p->modify(rightSibling);
+                        p->modify(childInUnderflow);
 
-			parent->changeKey(rightSibling);
-		}
-	}
-	return hasChanged;
+                        parent->changeKey(rightSibling);
+                }
+        }
+        return hasChanged;
 
 }
 

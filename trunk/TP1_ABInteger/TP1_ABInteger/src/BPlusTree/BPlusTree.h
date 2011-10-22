@@ -7,7 +7,6 @@
 #include "LeafNode.h"
 #include <string>
 #include "Element.h"
-#include "../Persistencia/Persistor.h"
 #include "NodeFactory.h"
 #include "../Common/Common.h"
 
@@ -17,6 +16,7 @@ class BPlusTree {
  private://variables privadas
     BNode* root;
     LeafNode* current;
+    PersistorBTree* p;
 
  private://metodos privados
     /**
@@ -49,46 +49,46 @@ class BPlusTree {
      */
     virtual ~BPlusTree();
 
-	/**
-	 * Inserta un nuevo Element en el arbol su clave (key).
-	 * Si la clave está presente en el arbol antes de su inserción, este
-	 * metodo lanzará una excepcion.
-	 */
+        /**
+         * Inserta un nuevo Element en el arbol su clave (key).
+         * Si la clave está presente en el arbol antes de su inserción, este
+         * metodo lanzará una excepcion.
+         */
     void insert(Element* element);
 
-	/**
-	 * Elimina un elemento del arbol por su clave.
-	 * En el caso que la clave no se encuentre en el arbol, este
-	 * metodo lanzará una excepcion.
-	 */
+        /**
+         * Elimina un elemento del arbol por su clave.
+         * En el caso que la clave no se encuentre en el arbol, este
+         * metodo lanzará una excepcion.
+         */
     void remove(int key);
 
-	/**
-	 * Modifica la información del elemento definido por su clave.
-	 */
+        /**
+         * Modifica la información del elemento definido por su clave.
+         */
     void modify(Element* elem);
 
 
-	/**
-	 * Buscador del árbol. Devuelve el Nodo contenedor de la clave buscada.
-	 */
+        /**
+         * Buscador del árbol. Devuelve el Nodo contenedor de la clave buscada.
+         */
     LeafNode* find(int key);
     Element* findExact(int key);
-	/**
-	 * Navega por la lista secuencial de los nodos
-	 * hojas hacia adelante.
-	 */
+        /**
+         * Navega por la lista secuencial de los nodos
+         * hojas hacia adelante.
+         */
     BNode* next();
 
-	/**
-	 * Navega por la lista secuencial de los nodos
-	 * hojas hacia atras.
-	 */
+        /**
+         * Navega por la lista secuencial de los nodos
+         * hojas hacia atras.
+         */
     BNode* prev();
 
-	/**
-	 * Metodo para eliminar el Arbol de su ubicación física.
-	 */
+        /**
+         * Metodo para eliminar el Arbol de su ubicación física.
+         */
     void deleteTree();
 
     ostream& printMe(ostream& myOstream);

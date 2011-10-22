@@ -7,25 +7,19 @@ NodeFactory::NodeFactory() {
 /**
  * En caso que el nivel sea 1 el proximo sera una hoja.
  */
-BNode* NodeFactory::createNodeForSearch(int level) {
-	if (level == 1 || level == 0) {
-		return new LeafNode();
-	} else {
-		return new Node();
-	}
+BNode* NodeFactory::createNodeForSearch(int level, PersistorBTree* p) {
+        if (level == 1 || level == 0) {
+                return new LeafNode(p);
+        } else {
+                return new Node(p);
+        }
 }
-BNode* NodeFactory::createSibling(int level){
-	if(level>=1){
-		return new Node();
-	}else{
-		return new LeafNode();
-	}
+
+Node* NodeFactory::createKeyNode(PersistorBTree* p) {
+        return new Node(p);
 }
-Node* NodeFactory::createKeyNode() {
-	return new Node();
-}
-LeafNode* NodeFactory::createLeafNode() {
-	return new LeafNode();
+LeafNode* NodeFactory::createLeafNode(PersistorBTree* p) {
+        return new LeafNode(p);
 }
 NodeFactory::~NodeFactory() {
 }
