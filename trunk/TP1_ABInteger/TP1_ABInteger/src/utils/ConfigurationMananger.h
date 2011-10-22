@@ -43,6 +43,13 @@ private:
 	int hashBSizeLista;
 	int hashBSizeVotante;
 
+	/*
+	 * Separadores
+	 */
+	string separador1;
+	string separador2;
+
+
 	/**
 	 * Archivo de configuracion
 	 */
@@ -85,6 +92,12 @@ public:
 	int getHashBSizeCargo();
 	int getHashBSizeLista();
 	int getHashBSizeVotante();
+
+	/**
+	 * Devuelve el tamaño de los separadores
+	 */
+	string getSeparador1();
+	string getSeparador2();
 };
 
 #endif /* CONFIGURATIONMANANGER_H_ */

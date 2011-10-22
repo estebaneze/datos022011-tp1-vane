@@ -140,7 +140,6 @@ vector<Lista> ABMLista::GetListasByEleccion(int idEleccion){
 		for(unsigned int i = 0; i < values.size(); i++){
 			listas.push_back(Lista(values[i],idEleccion));
 		}
-
 	return listas;
 }
 
