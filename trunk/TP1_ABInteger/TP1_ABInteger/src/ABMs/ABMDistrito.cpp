@@ -25,7 +25,6 @@ int ABMDistrito::Add(string nombre){
 	if (!Exists(nombre)){
 
 		Data data = (Data)nombre.c_str();
-		cout << "Insertando el D: " << idDistrito << nombre << endl;
 
 		int longData = nombre.length();
 		Element * elemento = new Element(idDistrito,data,longData);
@@ -38,7 +37,6 @@ int ABMDistrito::Add(string nombre){
 		return idDistrito;
 	}
 
-	cout << "El Distrito con el nombre " << nombre << " ya fue ingresado " << endl;
 	return -1;
 }
 
@@ -172,7 +170,6 @@ void ABMDistrito::mostrarDistritosPorPantalla(){
 }
 
 ABMDistrito::~ABMDistrito() {
-	bpPlusTree->deleteTree();
 	delete this->bpPlusTree;
 }
 
