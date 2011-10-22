@@ -9,11 +9,9 @@
 
 
 ABMCargo::ABMCargo() {
-
+	int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeCargo();
 	this->hashFile= "cargo";
-	this->directorio = new Directory(hashFile,2048);
-
-
+	this->directorio = new Directory(hashFile, maxBucketSize);
 }
 
 
