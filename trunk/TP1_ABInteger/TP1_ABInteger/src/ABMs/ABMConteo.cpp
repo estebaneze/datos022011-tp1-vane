@@ -80,7 +80,7 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
 
                 if(votante->VotoEnEleccion(idEleccion)){
                         cout << "-------------------------------------------------------------------------------------------------------------" << endl;
-                        cout << "\n\n\El votante " << votante->GetNombreYApellido() << " ya voto en la elecci�n " << c->GetIdEleccion() << endl;
+                        cout << "\n\n\El votante " << votante->GetNombreYApellido() << " ya voto en la eleccion " << c->GetIdEleccion() << endl;
                         cout << "-------------------------------------------------------------------------------------------------------------" << endl;
                         return;
 

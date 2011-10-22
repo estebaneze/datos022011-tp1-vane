@@ -127,7 +127,7 @@ vector<Votante> ABMVotante::GetVotantes(){
                         /*for (unsigned int j=4; j < splitedVs.size() ;j++){
                                 _listaElecciones.Add(Helper::StringToInt(splitedVs[j]));
                         }*/
-                        cout << "Falta agregar la lista de elecciones en las que voto " << endl;
+                        //TODO:"Falta agregar la lista de elecciones en las que voto " 
                         votantes.push_back(Votante(_dni, _nombreYApellido, _clave, _domicilio, _idDistrito));
 
                 }

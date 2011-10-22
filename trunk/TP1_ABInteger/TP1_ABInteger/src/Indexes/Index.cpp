@@ -102,7 +102,7 @@ void Index::DeleteFromIndex(Key key, Key value){
                 string oldFields = this->directorio->find(key);
                 vector<string> splited = Helper::split(oldFields, '|');
 
-                cout << "Los valores del indice: " << Helper::concatenar(splited, ConfigurationMananger::getInstance()->getSeparador1()) << endl;
+                //cout << "Los valores del indice: " << Helper::concatenar(splited, ConfigurationMananger::getInstance()->getSeparador1()) << endl;
 
                 bool founded = false;
                 int index = 0;

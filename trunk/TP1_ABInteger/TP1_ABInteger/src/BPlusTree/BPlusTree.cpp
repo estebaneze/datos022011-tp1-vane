@@ -170,7 +170,7 @@ void BPlusTree::validateElementSize(Element* elm){
         int maxRecordSize=ConfigurationMananger::getInstance()->getMaxRecordSizeTree();
 
         if(elm->getDataSize() > maxRecordSize){
-                cout << "       ******Error: Tama�o invalido de registro: ******" << elm->getDataSize() << endl;
+                cout << "       ******Error: Tamanio invalido de registro: ******" << elm->getDataSize() << endl;
                 //throw new OverflowException("tamano invalido de registro");
         }
 
