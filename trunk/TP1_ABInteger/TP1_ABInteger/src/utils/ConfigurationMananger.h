@@ -7,84 +7,97 @@
 
 class ConfigurationMananger {
 private:
-	/** instancia del Singletone. */
-	static ConfigurationMananger* instance;
+        /** instancia del Singletone. */
+        static ConfigurationMananger* instance;
 
-	//Constructor privado
-	ConfigurationMananger();
+        //Constructor privado
+        ConfigurationMananger();
 
-	/** Almacena el porcentaje util de un nodo */
-	ChargeFactor chargeFactor;
+        /** Almacena el porcentaje util de un nodo */
+        ChargeFactor chargeFactor;
 
-	/** Define el los bloques cabecera. */
-	int bufferSize;
+        /** Define el los bloques cabecera. */
+        int bufferSize;
 
-	/**
-	 * Tamaño del buffer del arbol
-	 */
-	int bufferSizeTree;
+        /**
+         * Tamaño del buffer del arbol
+         */
+        int bufferSizeTree;
 
-	/**
-	 * Tamaño minimo del registro que puede tener.
-	 */
-	int minRecordSizeTree;
+        /**
+         * Tamaño minimo del registro que puede tener.
+         */
+        int minRecordSizeTree;
 
-	/**
-	 * Tamaño maximo del registro que puede tener.
-	 */
-	int maxRecordSizeTree;
+        /**
+         * Tamaño maximo del registro que puede tener.
+         */
+        int maxRecordSizeTree;
 
-	/**
-	 * Tamaño del bloque del los archivos de hash
-	 */
-	int hashBSizeCandidato;
-	int hashBSizeAdministrador;
-	int hashBSizeCargo;
-	int hashBSizeLista;
-	int hashBSizeVotante;
+        /**
+         * Tamaño del bloque del los archivos de hash
+         */
+        int hashBSizeCandidato;
+        int hashBSizeAdministrador;
+        int hashBSizeCargo;
+        int hashBSizeLista;
+        int hashBSizeVotante;
 
-	/**
-	 * Archivo de configuracion
-	 */
-	ConfigFile *configFile;
+        /*
+         * Separadores
+         */
+        string separador1;
+        string separador2;
+
+
+        /**
+         * Archivo de configuracion
+         */
+        ConfigFile *configFile;
 
 public:
 
-	virtual ~ConfigurationMananger();
+        virtual ~ConfigurationMananger();
 
      /**
-	 * Devuelve la unica instancia del singleton.
-	 */
-	static ConfigurationMananger* getInstance();
+         * Devuelve la unica instancia del singleton.
+         */
+        static ConfigurationMananger* getInstance();
 
-	ChargeFactor getChargeFactor();
-	int maxNodeLoadForInsert();
+        ChargeFactor getChargeFactor();
+        int maxNodeLoadForInsert();
 
-	/**
-	 * Tamano que tiene el buffer, Nodo, o bloque
-	 */
-	int getBufferSize();
+        /**
+         * Tamano que tiene el buffer, Nodo, o bloque
+         */
+        int getBufferSize();
 
-	int getBufferSizeTree();
+        int getBufferSizeTree();
 
-	/**
-	 * Devuelve el tama�o minimo de underflow permitido
-	 *  50% tama�o del bloque -  el tama�o maximo del registro
-	 */
-	int getMinUnderflowSizeTree();
+        /**
+         * Devuelve el tama�o minimo de underflow permitido
+         *  50% tama�o del bloque -  el tama�o maximo del registro
+         */
+        int getMinUnderflowSizeTree();
 
-	int getMinRecordSizeTree();
+        int getMinRecordSizeTree();
 
-	int getMaxRecordSizeTree();
+        int getMaxRecordSizeTree();
 
-	/**
-	 * Devuelven el tamaño del bloque de los archivos de hash
-	 */
-	int getHashBSizeCandidato();
-	int getHashBSizeAdministrador();
-	int getHashBSizeCargo();
-	int getHashBSizeLista();
-	int getHashBSizeVotante();
+        /**
+         * Devuelven el tamaño del bloque de los archivos de hash
+         */
+        int getHashBSizeCandidato();
+        int getHashBSizeAdministrador();
+        int getHashBSizeCargo();
+        int getHashBSizeLista();
+        int getHashBSizeVotante();
+
+        /**
+         * Devuelve el tamaño de los separadores
+         */
+        string getSeparador1();
+        string getSeparador2();
 };
 
 #endif /* CONFIGURATIONMANANGER_H_ */
