@@ -62,7 +62,11 @@ int ABMEleccion::Add(Eleccion* eleccion){
 
                 return 0;
         }
-        else return -1;
+
+        else {
+        	cout<<"existe id eleccion: "<<eleccion->GetIdCargo()<<endl;
+        	return -1;
+        }
 }
 
 /*
@@ -70,9 +74,9 @@ int ABMEleccion::Add(Eleccion* eleccion){
  */
 bool ABMEleccion::Delete(Eleccion* eleccion){
 
-        int idEleccion = eleccion->GetId();
+		int idEleccion =  ObtenerKey(eleccion);
 
-        if (ExistsKey(idEleccion)){
+        if (Exists(eleccion)){
 
                 vector<int> distritos = eleccion->GetDistritos();
 
@@ -93,13 +97,14 @@ bool ABMEleccion::Delete(Eleccion* eleccion){
 
                 //Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
                 for(int i = 0; i< distritos.size(); i++){
-                        this->indexByDistrito->DeleteFromIndex(Helper::IntToString(distritos[i]), Helper::IntToString(eleccion->GetId()));
+                        this->indexByDistrito->DeleteFromIndex(Helper::IntToString(distritos[i]), Helper::IntToString(idEleccion));
                 }
 
                 return true;
 
         } else {
-                return false;
+        	cout<<"No Existe no se puede eliminar: "<<eleccion->GetIdCargo()<<endl;
+            return false;
         }
 }
 
@@ -108,28 +113,15 @@ bool ABMEleccion::Delete(Eleccion* eleccion){
 */
 bool ABMEleccion::Modify(Eleccion* eleccion){
 
-        int idEleccion = eleccion->GetId();
+        int idEleccion =  ObtenerKey(eleccion);
 
-        if (ExistsKey(idEleccion)){
+        if (Exists(eleccion)){
 
-                //No se puede modificar ni la fecha ni el cargo, solamente los distritos
-                Eleccion* oldEleccion = this->GetEleccion(idEleccion);
-                Fecha f1 = oldEleccion->GetDate();
-                Fecha f2 = eleccion->GetDate();
-
-                if(f1 != f2)
-                        cout << "pepe" << endl;
-
-                if(f1 != f2 || eleccion->GetIdCargo() != eleccion->GetIdCargo()){
-                        cout << "No se puede modificar la fecha ni el Cardo de la Eleccion"  << endl;
-                        return false;
-                }
-
-                //primero borro el id de eleccion indexado en el indice de distritos, despues agrego los que tengo ahora
-                Eleccion* old = this->GetEleccion(eleccion->GetId());
+               //primero borro el id de eleccion indexado en el indice de distritos, despues agrego los que tengo ahora
+                Eleccion* old = this->GetEleccion(idEleccion);
                 vector<int> oldDistritos = old->GetDistritos(); //Me traigo los distritos que tiene ahora (antes de modificarla)
                 for(int i = 0; i< oldDistritos.size(); i++){
-                        this->indexByDistrito->DeleteFromIndex(Helper::IntToString(oldDistritos[i]), Helper::IntToString(eleccion->GetId()));
+                        this->indexByDistrito->DeleteFromIndex(Helper::IntToString(oldDistritos[i]), Helper::IntToString(idEleccion));
                 }
 
                 vector<int> distritos = eleccion->GetDistritos();
@@ -201,17 +193,33 @@ Eleccion* ABMEleccion::GetEleccion(int idEleccion){
 
 
 /**
- * Devuelve true si el eleccion existe en el arbol, sino false.
+ * Devuelve key si el eleccion existe en el arbol, sino -1.
  */
-bool ABMEleccion::Exists(Eleccion* eleccion){
+int ABMEleccion::ObtenerKey(Eleccion* eleccion){
 
-        if(this->bpPlusTree->findExact(eleccion->GetId()) == NULL)
-                return false;
-        else
-                return true;
+	vector<Key> byFecha = this->indexByFecha->GetIds(eleccion->GetDate().getStrFecha());
+	vector<Key> byCargo = this->indexByCargo->GetIds(Helper::IntToString(eleccion->GetIdCargo()));
+	for(int i = 0; i< byCargo.size(); i++){
+		for(int j = 0; j< byFecha.size(); j++){
+			 if (byCargo[i]==byFecha[j]) return Helper::StringToInt(byCargo[i]);
+		}
+	} return -1;
 }
 
 
+/**
+ * Devuelve true si el eleccion existe en el arbol, sino false
+ */
+bool ABMEleccion::Exists(Eleccion* eleccion){
+
+	vector<Key> byFecha = this->indexByFecha->GetIds(eleccion->GetDate().getStrFecha());
+	vector<Key> byCargo = this->indexByCargo->GetIds(Helper::IntToString(eleccion->GetIdCargo()));
+	for(int i = 0; i< byCargo.size(); i++){
+		for(int j = 0; j< byFecha.size(); j++){
+			 if (byCargo[i]==byFecha[j]) return true;
+		}
+	} return false;
+}
 /*
  * Devuelve true si la key existe en el arbol, sino false.
  */

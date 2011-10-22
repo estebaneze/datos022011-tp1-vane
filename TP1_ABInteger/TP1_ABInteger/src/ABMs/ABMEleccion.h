@@ -25,6 +25,7 @@ class ABMEleccion {
 		virtual ~ABMEleccion();
 		bool Exists(Eleccion* eleccion);
 		bool Exists(int idEleccion);
+		int ObtenerKey(Eleccion* eleccion);
 		bool ExistsKey(KeyInt idEleccion);
 		//bool ExistsKey(Fecha fecha,int idCargo);
 		int Add(Eleccion* eleccion);

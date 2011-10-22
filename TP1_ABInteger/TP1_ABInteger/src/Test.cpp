@@ -780,10 +780,13 @@ void Test::testEleccionesIndex(){
 
         cs.Add(new Eleccion(46, Fecha(1,7,2003)));
         cs.Add(new Eleccion(75, Fecha(1,7,2003)));
-        cs.Add(new Eleccion(197, Fecha(1,7,2003)));
+        cs.Add(new Eleccion(7, Fecha(1,7,2003)));
 
         cs.Delete(new Eleccion(7, Fecha(1,7,2003)));
 
+        Eleccion * e = new Eleccion(46, Fecha(1,7,2003));
+        e->AddDistrito(5);
+        cs.Modify(e);
         cout << endl << endl << "Done!!!!!!!!!!" << endl;
 }
 
