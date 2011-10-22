@@ -132,18 +132,6 @@ bool ABMEleccion::Modify(Eleccion* eleccion){
                         this->indexByDistrito->DeleteFromIndex(Helper::IntToString(oldDistritos[i]), Helper::IntToString(eleccion->GetId()));
                 }
 
-                /*
-                string auxValueBtree;
-                for (unsigned int i=0;i<(eleccion->GetDistritos().size());i++){
-                        auxValueBtree = Helper::concatenar(auxValueBtree,Helper::IntToString(eleccion->GetDistritos()[i]),"|");
-                }
-
-                Data data = (Data)auxValueBtree.c_str();
-                int longData = auxValueBtree.length();
-                Element * elemento = new Element(idEleccion,data,longData);
-                this->bpPlusTree->modify(elemento);
-*/
-
                 vector<int> distritos = eleccion->GetDistritos();
                 string concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1());
 
@@ -204,10 +192,6 @@ Eleccion* ABMEleccion::GetEleccion(int idEleccion){
                         eleccion->AddDistrito(Helper::StringToInt(splited[i]));
                 }
 
-                //string key = el->getKey();
-                //vector<string> splitKey = Helper::split(el->getKey(), '_');
-                //Fecha fecha = Fecha(splitKey[0]);
-
                 return eleccion;
         }
         else {
@@ -239,21 +223,6 @@ bool ABMEleccion::ExistsKey(KeyInt key){
                 return true;
 }
 
-/*
-bool ABMEleccion::ExistsKey(Fecha fecha, int idCargo){
-
-        Eleccion *eleccion = new Eleccion(idCargo,fecha);
-
-        if(this->bpPlusTree->findExact(eleccion->GetId()) == NULL){
-                delete eleccion;
-                return false;
-        }
-        else {
-                delete eleccion;
-                return true;
-        }
-}
-*/
 
 /*
  * Imprime por pantalla el arbol de elecciones
@@ -315,7 +284,6 @@ vector<Eleccion> ABMEleccion::GetByFechaYDistrito(Fecha* fecha, int idDistrito){
 }
 
 ABMEleccion::~ABMEleccion() {
-        bpPlusTree->deleteTree();
         delete this->bpPlusTree;
         delete this->indexByFecha;
 }
