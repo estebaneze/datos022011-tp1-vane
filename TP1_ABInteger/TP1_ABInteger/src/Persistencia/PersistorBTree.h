@@ -1,9 +1,11 @@
 #ifndef PERSISTORBTREE_H_
 #define PERSISTORBTREE_H_
 
+class BNode;
+
+#include "../BPlusTree/BNode.h"
 #include "PersistorBase.h"
 #include "../utils/types.h"
-#include "../BPlusTree/BNode.h"
 
 class PersistorBTree : public PersistorBase {
 protected:
@@ -14,7 +16,6 @@ protected:
 public:
 	PersistorBTree(std::string fileName, BlockSize size) ;
 	virtual ~PersistorBTree();
-	BNode* getNodeInBlock(int blockNumber);
 	BNode* getRoot();
 
 };
