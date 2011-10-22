@@ -8,7 +8,7 @@
 #ifndef MENUES_H_
 #define MENUES_H_
 
-
+#include "../Reportes/Reportes.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "../ABMs/ABMVotante.h"

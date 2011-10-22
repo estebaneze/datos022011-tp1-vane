@@ -210,8 +210,9 @@ vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
 vector<Conteo> ABMConteo::GetConteoByEleccion(int idEleccion){
 
         vector<Conteo> conteos;
+        cout << "wwweweww"<< endl;
         vector<Key> ids = this->indexByEleccion->GetIds(Helper::IntToString(idEleccion));
-
+        cout << "wwweweww"<< endl;
         for(int i = 0; i < ids.size(); i++){
 
                 int kint = Helper::StringToInt(ids[i]);

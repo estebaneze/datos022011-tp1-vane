@@ -237,18 +237,33 @@ void ABMEleccion::mostrarEleccionesPorPantalla(){
         this->bpPlusTree->exportTree();
 }
 
+vector<Eleccion*> ABMEleccion::GetByFechaYCargo(Fecha* fecha, int idCargo){
+
+    vector<Key> byFecha = this->indexByFecha->GetIds(fecha->getStrFecha());
+    vector<Eleccion*> elecciones;
+
+    for(int i = 0; i < byFecha.size(); i++){
+
+    	Eleccion* e = this->GetEleccion(Helper::StringToInt(byFecha[i]));
+
+    	if(e->GetIdCargo() == idCargo)
+    		elecciones.push_back(e);
+    }
+
+    return elecciones;
+}
+
 vector<Eleccion*> ABMEleccion::GetByFecha(Fecha* fecha){
 
+	vector<Key> byFecha = this->indexByFecha->GetIds(fecha->getStrFecha());
+	vector<Eleccion*> elecciones;
 
-        vector<Key> byFecha = this->indexByFecha->GetIds(fecha->getStrFecha());
-        vector<Eleccion*> elecciones;
+	for(int i = 0; i < byFecha.size(); i++){
+		Eleccion* e = this->GetEleccion(Helper::StringToInt(byFecha[i]));
+		elecciones.push_back(e);
+	}
 
-        for(int i = 0; i < byFecha.size(); i++){
-        	Eleccion* e = this->GetEleccion(Helper::StringToInt(byFecha[i]));
-               elecciones.push_back(e);
-        }
-
-        return elecciones;
+	return elecciones;
 }
 
 vector<Eleccion> ABMEleccion::GetByFechaYDistrito(Fecha* fecha, int idDistrito){
