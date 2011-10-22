@@ -27,7 +27,7 @@ bool UnderflowStrategy::doBalance(Node* parent, BNode* child,BalanceStrategy* pa
 			}
 		}
 	}else{
-		PersistorBTree* p= parent->getPersistorInstance();
+		PersistorBTree* p=Persistor::getInstance();
 		p->modify(child);
 	}
 
@@ -43,7 +43,7 @@ bool UnderflowStrategy::doBalance(Node* parent, BNode* child,BalanceStrategy* pa
  */
 bool UnderflowStrategy::join(Node* parent,BNode* childInUnderflow){
 		bool hasChanged=false;
-		PersistorBTree* p= parent->getPersistorInstance();
+		PersistorBTree* p=Persistor::getInstance();
 		BNode* leftSibling=parent->getLeftSibling(childInUnderflow);
 		if(leftSibling!=NULL){
 			leftSibling->join(childInUnderflow);
@@ -70,7 +70,7 @@ bool UnderflowStrategy::join(Node* parent,BNode* childInUnderflow){
  */
 bool UnderflowStrategy::doBalanceForLeftNode(Node* parent, BNode* childInUnderflow){
 	bool hasChanged=false;
-	PersistorBTree* p= parent->getPersistorInstance();
+	PersistorBTree* p=Persistor::getInstance();
 
 	BNode* leftSibling=parent->getLeftSibling(childInUnderflow);
 	if(leftSibling!=NULL){
@@ -94,7 +94,7 @@ bool UnderflowStrategy::doBalanceForLeftNode(Node* parent, BNode* childInUnderfl
  */
 bool UnderflowStrategy::doBalaceForRightNode(Node* parent, BNode* childInUnderflow){
 	bool hasChanged=false;
-	PersistorBTree* p= parent->getPersistorInstance();
+	PersistorBTree* p=Persistor::getInstance();
 	BNode* rightSibling=parent->getRightSibling(childInUnderflow);
 	if(rightSibling!=NULL){
 		hasChanged=rightSibling->rightBalanceWith(childInUnderflow);

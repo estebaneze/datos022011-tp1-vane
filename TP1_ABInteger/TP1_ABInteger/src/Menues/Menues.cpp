@@ -1291,7 +1291,7 @@ void Menues::MenuABMEleccion()
 										if (existe==0){
 											bool finCargaDistrito=false;
 											ABMDistrito *dis = new ABMDistrito("distrito");
-											IntegerList distritos;
+											vector<int> distritos;
 
 											//cargo lista de distritos para la eleccion
 											while(!finCargaDistrito){
@@ -1308,7 +1308,7 @@ void Menues::MenuABMEleccion()
 													cout << endl;
 
 													if (dis->Exists(id_distrito)){
-														distritos.Add(id_distrito);
+														distritos.push_back(id_distrito);
 														cout << "Id distrito "<< id_distrito << " cargado con exito" << endl;
 
 														}
@@ -1329,8 +1329,8 @@ void Menues::MenuABMEleccion()
 										delete dis;
 
 										//guardo eleccion
-										for (int i=0;i<distritos.GetSize();i++){
-											eleccion->AddDistrito(distritos.Get(i));
+										for (int i=0;i<distritos.size();i++){
+											eleccion->AddDistrito(distritos[i]);
 										}
 
 										el->Modify(eleccion);

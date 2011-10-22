@@ -3,6 +3,26 @@
 #include "../BPlusTree/LeafNode.h"
 #include "../BPlusTree/Node.h"
 #include "../BPlusTree/NodeFactory.h"
+BNode *PersistorBTree::getNodeInBlock(int blockNumber)
+{
+	std::string buffer;
+	Level level;
+	BNode *root;
+
+	buffer = this->load(blockNumber);
+	buffer.copy((char*)&level,sizeof(Level));
+
+	if(level == 0)
+		root = NodeFactory::createLeafNode();
+	else
+		root = NodeFactory::createKeyNode();
+
+	root->unserialize(buffer);
+	root->setOffset(blockNumber);
+
+	return root;
+}
+
 
 PersistorBTree::PersistorBTree(std::string fileName, BlockSize size) {
 	/* Validaci�n de que este iniciado */
@@ -40,7 +60,7 @@ PersistorBTree::~PersistorBTree() {
 void PersistorBTree::newFile(std::string fileName) {
 	PersistorBase::newFile(fileName);
 
-	LeafNode *root = NodeFactory::createLeafNode(this);
+	LeafNode *root = NodeFactory::createLeafNode();
 
 	this->add(root);
 
@@ -56,9 +76,9 @@ BNode* PersistorBTree::getRoot() {
 	buffer.copy((char*)&level,sizeof(Level));
 
 	if(level == 0)
-		root = NodeFactory::createLeafNode(this);
+		root = NodeFactory::createLeafNode();
 	else
-		root = NodeFactory::createKeyNode(this);
+		root = NodeFactory::createKeyNode();
 
 	root->unserialize(buffer);
 	root->setOffset(0);

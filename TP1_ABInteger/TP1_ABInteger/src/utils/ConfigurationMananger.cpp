@@ -27,9 +27,6 @@ ConfigurationMananger::ConfigurationMananger() {
 	configFile->readInto(hashBSizeLista,"hashBSizeLista");
 	configFile->readInto(hashBSizeVotante,"hashBSizeVotante");
 
-	configFile->readInto<string>(separador1,"separador1");
-	configFile->readInto<string>(separador2,"separador2");
-
 	//configFile->readInto(maxRecordPercent,"maxRecordPercent");
 	maxRecordPercent = (1-chargeFactor)/2;
 
@@ -84,14 +81,6 @@ int ConfigurationMananger::getHashBSizeLista(){
 
 int ConfigurationMananger::getHashBSizeVotante(){
 	return this->hashBSizeVotante;
-}
-
-string ConfigurationMananger::getSeparador1(){
-	return this->separador1;
-}
-
-string ConfigurationMananger::getSeparador2(){
-	return this->separador2;
 }
 
 ConfigurationMananger::~ConfigurationMananger() {

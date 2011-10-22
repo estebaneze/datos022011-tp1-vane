@@ -4,7 +4,7 @@
 #include "BNode.h"
 #include "../utils/types.h"
 #include "KeyElement.h"
-#include "../Persistencia/PersistorBTree.h"
+#include "../Persistencia/Persistor.h"
 #include <string.h>
 #include <vector>
 #include <algorithm>
@@ -24,7 +24,7 @@ private:
     void insertFirstKey(KeyElement* keyelement);
 
 public:
-    Node(PersistorBTree* p);
+    Node();
     virtual ~Node();
     void appendKeyElementInOrder(KeyElement *keyElement);
     /**

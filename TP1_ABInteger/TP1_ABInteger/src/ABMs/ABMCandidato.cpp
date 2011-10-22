@@ -24,8 +24,8 @@ int ABMCandidato::Add(string idLista, long idVotante, int idCargo){
 
 	if (!(this->directorio->existKey(Helper::IntToString(idCandidato)))){
 
-		string fields1 = Helper::concatenar(idLista,Helper::LongToString(idVotante),ConfigurationMananger::getInstance()->getSeparador1());
-		string fields2 = Helper::concatenar(fields1,Helper::IntToString(idCargo),ConfigurationMananger::getInstance()->getSeparador1());
+		string fields1 = Helper::concatenar(idLista,Helper::LongToString(idVotante),"|");
+		string fields2 = Helper::concatenar(fields1,Helper::IntToString(idCargo),"|");
 
 		this->directorio->insert(Helper::IntToString(idCandidato), fields2);
 
@@ -61,8 +61,8 @@ void ABMCandidato::Modify(Candidato *candidato){
 	if (this->directorio->existKey(id)){
 
 
-		string fields1 = Helper::concatenar(candidato->GetIdLista(),Helper::LongToString(candidato->GetIdVotante()),ConfigurationMananger::getInstance()->getSeparador1());
-		string fields2 = Helper::concatenar(fields1,Helper::IntToString(candidato->GetIdCargo()),ConfigurationMananger::getInstance()->getSeparador1());
+		string fields1 = Helper::concatenar(candidato->GetIdLista(),Helper::LongToString(candidato->GetIdVotante()),"|");
+		string fields2 = Helper::concatenar(fields1,Helper::IntToString(candidato->GetIdCargo()),"|");
 
 		HashLog::LogProcess(this->directorio,"Candidato_HashProccess.log");
 		HashLog::LogModify(Helper::IntToString(candidato->GetId()),fields2,"Candidato_HashOperation.log");

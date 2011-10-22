@@ -63,8 +63,22 @@ int main( int arg, char *argv[] ){
 	//pruebaArbol();
 	//testLogging();
 
-	Menues menu;
-	menu.MenuPpal();
+	ABMDistrito ds = ABMDistrito("distrito");
+	ds.Add("Lanus");
+	ds.Add("Lomas");
+	ds.Add("Cap");
+	ds.Add("La Plata");
+
+	string id;
+	cout << endl << endl << "Ingrese id ";
+	cin>>id;
+
+	Distrito* d = ds.GetDistrito(Helper::StringToInt(id));
+	if(d != NULL)
+		cout << "Ecnontre " << d->GetId() << " - " << d->GetNombre() << endl;
+
+	//Menues menu;
+	//menu.MenuPpal();
 	cout << endl <<  "Done" << endl;
 		return system("");
 

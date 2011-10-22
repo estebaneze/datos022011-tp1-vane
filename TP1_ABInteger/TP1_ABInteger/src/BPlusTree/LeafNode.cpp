@@ -2,7 +2,7 @@
 #include <iostream>
 #include "../exceptions/OperationNotFoundException.h"
 
-LeafNode::LeafNode(PersistorBTree* p) : BNode(p) {
+LeafNode::LeafNode() {
 	nextNode = -1;
 	prevNode = -1;
 	freeSpace = 0;
@@ -191,6 +191,7 @@ Element *LeafNode::findExact(KeyInt key) {
 
 	//throw new ElementNotFoundException();
 	cout << "no encontrado " << key << endl << endl << endl;
+	return NULL;
 }
 
 /**
@@ -262,12 +263,13 @@ bool LeafNode::insertarTest(Element* elem) {
 KeyElement* LeafNode::doSplit() {
 	KeyElement* keyElementFromMiddle=new KeyElement();
 
-	LeafNode* newLeafNode=new LeafNode(this->p);
+	LeafNode* newLeafNode=new LeafNode();
+	PersistorBTree* p=Persistor::getInstance();
 	newLeafNode->elements=this->splitElements();
 
 	vector<Element*>::iterator it;
 
-	this->p->add(newLeafNode);
+	p->add(newLeafNode);
 	keyElementFromMiddle->setRightNode(newLeafNode->getOffset());
 	Element* elemen= (Element*)(*newLeafNode->elements.begin());
 	keyElementFromMiddle->setKey(elemen->getKey());

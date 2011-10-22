@@ -12,9 +12,9 @@ ABMConteo::ABMConteo() {
 	int bufferSize = ConfigurationMananger::getInstance()->getBufferSizeTree();
 	this->bplusTree = new BPlusTree(bufferSize,Helper::concatenar(mainTreeName,"bpt","."));
 
-	this->indexByDistrito = new Index(Helper::concatenar(mainTreeName,"Distrito",ConfigurationMananger::getInstance()->getSeparador2()));
-	this->indexByLista = new Index(Helper::concatenar(mainTreeName,"Lista",ConfigurationMananger::getInstance()->getSeparador2()));
-	this->indexByEleccion = new Index(Helper::concatenar(mainTreeName,"Eleccion",ConfigurationMananger::getInstance()->getSeparador2()));
+	this->indexByDistrito = new Index(Helper::concatenar(mainTreeName,"Distrito","_"));
+	this->indexByLista = new Index(Helper::concatenar(mainTreeName,"Lista","_"));
+	this->indexByEleccion = new Index(Helper::concatenar(mainTreeName,"Eleccion","_"));
 
 }
 

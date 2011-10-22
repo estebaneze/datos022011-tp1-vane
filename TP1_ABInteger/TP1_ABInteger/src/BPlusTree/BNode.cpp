@@ -1,8 +1,8 @@
 #include "BNode.h"
+#include "../Persistencia/Persistor.h"
+#include "../Persistencia/PersistorBTree.h"
 
-
-BNode::BNode(PersistorBTree* p) {
-	this->p = p;
+BNode::BNode() {
 }
 
 BNode::~BNode() {
@@ -11,10 +11,6 @@ BNode::~BNode() {
 
 void BNode::setLevel(Level level) {
 	this->level = level;
-}
-
-PersistorBTree* BNode::getPersistorInstance(){
-	return this->p;
 }
 
 
@@ -27,7 +23,8 @@ int BNode::getDataSize() {
 }
 
 void BNode::modify(){
-	this->p->modify(this);
+	PersistorBTree* p=Persistor::getInstance();
+	p->modify(this);
 }
 std::string  BNode::serialize() {
 	std::string buffer = "";

@@ -17,9 +17,9 @@ ABMEleccion::ABMEleccion() {
 
 	this->bpPlusTree = new BPlusTree(bufferSize,"eleccion.bpt");
 
-	this->indexByFecha = new Index(Helper::concatenar(bpTreeFile,"Fecha",ConfigurationMananger::getInstance()->getSeparador2()));
-	this->indexByDistrito = new Index(Helper::concatenar(bpTreeFile,"Distrito",ConfigurationMananger::getInstance()->getSeparador2()));
-	this->indexByCargo = new Index(Helper::concatenar(bpTreeFile,"Cargo",ConfigurationMananger::getInstance()->getSeparador2()));
+	this->indexByFecha = new Index(Helper::concatenar(bpTreeFile,"Fecha","_"));
+	this->indexByDistrito = new Index(Helper::concatenar(bpTreeFile,"Distrito","_"));
+	this->indexByCargo = new Index(Helper::concatenar(bpTreeFile,"Cargo","_"));
 }
 
 /*
@@ -36,7 +36,10 @@ int ABMEleccion::Add(Eleccion* eleccion){
 		cout << "Insertando la eleccion: " << idEleccion << endl << endl;
 		//string auxValueBtree;
 		vector<int> distritos = eleccion->GetDistritos();
-		string concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1());
+		string concatDistritos = Helper::concatenar(distritos, "|");
+//		for (unsigned int i=0;i<(eleccion->GetDistritos().size());i++){
+//			auxValueBtree = Helper::concatenar(auxValueBtree,Helper::IntToString(distritos[i]),"|");
+//		}
 
 		//data = fecha|idcargo|distritos
 		string str = eleccion->GetDate().getStrFecha().append("|").append(Helper::IntToString(eleccion->GetIdCargo())).append("|").append(concatDistritos);
@@ -80,7 +83,7 @@ bool ABMEleccion::Delete(Eleccion* eleccion){
 		string auxValueBtree;
 
 		for (unsigned int i=0;i<(eleccion->GetDistritos().size());i++){
-			auxValueBtree = Helper::concatenar(auxValueBtree,Helper::IntToString(eleccion->GetDistritos()[i]),ConfigurationMananger::getInstance()->getSeparador1());
+			auxValueBtree = Helper::concatenar(auxValueBtree,Helper::IntToString(eleccion->GetDistritos()[i]),"|");
 		}
 
 		//logueo el delete
@@ -145,7 +148,7 @@ bool ABMEleccion::Modify(Eleccion* eleccion){
 */
 
 		vector<int> distritos = eleccion->GetDistritos();
-		string concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1());
+		string concatDistritos = Helper::concatenar(distritos, "|");
 
 		//data = fecha|idcargo|distritos
 		string str = eleccion->GetDate().getStrFecha().append("|").append(Helper::IntToString(eleccion->GetIdCargo())).append("|").append(concatDistritos);

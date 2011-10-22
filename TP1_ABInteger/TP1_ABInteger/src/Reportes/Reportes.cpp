@@ -7,9 +7,8 @@
 
 #include "Reportes.h"
 
-/*TODO: como eleccion no tiene id numerico, este metodo tendria que recibir:
- * un objeto Eleccion o una Fecha y IdCargo (que son las dos cosas que identifican a la eleccion)
-*/
+/*TODO: este metodo tendria que recibir: fecha y cargo y de ahi buscar la eleccion, o el objecto Eleccion
+ */
 
 void Reportes::reportePorEleccion(int IdEleccion)
 {
