@@ -50,6 +50,26 @@ int ABMConteo::Add(string idLista, int idDistrito, int idEleccion){
         return idConteo;
 }
 
+
+/**
+ * Devuelve key si conteo existe en el arbol, sino -1.
+ */
+/*int ABMConteo::ObtenerKey(string idLista, int idDistrito, int idEleccion){
+
+	vector<Key> byDistrito = this->indexByDistrito->GetIds(Helper::IntToString(idDistrito));
+	vector<Key> byLista = this->indexByLista->GetIds(idLista);
+	vector<Key> byEleccion = this->indexByEleccion->GetIds(Helper::IntToString(idEleccion));
+
+	for(int i = 0; i< byDistrito.size(); i++){
+		for(int j = 0; j< byLista.size(); j++){
+			for(int z = 0; z< byEleccion.size(); z++){
+				if ((byDistrito[i]==byLista[j])==byEleccion[z]) return Helper::StringToInt(byEleccion[z]);
+			}
+		}
+	} return -1;
+}*/
+
+
 /* Le suma un voto al registro y devuelve la cantidad de votos totales */
 void ABMConteo::AddVoto(int idConteo, Votante* votante){
 
@@ -279,7 +299,6 @@ bool ABMConteo::ExistsKey(KeyInt key){
 }
 
 ABMConteo::~ABMConteo() {
-        bplusTree->deleteTree();
         delete this->bplusTree;
 
         delete this->indexByDistrito;
