@@ -31,7 +31,6 @@ void BPlusTreeLog::LogInsert(Key key,string value,char* logOperation){
 	message.append(value);
 	message.append(")");
 	Log::WriteLog(message, logOperation);
-	//cout << message << endl;
 }
 
 void BPlusTreeLog::LogDelete(KeyInt key,string value,char* logOperation){
@@ -45,7 +44,6 @@ void BPlusTreeLog::LogDelete(Key key,string value,char* logOperation){
 	message.append(value);
 	message.append(")");
 	Log::WriteLog(message, logOperation);
-	//cout << message << endl;
 }
 
 void BPlusTreeLog::LogModify(KeyInt key,string value,char* logOperation){
@@ -59,9 +57,7 @@ void BPlusTreeLog::LogModify(Key key,string value,char* logOperation){
 	message.append(value);
 	message.append(")");
 	Log::WriteLog(message, logOperation);
-	//cout << message << endl;
 }
 
 BPlusTreeLog::~BPlusTreeLog() {
-	// TODO Auto-generated destructor stub
 }
