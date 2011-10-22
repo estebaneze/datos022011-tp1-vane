@@ -327,6 +327,14 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 
 	vector<Eleccion*> elecciones = es.GetByFecha(&fecha);
 
+	if (elecciones.size()==0){
+		cout <<endl;
+		cout << "Usted no tiene elecciones en el dia de la fecha." << endl;
+		cout << "Presione cualquier tecla para salir ";
+		string c;
+		cin >> c;
+		listoEleccion=true;
+	}
 	while(!listoEleccion){
 		cout << "Usted puede votar en las siguientes elecciones: " << endl;
 
@@ -728,7 +736,9 @@ void Menues::MenuABMLista()
 											Lista *lista = new Lista(nombre,eleccion);
 											abmLista->Add(lista);
 											listo2=true;
-
+											cout << "Lista " << nombre <<" creada con exito, presione una tecla para volver al menu.";
+											string c;
+											cin >> c;
 											delete lista;
 										}
 										else{
@@ -1513,8 +1523,6 @@ void Menues::MenuABMEleccion()
 									cout << "Ingrese nombre cargo principal: ";
 									cin >> nombre;
 
-
-
 									bool existNombre=false;
 
 									for (unsigned int i=0;((i<vecCargos.size()) && (!existNombre));i++){
@@ -1569,13 +1577,21 @@ void Menues::MenuABMEleccion()
 														cout << "No existe el IdDistrito " << id_distrito << " , presione una tecla para reintentar o [q] para terminar";
 														string c;
 														cin >> c;
-														if (c=="q") finCargaDistrito=true;
+														if (c=="q") {
+															finCargaDistrito=true;
+															listo2=true;
+															listo=true;
+
+														}
 
 														}
 												}
 												else {
 													//termine de cargar la eleccion, vuelvo al menu
 													finCargaDistrito=true;
+													listo2=true;
+													listo=true;
+
 												}
 											}//fin de carga de distritos
 
@@ -1597,6 +1613,7 @@ void Menues::MenuABMEleccion()
 											char c;
 											cin >> c;
 											listo=true;
+											listo2=true;
 										}
 										delete eleccion;
 									}
