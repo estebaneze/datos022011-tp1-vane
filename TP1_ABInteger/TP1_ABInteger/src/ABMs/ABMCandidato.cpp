@@ -12,7 +12,7 @@
  */
 ABMCandidato::ABMCandidato() {
         int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeCandidato();
-        this->hashFile= "candidato";
+        this->hashFile= ConfigurationMananger::getInstance()->getCandidatoFile();
         this->directorio = new Directory(hashFile, maxBucketSize);
 }
 

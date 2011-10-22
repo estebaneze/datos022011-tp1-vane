@@ -10,9 +10,9 @@
  * Creo el arbol y le paso el nombre del archivo a generar
  */
 ABMDistrito::ABMDistrito() {
-	string bpTreeFile = "distrito";
+	string mainTreeName = ConfigurationMananger::getInstance()->getDistritoFile();
 	int bufferSize = ConfigurationMananger::getInstance()->getBufferSizeTree();
-	this->bpPlusTree = new BPlusTree(bufferSize,Helper::concatenar(bpTreeFile,"bpt","."));
+	this->bpPlusTree = new BPlusTree(bufferSize,mainTreeName);
 }
 
 /*

@@ -11,7 +11,7 @@
  */
 ABMLista::ABMLista() {
         int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeLista();
-        this->hashFile= "lista";
+		this->hashFile = ConfigurationMananger::getInstance()->getListaFile();
         this->directorio = new Directory(hashFile, maxBucketSize);
         this->index = new Index("IndexLista");
 }

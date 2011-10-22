@@ -12,8 +12,7 @@
  */
 ABMVotante::ABMVotante() {
         int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeVotante();
-        string hashFile = "votante.ga";
-        this->file = hashFile;
+		this->file = ConfigurationMananger::getInstance()->getVotanteFile();
         this->directorio = new Directory(file, maxBucketSize);
 }
 
