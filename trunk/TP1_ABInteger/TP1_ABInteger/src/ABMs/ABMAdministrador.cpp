@@ -11,16 +11,9 @@
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
 ABMAdministrador::ABMAdministrador(string file) {
-
+	int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeAdministrador();
 	this->File= File;
-	this->directorio = new Directory(file,2048);
-
-	//Descomentar esto si quiere verse el contenido del archivo por pantalla
-	//this->directorio->inform();
-
-	// OJO! el tamaño lo tioene que leer desde un archivo de configuracion
-
-
+	this->directorio = new Directory(file, maxBucketSize);
 }
 
 /**Agrega un nuevo admin, si ya existe no hace nada

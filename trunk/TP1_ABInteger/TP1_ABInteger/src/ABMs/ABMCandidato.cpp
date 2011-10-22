@@ -11,16 +11,9 @@
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
 ABMCandidato::ABMCandidato() {
-
+	int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeCandidato();
 	this->hashFile= "candidato";
-	this->directorio = new Directory(hashFile,512);
-
-	//Descomentar esto si quiere verse el contenido del archivo por pantalla
-	//this->directorio->inform();
-
-	// OJO! el tamaño lo tioene que leer desde un archivo de configuracion
-
-
+	this->directorio = new Directory(hashFile, maxBucketSize);
 }
 
 /**Agrego un candidato, lo guarda en hash con el formato idLista|idVotante|idCargo
