@@ -11,7 +11,7 @@ OverflowStrategy::OverflowStrategy() {
 bool OverflowStrategy::doBalance(Node* parent, BNode* child,BalanceStrategy* parentStrategy){
 	KeyElement* keyToInsert=NULL;
 		bool hasChanged=false;
-		PersistorBTree* p=Persistor::getInstance();
+		PersistorBTree* p= parent->getPersistorInstance();
 		int typeofStrategy=parentStrategy->getTypeOfStrategy();
 		if(child->isOverflowded(typeofStrategy)){
 	        keyToInsert = child->doSplit();
