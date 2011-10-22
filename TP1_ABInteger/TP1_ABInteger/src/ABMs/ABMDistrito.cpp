@@ -46,21 +46,16 @@ int ABMDistrito::Add(string nombre){
  */
 bool ABMDistrito::Delete(int idDistrito){
 
-	//if (ExistsKey(Helper::IntToString(idDistrito))){
 	if (ExistsKey(idDistrito)){
 		Distrito * d = this->GetDistrito(idDistrito);
-		//this->bpPlusTree->remove(Helper::IntToString(idDistrito));
 		this->bpPlusTree->remove(idDistrito);
 
 		//logueo el delete
 		BPlusTreeLog::LogDelete(Helper::IntToString(idDistrito),d->GetNombre(),"Distrito_BPlusTreeOperation.log");
 		BPlusTreeLog::LogProcess(this->bpPlusTree,"Distrito_BPlusTreeProccess.log");
 		return true;
-
 	}
-	else{
-		return false;
-	}
+	else return false;
 }
 
 /*
@@ -73,7 +68,6 @@ void ABMDistrito::Modify(Distrito distrito){
 		string str= distrito.GetNombre();
 		Data data = (Data)str.c_str();
 		int longData = str.length();
-		//Element * elemento = new Element(Helper::IntToString(distrito.GetId()),data,longData);
 		Element * elemento = new Element(distrito.GetId(),data,longData);
 
 		//logueo el modify
@@ -85,14 +79,26 @@ void ABMDistrito::Modify(Distrito distrito){
 
 /*
  * Falta implementar
- *TODO: implementar
  */
 vector<Distrito> ABMDistrito::GetDistritos(){
 
-	cout << endl << endl << "************WARNING: IMPLEMENTAR " << "ABMDistrito::GetDistritos()" << endl << endl;
-
 	vector<Distrito> distritos;
+	this->bpPlusTree->next();//->getFirstKey();
+	/*vector<Eleccion> elecciones;
+
+	for(int i = 0; i < byFecha.size(); i++){
+
+		string idEleccion = byFecha[i];
+		vector<string> splited = Helper::split(idEleccion, '_');	//ESto es fecha_idCargo
+		Fecha f = Fecha(splited[0]);
+		int idCargo = Helper::StringToInt(splited[1]);
+
+		elecciones.push_back(Eleccion(idCargo, f));
+	}*/
+
 	return distritos;
+
+
 }
 
 /*
@@ -100,19 +106,13 @@ vector<Distrito> ABMDistrito::GetDistritos(){
  */
 Distrito* ABMDistrito::GetDistrito(int idDistrito){
 
-	//string distritoId = Helper::IntToString(idDistrito);
-
 	if (ExistsKey(idDistrito)){
 
 		Element* el = bpPlusTree->findExact(idDistrito);
-
-		//int idDist= Helper::StringToInt(el->getKey());
 		int idDist= el->getKey();
 		return new Distrito(idDist, "");
 	}
-	else {
-		return NULL;
-	}
+	else return NULL;
 }
 
 /**
@@ -120,7 +120,6 @@ Distrito* ABMDistrito::GetDistrito(int idDistrito){
  */
 bool ABMDistrito::Exists(Distrito distrito){
 
-	//if(this->bpPlusTree->findExact(Helper::IntToString(distrito.GetId()))==NULL)
 	if(this->bpPlusTree->findExact(distrito.GetId())==NULL)
 		return false;
 	else
@@ -132,10 +131,7 @@ bool ABMDistrito::Exists(Distrito distrito){
  */
 bool ABMDistrito::Exists(int idDistrito){
 
-	//if(this->bpPlusTree->findExact(Helper::IntToString(idDistrito))==NULL)
-	if(this->bpPlusTree->findExact(idDistrito) == NULL)
-		return false;
-
+	if(this->bpPlusTree->findExact(idDistrito) == NULL) return false;
 	return true;
 }
 
@@ -150,7 +146,6 @@ bool ABMDistrito::Exists(string nombreDistrito){
 		if(distritosActuales[i].GetNombre() == nombreDistrito)
 			return true;
 	}
-
 	return false;
 }
 
@@ -158,11 +153,7 @@ bool ABMDistrito::Exists(string nombreDistrito){
  * Devuelve true si la key existe en el arbol, sino false.
  */
 bool ABMDistrito::ExistsKey(int idDistrito){
-
-	//if(this->bpPlusTree->findExact(idDistrito) == NULL)
-	if(this->bpPlusTree->findExact(idDistrito) == NULL)
-		return false;
-
+	if(this->bpPlusTree->findExact(idDistrito) == NULL) return false;
 	return true;
 }
 

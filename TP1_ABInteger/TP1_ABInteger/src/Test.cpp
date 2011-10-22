@@ -35,8 +35,8 @@ Test::Test() {
 
 void Test::testABMDistrito(){
 
-	system("rm arboldistrito.bpt");
-	system("rm arboldistrito.bpt.fs");
+//	system("rm arboldistrito.bpt");
+//	system("rm arboldistrito.bpt.fs");
 
 	cout <<endl<<endl;
 
@@ -45,11 +45,11 @@ void Test::testABMDistrito(){
 	ABMDistrito *abmDistrito = new ABMDistrito("arboldistrito");
 
 	int nroDist = 1;
-	int maximoID;
-		for (int i=1; i<500; i++)	{
+	int maximoID=499;
+	for (int i=1; i<500; i++)	{
 			string dato = distrito  +  Helper::IntToString(i);
 			maximoID=abmDistrito->Add(dato);
-		}
+	}
 
 	abmDistrito->mostrarDistritosPorPantalla();
 
