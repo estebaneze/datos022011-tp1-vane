@@ -186,6 +186,8 @@ vector<Eleccion> ABMEleccion::GetElecciones(){
 	cout << "------------------------- ABMEleccion::GetElecciones NOT IMPLEMENTED ------------------------------" << endl;
 	cout << "***********************************************************************************" << endl;
 	cout << endl << endl;
+
+	//return NULL;
 }
 
 
