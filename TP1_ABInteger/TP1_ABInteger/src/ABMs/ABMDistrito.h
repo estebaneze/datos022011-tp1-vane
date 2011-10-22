@@ -19,7 +19,7 @@
 class ABMDistrito {
 
 	public:
-		ABMDistrito(string bpTreeFile);
+		ABMDistrito();
 		virtual ~ABMDistrito();
 		bool Exists(Distrito distrito);
 		bool Exists(int idDistrito);

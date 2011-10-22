@@ -34,7 +34,7 @@ Test::Test() {
 }
 
 void Test::testPersistorDistrito(){
-        ABMDistrito *abmDistrito = new ABMDistrito("arboldistrito");
+        ABMDistrito *abmDistrito = new ABMDistrito();
 
         abmDistrito->Add("Distrito");
         abmDistrito->mostrarDistritosPorPantalla();
@@ -56,7 +56,7 @@ void Test::testABMDistrito(){
 
         int idDistrito;
         string distrito = "Distrito";
-        ABMDistrito *abmDistrito = new ABMDistrito("arboldistrito");
+        ABMDistrito *abmDistrito = new ABMDistrito();
 
         int nroDist = 1;
         int maximoID=499;
@@ -662,7 +662,7 @@ void Test::agregarDistritos(){
         system("rm distritos.ga.bpt");
         system("rm distritos.ga.bpt.fs");
 
-        ABMDistrito abm = ABMDistrito("distritos.ga");
+        ABMDistrito abm = ABMDistrito();
 
         for(int i = 1; i < 50   ; i++){
                 string distrito = "Distrito ";

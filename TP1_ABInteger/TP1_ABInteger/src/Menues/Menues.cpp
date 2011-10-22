@@ -562,7 +562,7 @@ int opcion;
 					case 1:	{
 							system("clear");
 							bool listo=false;
-							ABMDistrito *dis = new ABMDistrito("distrito");
+							ABMDistrito *dis = new ABMDistrito();
 
 							cout << "ALTA DISTRITO" << endl;
 							cout << "-------------" << endl << endl;
@@ -599,7 +599,7 @@ int opcion;
 								cout << "-------------" << endl << endl;
 								cout << "Ingrese ID del distrito: ";
 								cin >> id;
-								ABMDistrito *dis = new ABMDistrito("distrito");
+								ABMDistrito *dis = new ABMDistrito();
 
 								cout << "Se elimino el distrito ID : " << dis->Delete(id) << endl << endl;
 								cin >> id;
@@ -1129,7 +1129,7 @@ int opcion=1;
 								cin >> distrito;
 								id_distrito = Helper::StringToInt(distrito);
 
-								ABMDistrito *dis = new ABMDistrito("distrito");
+								ABMDistrito *dis = new ABMDistrito();
 								if (dis->Exists(id_distrito)){
 									Votante *votante = new Votante(Helper::StringToLong(dni),_nombreYApellido,_clave,_domicilio,id_distrito);
 									vot->Add(votante);
@@ -1290,7 +1290,7 @@ void Menues::MenuABMEleccion()
 
 										if (existe==0){
 											bool finCargaDistrito=false;
-											ABMDistrito *dis = new ABMDistrito("distrito");
+											ABMDistrito *dis = new ABMDistrito();
 											vector<int> distritos;
 
 											//cargo lista de distritos para la eleccion
