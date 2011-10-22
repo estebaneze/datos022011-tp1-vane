@@ -3,7 +3,6 @@
 
 #include "../utils/const.h"
 #include "../Persistencia/Block.h"
-#include "../Persistencia/PersistorBTree.h"
 #include "../utils/types.h"
 #include "Element.h"
 #include <string>
@@ -13,14 +12,13 @@
 using namespace std;
 
 class LeafNode;
-class PersistorBTree;
 
 class BNode : public Block {
 private:
 	Level level;
+
 public:
-	PersistorBTree* p;
-	BNode(PersistorBTree* p);
+	BNode();
 
 	virtual ~BNode();
 
@@ -32,7 +30,6 @@ public:
 	 * Este metodo se usa cuando se realiza un split.
 	 */
 	void setLevel(Level level);
-	PersistorBTree* getPersistorInstance();
 
 	Level getLevel();
 

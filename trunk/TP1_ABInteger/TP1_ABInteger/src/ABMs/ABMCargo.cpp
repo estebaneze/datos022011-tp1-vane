@@ -23,7 +23,7 @@ int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
 	if(!this->Exists(nombre)){	//Si no existe un cargo con el mismo nombre
 
 		string field = nombre.append("|");
-		field.append(Helper::concatenar(cargosSecundarios, ConfigurationMananger::getInstance()->getSeparador1()));
+		field.append(Helper::concatenar(cargosSecundarios, "|"));
 		this->directorio->insert(Helper::IntToString(idCargo), field);
 
 		HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
@@ -80,7 +80,7 @@ void ABMCargo::Modify(Cargo cargo){
 
 	if (this->directorio->existKey(id)){
 
-		string aux = Helper::concatenar(cargosSecundarios, ConfigurationMananger::getInstance()->getSeparador1());
+		string aux = Helper::concatenar(cargosSecundarios, "|");
 		this->directorio->modify(id,aux);
 		HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
 		HashLog::LogModify(Helper::IntToString(cargo.GetId()),aux,"Cargo_HashOperation.log");

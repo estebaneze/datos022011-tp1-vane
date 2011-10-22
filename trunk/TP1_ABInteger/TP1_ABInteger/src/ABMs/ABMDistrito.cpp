@@ -107,12 +107,15 @@ vector<Distrito> ABMDistrito::GetDistritos(){
 Distrito* ABMDistrito::GetDistrito(int idDistrito){
 
 	if (ExistsKey(idDistrito)){
-
+cout <<"sfsdfsfdsfs" << endl;
 		Element* el = bpPlusTree->findExact(idDistrito);
 		int idDist= el->getKey();
-		return new Distrito(idDist, "");
+		return new Distrito(idDist, el->getData());
 	}
-	else return NULL;
+	else{
+		cout << "No se encontro el distrito" << endl;
+		return NULL;
+	}
 }
 
 /**
@@ -153,7 +156,10 @@ bool ABMDistrito::Exists(string nombreDistrito){
  * Devuelve true si la key existe en el arbol, sino false.
  */
 bool ABMDistrito::ExistsKey(int idDistrito){
-	if(this->bpPlusTree->findExact(idDistrito) == NULL) return false;
+
+	if(this->bpPlusTree->findExact(idDistrito) == NULL)
+		return false;
+
 	return true;
 }
 

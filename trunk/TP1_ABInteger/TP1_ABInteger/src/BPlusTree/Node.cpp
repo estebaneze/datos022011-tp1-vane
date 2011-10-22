@@ -7,7 +7,7 @@
 #include "../strategies/BalanceStrategy.h"
 #include "../exceptions/KeyNotFoundException.h"
 #include "../exceptions/ProgramException.h"
-Node::Node(PersistorBTree* p) : BNode(p) {
+Node::Node() {
 	this->leftNode = -1;
 }
 
@@ -115,13 +115,13 @@ BNode* Node::findChild(Element* elementToFind) {
 	bool found = false;
 
 	BNode* childNodeToSearch = NodeFactory::createNodeForSearch(
-			this->getLevel(), this->p);
-
+			this->getLevel());
+	PersistorBTree* p = Persistor::getInstance();
 	it = keyElements.begin();
 	KeyElement* firtKey = (*it);
 	//Caso especial donde levanto el nodo cuyo offset esta en este nodo
 	if (elementToFind->getKey() < firtKey->getKey()) {
-		this->p->load(this->leftNode, childNodeToSearch);
+		p->load(this->leftNode, childNodeToSearch);
 		found = true;
 	}
 
@@ -131,7 +131,7 @@ BNode* Node::findChild(Element* elementToFind) {
 		if (elementToFind->getKey() < keyFromKeyElements->getKey()) {
 			it--;
 			keyFromKeyElements=(*it);
-			this->p->load(keyFromKeyElements->getrightNode(), childNodeToSearch);
+			p->load(keyFromKeyElements->getrightNode(), childNodeToSearch);
 			found = true;
 
 		}
@@ -142,7 +142,7 @@ BNode* Node::findChild(Element* elementToFind) {
 		it--;
 		keyFromKeyElements = (*it);
 		//como no lo encuentra implica que el elemento a insertar es mayor a todos entonces bajo por el de la derecha
-		this->p->load(keyFromKeyElements->getrightNode(), childNodeToSearch);
+		p->load(keyFromKeyElements->getrightNode(), childNodeToSearch);
 	}
 	return childNodeToSearch;
 }
@@ -209,9 +209,9 @@ vector<KeyElement*> Node::splitKeyElements() {
  *Guarda el nuevo nodo que se crea
  */
 KeyElement* Node::doSplit() {
-
+	PersistorBTree* p = Persistor::getInstance();
 	KeyElement* keyElementFromMiddle;
-	Node* newNode = NodeFactory::createKeyNode(this->p);
+	Node* newNode = NodeFactory::createKeyNode();
 
 	//como son elementos de longitud fija puedo pasar la mitad
 
@@ -222,7 +222,7 @@ KeyElement* Node::doSplit() {
 	keyElementFromMiddle = (*it);
 	newNode->keyElements.erase(it);
 	newNode->setLeftNode(keyElementFromMiddle->getrightNode());
-	this->p->add(newNode);
+	p->add(newNode);
 	keyElementFromMiddle->setRightNode(newNode->getOffset());
 
 	return keyElementFromMiddle;
@@ -320,12 +320,13 @@ bool Node::join(BNode* sibling) {
 
 	Node* mySiblingToJoin = (Node*) sibling;
 
+	PersistorBTree* p=Persistor::getInstance();
 	if(mySiblingToJoin->leftNode<0){
 		throw ProgramException("nodo izquierdo con offset nulo en Node.join");
 	}
-	BNode* node=NodeFactory::createNodeForSearch(this->getLevel(), this->p);
+	BNode* node=NodeFactory::createNodeForSearch(this->getLevel());
 
-	this->p->load(mySiblingToJoin->leftNode,node);
+	p->load(mySiblingToJoin->leftNode,node);
 	KeyInt newKey=node->getFirstKey();
 	delete node;
 	KeyElement* newKeyElement=new KeyElement(newKey,mySiblingToJoin->getLeftNode());
@@ -472,15 +473,15 @@ void Node::removeKey(BNode* child) {
  *	Buscamos la clave MAYOR estricto y devolvemos esa.
  */
 BNode* Node::getRightSibling(BNode* child) {
-
+	PersistorBTree* p = Persistor::getInstance();
 	std::vector<KeyElement*>::iterator it;
 	BNode* rightSibling = NULL;
 	if (this->leftNode == child->getOffset()) {
 		//el primer elemento de la lista puede ser null o el hermano derecho
 		if(this->keyElements.size()>0){
 			it=this->keyElements.begin();
-			rightSibling = NodeFactory::createNodeForSearch(this->getLevel(), this->p);
-			this->p->load((*it)->getrightNode(), rightSibling);
+			rightSibling = NodeFactory::createNodeForSearch(this->getLevel());
+			p->load((*it)->getrightNode(), rightSibling);
 			return rightSibling;
 		}
 	}
@@ -495,10 +496,10 @@ BNode* Node::getRightSibling(BNode* child) {
 		it++;
 	}
 	if (found && it!=this->keyElements.end()) {
-		rightSibling = NodeFactory::createNodeForSearch(this->getLevel(),this->p);
+		rightSibling = NodeFactory::createNodeForSearch(this->getLevel());
 		Offset offSetRightNode = (*it)->getrightNode();
 		if (offSetRightNode != -1) {
-			this->p->load(offSetRightNode, rightSibling);
+			p->load(offSetRightNode, rightSibling);
 		} else {
 			rightSibling = NULL;
 		}
@@ -518,7 +519,7 @@ BNode* Node::getRightSibling(BNode* child) {
  * Cuando encontramos el offset del child entonces un elemento menos es el que estoy buscando
  */
 BNode* Node::getLeftSibling(BNode* child) {
-
+	PersistorBTree* p = Persistor::getInstance();
 	std::vector<KeyElement*>::iterator it;
 	Offset offSetChild = child->getOffset();
 	if (this->leftNode == offSetChild) {
@@ -530,8 +531,8 @@ BNode* Node::getLeftSibling(BNode* child) {
 	it = this->keyElements.begin();
 	KeyElement* keyFromKeElements = (*it);//tomamos el rimero
 	if (keyFromKeElements->getrightNode() == offSetChild) {
-		BNode* leftSibling = NodeFactory::createNodeForSearch(this->getLevel(),this->p);
-		this->p->load(this->leftNode, leftSibling);
+		BNode* leftSibling = NodeFactory::createNodeForSearch(this->getLevel());
+		p->load(this->leftNode, leftSibling);
 		return leftSibling;
 	}
 	bool found = false;
@@ -544,14 +545,51 @@ BNode* Node::getLeftSibling(BNode* child) {
 	}
 	BNode* leftSibling = NULL;
 	if (found) {
-		leftSibling = NodeFactory::createNodeForSearch(this->getLevel(),this->p);
+		leftSibling = NodeFactory::createNodeForSearch(this->getLevel());
 		it--;
-		this->p->load((*it)->getrightNode(), leftSibling);
+		p->load((*it)->getrightNode(), leftSibling);
 	} else {
 		leftSibling = NULL;
 	}
 	return leftSibling;
 
+	//boorar!!!
+	/*	Key keyToSearch=child->getFirstKey();
+	 std::vector<KeyElement*>::iterator it;
+	 PersistorBTree* p=Persistor::getInstance();
+	 it=this->keyElements.begin();
+	 KeyElement* keyFromKeElements=(*it);
+	 BNode* leftSibling=NodeFactory::createNodeForSearch(this->getLevel());
+
+	 if( keyFromKeElements->getKey()>=keyToSearch ){
+	 if(this->leftNode!=-1){
+	 if(this->leftNode!=child->getOffset()){
+	 p->load(leftNode,leftSibling);
+	 return leftSibling;
+	 }else{
+	 return NULL;
+	 }
+	 }else{
+	 return NULL;
+	 }
+	 }else{
+	 //buscamos la primer clave mayor o igual
+	 it=this->keyElements.begin();
+	 keyFromKeElements=(*it);
+	 bool found=false;
+	 while(it!=this->keyElements.end() && !found){
+	 keyFromKeElements=(*it);
+	 found=keyFromKeElements->getKey()>=keyToSearch;
+	 it++;
+	 }
+	 if(found){
+	 it--;
+	 p->load((*it)->getrightNode(),leftSibling);
+	 }else{
+	 leftSibling=NULL;
+	 }
+	 return leftSibling;
+	 }*/
 }
 
 int Node::getDataSize() {
@@ -578,17 +616,17 @@ ostream& Node::printMe(ostream& myOstream) {
 	myOstream << endl;
 
 	Offset rightNode = getLeftNode();
-
-	BNode* bNode = NodeFactory::createNodeForSearch(getLevel(),this->p);
-	this->p->load(rightNode, bNode);
+	PersistorBTree* p = Persistor::getInstance();
+	BNode* bNode = NodeFactory::createNodeForSearch(getLevel());
+	p->load(rightNode, bNode);
 	myOstream << bNode;
 	delete bNode;
 
 	for (it = getKeyElementsBegin(); it != getKeyElementsEnds(); it++) {
 		Offset rightNode = (*it)->getrightNode();
-
-		BNode* bNode = NodeFactory::createNodeForSearch(getLevel(),this->p);
-		this->p->load(rightNode, bNode);
+		PersistorBTree* p = Persistor::getInstance();
+		BNode* bNode = NodeFactory::createNodeForSearch(getLevel());
+		p->load(rightNode, bNode);
 		myOstream << *bNode;
 		delete bNode;
 	}
@@ -610,17 +648,17 @@ void Node::exportNode() {
 	cout << endl;
 
 	Offset rightNode = leftNode;
-
-	BNode* bNode = NodeFactory::createNodeForSearch(this->getLevel(), this->p);
-	this->p->load(rightNode, bNode);
+	PersistorBTree* p = Persistor::getInstance();
+	BNode* bNode = NodeFactory::createNodeForSearch(this->getLevel());
+	p->load(rightNode, bNode);
 	bNode->exportNode();
 	delete bNode;
 
 	for (it = this->keyElements.begin(); it != this->keyElements.end(); it++) {
 		Offset rightNode = ((KeyElement*) (*it))->getrightNode();
-
-		BNode* bNode = NodeFactory::createNodeForSearch(this->getLevel(),this->p);
-		this->p->load(rightNode, bNode);
+		PersistorBTree* p = Persistor::getInstance();
+		BNode* bNode = NodeFactory::createNodeForSearch(this->getLevel());
+		p->load(rightNode, bNode);
 		bNode->exportNode();
 		delete bNode;
 	}
