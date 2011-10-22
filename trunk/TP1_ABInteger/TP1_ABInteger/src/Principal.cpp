@@ -37,16 +37,15 @@ Administrador ((usuario)i, clave): Hash
 #include "ABMs/ABMVotante.h"
 #include "ABMs/ABMEleccion.h"
 #include "Test.h"
+#include "Menues/Menues.h"
 
 using namespace std;
 
 int main( int arg, char *argv[] ){
 	Test ta;
 
-	ta.testABMDistrito();
+//	ta.testABMDistrito();
 	//ta.testConteo();
-	cout << endl <<  "Done" << endl;
-	return system("");
 
 	//	testConteo();
 	//testReportes();
@@ -65,8 +64,10 @@ int main( int arg, char *argv[] ){
 	//pruebaArbol();
 	//testLogging();
 
-	//Menues menu;
-	//menu.MenuPpal();
+	Menues menu;
+	menu.MenuPpal();
+	cout << endl <<  "Done" << endl;
+		return system("");
 
 }
 

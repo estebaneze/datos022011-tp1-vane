@@ -139,15 +139,15 @@ void Test::pruebaListas(){
 
 	ABMLista Listas = ABMLista();
 
-	Lista *l1 = new Lista("alonso8","2");
-	Lista *l2 = new Lista("dos", "3");
-	Lista *l3 = new Lista("tres", "4");
-	Lista *l4 = new Lista("cuatro", "2");
-	Lista *l5 = new Lista("cinco", "3");
-	Lista *l6 = new Lista("seis", "4");
-	Lista *l7 = new Lista("siete", "4");
-	Lista *l8 = new Lista("ocho", "4");
-	Lista *l9 = new Lista("aa","9");
+	Lista *l1 = new Lista("alonso8",2);
+	Lista *l2 = new Lista("dos", 3);
+	Lista *l3 = new Lista("tres", 4);
+	Lista *l4 = new Lista("cuatro", 2);
+	Lista *l5 = new Lista("cinco", 3);
+	Lista *l6 = new Lista("seis", 4);
+	Lista *l7 = new Lista("siete", 4);
+	Lista *l8 = new Lista("ocho", 4);
+	Lista *l9 = new Lista("aa",9);
 	Listas.Add(l1);
 	Listas.Add(l2);
 	Listas.Add(l3);
@@ -202,15 +202,15 @@ void Test::pruebaListas2(){
 
 	ABMLista Listas = ABMLista();
 
-	Lista *l1 = new Lista("alonso8", "2");
-		Lista *l2 = new Lista("dos", "3");
-		Lista *l3 = new Lista("tres", "4");
-		Lista *l4 = new Lista("cuatro", "2");
-		Lista *l5 = new Lista("cinco", "3");
-		Lista *l6 = new Lista("seis", "4");
-		Lista *l7 = new Lista("siete", "4");
-		Lista *l8 = new Lista("ocho", "4");
-		Lista *l9 = new Lista("aa","9");
+	Lista *l1 = new Lista("alonso8", 2);
+		Lista *l2 = new Lista("dos", 3);
+		Lista *l3 = new Lista("tres", 4);
+		Lista *l4 = new Lista("cuatro", 2);
+		Lista *l5 = new Lista("cinco", 3);
+		Lista *l6 = new Lista("seis", 4);
+		Lista *l7 = new Lista("siete", 4);
+		Lista *l8 = new Lista("ocho", 4);
+		Lista *l9 = new Lista("aa",9);
 		Listas.Add(l1);
 		Listas.Add(l2);
 		Listas.Add(l3);
@@ -233,7 +233,7 @@ void Test::pruebaListas2(){
 
 		cout << endl << endl << "------------------------------------------" << endl;;
 
-		vector<Lista> ls2 = Listas.GetListasByEleccion("3");
+		vector<Lista> ls2 = Listas.GetListasByEleccion(3);
 			cout << "\nListas correspondientes a la elccion " << 3 << endl << endl;
 			for(int i = 0; i < ls2.size(); i++){
 					cout << ls2[i].GetNombre() << " - Eleccion: " << ls2[i].GetEleccion() << endl;
@@ -241,7 +241,7 @@ void Test::pruebaListas2(){
 
 			cout << endl << endl;
 
-			ls2 = Listas.GetListasByEleccion("7");
+			ls2 = Listas.GetListasByEleccion(7);
 				cout << "\nListas correspondientes a la elccion " << 7 << endl << endl;
 				for(int i = 0; i < ls2.size(); i++){
 						cout << ls2[i].GetNombre() << " - Eleccion: " << ls2[i].GetEleccion() << endl;
@@ -252,7 +252,7 @@ void Test::pruebaListas2(){
 	string nombreLista;
 	cin >> nombreLista;
 	cout << "Ingrese id Eleccion: ";
-	string idEleccion;
+	int idEleccion;
 	cin >> idEleccion;
 
 
@@ -271,14 +271,14 @@ void Test::pruebaListas2(){
 	}
 */
 	cout << endl << endl << "------------------------------------------" << endl;;
-	 ls2 = Listas.GetListasByEleccion("7");
+	 ls2 = Listas.GetListasByEleccion(7);
 		cout << "\nListas correspondientes a la elccion " << 7 << endl << endl;
 		for(int i = 0; i < ls2.size(); i++){
 				cout << ls2[i].GetNombre() << " - Eleccion: " << ls2[i].GetEleccion() << endl;
 		}
 
 		cout << endl << endl << "------------------------------------------" << endl;;
-		 ls2 = Listas.GetListasByEleccion("3");
+		 ls2 = Listas.GetListasByEleccion(3);
 			cout << "\nListas correspondientes a la elccion " << 3 << endl << endl;
 			for(int i = 0; i < ls2.size(); i++){
 					cout << ls2[i].GetNombre() << " - Eleccion: " << ls2[i].GetEleccion() << endl;
