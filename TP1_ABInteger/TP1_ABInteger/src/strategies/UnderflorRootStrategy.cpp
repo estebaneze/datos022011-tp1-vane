@@ -2,7 +2,6 @@
 #include "../BPlusTree/Node.h"
 #include "../BPlusTree/LeafNode.h"
 #include "../BPlusTree/BNode.h"
-#include "../Persistencia/Persistor.h"
 #include "../Persistencia/PersistorBTree.h"
 #include "../BPlusTree/NodeFactory.h"
 UnderflorRootStrategy::UnderflorRootStrategy() {
@@ -13,29 +12,28 @@ UnderflorRootStrategy::UnderflorRootStrategy() {
 //nada.
 
 BNode* UnderflorRootStrategy::doBalance(BNode* root){
-	PersistorBTree* p=Persistor::getInstance();
+        PersistorBTree* p= root->getPersistorInstance();
 
-	if(root->isUnderflowded()){
-		//aca hay que contraerlo.
-		if(!root->getLevel()==0){ //si no es nodo hoja entonces se puede contraer.
-			//El root solo se va a contraer cuando tiene un elemento.
-			Node* myroot=(Node*)root;
-			if(myroot->getRegisterCounter()==0){//si es un hijo es el unico caso en el que puedo pasar el nodo hoja a root
-				BNode* newroot=NodeFactory::createNodeForSearch(myroot->getLevel());
-				p->load(myroot->getLeftNode(),newroot);
-				Offset oldOffset=newroot->getOffset();
-				newroot->setOffset(root->getOffset());
-				p->removeBlock(oldOffset);
-				p->modify(newroot);
-				delete root;
-				return newroot;
-			}
-		}
-	}
-	p->modify(root);
-	return root;
+        if(root->isUnderflowded()){
+                //aca hay que contraerlo.
+                if(!root->getLevel()==0){ //si no es nodo hoja entonces se puede contraer.
+                        //El root solo se va a contraer cuando tiene un elemento.
+                        Node* myroot=(Node*)root;
+                        if(myroot->getRegisterCounter()==0){//si es un hijo es el unico caso en el que puedo pasar el nodo hoja a root
+                                BNode* newroot=NodeFactory::createNodeForSearch(myroot->getLevel(), p);
+                                p->load(myroot->getLeftNode(),newroot);
+                                Offset oldOffset=newroot->getOffset();
+                                newroot->setOffset(root->getOffset());
+                                p->removeBlock(oldOffset);
+                                p->modify(newroot);
+                                delete root;
+                                return newroot;
+                        }
+                }
+        }
+        p->modify(root);
+        return root;
 
 }
 UnderflorRootStrategy::~UnderflorRootStrategy() {
 }
-

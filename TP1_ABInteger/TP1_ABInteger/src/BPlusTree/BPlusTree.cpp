@@ -2,36 +2,30 @@
 #include "../strategies/UnderflorRootStrategy.h"
 #include "../exceptions/OverflowException.h"
 BPlusTree::BPlusTree(int blockSize, string fileName) {
-	Persistor::init(fileName, blockSize);
-	PersistorBTree* p = Persistor::getInstance();
+        this->p = new PersistorBTree(fileName, blockSize);
 
-	this->root = p->getRoot();
-	this->current = this->getLeftLeafNodo(root);
+        this->root = this->p->getRoot();
+        this->current = this->getLeftLeafNodo(root);
 }
 
-BPlusTree::BPlusTree(){
-	PersistorBTree* p = Persistor::getInstance();
-
-	this->root = p->getRoot();
-	this->current = this->getLeftLeafNodo(root);
-}
 BPlusTree::~BPlusTree() {
+        delete this->p;
 }
 
 void BPlusTree::insert(Element* element) {
-	this->insert(element, INSERT);
+        this->insert(element, INSERT);
 }
 
 LeafNode* BPlusTree::getLeftLeafNodo(BNode* actualNode) {
-	if (actualNode->getLevel() > 0) {
-		Node *internalNode = (Node*) actualNode;
-		BNode *leftNode = NodeFactory::createNodeForSearch(
-				actualNode->getLevel());
-		Persistor::getInstance()->load(internalNode->getLeftNode(), leftNode);
-		this->getLeftLeafNodo(leftNode);
-	}
+        if (actualNode->getLevel() > 0) {
+                Node *internalNode = (Node*) actualNode;
+                BNode *leftNode = NodeFactory::createNodeForSearch(
+                                actualNode->getLevel(), this->p);
+                this->p->load(internalNode->getLeftNode(), leftNode);
+                this->getLeftLeafNodo(leftNode);
+        }
 
-	return (LeafNode*) actualNode;
+        return (LeafNode*) actualNode;
 }
 
 /**
@@ -41,86 +35,86 @@ LeafNode* BPlusTree::getLeftLeafNodo(BNode* actualNode) {
  *
  */
 void BPlusTree::modify(Element* element) {
-	this->insert(element, MODIFY);
+        this->insert(element, MODIFY);
 }
 
 /**
  * Eliminar una clave implica tambien una posible contraccion del arbol.
  */
 void BPlusTree::remove(int key) {
-	bool hasChanged = this->root->remove(key);
+        bool hasChanged = this->root->remove(key);
 
-	if (hasChanged) {
-		UnderflorRootStrategy underflowRootStrategy;
+        if (hasChanged) {
+                UnderflorRootStrategy underflowRootStrategy;
 
-		this->root = underflowRootStrategy.doBalance(this->root);
-	}
+                this->root = underflowRootStrategy.doBalance(this->root);
+        }
 }
 
 /**
  * La busqueda es aproximada, es decir, devuelve el elemento si lo encuentra y sino, el primero anterior mas cercano
  */
 LeafNode* BPlusTree::find(int key) {
-	return root->find(key);
+        return root->find(key);
 }
 
 Element* BPlusTree::findExact(int key){
-	return root->findExact(key);
+        return root->findExact(key);
 }
 /**
  * Devuelve el siguiente nodo a partir del actual. Esto supone que se tenga un nodo hoja ya cargado. En caso de no tenerlo se comienza
  * a recorrer con el primero
  */
 BNode* BPlusTree::next() {
-	LeafNode* nextNode = NodeFactory::createLeafNode();
-	Persistor::getInstance()->load(current->getNextNode(), nextNode);
+        LeafNode* nextNode = NodeFactory::createLeafNode(this->p);
+        this->p->load(current->getNextNode(), nextNode);
 
-	return nextNode;
+        return nextNode;
 }
 
 BNode* BPlusTree::prev() {
-	LeafNode* prevNode = NodeFactory::createLeafNode();
-	Persistor::getInstance()->load(current->getPrevNode(), prevNode);
+        LeafNode* prevNode = NodeFactory::createLeafNode(this->p);
+        this->p->load(current->getPrevNode(), prevNode);
 
-	return prevNode;
+        return prevNode;
 }
 
 void BPlusTree::deleteTree() {
-	Persistor::getInstance()->deleteFile();
+        this->p->deleteFile();
 }
 
 void BPlusTree::exportTree() {
-	this->root = Persistor::getInstance()->getRoot();
-	this->root->exportNode();
-	cout << endl;
+        this->root = this->p->getRoot();
+        this->root->exportNode();
+        cout << endl;
 }
 
 
 ostream& BPlusTree::printMe(ostream& myOstream){
 
-	this->root = Persistor::getInstance()->getRoot();
-	return this->root->printMe(myOstream);
+        this->root = this->p->getRoot();
+        return this->root->printMe(myOstream);
 }
 
 void BPlusTree::Log(Element* element){
 
-	//Log de la insercion
-	string message = "Inserto (";
-	message.append(Helper::IntToString(element->getKey()));
-	message.append(",");
-	message.append(element->getData());
-	message.append(")");
-	Log::WriteLog(message, "BPTreeOperations.log");
-	cout << message << endl;
+        //Log de la insercion
+        string message = "Inserto (";
+        message.append(Helper::IntToString(element->getKey()));
+        message.append(",");
+        message.append(element->getData());
+        message.append(")");
+        Log::WriteLog(message, "BPTreeOperations.log");
+        cout << message << endl;
 
-	//Logueo como queda el arbol
-	ofstream logFile;
-	logFile.open("BPTreeProcess.log", ios::app);
-	this->printMe(logFile);
-	logFile.close();
-	cout << endl;
-	this->exportTree();
-	cout << endl;
+        //Logueo como queda el arbol
+        ofstream logFile;
+        logFile.open("BPTreeProcess.log", ios::app);
+        this->printMe(logFile);
+        logFile.close();
+        cout << endl;
+        this->exportTree();
+        cout << endl;
 
 }
 
@@ -130,64 +124,63 @@ void BPlusTree::Log(Element* element){
 //*****************************************//
 void BPlusTree::insert(Element* element, int modifyOrInsert) {
 
-	switch (modifyOrInsert) {
-		case INSERT:
-			cout << endl << "bptree insert key:" << element->getKey() << ". Data: " << element->getData() << endl;
-		break;
-		case MODIFY:
-			cout << endl << "bptree modify key:" << element->getKey() << ". Data: " << element->getData() << endl;
-		break;
-	}
+        switch (modifyOrInsert) {
+                case INSERT:
+                        cout << endl << "bptree insert key:" << element->getKey() << ". Data: " << element->getData() << endl;
+                break;
+                case MODIFY:
+                        cout << endl << "bptree modify key:" << element->getKey() << ". Data: " << element->getData() << endl;
+                break;
+        }
 
 
-	this->validateElementSize(element);
+        this->validateElementSize(element);
 
-	PersistorBTree* p = Persistor::getInstance();
-	KeyElement* keyOverflow = NULL;
-	bool modified = false;
+        KeyElement* keyOverflow = NULL;
+        bool modified = false;
 
-	switch (modifyOrInsert) {
-	case INSERT:
-		modified = this->root->insertar(element);
-		break;
-	case MODIFY:
-		modified = this->root->modify(element);
-		break;
-	}
+        switch (modifyOrInsert) {
+        case INSERT:
+                modified = this->root->insertar(element);
+                break;
+        case MODIFY:
+                modified = this->root->modify(element);
+                break;
+        }
 
-	if (modified) {
-		//como se modifico el nodo, puede que tenga que grabarlo
-		//TODO pasarlo a una estrategia de balanceo de root;
-		if (this->root->isOverflowded(modifyOrInsert)) {
-			//como hubo overflow entonces, tengo que crear un nuevo root con esta clave
-			Node* newRoot = new Node();
-			newRoot->setLevel(this->root->getLevel() + 1);
-			keyOverflow = this->root->doSplit();
-			newRoot->setOffset(this->root->getOffset());
-			p->add(this->root);
-			newRoot->setLeftNode(this->root->getOffset());
-			newRoot->appendKeyElementInOrder(keyOverflow);
-			p->modify(newRoot);
+        if (modified) {
+                //como se modifico el nodo, puede que tenga que grabarlo
+                //TODO pasarlo a una estrategia de balanceo de root;
+                if (this->root->isOverflowded(modifyOrInsert)) {
+                        //como hubo overflow entonces, tengo que crear un nuevo root con esta clave
+                        Node* newRoot = new Node(this->p);
+                        newRoot->setLevel(this->root->getLevel() + 1);
+                        keyOverflow = this->root->doSplit();
+                        newRoot->setOffset(this->root->getOffset());
+                        this->p->add(this->root);
+                        newRoot->setLeftNode(this->root->getOffset());
+                        newRoot->appendKeyElementInOrder(keyOverflow);
+                        this->p->modify(newRoot);
 
-			BNode* oldRoot = this->root;
-			this->root = newRoot;
-			delete oldRoot;
-		} else {
-			UnderflorRootStrategy underflowRootStrategy;
-			this->root = underflowRootStrategy.doBalance(this->root);
-		}
-	}
+                        BNode* oldRoot = this->root;
+                        this->root = newRoot;
+                        delete oldRoot;
+                } else {
+                        UnderflorRootStrategy underflowRootStrategy;
+                        this->root = underflowRootStrategy.doBalance(this->root);
+                }
+        }
 
 }
 
 void BPlusTree::validateElementSize(Element* elm){
 
-	int maxRecordSize=ConfigurationMananger::getInstance()->getMaxRecordSizeTree();
-	cout << "		Tamaño registro: " << elm->getDataSize() << endl;
+        int maxRecordSize=ConfigurationMananger::getInstance()->getMaxRecordSizeTree();
+        cout << "               Tamaï¿½o registro: " << elm->getDataSize() << endl;
 
-	if(elm->getDataSize() > maxRecordSize){
-		cout << "	******Error: Tamaño invalido de registro: ******" << elm->getDataSize() << endl;
-		//throw new OverflowException("tamano invalido de registro");
-	}
+        if(elm->getDataSize() > maxRecordSize){
+                cout << "       ******Error: Tamaï¿½o invalido de registro: ******" << elm->getDataSize() << endl;
+                //throw new OverflowException("tamano invalido de registro");
+        }
 
 }

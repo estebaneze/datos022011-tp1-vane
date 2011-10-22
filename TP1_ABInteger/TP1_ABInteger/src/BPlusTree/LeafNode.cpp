@@ -2,46 +2,46 @@
 #include <iostream>
 #include "../exceptions/OperationNotFoundException.h"
 
-LeafNode::LeafNode() {
-	nextNode = -1;
-	prevNode = -1;
-	freeSpace = 0;
-	setLevel(0);
+LeafNode::LeafNode(PersistorBTree* p) : BNode(p) {
+        nextNode = -1;
+        prevNode = -1;
+        freeSpace = 0;
+        setLevel(0);
 }
 
 LeafNode::~LeafNode() {
 
-	std::vector<Element* >::iterator it;
+        std::vector<Element* >::iterator it;
 
-	it=this->elements.begin();
-	while(it!=this->elements.end()){
-		delete (*it);
-		this->elements.erase(it);
-	}
+        it=this->elements.begin();
+        while(it!=this->elements.end()){
+                delete (*it);
+                this->elements.erase(it);
+        }
 }
 
 Offset LeafNode::getPrevNode() {
-	return prevNode;
+        return prevNode;
 }
 
 Offset LeafNode::getNextNode() {
-	return nextNode;
+        return nextNode;
 }
 
 FreeSpace LeafNode::getFreeSpace() {
-	return freeSpace;
+        return freeSpace;
 }
 
 Element* LeafNode::getElement(KeyInt key) {
-	std::vector<Element*>::iterator it;
+        std::vector<Element*>::iterator it;
 
-	for (it = elements.begin(); it != elements.end(); it++) {
-		Element* el = (Element*) *it;
-		if (key == el->getKey())
-			return el;
-	}
+        for (it = elements.begin(); it != elements.end(); it++) {
+                Element* el = (Element*) *it;
+                if (key == el->getKey())
+                        return el;
+        }
 
-	throw new ElementNotFoundException();
+        throw new ElementNotFoundException();
 }
 
 /**
@@ -51,34 +51,34 @@ Element* LeafNode::getElement(KeyInt key) {
  */
 bool LeafNode::rightBalanceWith(BNode* leftSibling){
 
-	LeafNode* myLeftSibling=(LeafNode*)leftSibling;
-	vector<Element*>::iterator it=this->elements.begin();
-	Element* elem=(*it);
+        LeafNode* myLeftSibling=(LeafNode*)leftSibling;
+        vector<Element*>::iterator it=this->elements.begin();
+        Element* elem=(*it);
 
-	int borrowRecordCount=0;
-	if(!this->isUnderflowded()){
-		while(leftSibling->isUnderflowded() && !this->isUnderflowded()){
-			borrowRecordCount++;
-			this->elements.erase(it);
-			myLeftSibling->insertar(elem);
-		}
-		if(this->isUnderflowded()){
-			//no puedo balancear asi que le devuelvo los registros pedidos
-			for(int i=borrowRecordCount;i>0;i--){
-				it=myLeftSibling->elements.end();
-				it--;
-				elem=(*it);
-				myLeftSibling->elements.erase(it);
-				this->elements.push_back(elem);
-			}
-			return false;
-		}else{
-			return true;
-		}
-		return false;
-	}
+        int borrowRecordCount=0;
+        if(!this->isUnderflowded()){
+                while(leftSibling->isUnderflowded() && !this->isUnderflowded()){
+                        borrowRecordCount++;
+                        this->elements.erase(it);
+                        myLeftSibling->insertar(elem);
+                }
+                if(this->isUnderflowded()){
+                        //no puedo balancear asi que le devuelvo los registros pedidos
+                        for(int i=borrowRecordCount;i>0;i--){
+                                it=myLeftSibling->elements.end();
+                                it--;
+                                elem=(*it);
+                                myLeftSibling->elements.erase(it);
+                                this->elements.push_back(elem);
+                        }
+                        return false;
+                }else{
+                        return true;
+                }
+                return false;
+        }
 
-	return false;
+        return false;
 }
 /**
  * Balancea con el sibling, devuelve true si cambiaron ambos (this y sibling) false caso contrario.
@@ -86,112 +86,111 @@ bool LeafNode::rightBalanceWith(BNode* leftSibling){
  */
 bool LeafNode::leftBalanceWith(BNode* rightSibling){
 
-	LeafNode* myRightSibling=(LeafNode*)rightSibling;
-	vector<Element*>::iterator it=this->elements.end();
-	Element* elem=(*it);
+        LeafNode* myRightSibling=(LeafNode*)rightSibling;
+        vector<Element*>::iterator it=this->elements.end();
+        Element* elem=(*it);
 
-	int borrowRecordCount=0;
+        int borrowRecordCount=0;
 
-	if(!this->isUnderflowded()){
+        if(!this->isUnderflowded()){
 
-		while(rightSibling->isUnderflowded() && !this->isUnderflowded() ){
-			borrowRecordCount++;
-			it--;
-			elem=(*it);
-			myRightSibling->elements.insert(myRightSibling->elements.begin(),elem);
-			this->elements.erase(it);
-			it=this->elements.end();
-		}
+                while(rightSibling->isUnderflowded() && !this->isUnderflowded() ){
+                        borrowRecordCount++;
+                        it--;
+                        elem=(*it);
+                        myRightSibling->elements.insert(myRightSibling->elements.begin(),elem);
+                        this->elements.erase(it);
+                        it=this->elements.end();
+                }
 
-		if(this->isUnderflowded()){// si este quedo en underflow entonces no puedo balancear
-			for(int i=borrowRecordCount;i>0;i--){
-				it=myRightSibling->elements.begin();
-				this->elements.push_back(*it);
-				myRightSibling->elements.erase(it);
-			}
-			return false;
-		}else{
-			return true;
-		}
-		return false;
-	}
+                if(this->isUnderflowded()){// si este quedo en underflow entonces no puedo balancear
+                        for(int i=borrowRecordCount;i>0;i--){
+                                it=myRightSibling->elements.begin();
+                                this->elements.push_back(*it);
+                                myRightSibling->elements.erase(it);
+                        }
+                        return false;
+                }else{
+                        return true;
+                }
+                return false;
+        }
 
-	return false;
+        return false;
 }
 /**
  * Toma los elementos de sibling y se los agrega a este nodo
  */
 bool LeafNode::join(BNode* sibling){
-	LeafNode* mySibling=(LeafNode*)sibling;
-	vector<Element*>::iterator it;
+        LeafNode* mySibling=(LeafNode*)sibling;
+        vector<Element*>::iterator it;
 
-	it=mySibling->elements.begin();
-	while(it!=mySibling->elements.end()){
-		this->elements.push_back((*it));
-		mySibling->elements.erase(it);
-		it=mySibling->elements.begin();
-	}
-	return true;
+        it=mySibling->elements.begin();
+        while(it!=mySibling->elements.end()){
+                this->elements.push_back((*it));
+                mySibling->elements.erase(it);
+                it=mySibling->elements.begin();
+        }
+        return true;
 }
 
 //NO USAR PARA BUSCAR EL HERMANO
 KeyInt LeafNode::getFirstKey(){
-	//puede que este vacio entonces devuelveo
-	if(this->elements.size()==0){
-		throw ElementNotFoundException();
-	}
-	return (*(elements.begin()))->getKey();
+        //puede que este vacio entonces devuelveo
+        if(this->elements.size()==0){
+                throw ElementNotFoundException();
+        }
+        return (*(elements.begin()))->getKey();
 }
 /**
  * Devuleve siempre true. Arroja una exception en caso de que ya exista
  */
 bool LeafNode::insertar(Element* elemToInsert){
-	//cout << "insertar1" << endl;
-		std::vector<Element*>::iterator it;
-		//cout << "insertar2" << endl;
-		it = find_if(this->elements.begin(), this->elements.end(), bind2nd(EqualElementComparator(),elemToInsert));
-		//it = find (elements.begin(), elements.end(), elemToInsert);
-		//cout << "insertar2" << endl;
-		if(it!=this->elements.end()){
-			//throw ElementAlreadyExists();
-			cout << "La clave " << elemToInsert->getKey() << " ya existe en el �rbol." << endl;
-			return false;
-		}
-		//cout << "insertar3" << endl;
-		for (it = elements.begin(); it != elements.end(); it++) {
-			Element* el = (Element*) *it;
-			if (elemToInsert->getKey() < el->getKey()) {
-				elements.insert(it, elemToInsert);
-				return true;
-			}
-		}
-		//si llego aca es porque es mayor a todas la claves asi que la inserto al final
+        //cout << "insertar1" << endl;
+                std::vector<Element*>::iterator it;
+                //cout << "insertar2" << endl;
+                it = find_if(this->elements.begin(), this->elements.end(), bind2nd(EqualElementComparator(),elemToInsert));
+                //it = find (elements.begin(), elements.end(), elemToInsert);
+                //cout << "insertar2" << endl;
+                if(it!=this->elements.end()){
+                        //throw ElementAlreadyExists();
+                        cout << "La clave " << elemToInsert->getKey() << " ya existe en el �rbol." << endl;
+                        return false;
+                }
+                //cout << "insertar3" << endl;
+                for (it = elements.begin(); it != elements.end(); it++) {
+                        Element* el = (Element*) *it;
+                        if (elemToInsert->getKey() < el->getKey()) {
+                                elements.insert(it, elemToInsert);
+                                return true;
+                        }
+                }
+                //si llego aca es porque es mayor a todas la claves asi que la inserto al final
 
-		elements.push_back(elemToInsert);
-		return true;
+                elements.push_back(elemToInsert);
+                return true;
 }
 
 LeafNode *LeafNode::find(KeyInt key) {
-	return this;
+        return this;
 }
 
 Element *LeafNode::findExact(KeyInt key) {
 
 
-	std::vector<Element*>::iterator it = getElementsBegin();
+        std::vector<Element*>::iterator it = getElementsBegin();
 
-	while(it != getElementsEnds()) {
-		cout << "LeafNode::findExact: " << key << endl;
-		if((*it)->getKey() == key)
-			return *it;
+        while(it != getElementsEnds()) {
+                cout << "LeafNode::findExact: " << key << endl;
+                if((*it)->getKey() == key)
+                        return *it;
 
 
-		it++;
-	}
+                it++;
+        }
 
-	//throw new ElementNotFoundException();
-	cout << "no encontrado " << key << endl << endl << endl;
-	return NULL;
+        //throw new ElementNotFoundException();
+        cout << "no encontrado " << key << endl << endl << endl;
 }
 
 /**
@@ -199,43 +198,43 @@ Element *LeafNode::findExact(KeyInt key) {
  */
 bool LeafNode::modify(Element* elemToModify){
 
-	std::vector<Element*>::iterator it;
-	Element* el;
+        std::vector<Element*>::iterator it;
+        Element* el;
 
-	it = find_if(this->elements.begin(), this->elements.end(), bind2nd(EqualElementComparator(),*elemToModify));
+        it = find_if(this->elements.begin(), this->elements.end(), bind2nd(EqualElementComparator(),*elemToModify));
 
-	if(it==this->elements.end()){
-		throw new ElementNotFoundException();
-	}else{
-		el=(*it);
-		this->elements.erase(it);
-		this->elements.insert(it,elemToModify);
-		delete el;
-	}
+        if(it==this->elements.end()){
+                throw new ElementNotFoundException();
+        }else{
+                el=(*it);
+                this->elements.erase(it);
+                this->elements.insert(it,elemToModify);
+                delete el;
+        }
 
-	return true;
+        return true;
 }
 
 /**
  * Elimina el elemento cuya clave es key
  */
 bool LeafNode::remove(KeyInt key){
-		vector<Element*>::iterator it = this->elements.begin();
-		bool found=false;
-		while(it != this->elements.end() && !found) {
-			if((*it)->getKey() == key){
-				delete *it;
-				this->elements.erase(it);
-				found=true;
-			}
-			it++;
+                vector<Element*>::iterator it = this->elements.begin();
+                bool found=false;
+                while(it != this->elements.end() && !found) {
+                        if((*it)->getKey() == key){
+                                delete *it;
+                                this->elements.erase(it);
+                                found=true;
+                        }
+                        it++;
 
-		}
+                }
 
-		if(!found){
-			throw new ElementNotFoundException();
-		}
-		return found;
+                if(!found){
+                        throw new ElementNotFoundException();
+                }
+                return found;
 }
 
 /**
@@ -243,145 +242,144 @@ bool LeafNode::remove(KeyInt key){
  */
 bool LeafNode::insertarTest(Element* elem) {
 
-	std::vector<Element*>::iterator it;
+        std::vector<Element*>::iterator it;
 
-	for (it = elements.begin(); it != elements.end(); it++) {
-		Element* el = (Element*) *it;
-		if (elem->getKey() < el->getKey()) {
-			elements.insert(it, elem);
-			return true;
-		}
-	}
+        for (it = elements.begin(); it != elements.end(); it++) {
+                Element* el = (Element*) *it;
+                if (elem->getKey() < el->getKey()) {
+                        elements.insert(it, elem);
+                        return true;
+                }
+        }
 
-	elements.push_back(elem);
-	return true;
+        elements.push_back(elem);
+        return true;
 }
 
 /**
  * Divide la carga de bytes en dos nuevos Nodos
  */
 KeyElement* LeafNode::doSplit() {
-	KeyElement* keyElementFromMiddle=new KeyElement();
+        KeyElement* keyElementFromMiddle=new KeyElement();
 
-	LeafNode* newLeafNode=new LeafNode();
-	PersistorBTree* p=Persistor::getInstance();
-	newLeafNode->elements=this->splitElements();
+        LeafNode* newLeafNode=new LeafNode(this->p);
+        newLeafNode->elements=this->splitElements();
 
-	vector<Element*>::iterator it;
+        vector<Element*>::iterator it;
 
-	p->add(newLeafNode);
-	keyElementFromMiddle->setRightNode(newLeafNode->getOffset());
-	Element* elemen= (Element*)(*newLeafNode->elements.begin());
-	keyElementFromMiddle->setKey(elemen->getKey());
-	newLeafNode->nextNode=this->nextNode;
-	this->nextNode=newLeafNode->getOffset();
+        this->p->add(newLeafNode);
+        keyElementFromMiddle->setRightNode(newLeafNode->getOffset());
+        Element* elemen= (Element*)(*newLeafNode->elements.begin());
+        keyElementFromMiddle->setKey(elemen->getKey());
+        newLeafNode->nextNode=this->nextNode;
+        this->nextNode=newLeafNode->getOffset();
 
-	return keyElementFromMiddle;
+        return keyElementFromMiddle;
 }
 
 /**
  * Devuelve la mitad de la carga de este nodo.
  */
 std::vector<Element*> LeafNode::splitElements(){
-	std::vector<Element* > newElements;
+        std::vector<Element* > newElements;
 
-	std::vector<Element* >::iterator it=this->elements.end();
-	it--;
+        std::vector<Element* >::iterator it=this->elements.end();
+        it--;
 
-	while(this->getDataElementsSize(this->elements)>this->getDataElementsSize(newElements)){
-		newElements.insert(newElements.begin(),(*it));
-		this->elements.erase(it);
-		it--;
-	}
+        while(this->getDataElementsSize(this->elements)>this->getDataElementsSize(newElements)){
+                newElements.insert(newElements.begin(),(*it));
+                this->elements.erase(it);
+                it--;
+        }
 
-	return newElements;
+        return newElements;
 }
 
 bool LeafNode::isOverflowded(int modifyOrInsert){
-		bool isOverflow=false;
-		switch (modifyOrInsert) {
-			case INSERT:
-				//Vemos que no supere el porcentaje de carga
-				int dataSize;
-				dataSize=this->getDataSize();
-				int maxNodeLoad;
-				maxNodeLoad=ConfigurationMananger::getInstance()->maxNodeLoadForInsert();
-				isOverflow=dataSize>maxNodeLoad;
-				break;
-			case MODIFY:
-				//si entra esta bien.
-				dataSize=this->getDataSize();
-				maxNodeLoad=ConfigurationMananger::getInstance()->getBufferSizeTree();
-				isOverflow=dataSize>maxNodeLoad;
-				break;
-			default:
-				throw OperationNotFoundException();
-				break;
-		}
+                bool isOverflow=false;
+                switch (modifyOrInsert) {
+                        case INSERT:
+                                //Vemos que no supere el porcentaje de carga
+                                int dataSize;
+                                dataSize=this->getDataSize();
+                                int maxNodeLoad;
+                                maxNodeLoad=ConfigurationMananger::getInstance()->maxNodeLoadForInsert();
+                                isOverflow=dataSize>maxNodeLoad;
+                                break;
+                        case MODIFY:
+                                //si entra esta bien.
+                                dataSize=this->getDataSize();
+                                maxNodeLoad=ConfigurationMananger::getInstance()->getBufferSizeTree();
+                                isOverflow=dataSize>maxNodeLoad;
+                                break;
+                        default:
+                                throw OperationNotFoundException();
+                                break;
+                }
 
-		return isOverflow;
+                return isOverflow;
 }
 
 bool LeafNode::isUnderflowded() {
-	ConfigurationMananger *cManager = ConfigurationMananger::getInstance();
+        ConfigurationMananger *cManager = ConfigurationMananger::getInstance();
 
-	int minUnderflow=cManager->getMinUnderflowSizeTree();
-	int dataSize=this->getDataSize();
-	if(minUnderflow>dataSize)
-		return true;
-	else
-		return false;
+        int minUnderflow=cManager->getMinUnderflowSizeTree();
+        int dataSize=this->getDataSize();
+        if(minUnderflow>dataSize)
+                return true;
+        else
+                return false;
 }
 
 /******************************************************
- * 					PERSISTENCIA
+ *                                      PERSISTENCIA
  *
  ****************************************************/
 RegisterCounter LeafNode::getRegisterCounter(){
-	return this->elements.size();
+        return this->elements.size();
 }
 std::vector<Element*>::iterator LeafNode::getElementsBegin() {
-	return elements.begin();
+        return elements.begin();
 }
 
 std::vector<Element*>::iterator LeafNode::getElementsEnds() {
-	return elements.end();
+        return elements.end();
 }
 std::string LeafNode::serialize() {
-	std::string buffer = BNode::serialize();
+        std::string buffer = BNode::serialize();
 
-	buffer.append((char*)&prevNode,sizeof(Offset));
-	buffer.append((char*)&nextNode,sizeof(Offset));
+        buffer.append((char*)&prevNode,sizeof(Offset));
+        buffer.append((char*)&nextNode,sizeof(Offset));
 
-	std::vector<Element*>::iterator it;
+        std::vector<Element*>::iterator it;
 
-	for(it = elements.begin() ; it != elements.end(); it++){
-		Element* el = (Element*)*it;
-		buffer.append(el->serialize());
-	}
+        for(it = elements.begin() ; it != elements.end(); it++){
+                Element* el = (Element*)*it;
+                buffer.append(el->serialize());
+        }
 
-	return buffer;
+        return buffer;
 }
 
 void LeafNode::unserialize(std::string &buffer) {
-	BNode::unserialize(buffer);
-	RegisterCounter registerCounter;
+        BNode::unserialize(buffer);
+        RegisterCounter registerCounter;
 
-	buffer.copy((char*)&registerCounter,sizeof(RegisterCounter));
+        buffer.copy((char*)&registerCounter,sizeof(RegisterCounter));
     buffer.erase(0,sizeof(RegisterCounter));
 
-	buffer.copy((char*)&prevNode,sizeof(Offset));
-	buffer.erase(0,sizeof(Offset));
+        buffer.copy((char*)&prevNode,sizeof(Offset));
+        buffer.erase(0,sizeof(Offset));
 
-	buffer.copy((char*)&nextNode,sizeof(Offset));
-	buffer.erase(0,sizeof(Offset));
+        buffer.copy((char*)&nextNode,sizeof(Offset));
+        buffer.erase(0,sizeof(Offset));
 
 
-	for(RegisterCounter i = 0 ; i < registerCounter; i++){
-		Element* el = new Element();
-		el->unserialize(buffer);
-		elements.push_back(el);
-	}
+        for(RegisterCounter i = 0 ; i < registerCounter; i++){
+                Element* el = new Element();
+                el->unserialize(buffer);
+                elements.push_back(el);
+        }
 }
 
 /**
@@ -389,41 +387,41 @@ void LeafNode::unserialize(std::string &buffer) {
  */
 int LeafNode::getDataElementsSize(std::vector<Element*> vector){
 
-	int size=0;
-	std::vector<Element* >::iterator it;
+        int size=0;
+        std::vector<Element* >::iterator it;
 
-	for(it=vector.begin();it!=vector.end();it++){
-		Element* elem=(*it);
-		size+=elem->getDataSize();
-	}
-	return size;
+        for(it=vector.begin();it!=vector.end();it++){
+                Element* elem=(*it);
+                size+=elem->getDataSize();
+        }
+        return size;
 }
 
 int LeafNode::getDataSize() {
-	 return (2 * sizeof(Offset) + sizeof(FreeSpace) + getDataElementsSize(elements) + BNode::getDataSize());
+         return (2 * sizeof(Offset) + sizeof(FreeSpace) + getDataElementsSize(elements) + BNode::getDataSize());
 }
 
 void LeafNode::exportNode(){
 
-	std::vector<Element* >::iterator it;
-	cout<<"Nodo: "<<this->getOffset()<<" ";
-	for(it=this->elements.begin();it!=elements.end();it++){
-		Element* elem=(*it);
-		elem->toSrtring();
-		cout<<" ";
-	}
-	cout<<endl;
+        std::vector<Element* >::iterator it;
+        cout<<"Nodo: "<<this->getOffset()<<" ";
+        for(it=this->elements.begin();it!=elements.end();it++){
+                Element* elem=(*it);
+                elem->toSrtring();
+                cout<<" ";
+        }
+        cout<<endl;
 
 }
 ostream& LeafNode::printMe(ostream& myOstream){
-	std::vector<Element* >::iterator it;
-	myOstream<<"Nodo: "<<getOffset()<<" ";
-	for(it=getElementsBegin();it!=getElementsEnds();it++){
-		Element* elem=(*it);
-		myOstream<<*elem<<" ";
-	}
-	myOstream<<endl;
-	return myOstream;
+        std::vector<Element* >::iterator it;
+        myOstream<<"Nodo: "<<getOffset()<<" ";
+        for(it=getElementsBegin();it!=getElementsEnds();it++){
+                Element* elem=(*it);
+                myOstream<<*elem<<" ";
+        }
+        myOstream<<endl;
+        return myOstream;
 
 }
 
@@ -431,5 +429,3 @@ ostream& LeafNode::printMe(ostream& myOstream){
 //**********************************//
 //*****functor para la busqueda*****//
 //**********************************//
-
-

@@ -10,28 +10,28 @@
 
 class Test {
 public:
-	Test();
-	virtual ~Test();
-	void testABMDistrito();
-	void testConteo();
-	void agregarDistritos();
-	void agregarVotantes();
-	void firstSetTest();
-	void ingresar();
-	void pruebaListas();
-	void pruebaListas2();
-	void testEleccionesIndex();
-	void testLogging();
-	void Votar(Votante* votante);
-	void testReportes();
-	void testCandidato2();
-	void testCandidato();
-	void testConteo2();
-	void testArbolVane();
-	void Ingresar();
-	void testConteo3();
-	void testPersistorDistrito();
-	void testPersistorConteo();
+        Test();
+        virtual ~Test();
+        void testABMDistrito();
+        void testConteo();
+        void agregarDistritos();
+        void agregarVotantes();
+        void firstSetTest();
+        void ingresar();
+        void pruebaListas();
+        void pruebaListas2();
+        void testEleccionesIndex();
+        void testLogging();
+        void Votar(Votante* votante);
+        void testReportes();
+        void testCandidato2();
+        void testCandidato();
+        void testConteo2();
+        void testArbolVane();
+        void Ingresar();
+        void testConteo3();
+        void testPersistorDistrito();
+        void testPersistorConteo();
 };
 
 #endif /* TEST_H_ */
