@@ -30,6 +30,8 @@ public:
 	void testArbolVane();
 	void Ingresar();
 	void testConteo3();
+	void testPersistorDistrito();
+	void testPersistorConteo();
 };
 
 #endif /* TEST_H_ */

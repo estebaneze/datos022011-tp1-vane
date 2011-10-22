@@ -33,6 +33,20 @@ Test::Test() {
 
 }
 
+void Test::testPersistorDistrito(){
+	ABMDistrito *abmDistrito = new ABMDistrito("arboldistrito");
+
+	abmDistrito->Add("Distrito");
+	abmDistrito->mostrarDistritosPorPantalla();
+}
+
+void Test::testPersistorConteo(){
+	ABMConteo *abmConteo = new ABMConteo();
+
+	abmConteo->Add("Lista1", 1, 1);
+	abmConteo->mostrarConteoPorPantalla();
+}
+
 void Test::testABMDistrito(){
 
 //	system("rm arboldistrito.bpt");
