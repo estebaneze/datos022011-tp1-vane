@@ -28,11 +28,14 @@ class ABMConteo {
 		void mostrarConteoPorPantalla();
 		virtual ~ABMConteo();
 		int Add(string idLista, int idDistrito, int idEleccion);
+		//int ObtenerKey(string idLista, int idDistrito, int idEleccion);
 
 		vector<Conteo> GetConteoByDistrito(int idDistrito);
 		vector<Conteo> GetConteoByDistritoYFecha(int idDistrito, Fecha fecha);
 		vector<Conteo> GetConteoByLista(string idLista);
 		vector<Conteo> GetConteoByEleccion(int idEleccion);
+
+
 
 		Conteo* GetConteo(int idConteo);
 
