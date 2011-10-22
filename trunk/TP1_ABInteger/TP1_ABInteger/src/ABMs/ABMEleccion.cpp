@@ -264,17 +264,33 @@ void ABMEleccion::mostrarEleccionesPorPantalla(){
 
 vector<Eleccion> ABMEleccion::GetByFecha(Fecha* fecha){
 
+
         vector<Key> byFecha = this->indexByFecha->GetIds(fecha->getStrFecha());
         vector<Eleccion> elecciones;
 
         for(int i = 0; i < byFecha.size(); i++){
 
-                string idEleccion = byFecha[i];
+        		Eleccion* e = this->GetEleccion(Helper::StringToInt(byFecha[i]));
+
+                /*string idEleccion = byFecha[i];
                 vector<string> splited = Helper::split(idEleccion, '_');        //ESto es fecha_idCargo
+                cout << "wexxzsdssdsds" << endl;
+
+                for(int i = 0; i < splited.size(); i++){
+                	cout << splited[i] << endl;
+                }
+
                 Fecha f = Fecha(splited[0]);
                 int idCargo = Helper::StringToInt(splited[1]);
+                */
+        		cout << e->GetIdCargo() << " - " << e->GetDate().getStrFecha() << endl;
 
-                elecciones.push_back(Eleccion(idCargo, f));
+        		Eleccion eleccion = Eleccion(e->GetIdCargo(), e->GetDate());
+        		vector<int> ds = e->GetDistritos();
+        		for(int j = 0; j < ds.size(); j++){
+        			eleccion.AddDistrito(ds[i]);
+        		}
+                elecciones.push_back(eleccion);
         }
 
         return elecciones;

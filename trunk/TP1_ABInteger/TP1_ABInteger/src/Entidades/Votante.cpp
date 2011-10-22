@@ -103,7 +103,15 @@ bool Votante::VotoEnEleccion(int idEleccion){
 
 bool Votante::VotoEnEleccion(Eleccion eleccion){
 
-	vector<int>::iterator it = _listaElecciones.begin();
+	for(int i = 0; i <_listaElecciones.size(); i++){
+
+		if(_listaElecciones[i] == eleccion.GetId())
+			return true;
+	}
+
+	return false;
+
+	/*vector<int>::iterator it = _listaElecciones.begin();
 	int e = (int) *it;
 
 	for (it = _listaElecciones.begin(); it != _listaElecciones.end(); it++) {
@@ -113,7 +121,7 @@ bool Votante::VotoEnEleccion(Eleccion eleccion){
 			return true;
 	}
 
-	return false;
+	return false;*/
 }
 
 //Agrega una eleccion a la lista de elccioes en las que voto
