@@ -21,6 +21,7 @@
 #include "../ABMs/ABMEleccion.h"
 #include "../utils/Fecha.h"
 #include "../Logging/Log.h"
+#include "../Logging/VotanteLog.h"
 #include <ctime>
 
 class Menues {

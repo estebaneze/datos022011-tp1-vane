@@ -269,16 +269,20 @@ void Menues::MenuVotante()
 
 											if (votante->Authenticate(pass)){
 												autenticado=true;
+
+												VotanteLog::LogSuccess(Helper::LongToString(dni));
 												Menu_EleccionesXDistrito_votante(votante);
 											}
 											else{
 												printf("Password Incorreca\n");
+												VotanteLog::LogPasswordInvalid(Helper::LongToString(dni));
 												cin >> c;
 
 											}
 										}
 										else{
 											printf("No existe el usuario ingresado, presione ua tecla para continuar. \n\n\n");
+											VotanteLog::LogUserInvalid(Helper::LongToString(dni));
 											cin >> c;
 
 										}
@@ -353,10 +357,15 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 					for(unsigned int i = 0; i < conteos.size(); i++){
 						cout << "Lista " << conteos[i].GetIdLista() << endl;
 					}
+
 					int idConteoLista;
 					string idLista;
+					string idListaAnterior; //en caso de que cambie el voto
+					bool cambioVoto=false;
+
 					cout << "Ingrese lista a votar: ";
 					cin >> idLista;
+
 
 					bool listaFounded = false;;
 					for(unsigned int i = 0; (i < conteos.size()) && (!listaFounded); i++){
@@ -378,15 +387,27 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 						}
 					}
 					else{
-						cout << "Esta seguro de votar la lista " << idLista << "? . Ingrese tecla [s]=Confirma u otra para relegir.";
+						cout << "Esta seguro de votar la lista " << idLista << "? . [s]=Confirma u otra para cambiar voto.";
 						string op;
 						cin >> op;
 						if (op=="s"){
+
+							//logueo en caso de que haya cambiado voto
+							if (idLista==idListaAnterior && cambioVoto){
+								VotanteLog::LogChangeVoto(Helper::LongToString(votante->GetDni()),idLista,idListaAnterior);
+
+							}
+
 							cs.AddVoto(idConteoLista, votante); //debe hacerse una confirmacion aun
 							listoEleccion=true;
 							listoLista=true;
+							VotanteLog::LogVoto(Helper::LongToString(votante->GetDni()),idLista);
 							cout << "Votacion realizada con exito, presione una tecla para volver al menu";
 							cin >> op;
+						}
+						else{
+							cambioVoto=true;
+							idListaAnterior=idLista;
 						}
 					}
 			}
