@@ -10,15 +10,10 @@
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
 ABMLista::ABMLista() {
-
+	int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeLista();
 	this->hashFile= "lista";
-	this->directorio = new Directory(hashFile,64);
+	this->directorio = new Directory(hashFile, maxBucketSize);
 	this->index = new Index("IndexLista");
-
-	//Descomentar esto si quiere verse el contenido del archivo por pantalla
-	//this->directorio->inform();
-
-	// OJO! el tamaño lo tioene que leer desde un archivo de configuracion
 }
 
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
