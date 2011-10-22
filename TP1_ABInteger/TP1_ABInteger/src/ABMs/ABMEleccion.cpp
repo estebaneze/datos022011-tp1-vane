@@ -29,11 +29,10 @@ int ABMEleccion::Add(Eleccion* eleccion){
 
         int idEleccion = Identities::GetNextIdEleccion();//eleccion->GetId(); //NO PUEDO HACER EL ID DE LA ELECCION CON "|" PORQUE SE CONFUNDE CUANDO LO QUIERO USAR EN LAS OTRAS ENTIDADES
 
-        cout << idEleccion << endl;
 
         if (!Exists(eleccion)){
 
-                cout << "Insertando la eleccion: " << idEleccion << endl << endl;
+                //cout << "Insertando la eleccion: " << idEleccion << endl << endl;
                 //string auxValueBtree;
                 vector<int> distritos = eleccion->GetDistritos();
                 string concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1());
@@ -178,9 +177,8 @@ Eleccion* ABMEleccion::GetEleccion(int idEleccion){
 
                 //Busco  los distritos
                 Eleccion * eleccion =  new Eleccion(idCargo, fecha, idEleccion);
-                cout << "datos " << data << endl;
+
                 for(int i = 2; i < splited.size(); i++){
-                	cout << "los putos distritos " << splited[i] << endl;
                       eleccion->AddDistrito(Helper::StringToInt(splited[i]));
                 }
 
@@ -246,18 +244,8 @@ vector<Eleccion*> ABMEleccion::GetByFecha(Fecha* fecha){
         vector<Eleccion*> elecciones;
 
         for(int i = 0; i < byFecha.size(); i++){
-
-        		Eleccion* e = this->GetEleccion(Helper::StringToInt(byFecha[i]));
-
-        		//cout << e->GetIdCargo() << " - " << e->GetDate().getStrFecha() << endl;
-
-  /*      		Eleccion eleccion = Eleccion(e->GetIdCargo(), e->GetDate(), Helper::StringToInt(byFecha[i]));
-        		vector<int> ds = e->GetDistritos();
-        		for(int j = 0; j < ds.size(); j++){
-        			eleccion.AddDistrito(ds[j]);
-        		}
-*/
-                elecciones.push_back(e);
+        	Eleccion* e = this->GetEleccion(Helper::StringToInt(byFecha[i]));
+               elecciones.push_back(e);
         }
 
         return elecciones;

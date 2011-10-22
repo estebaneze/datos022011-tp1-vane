@@ -361,7 +361,6 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 
 		if(founded){
 
-			cout << "................." << e->GetId() << endl;
 			vector<Conteo> conteos = cs.GetConteoByEleccion(e->GetId());
 			bool listoLista=false;
 
@@ -584,7 +583,8 @@ char opcion;
 								while (!listo){
 									string nombre;
 									string input;
-
+									cout << "Ingrese nombre de Distrito: ";
+									cin >> nombre;
 
 									int ok = dis->Add(nombre);
 									if (ok!=-1){
