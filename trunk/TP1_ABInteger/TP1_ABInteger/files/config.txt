@@ -1,0 +1,13 @@
+#############################
+# ARCHIVO DE CONFIGURACION  #
+#############################
+
+
+blockSize 		= 24576  	#Tamaño del bloque para el hash
+treeBlockSize 		= 128    	#Tamaño del bloque para el arbol
+hashBlockSize 		= 4096 		#Tamaño del bloque para el arbol
+chargePercent		= 0.1 		#Porcentaje de carga
+minRecordSizeTree	= 0			#Tamaño minimo del bloque
+maxRecordPercent	= 0.2 		#Porcentaje maximo del registro
+
+EndConfigFile
