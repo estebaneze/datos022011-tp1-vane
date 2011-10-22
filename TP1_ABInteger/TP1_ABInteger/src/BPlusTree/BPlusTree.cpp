@@ -168,7 +168,6 @@ void BPlusTree::insert(Element* element, int modifyOrInsert) {
 void BPlusTree::validateElementSize(Element* elm){
 
         int maxRecordSize=ConfigurationMananger::getInstance()->getMaxRecordSizeTree();
-        cout << "               Tama�o registro: " << elm->getDataSize() << endl;
 
         if(elm->getDataSize() > maxRecordSize){
                 cout << "       ******Error: Tama�o invalido de registro: ******" << elm->getDataSize() << endl;
