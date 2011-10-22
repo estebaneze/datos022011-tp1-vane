@@ -102,6 +102,7 @@ vector<Cargo> ABMCargo::GetCargos(){
         vector<KeyValue> values = this->directorio->getAllValues();
         vector<Cargo> cargos;
 
+
         for(unsigned int i = 0; i < values.size(); i++){
 
                 vector<string> splitedVs = Helper::split(values[i].Value, '|');
@@ -109,7 +110,7 @@ vector<Cargo> ABMCargo::GetCargos(){
                 vector<int> cargosRef;
 
                 for(int i = 1; i < splitedVs.size(); i++){      //el primero lo omito porque es el nombre
-                        cargosRef.push_back(Helper::StringToInt(splitedVs[i]));
+                       cargosRef.push_back(Helper::StringToInt(splitedVs[i]));
                 }
 
                 if(splitedVs.size() > 0){

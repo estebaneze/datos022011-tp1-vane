@@ -316,10 +316,12 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 
 	system("clear");
 	cout << endl << endl;
-	cout << "Bienvenido " << votante->GetNombreYApellido() << ", usted pertenece el distrito: " << votante->GetDistrito() << endl;
+	cout << "Bienvenido " << votante->GetNombreYApellido() << ", usted pertenece al distrito: " << votante->GetDistrito() << endl;
 
 	bool listoEleccion = false;
+
 	Fecha fecha = this->fechaActual();
+
 	vector<Eleccion> elecciones = es.GetByFecha(&fecha);
 
 	while(!listoEleccion){
@@ -353,10 +355,12 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 			vector<Conteo> conteos = cs.GetConteoByEleccion(e.GetId());
 			bool listoLista=false;
 
+			for(unsigned int i = 0; i < conteos.size(); i++){
+				cout << "Lista " << conteos[i].GetIdLista() << endl;
+			}
+
+
 			while (!listoLista){
-					for(unsigned int i = 0; i < conteos.size(); i++){
-						cout << "Lista " << conteos[i].GetIdLista() << endl;
-					}
 
 					int idConteoLista;
 					string idLista;
@@ -585,8 +589,9 @@ int opcion;
 									if (nombre=="q") listo=true;
 								}
 
+
 							}
-							delete dis;
+							//delete dis;
 
 							break;
 							}
@@ -841,7 +846,7 @@ void Menues::MenuABMCargo()
 
 
 						}
-						delete abmCargo;
+						//delete abmCargo;
 						break;
 
 						}
@@ -1254,19 +1259,28 @@ void Menues::MenuABMEleccion()
 								while (!listo2){
 									string nombre;
 									int idCargo;
-									cout << "Ingrese nombre cargo principal: ";
-									cin >> nombre;
 
 
 									//busco si existe el nombre
 									ABMCargo *abmCargo = new ABMCargo();
 
-									bool existNombre=false;
+									cout << "Cargos disponibles: " << endl;
 									vector<Cargo> vecCargos = abmCargo->GetCargos();
 
-									for (unsigned int i=0;((i<vecCargos.size()) && (!existNombre));i++){
+									for (unsigned int i=0;i<vecCargos.size();i++){
+										cout << "Cargo: " << vecCargos.at(i).GetNombre() << endl;
+									}
 
-										if ((vecCargos.at(i).GetNombre())==nombre){
+									cout << endl;
+									cout << "Ingrese nombre cargo principal: ";
+									cin >> nombre;
+
+
+
+									bool existNombre=false;
+
+									for (unsigned int i=0;((i<vecCargos.size()) && (!existNombre));i++){
+										if ((vecCargos.at(i).GetNombre()) == nombre){
 											existNombre=true;
 											idCargo= vecCargos.at(i).GetId();
 										}
@@ -1275,7 +1289,7 @@ void Menues::MenuABMEleccion()
 
 									if (!existNombre){
 										cout << endl << endl;
-										cout << "El cargo no existente, presione una tecla para reintentar o [q] para volver";
+										cout << "El cargo no existe, presione una tecla para reintentar o [q] para volver";
 										cin >> nombre;
 										if (nombre=="q") {
 											listo2=true;
@@ -1462,10 +1476,7 @@ Fecha Menues::fechaActual()
 	time_t tSac =time(NULL);
 	tm tms = *localtime(&tSac);
 
-	Fecha fecha;
-	fecha.setDia(tms.tm_mday);
-	fecha.setMes(tms.tm_mon+1);
-	fecha.setAnio(tms.tm_year+1900);
+	Fecha fecha = Fecha((short)tms.tm_mday, (short)tms.tm_mon+1, (short)tms.tm_year+1900);
 
 	return fecha;
 

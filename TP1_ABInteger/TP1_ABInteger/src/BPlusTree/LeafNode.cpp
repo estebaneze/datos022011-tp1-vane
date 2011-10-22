@@ -146,18 +146,18 @@ KeyInt LeafNode::getFirstKey(){
  * Devuleve siempre true. Arroja una exception en caso de que ya exista
  */
 bool LeafNode::insertar(Element* elemToInsert){
-        //cout << "insertar1" << endl;
+
                 std::vector<Element*>::iterator it;
-                //cout << "insertar2" << endl;
+
                 it = find_if(this->elements.begin(), this->elements.end(), bind2nd(EqualElementComparator(),elemToInsert));
                 //it = find (elements.begin(), elements.end(), elemToInsert);
-                //cout << "insertar2" << endl;
+
                 if(it!=this->elements.end()){
                         //throw ElementAlreadyExists();
-                        cout << "La clave " << elemToInsert->getKey() << " ya existe en el �rbol." << endl;
+                        cout << "La clave " << elemToInsert->getKey() << " ya existe en el arbol." << endl;
                         return false;
                 }
-                //cout << "insertar3" << endl;
+
                 for (it = elements.begin(); it != elements.end(); it++) {
                         Element* el = (Element*) *it;
                         if (elemToInsert->getKey() < el->getKey()) {
@@ -181,7 +181,7 @@ Element *LeafNode::findExact(KeyInt key) {
         std::vector<Element*>::iterator it = getElementsBegin();
 
         while(it != getElementsEnds()) {
-                cout << "LeafNode::findExact: " << key << endl;
+
                 if((*it)->getKey() == key)
                         return *it;
 
@@ -190,7 +190,8 @@ Element *LeafNode::findExact(KeyInt key) {
         }
 
         //throw new ElementNotFoundException();
-        cout << "no encontrado " << key << endl << endl << endl;
+        //cout << "no encontrado " << key << endl << endl << endl;
+        return NULL;
 }
 
 /**
