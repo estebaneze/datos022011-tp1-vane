@@ -1137,6 +1137,7 @@ char opcion=1;
 					case '1':	{
 						bool listo=false;
 						ABMVotante *vot = new ABMVotante();
+						Votante* votante;
 
 						while (!listo){
 							string dni;
@@ -1149,38 +1150,12 @@ char opcion=1;
 
 							if (!vot->existKey(Helper::StringToLong(dni))){
 
-								string _nombreYApellido;
-								string _clave;
-								string _domicilio;
+								votante = EditaVotante(dni);
 
-								cout << "Ingrese Nombre y Apellido: ";
-								cin >> _nombreYApellido;
-								cout << endl;
+								if (votante != NULL)
+								{
 
-//								cout << "Ingrese clave: ";
-	//							cin >> _clave;
-		//						cout << endl;
-
-								cout << "Ingrese domicilio: ";
-								cin >> _domicilio;
-								cout << endl;
-								//_clave = dni;
-
-								cout << "Ingrese clave:";
-								cin>>_clave;
-								cout << endl;
-
-								string distrito;
-								int id_distrito;
-								cout << "Ingrese IdDistrito: ";
-								cin >> distrito;
-								id_distrito = Helper::StringToInt(distrito);
-
-								ABMDistrito *dis = new ABMDistrito();
-								if (dis->Exists(id_distrito)){
-									Votante *votante = new Votante(Helper::StringToLong(dni),_nombreYApellido,_clave,_domicilio,id_distrito);
 									vot->Add(votante);
-
 									delete votante;
 									listo=true;
 									cout << endl << endl;
@@ -1202,7 +1177,6 @@ char opcion=1;
 								cin >> dni;
 								if (dni=="q") listo=true;
 							}
-
 						}
 						delete vot;
 						break;
@@ -1241,7 +1215,50 @@ char opcion=1;
 							}
 					case '3':
 							{
-								//FALTA SOLO ESTE CASO
+								bool listo=false;
+								ABMVotante *vot = new ABMVotante();
+								Votante* votante;
+
+								while (!listo){
+									string dni;
+									system("clear");
+									printf("MODIFICACION VOTANTE\n");
+									printf("--------------------\n\n");
+
+									cout << "Ingrese DNI del usuario: ";
+									cin >> dni;
+
+									if (vot->existKey(Helper::StringToLong(dni))){
+
+										votante = EditaVotante(dni);
+
+										if (votante != NULL)
+										{
+
+											vot->Modify(votante);
+											delete votante;
+											listo=true;
+											cout << endl << endl;
+											cout << "votante modificado satisfactoriamente.";
+											cin >> dni;
+
+										}
+										else {
+											cout << "No existe el IdDistrito ingresado, presione una tecla para reintentar o [q] para volver";
+											string c;
+											cin >> c;
+											if (c=="q") listo=true;
+											break;
+										}
+									}
+									else{
+										cout << endl;
+										cout << "No existe el DNI ingresado, presione una tecla para reintentar o [q] para volver";
+										cin >> dni;
+										if (dni=="q") listo=true;
+									}
+								}
+								delete vot;
 								break;
 							}
 					case '4':
@@ -1254,7 +1271,39 @@ char opcion=1;
 							break;
 					}
 		}
+}
 
+Votante* Menues::EditaVotante(string dni)
+{
+	Votante *votante = NULL;
+	string _nombreYApellido;
+	string _clave;
+	string _domicilio;
+
+	cout << "Ingrese Nombre y Apellido: ";
+	cin >> _nombreYApellido;
+	cout << endl;
+
+	cout << "Ingrese domicilio: ";
+	cin >> _domicilio;
+	cout << endl;
+
+	cout << "Ingrese clave:";
+	cin>>_clave;
+	cout << endl;
+
+	string distrito;
+	int id_distrito;
+	cout << "Ingrese IdDistrito: ";
+	cin >> distrito;
+	id_distrito = Helper::StringToInt(distrito);
+
+	ABMDistrito *dis = new ABMDistrito();
+	if (dis->Exists(id_distrito)){
+		votante = new Votante(Helper::StringToLong(dni),_nombreYApellido,_clave,_domicilio,id_distrito);
+	}
+
+	return votante;
 }
 
 void Menues::MenuABMEleccion()
