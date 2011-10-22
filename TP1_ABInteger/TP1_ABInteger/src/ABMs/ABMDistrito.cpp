@@ -60,17 +60,17 @@ bool ABMDistrito::Delete(int idDistrito){
 /*
  * Modifica el distrito pasado por parametro si lo encuentra, sino no hace nada
 */
-void ABMDistrito::Modify(Distrito distrito){
+void ABMDistrito::Modify(Distrito* distrito){
 
 	if (Exists(distrito)){
 
-		string str= distrito.GetNombre();
+		string str= distrito->GetNombre();
 		Data data = (Data)str.c_str();
 		int longData = str.length();
-		Element * elemento = new Element(distrito.GetId(),data,longData);
+		Element * elemento = new Element(distrito->GetId(),data,longData);
 
 		//logueo el modify
-		BPlusTreeLog::LogModify(Helper::IntToString(distrito.GetId()),data,"Distrito_BPlusTreeOperation.log");
+		BPlusTreeLog::LogModify(Helper::IntToString(distrito->GetId()),data,"Distrito_BPlusTreeOperation.log");
 		BPlusTreeLog::LogProcess(this->bpPlusTree,"Distrito_BPlusTreeProccess.log");
 		this->bpPlusTree->modify(elemento);
 	}
@@ -97,7 +97,6 @@ vector<Distrito> ABMDistrito::GetDistritos(){
 
 	return distritos;
 
-
 }
 
 /*
@@ -106,13 +105,11 @@ vector<Distrito> ABMDistrito::GetDistritos(){
 Distrito* ABMDistrito::GetDistrito(int idDistrito){
 
 	if (ExistsKey(idDistrito)){
-cout <<"sfsdfsfdsfs" << endl;
 		Element* el = bpPlusTree->findExact(idDistrito);
 		int idDist= el->getKey();
 		return new Distrito(idDist, el->getData());
 	}
 	else{
-		cout << "No se encontro el distrito" << endl;
 		return NULL;
 	}
 }
@@ -120,9 +117,9 @@ cout <<"sfsdfsfdsfs" << endl;
 /**
  * Devuelve true si el distrito existe en el arbol, sino false.
  */
-bool ABMDistrito::Exists(Distrito distrito){
+bool ABMDistrito::Exists(Distrito* distrito){
 
-	if(this->bpPlusTree->findExact(distrito.GetId())==NULL)
+	if(this->bpPlusTree->findExact(distrito->GetId())==NULL)
 		return false;
 	else
 		return true;

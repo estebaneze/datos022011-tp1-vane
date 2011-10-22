@@ -21,12 +21,12 @@ class ABMDistrito {
 	public:
 		ABMDistrito();
 		virtual ~ABMDistrito();
-		bool Exists(Distrito distrito);
+		bool Exists(Distrito* distrito);
 		bool Exists(int idDistrito);
 		bool ExistsKey(int idDistrito);
 		int Add(string nombre);
 		bool Delete(int idDistrito);
-		void Modify(Distrito distrito);
+		void Modify(Distrito* distrito);
 		vector<Distrito> GetDistritos();
 		Distrito * GetDistrito(int idDistrito);
 		void mostrarDistritosPorPantalla();
