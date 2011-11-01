@@ -153,15 +153,15 @@ void Test::pruebaListas(){
 
         ABMLista Listas = ABMLista();
 
-        Lista *l1 = new Lista("alonso8",2);
-        Lista *l2 = new Lista("dos", 3);
-        Lista *l3 = new Lista("tres", 4);
-        Lista *l4 = new Lista("cuatro", 2);
-        Lista *l5 = new Lista("cinco", 3);
-        Lista *l6 = new Lista("seis", 4);
-        Lista *l7 = new Lista("siete", 4);
-        Lista *l8 = new Lista("ocho", 4);
-        Lista *l9 = new Lista("aa",9);
+        Lista *l1 = new Lista("aalonso8",2);
+        Lista *l2 = new Lista("ados", 3);
+        Lista *l3 = new Lista("atres", 4);
+        Lista *l4 = new Lista("acuatro", 2);
+        Lista *l5 = new Lista("acinco", 3);
+        Lista *l6 = new Lista("aseis", 4);
+        Lista *l7 = new Lista("saiete", 4);
+        Lista *l8 = new Lista("oacho", 4);
+        Lista *l9 = new Lista("aaa",9);
         Listas.Add(l1);
         Listas.Add(l2);
         Listas.Add(l3);
@@ -216,15 +216,15 @@ void Test::pruebaListas2(){
 
         ABMLista Listas = ABMLista();
 
-        Lista *l1 = new Lista("alonso8", 2);
-                Lista *l2 = new Lista("dos", 3);
-                Lista *l3 = new Lista("tres", 4);
-                Lista *l4 = new Lista("cuatro", 2);
-                Lista *l5 = new Lista("cinco", 3);
-                Lista *l6 = new Lista("seis", 4);
-                Lista *l7 = new Lista("siete", 4);
-                Lista *l8 = new Lista("ocho", 4);
-                Lista *l9 = new Lista("aa",9);
+        Lista *l1 = new Lista("a", 2);
+                Lista *l2 = new Lista("ados", 3);
+                Lista *l3 = new Lista("atres", 4);
+                Lista *l4 = new Lista("acuatro", 2);
+                Lista *l5 = new Lista("acinco", 3);
+                Lista *l6 = new Lista("aseis", 4);
+                Lista *l7 = new Lista("asiete", 4);
+                Lista *l8 = new Lista("aocho", 4);
+                Lista *l9 = new Lista("aaa",9);
                 Listas.Add(l1);
                 Listas.Add(l2);
                 Listas.Add(l3);
@@ -303,12 +303,13 @@ void Test::pruebaListas2(){
 
 void Test::testCandidato2(){
 
-        /*cout << endl;
+      cout << endl;
         ABMCandidato abmc = ABMCandidato();
         cout << endl;
 
-        for(int i = 1; i < 5; i++){
-                abmc.Add(i,i,i);
+        for(int i = 5; i < 100; i++){
+
+        	abmc.Add(Helper::IntToString(i),i,i);
         }
 
         vector<Candidato> cs = abmc.GetCandidatos();
@@ -319,7 +320,7 @@ void Test::testCandidato2(){
         cout << "----------------ABMCandidato::GetCandidatos-----------------------" << endl;
         cout << "------------------------------------------------------------------" << endl;
 
-*/
+
 }
 
 

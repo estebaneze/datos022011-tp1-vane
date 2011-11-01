@@ -44,8 +44,8 @@ int ABMConteo::Add(string idLista, int idDistrito, int idEleccion){
         //Esta es la clave de la eleccion dentro de conteo
         this->indexByEleccion->AppendToIndex(idEleccion, Helper::IntToString(idConteo));
 
-        BPlusTreeLog::LogInsert(key, data, "Conteo_BPlusTreeOperation.log");
-        BPlusTreeLog::LogProcess(this->bplusTree, "Conteo_BPlusTreeProcess.log");
+        BPlusTreeLog::LogInsert(key, data,ConfigurationMananger::getInstance()->getLogOperConteoFile());
+        BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile());
 
         return idConteo;
 }

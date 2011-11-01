@@ -45,8 +45,8 @@ int ABMEleccion::Add(Eleccion* eleccion){
                 this->bpPlusTree->insert(elemento);
 
                 //logueo el add
-                BPlusTreeLog::LogInsert(idEleccion,str,"Eleccion_BPlusTreeOperation.log");
-                BPlusTreeLog::LogProcess(this->bpPlusTree,"Eleccion_BPlusTreeProccess.log");
+                BPlusTreeLog::LogInsert(idEleccion,str,ConfigurationMananger::getInstance()->getLogOperEleccionFile());
+                BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessEleccionFile());
 
                 //Agrego al indice
                 this->indexByFecha->AppendToIndex(eleccion->GetDate().getStrFecha(),Helper::IntToString(idEleccion));

@@ -1,6 +1,7 @@
 #include "BPlusTree.h"
 #include "../strategies/UnderflorRootStrategy.h"
-#include "../exceptions/OverflowException.h"
+#include "../BPlusTree/exceptions/OverflowException.h"
+
 BPlusTree::BPlusTree(int blockSize, string fileName) {
         this->p = new PersistorBTree(fileName, blockSize);
 

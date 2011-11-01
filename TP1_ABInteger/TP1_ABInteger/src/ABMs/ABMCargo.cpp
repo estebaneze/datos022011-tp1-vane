@@ -26,8 +26,8 @@ int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
                 field.append(Helper::concatenar(cargosSecundarios, ConfigurationMananger::getInstance()->getSeparador1()));
                 this->directorio->insert(Helper::IntToString(idCargo), field);
 
-                HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
-                HashLog::LogInsert(Helper::IntToString(idCargo),field,"Cargo_HashOperation.log");
+                HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessCargoFile());
+                HashLog::LogInsert(Helper::IntToString(idCargo),field,ConfigurationMananger::getInstance()->getLogOperCargoFile());
 
                 //Actualizo la lista de cargos del abm *******++ si queda tiempo lo implemento bien (Vane)
                 //this->cargos.push_back(Cargo(idCargo, nombre, cargosSecundarios));

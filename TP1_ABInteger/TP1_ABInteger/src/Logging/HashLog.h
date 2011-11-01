@@ -14,10 +14,10 @@
 class HashLog {
 public:
 	HashLog();
-	static void LogProcess(Directory* dir,char* logProcess);
-	static void LogInsert(Key key,string valor,char* logOperation);
-	static void LogDelete(Key key,string valor,char* logOperation);
-	static void LogModify(Key key, string valor, char* logOperation);
+	static void LogProcess(Directory* dir,string logProcess);
+	static void LogInsert(Key key,string valor,string logOperation);
+	static void LogDelete(Key key,string valor,string logOperation);
+	static void LogModify(Key key, string valor, string logOperation);
 
 	virtual ~HashLog();
 };

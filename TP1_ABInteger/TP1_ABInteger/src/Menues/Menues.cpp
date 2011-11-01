@@ -7,11 +7,6 @@
 
 #include "Menues.h"
 
-Menues::Menues() {
-
-
-}
-
 void Menues::MenuPpal()
 {
 	int fin=0;
@@ -21,7 +16,7 @@ void Menues::MenuPpal()
 		system("clear");
 		printf("\n\n");
 		printf("Fecha Actual: ");
-	    cout	<< this->fechaActual().getDia() << "-"<< this->fechaActual().getMes() <<"-"<<this->fechaActual().getAnio() <<endl;
+	    cout	<< fechaActual().getDia() << "-"<< fechaActual().getMes() <<"-"<< fechaActual().getAnio() <<endl;
 		printf("==========================================\n");
 		printf("Bienvenido al sistema electronico de votos\n");
 		printf("==========================================\n\n");
@@ -79,7 +74,7 @@ char opcion;
 				case '1':{
 
 						bool listo=false;
-						ABMAdministrador *adm = new ABMAdministrador("administrador.ga");
+						ABMAdministrador *adm = new ABMAdministrador();
 						while (!listo){
 							cout << endl << endl;
 							cout << "Ingrese usuario: ";
@@ -116,7 +111,7 @@ char opcion;
 					break;
 				}
 				case '2':	{
-						ABMAdministrador *abmAdmin = new ABMAdministrador("administrador.ga");
+						ABMAdministrador *abmAdmin = new ABMAdministrador();
 						bool listo = false;
 
 						while (!listo){
@@ -150,7 +145,7 @@ char opcion;
 						break;
 				}
 				case '3':{
-						ABMAdministrador *abmAdmin = new ABMAdministrador("administrador.ga");
+						ABMAdministrador *abmAdmin = new ABMAdministrador();
 						bool listo = false;
 
 						while (!listo){
@@ -190,7 +185,7 @@ char opcion;
 
 				case '4':
 					{
-						ABMAdministrador *abmAdmin = new ABMAdministrador("administrador.ga");
+						ABMAdministrador *abmAdmin = new ABMAdministrador();
 						bool listo = false;
 
 						while (!listo){
@@ -323,7 +318,7 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 
 	bool listoEleccion = false;
 
-	Fecha fecha = this->fechaActual();
+	Fecha fecha = fechaActual();
 
 	vector<Eleccion*> elecciones = es.GetByFecha(&fecha);
 
@@ -1722,10 +1717,6 @@ void Menues::MenuABMEleccion()
 }
 
 
-
-Menues::~Menues() {
-
-}
 
 Fecha Menues::fechaActual()
 {

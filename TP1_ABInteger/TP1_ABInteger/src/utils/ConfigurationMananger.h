@@ -49,9 +49,15 @@ private:
         string separador1;
         string separador2;
 
+        /*
+         * identities
+         */
+        string identities;
+
     	/*
     	 * Nombres de los archivos
     	 */
+        string adminFile;
     	string candidatoFile;
     	string cargoFile;
     	string conteoFile;
@@ -59,7 +65,27 @@ private:
     	string listaFile;
     	string votanteFile;
     	string distritoFile;
-        /**
+        /*
+         * Nombre de los archivos logs
+         */
+    	string logOperVotante;
+    	string logProcessVotante;
+    	string logOperCandidato;
+    	string logProcessCandidato;
+    	string logOperLista;
+    	string logProcessLista;
+    	string logOperAdmin;
+    	string logProcessAdmin;
+    	string logOperCargo;
+    	string logProcessCargo;
+       	string logOperConteo;
+    	string logProcessConteo;
+    	string logOperDistrito;
+    	string logProcessDistrito;
+    	string logOperEleccion;
+    	string logProcessEleccion;
+
+    	/**
          * Archivo de configuracion
          */
         ConfigFile *configFile;
@@ -107,9 +133,15 @@ public:
          */
         string getSeparador1();
         string getSeparador2();
+        /*
+         * devuelve el nombre del archivo identities
+         */
+        string getIdentities();
+
     	/**
     	 * Devuelve el nombre de los archivos
     	 */
+        string getAdminFile();
     	string getCandidatoFile();
     	string getCargoFile();
     	string getConteoFile();
@@ -117,6 +149,27 @@ public:
     	string getListaFile();
     	string getVotanteFile();
     	string getDistritoFile();
+    	/*
+    	 * Devuelve el nombre de los archivos de logs
+    	 */
+
+    	string getLogOperVotanteFile();
+    	string getLogProcessVotanteFile();
+    	string getLogOperCandidatoFile();
+    	string getLogProcessCandidatoFile();
+    	string getLogOperListaFile();
+    	string getLogProcessListaFile();
+    	string getLogOperAdminFile();
+    	string getLogProcessAdminFile();
+    	string getLogOperCargoFile();
+    	string getLogProcessCargoFile();
+    	string getLogOperConteoFile();
+    	string getLogProcessConteoFile();
+    	string getLogOperDistritoFile();
+    	string getLogProcessDistritoFile();
+    	string getLogOperEleccionFile();
+    	string getLogProcessEleccionFile();
+
 };
 
 #endif /* CONFIGURATIONMANANGER_H_ */

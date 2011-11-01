@@ -10,10 +10,10 @@
 /*
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
-ABMAdministrador::ABMAdministrador(string file) {
+ABMAdministrador::ABMAdministrador() {
 	int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeAdministrador();
-	this->File= File;
-	this->directorio = new Directory(file, maxBucketSize);
+	this->File= ConfigurationMananger::getInstance()->getAdminFile();
+	this->directorio = new Directory(ConfigurationMananger::getInstance()->getAdminFile(), maxBucketSize);
 }
 
 /**Agrega un nuevo admin, si ya existe no hace nada
@@ -24,8 +24,8 @@ void ABMAdministrador::Add(Administrador* admin){
 	if (!(this->directorio->existKey(admin->GetUsuario()))){
 		this->directorio->insert(admin->GetUsuario(),admin->GetClave());
 
-		HashLog::LogProcess(this->directorio,"Admin_HashProccess.log");
-		HashLog::LogInsert(admin->GetUsuario(),admin->GetClave(),"Admin_HashOperation.log");
+		HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessAdminFile());
+		HashLog::LogInsert(admin->GetUsuario(),admin->GetClave(),ConfigurationMananger::getInstance()->getLogOperAdminFile());
 	}
 }
 

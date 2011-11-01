@@ -2,8 +2,8 @@
 #define LEAFNODE_H_
 #include "../utils/const.h"
 #include "../utils/types.h"
-#include "../exceptions/ElementAlreadyExists.h"
-#include "../exceptions/ElementNotFoundException.h"
+#include "../BPlusTree/exceptions/ElementAlreadyExists.h"
+#include "../BPlusTree/exceptions/ElementNotFoundException.h"
 #include "BNode.h"
 #include "Element.h"
 #include <string.h>

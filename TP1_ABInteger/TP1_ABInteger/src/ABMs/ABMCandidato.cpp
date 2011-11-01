@@ -29,8 +29,8 @@ int ABMCandidato::Add(string idLista, long idVotante, int idCargo){
 
                 this->directorio->insert(Helper::IntToString(idCandidato), fields2);
 
-                HashLog::LogProcess(this->directorio,"Candidato_HashProccess.log");
-                HashLog::LogInsert(Helper::IntToString(idCandidato),fields2,"Candidato_HashOperation.log");
+                HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessCandidatoFile());
+                HashLog::LogInsert(Helper::IntToString(idCandidato),fields2,ConfigurationMananger::getInstance()->getLogOperCandidatoFile());
 
                 return idCandidato;
         }

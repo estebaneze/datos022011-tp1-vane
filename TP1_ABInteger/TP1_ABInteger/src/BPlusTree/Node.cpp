@@ -5,8 +5,8 @@
 #include "NodeFactory.h"
 #include "../strategies/BalanceStrategyFactory.h"
 #include "../strategies/BalanceStrategy.h"
-#include "../exceptions/KeyNotFoundException.h"
-#include "../exceptions/ProgramException.h"
+#include "../BPlusTree/exceptions/KeyNotFoundException.h"
+#include "../BPlusTree/exceptions/ProgramException.h"
 Node::Node(PersistorBTree* p) : BNode(p) {
         this->leftNode = -1;
 }
