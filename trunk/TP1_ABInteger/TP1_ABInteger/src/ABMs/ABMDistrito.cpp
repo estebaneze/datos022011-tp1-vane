@@ -32,8 +32,8 @@ int ABMDistrito::Add(string nombre){
 
 		this->bpPlusTree->insert(elemento);
 		//logueo el add
-		BPlusTreeLog::LogInsert(Helper::IntToString(idDistrito),data,"Distrito_BPlusTreeOperation.log");
-		BPlusTreeLog::LogProcess(this->bpPlusTree,"Distrito_BPlusTreeProccess.log");
+		BPlusTreeLog::LogInsert(Helper::IntToString(idDistrito),data,ConfigurationMananger::getInstance()->getLogOperDistritoFile());
+		BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessDistritoFile());
 
 		return idDistrito;
 	}

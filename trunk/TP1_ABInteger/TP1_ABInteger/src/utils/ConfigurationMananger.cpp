@@ -30,6 +30,9 @@ ConfigurationMananger::ConfigurationMananger() {
         configFile->readInto<string>(separador1,"separador1");
         configFile->readInto<string>(separador2,"separador2");
 
+        configFile->readInto<string>(identities,"identities");
+
+        configFile->readInto<string>(adminFile,"adminFile");
     	configFile->readInto<string>(distritoFile,"distritoFile");
     	configFile->readInto<string>(candidatoFile,"candidatoFile");
     	configFile->readInto<string>(cargoFile,"cargoFile");
@@ -37,6 +40,26 @@ ConfigurationMananger::ConfigurationMananger() {
     	configFile->readInto<string>(eleccionFile,"eleccionFile");
     	configFile->readInto<string>(listaFile,"listaFile");
     	configFile->readInto<string>(votanteFile,"votanteFile");
+
+
+    	configFile->readInto<string>(logProcessEleccion,"logProcessEleccion");
+    	configFile->readInto<string>(logOperEleccion,"logOperEleccion");
+    	configFile->readInto<string>(logProcessDistrito,"logProcessDistrito");
+    	configFile->readInto<string>(logOperDistrito,"logOperDistrito");
+    	configFile->readInto<string>(logProcessConteo,"logProcessConteo");
+    	configFile->readInto<string>(logOperConteo,"logOperConteo");
+    	configFile->readInto<string>(logProcessCargo,"logProcessCargo");
+    	configFile->readInto<string>(logOperCargo,"logOperCargo");
+    	configFile->readInto<string>(logProcessCargo,"logProcessCargo");
+    	configFile->readInto<string>(logOperCargo,"logOperCargo");
+    	configFile->readInto<string>(logProcessAdmin,"logProcessAdmin");
+    	configFile->readInto<string>(logOperAdmin,"logOperAdmin");
+    	configFile->readInto<string>(logProcessLista,"logProcessLista");
+    	configFile->readInto<string>(logOperLista,"logOperLista");
+    	configFile->readInto<string>(logOperVotante,"logOperVotante");
+    	configFile->readInto<string>(logProcessVotante,"logProcessVotante");
+    	configFile->readInto<string>(logOperCandidato,"logOperCandidato");
+    	configFile->readInto<string>(logProcessCandidato,"logProcessCandidato");
 
         //configFile->readInto(maxRecordPercent,"maxRecordPercent");
         maxRecordPercent = (1-chargeFactor)/2;
@@ -102,6 +125,14 @@ string ConfigurationMananger::getSeparador2(){
         return this->separador2;
 }
 
+string ConfigurationMananger::getIdentities(){
+	return this->identities;
+}
+
+string ConfigurationMananger::getAdminFile(){
+	return this->adminFile;
+}
+
 string ConfigurationMananger::getDistritoFile(){
 	return this->distritoFile;
 }
@@ -130,6 +161,91 @@ string ConfigurationMananger::getVotanteFile(){
 	return this->votanteFile;
 }
 
+
 ConfigurationMananger::~ConfigurationMananger() {
 }
+
+string ConfigurationMananger::getLogProcessVotanteFile()
+{
+	return this->logProcessVotante;
+}
+
+string ConfigurationMananger::getLogOperConteoFile()
+{
+	return this->logOperConteo;
+}
+
+string ConfigurationMananger::getLogOperAdminFile()
+{
+	return this->logOperAdmin;
+}
+
+string ConfigurationMananger::getLogOperVotanteFile()
+{
+	return this->logOperVotante;
+}
+
+string ConfigurationMananger::getLogOperEleccionFile()
+{
+	return this->logOperEleccion;
+}
+
+string ConfigurationMananger::getLogProcessListaFile()
+{
+	return this->logProcessLista;
+}
+
+string ConfigurationMananger::getLogProcessAdminFile()
+{
+	return this->logProcessAdmin;
+}
+
+string ConfigurationMananger::getLogOperCandidatoFile()
+{
+	return this->logOperCandidato;
+}
+
+string ConfigurationMananger::getLogOperCargoFile()
+{
+	return this->logOperCargo;
+}
+
+string ConfigurationMananger::getLogProcessEleccionFile()
+{
+	return this->logProcessEleccion;
+}
+
+string ConfigurationMananger::getLogProcessCandidatoFile()
+{
+	return this->logProcessCandidato;
+}
+
+string ConfigurationMananger::getLogProcessDistritoFile()
+{
+	return this->logProcessDistrito;
+}
+
+string ConfigurationMananger::getLogProcessCargoFile()
+{
+	return this->logProcessCargo;
+}
+
+
+string ConfigurationMananger::getLogProcessConteoFile()
+{
+	return this->logProcessConteo;
+}
+
+string ConfigurationMananger::getLogOperListaFile()
+{
+	return this->logOperLista;
+}
+
+
+string ConfigurationMananger::getLogOperDistritoFile()
+{
+	return this->logOperDistrito;
+}
+
+
 

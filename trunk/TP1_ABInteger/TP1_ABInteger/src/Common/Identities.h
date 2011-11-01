@@ -22,6 +22,7 @@
 #include <cstdlib>
 #include <sstream>
 #include "Helper.h"
+#include "../utils/ConfigurationMananger.h"
 
 using namespace std;
 

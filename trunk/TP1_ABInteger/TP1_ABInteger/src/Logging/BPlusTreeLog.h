@@ -16,16 +16,16 @@ public:
 
 	BPlusTreeLog();
 
-	static void LogProcess(BPlusTree* bpt,char* logProcess);
+	static void LogProcess(BPlusTree* bpt,string logProcess);
 
-	static void LogInsert(Key key,string valor,char* logOperation);
-	static void LogInsert(KeyInt key,string value,char* logOperation);
+	static void LogInsert(Key key,string valor,string logOperation);
+	static void LogInsert(KeyInt key,string value,string logOperation);
 
-	static void LogDelete(Key key,string valor,char* logOperation);
-	static void LogDelete(KeyInt key,string valor,char* logOperation);
+	static void LogDelete(Key key,string valor,string logOperation);
+	static void LogDelete(KeyInt key,string valor,string logOperation);
 
-	static void LogModify(Key key, string valor, char* logOperation);
-	static void LogModify(KeyInt key, string valor, char* logOperation);
+	static void LogModify(Key key, string valor, string logOperation);
+	static void LogModify(KeyInt key, string valor, string logOperation);
 
 	virtual ~BPlusTreeLog();
 };

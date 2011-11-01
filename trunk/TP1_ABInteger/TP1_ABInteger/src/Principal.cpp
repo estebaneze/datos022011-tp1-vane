@@ -43,58 +43,7 @@ using namespace std;
 
 int main( int arg, char *argv[] ){
 
-//	ta.testABMDistrito();
-	//ta.testConteo();
-
-	//	testConteo();
-	//testReportes();
-
-	//agregarDistritos();
-	//agregarVotantes();
-	//Ingresar();
-	//testCandidato2();
-
-	//testConteo2();
-
-	//	testConteo();
-	//pruebaListas();
-	//	pruebaListas2();
-	//	testABMDistrito();
-	//pruebaArbol();
-	//testLogging();
-
-	/*ABMDistrito ds = ABMDistrito("distrito");
-	ds.Add("Lanus");
-	ds.Add("Lomas");
-	ds.Add("Cap");
-	ds.Add("La Plata");
-
-	string id;
-	cout << endl << endl << "Ingrese id ";
-	cin>>id;
-
-	Distrito* d = ds.GetDistrito(Helper::StringToInt(id));
-	if(d != NULL){
-		cout << "epepe" << endl;
-	}*/
-		//cout << "Ecnontre " << d->GetId() << " - " << d->GetNombre() << endl;
-/*
-	ABMConteo cs = ABMConteo();
-	for(int i = 0; i < 10; i++){
-
-		if(cs.ExistsKey(i)){
-			Conteo* c = cs.GetConteo(i);
-			if(c != NULL){
-				cout << c->GetId() << " - " <<  c->GetIdDistrito() << " - " << c->GetIdEleccion() << endl;
-			}
-		}
-
-	}
-
-	delete cs;*/
-
-	Menues menu;
-	menu.MenuPpal();
+	Menues::MenuPpal();
 	cout << endl <<  "Done" << endl;
 		return system("");
 

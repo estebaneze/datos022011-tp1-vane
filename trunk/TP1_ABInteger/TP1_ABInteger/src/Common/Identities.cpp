@@ -11,7 +11,7 @@ void Identities::InitializeFile(){
 
 	fstream File;
 
-	File.open("files/identities.txt", ios::out);
+	File.open(ConfigurationMananger::getInstance()->getIdentities().c_str(), ios::out);
 
 	if (File.is_open ()) {
 		File << "Candidato 1" << "\n";
@@ -31,7 +31,7 @@ void Identities::InitializeFile(){
 void Identities::RefreshFile(string key, int value){
 
 	string line;
-	ifstream myfile ("files/identities.txt");
+	ifstream myfile (ConfigurationMananger::getInstance()->getIdentities().c_str());
 	std::vector< string > keys;
 	std::vector< int > values;
 
@@ -56,7 +56,7 @@ void Identities::RefreshFile(string key, int value){
 
 	//Reescribo el archivo
 	fstream File;
-	File.open("files/identities.txt", ios::out);
+	File.open(ConfigurationMananger::getInstance()->getIdentities().c_str(), ios::out);
 
 	if (File.is_open ()) {
 		for(int i = 0; i < keys.size(); i++){
@@ -95,7 +95,7 @@ int Identities::GetNextIdConteo(){
 int Identities::GetNextId(string key){
 
 	string line;
-	ifstream myfile ("files/identities.txt");
+	ifstream myfile (ConfigurationMananger::getInstance()->getIdentities().c_str());
 	int id = -1;
 
 	if (myfile.is_open()) {

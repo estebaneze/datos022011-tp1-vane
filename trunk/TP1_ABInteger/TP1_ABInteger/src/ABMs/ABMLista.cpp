@@ -28,8 +28,8 @@ void ABMLista::Add(Lista* lista){
 
                 //logueo operacion y proceso
 
-                HashLog::LogInsert(lista->GetNombre(),Helper::IntToString(lista->GetEleccion()),"Lista_HashOperation.log");
-                HashLog::LogProcess(this->directorio,"Lista_HashProccess.log");
+                HashLog::LogInsert(lista->GetNombre(),Helper::IntToString(lista->GetEleccion()),ConfigurationMananger::getInstance()->getLogOperListaFile());
+                HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessListaFile());
 
                 //Tengo que crear los registros de conteo con la combinacion idLista, idEleccion, idDistrito con 0 votos
                 //Busco los distritos de esa eleccion

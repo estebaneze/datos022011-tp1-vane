@@ -15,7 +15,7 @@
 
 class ABMAdministrador {
 public:
-	ABMAdministrador(string File);
+	ABMAdministrador();
 	virtual ~ABMAdministrador();
 
 	bool existKey(string admin);

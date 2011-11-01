@@ -27,24 +27,24 @@
 class Menues {
 public:
 	Menues();
-	void MenuPpal();
-	void MenuVotante();
-	void MenuAdmin();
-	void Menu_EleccionesXDistrito_votante(Votante* votante);
-	void Menu_ListasXEleccion(Eleccion* eleccion);
-	void MenuABM();
-	void MenuABMDistrito();
-	void MenuABMVotante();
-	void MenuABMEleccion();
-	void MenuABMCargo();
-	void MenuABMLista();
-	void MenuABMCandidato();
-	void Reportes();
-	virtual ~Menues();
+	static void MenuPpal();
+	static void MenuVotante();
+	static void MenuAdmin();
+	static void Menu_EleccionesXDistrito_votante(Votante* votante);
+	static void Menu_ListasXEleccion(Eleccion* eleccion);
+	static void MenuABM();
+	static void MenuABMDistrito();
+	static void MenuABMVotante();
+	static void MenuABMEleccion();
+	static void MenuABMCargo();
+	static void MenuABMLista();
+	static void MenuABMCandidato();
+	static void Reportes();
+
 
 private:
-	Fecha fechaActual();
-	Votante* EditaVotante(string dni);
+	static Fecha fechaActual();
+	static Votante* EditaVotante(string dni);
 };
 
 #endif /* MENUES_H_ */

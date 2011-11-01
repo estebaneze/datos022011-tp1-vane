@@ -42,8 +42,8 @@ void ABMVotante::Add(Votante* votante){
 */
                 this->directorio->insert(Helper::LongToString(votante->GetDni()),aux);
 
-                HashLog::LogProcess(this->directorio,"Votante_HashProcess.log");
-                HashLog::LogInsert(Helper::LongToString(votante->GetDni()),aux,"Votante_HashOperation.log");
+                HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessVotanteFile());
+                HashLog::LogInsert(Helper::LongToString(votante->GetDni()),aux,ConfigurationMananger::getInstance()->getLogOperVotanteFile());
 
         }
 }
