@@ -38,10 +38,14 @@ Administrador ((usuario)i, clave): Hash
 #include "ABMs/ABMEleccion.h"
 #include "Test.h"
 #include "Menues/Menues.h"
+#include "CargaMasiva.h"
 
 using namespace std;
 
 int main( int arg, char *argv[] ){
+
+	//Carga Masiva de todas las entidades
+	CargaMasiva::CargarEntidades();
 
 	Menues::MenuPpal();
 	cout << endl <<  "Done" << endl;
