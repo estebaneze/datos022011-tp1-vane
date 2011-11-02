@@ -62,6 +62,7 @@ void Reportes::reportePorLista(string lista)
 			vector<Conteo> cs;
 			cs.push_back(conteo);
 			resAgrupados.push_back(cs);
+			idEleccionActual = idEleccionAux;
 			j++;
 		}
 
@@ -136,6 +137,7 @@ void Reportes::reportePorDistrito(int idDistrito)
 			vector<Conteo> cs;
 			cs.push_back(conteo);
 			resAgrupados.push_back(cs);
+			idEleccionActual = idEleccionAux;
 			j++;
 		}
 
