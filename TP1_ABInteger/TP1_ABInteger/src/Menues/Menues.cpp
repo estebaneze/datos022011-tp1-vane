@@ -1225,20 +1225,15 @@ while (fin==0){
 					vector<Distrito> distritos = abmDistrito->GetDistritos();
 
 					for(int i = 0; i < distritos.size(); i++){
-						cout << distritos[i].GetNombre() << endl;
+						cout << distritos[i].GetId() << "-" << distritos[i].GetNombre() << endl;
 					}
 
-					cout << "Ingrese el Distrito: " << endl;
+					cout << "Ingrese el IdDistrito: " << endl;
 					string distritoSelected;
 					cin >> distritoSelected;
+					int idDistrito = Helper::StringToInt(distritoSelected);
 
-					//Busco la lista seleccionada
-					bool founded = false;
-					int idDistrito = 0;
-					for(int i = 0; i < distritos.size(); i++){
-						if(distritos[i].GetNombre() == distritoSelected)
-							founded = true;
-					}
+					bool founded = abmDistrito->Exists(idDistrito);
 
 					delete abmDistrito;
 
@@ -1246,7 +1241,7 @@ while (fin==0){
 						Reportes::reportePorDistrito(idDistrito);
 					}
 					else{
-						cout << "La Lista ingresada es incorrecta." << endl;
+						cout << "El Distrito seleccionado es incorrecto." << endl;
 					}
 
 

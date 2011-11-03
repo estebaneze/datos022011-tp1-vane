@@ -201,6 +201,9 @@ vector<Conteo> Reportes::OrderByCantidadVotos(vector<Conteo> resultados){
 /* Los ordena por fecha de eleccion */
 vector<Conteo> Reportes::OrderByFecha(vector<Conteo> resultados){
 
+	if (resultados.size() <= 1)
+		return resultados;
+
 	Conteo aux;;
 	ABMEleccion abmElecciones = ABMEleccion();
 
