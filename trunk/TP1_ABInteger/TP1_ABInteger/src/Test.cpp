@@ -43,7 +43,7 @@ void Test::testPersistorDistrito(){
 void Test::testPersistorConteo(){
         ABMConteo *abmConteo = new ABMConteo();
 
-        abmConteo->Add("Lista1", 1, 1);
+        abmConteo->Inicializa("Lista1", 1, 1);
         abmConteo->mostrarConteoPorPantalla();
 }
 
@@ -96,7 +96,7 @@ void Test:: testConteo(){
                 for (int j=100; j<120; j++)
                 {
                         idLista = j;
-                        abm->Add(Helper::IntToString(idLista), j-56, j+1);
+                        abm->Inicializa(Helper::IntToString(idLista), j-56, j+1);
                         dia++;
                 }
 
@@ -550,10 +550,10 @@ void Test::Votar(Votante* votante){
                 {
                         idLista = Helper::IntToString(j);
                         if(j > 6){
-                                abm->Add(idLista, votante->GetDistrito(), e1->GetId()); //Le asigno algunas listas al distrito del votante para probar
+                                abm->Inicializa(idLista, votante->GetDistrito(), e1->GetId()); //Le asigno algunas listas al distrito del votante para probar
                         }
                         else{
-                                abm->Add(idLista, j+2, e2->GetId());
+                                abm->Inicializa(idLista, j+2, e2->GetId());
                         }
                 }
         //}
@@ -717,7 +717,7 @@ void Test::testReportes(){
           else
                   c = Conteo(lista, 23, e2->GetId(), 1, number);
 
-          int idConteo = abmc.Add(c.GetIdLista(), c.GetIdDistrito(), c.GetIdEleccion());
+          int idConteo = abmc.Inicializa(c.GetIdLista(), c.GetIdDistrito(), c.GetIdEleccion());
 
           int cant = 2 * i;
           for(int j = 1; j <= cant; j++){
@@ -735,7 +735,7 @@ void Test::testReportes(){
           else
                   c = Conteo(lista, 23, e4->GetId(), 4, number);
 
-          int idConteo = abmc.Add(c.GetIdLista(), c.GetIdDistrito(), c.GetIdEleccion());
+          int idConteo = abmc.Inicializa(c.GetIdLista(), c.GetIdDistrito(), c.GetIdEleccion());
 
           int cant = 2 * i;
           for(int j = 1; j <= cant; j++){
@@ -753,7 +753,7 @@ void Test::testReportes(){
           else
                   c = Conteo(lista, 23, e3->GetId(), 3, number);
 
-          int idConteo = abmc.Add(c.GetIdLista(), c.GetIdDistrito(), c.GetIdEleccion());
+          int idConteo = abmc.Inicializa(c.GetIdLista(), c.GetIdDistrito(), c.GetIdEleccion());
 
           int cant = 2 * i;
           for(int j = 1; j <= cant; j++){
@@ -888,7 +888,7 @@ void Test::testConteo3(){
 
         vector<int> conteos;
         for(int i = 1; i < 200; i++){
-                int idConteo = c.Add(Helper::IntToString(i), i, i);
+                int idConteo = c.Inicializa(Helper::IntToString(i), i, i);
                 conteos.push_back(idConteo);
         }
 
