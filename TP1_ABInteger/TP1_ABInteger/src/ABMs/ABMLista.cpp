@@ -40,7 +40,7 @@ void ABMLista::Add(Lista* lista){
                 vector<int> distritos = e->GetDistritos();
 
                 for(int i = 0; i < distritos.size(); i++){
-		    conteos->Add(lista->GetNombre(), distritos[i], e->GetId());
+                	conteos->Inicializa(lista->GetNombre(), distritos[i], e->GetId());
                 }
 
                 //Conteos disponibles para la eleccion:2
