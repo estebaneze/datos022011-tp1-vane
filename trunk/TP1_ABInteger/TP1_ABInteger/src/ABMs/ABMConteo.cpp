@@ -21,7 +21,7 @@ ABMConteo::ABMConteo() {
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
 /********* OJO: BUG EN EL INDICE, VER IMPLE DEL INDICE *****************/
-int ABMConteo::Add(string idLista, int idDistrito, int idEleccion){
+int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
 
         int idConteo = Identities::GetNextIdConteo();
 
@@ -210,9 +210,7 @@ vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
 vector<Conteo> ABMConteo::GetConteoByEleccion(int idEleccion){
 
         vector<Conteo> conteos;
-        cout << "wwweweww"<< endl;
         vector<Key> ids = this->indexByEleccion->GetIds(Helper::IntToString(idEleccion));
-        cout << "wwweweww"<< endl;
         for(int i = 0; i < ids.size(); i++){
 
                 int kint = Helper::StringToInt(ids[i]);
@@ -237,6 +235,7 @@ vector<Conteo> ABMConteo::GetConteoByLista(string idLista){
 
         vector<Conteo> conteos;
         vector<Key> ids = this->indexByLista->GetIds(idLista);
+        int size = ids.size();
 
         for(int i = 0; i < ids.size(); i++){
 
