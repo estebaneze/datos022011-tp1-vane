@@ -228,6 +228,10 @@ vector<Conteo> Reportes::OrderByCantidadVotos(vector<Conteo> resultados){
 
 	Conteo aux;
 
+	if (resultados.size() <= 1)
+		return resultados;
+
+
 	for (int i=0; i <= resultados.size()-1; i++) {
 
 		for (int j = i+1 ;j < resultados.size();j++)	{
@@ -251,9 +255,6 @@ vector<Conteo> Reportes::OrderByFecha(vector<Conteo> resultados){
 
 	Conteo aux;;
 	ABMEleccion abmElecciones = ABMEleccion();
-
-	if(resultados.size() == 0)
-		return resultados;
 
 	for (int i=0; i <= resultados.size()-1; i++) {
 
