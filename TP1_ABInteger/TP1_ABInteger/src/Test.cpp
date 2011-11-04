@@ -33,6 +33,13 @@ Test::Test() {
 
 }
 
+void Test::Votos(){
+
+	//Recorro las elecciones que existen
+
+
+}
+
 void Test::testPersistorDistrito(){
         ABMDistrito *abmDistrito = new ABMDistrito();
 

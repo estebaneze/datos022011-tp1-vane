@@ -92,6 +92,32 @@ int Identities::GetNextIdConteo(){
 }
 
 
+int Identities::GetLastIdCandidato(){
+	return Identities::GetLastId("Candidato");
+}
+
+int Identities::GetLastIdCargo(){
+	return Identities::GetLastId("Cargo");
+}
+
+int Identities::GetLastIdEleccion(){
+	return Identities::GetLastId("Eleccion");
+}
+
+int Identities::GetLastIdDistrito(){
+	return Identities::GetLastId("Distrito");
+}
+
+int Identities::GetLastIdAdministrador(){
+	return Identities::GetLastId("Administrador");
+}
+
+int Identities::GetLastIdConteo(){
+	return Identities::GetLastId("Conteo");
+}
+
+
+
 int Identities::GetNextId(string key){
 
 	string line;
@@ -120,6 +146,38 @@ int Identities::GetNextId(string key){
 	}
 	else{
 		RefreshFile(key, id + 1);
+	}
+
+	return id;
+
+}
+
+
+int Identities::GetLastId(string key){
+
+	string line;
+	ifstream myfile (ConfigurationMananger::getInstance()->getIdentities().c_str());
+	int id = -1;
+
+	if (myfile.is_open()) {
+		while ( myfile.good() )
+		{
+			getline (myfile,line);
+			if(line.size() >= (key.size() + 2) && line.substr(0, key.size()) == key){
+				string next = line.substr(key.size() + 1, line.size() - key.size() + 1);
+				id = atoi(next.c_str());
+			}
+		}
+
+		myfile.close();
+	}
+	else {
+		id = -1;
+		cout << "Error reading Identities file. File was not properly initialized." << endl;
+	}
+
+	if(id == -1){
+		cout << "Error reading Identities file. File was not properly initialized." << endl;
 	}
 
 	return id;

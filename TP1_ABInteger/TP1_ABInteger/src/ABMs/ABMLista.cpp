@@ -13,7 +13,8 @@ ABMLista::ABMLista() {
         int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeLista();
 		this->hashFile = ConfigurationMananger::getInstance()->getListaFile();
         this->directorio = new Directory(hashFile, maxBucketSize);
-        this->index = new Index("IndexLista");
+        //this->index = new Index("IndexLista");
+        this->index = new Index(Helper::concatenar(hashFile,"IndexLista",ConfigurationMananger::getInstance()->getSeparador2()));
 }
 
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
@@ -40,7 +41,11 @@ void ABMLista::Add(Lista* lista){
                 vector<int> distritos = e->GetDistritos();
 
                 for(int i = 0; i < distritos.size(); i++){
+//<<<<<<< .mine
+//                	conteos->Add(lista->GetNombre(), distritos[i], e->GetId());
+//=======
                 	conteos->Inicializa(lista->GetNombre(), distritos[i], e->GetId());
+//>>>>>>> .r151
                 }
 
                 //Conteos disponibles para la eleccion:2

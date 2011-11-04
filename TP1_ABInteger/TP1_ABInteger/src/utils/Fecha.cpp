@@ -46,6 +46,24 @@ std::string Fecha::getStrFecha(){
 	return Helper::concatenar(Helper::concatenar(sanio,smes,""),sdia,"");
 }
 
+std::string Fecha::getFriendlyStr(){
+
+	string sanio = Helper::IntToString(anio);
+	string smes= Helper::IntToString(mes);
+	if(mes < 10){
+		smes = "0";
+		smes.append(Helper::IntToString(mes));
+	}
+
+	string sdia= Helper::IntToString(dia);
+	if(dia < 10){
+		sdia = "0";
+		sdia.append(Helper::IntToString(dia));
+	}
+
+	return Helper::concatenar(Helper::concatenar(sdia,smes,"-"),sanio,"-");
+}
+
 short Fecha::getAnio() const{
     return anio;
 }

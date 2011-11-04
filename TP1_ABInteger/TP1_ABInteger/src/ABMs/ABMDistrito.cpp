@@ -83,7 +83,11 @@ void ABMDistrito::Modify(Distrito* distrito){
 vector<Distrito> ABMDistrito::GetDistritos(){
 
 	vector<Distrito> distritos;
-	this->bpPlusTree->next();//->getFirstKey();
+
+
+	this->bpPlusTree->exportTree();
+
+	//this->bpPlusTree->next();//->getFirstKey();
 	/*vector<Eleccion> elecciones;
 
 	for(int i = 0; i < byFecha.size(); i++){
@@ -106,8 +110,11 @@ vector<Distrito> ABMDistrito::GetDistritos(){
 Distrito* ABMDistrito::GetDistrito(int idDistrito){
 
 	if (ExistsKey(idDistrito)){
+
 		Element* el = bpPlusTree->findExact(idDistrito);
+
 		int idDist= el->getKey();
+
 		return new Distrito(idDist, el->getData());
 	}
 	else{

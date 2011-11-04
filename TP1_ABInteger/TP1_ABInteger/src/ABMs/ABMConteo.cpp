@@ -20,16 +20,14 @@ ABMConteo::ABMConteo() {
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
-/********* OJO: BUG EN EL INDICE, VER IMPLE DEL INDICE *****************/
 int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
 
         int idConteo = Identities::GetNextIdConteo();
 
-    	cout << "ABMConteo::Add - distrito: " << idConteo << endl;
-
         //Key key = Helper::IntToString(idConteo);
         KeyInt key = idConteo;
-        string str = idLista.append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion));
+        string idListaAux =idLista;
+        string str = idListaAux.append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion));
 
         Data data = (Data)str.c_str();
         int longData = str.length();
@@ -38,7 +36,10 @@ int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
         this->bplusTree->insert(element);
 
         //Actualizo los indices
+        //cout << "this->indexByDistrito->AppendToIndex(Helper::IntToString( " << Helper::IntToString(idDistrito) << endl;
         this->indexByDistrito->AppendToIndex(Helper::IntToString(idDistrito), Helper::IntToString(idConteo));
+
+
         this->indexByLista->AppendToIndex(idLista, Helper::IntToString(idConteo));
 
         //Esta es la clave de la eleccion dentro de conteo
@@ -79,11 +80,10 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
                 int idEleccion = c->GetIdEleccion();
 
                 if(votante->VotoEnEleccion(idEleccion)){
-                        cout << "-------------------------------------------------------------------------------------------------------------" << endl;
-                        cout << "\n\n\El votante " << votante->GetNombreYApellido() << " ya voto en la eleccion " << c->GetIdEleccion() << endl;
-                        cout << "-------------------------------------------------------------------------------------------------------------" << endl;
-                        return;
-
+					cout << "-------------------------------------------------------------------------------------------------------------" << endl;
+					cout << "El votante " << votante->GetNombreYApellido() << " ya voto en la eleccion " << c->GetIdEleccion() << endl;
+					cout << "-------------------------------------------------------------------------------------------------------------" << endl;
+					return;
                 }
 
                 c->AddVoto();
@@ -104,12 +104,12 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
                 Element * element=new Element(key, data, longData);
                 this->bplusTree->modify(element);
 
-                BPlusTreeLog::LogModify(key, data, "Conteo_BPlusTreeOperation.log");
-                BPlusTreeLog::LogProcess(this->bplusTree, "Conteo_BPlusTreeProcess.log");
+                BPlusTreeLog::LogModify(key, data, ConfigurationMananger::getInstance()->getLogOperConteoFile());
+                BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile());
 
                 this->NotifyVotante(votante, idEleccion);
 
-                cout <<endl<<endl<<endl <<  "Usted voto la Lista " << c->GetIdLista() << ". Tiene un total del votos de: " << c->GetCountVotos() << endl;
+                cout <<endl<<endl<<endl <<  "El Votante " << votante->GetNombreYApellido() << " voto por la Lista " << c->GetIdLista() << ". La lista tiene un total del votos de: " << c->GetCountVotos() << endl;
 
         }
         else{
@@ -172,18 +172,20 @@ void ABMConteo::NotifyVotante(Votante* votante, int idEleccion){
 
 Conteo* ABMConteo::GetConteo(int idConteo){
 
-        if(ExistsKey(idConteo)){
+	if(ExistsKey(idConteo)){
 
-                Element* elemento = this->bplusTree->findExact(idConteo);
-                vector<string> splited = Helper::split(elemento->getData(), '|');
-                int cantVotos = 0;
+			Element* elemento = this->bplusTree->findExact(idConteo);
+			vector<string> splited = Helper::split(elemento->getData(), '|');
+			int cantVotos = 0;
 
-                if(splited.size() == 4){        //si ya tiene registrado algun voto
-                	cantVotos = Helper::StringToInt(splited[3]);
-                }
+			if(splited.size() == 4){        //si ya tiene registrado algun voto
+				cantVotos = Helper::StringToInt(splited[3]);
+			}
 
-                return new Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), idConteo, cantVotos);
-        }
+			return new Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), idConteo, cantVotos);
+	}
+
+	return NULL;
 }
 
 vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
@@ -210,7 +212,9 @@ vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
 vector<Conteo> ABMConteo::GetConteoByEleccion(int idEleccion){
 
         vector<Conteo> conteos;
+
         vector<Key> ids = this->indexByEleccion->GetIds(Helper::IntToString(idEleccion));
+
         for(int i = 0; i < ids.size(); i++){
 
                 int kint = Helper::StringToInt(ids[i]);
@@ -239,18 +243,23 @@ vector<Conteo> ABMConteo::GetConteoByLista(string idLista){
 
         for(int i = 0; i < ids.size(); i++){
 
-                int kint = Helper::StringToInt(ids[i]);
-                Element* elemento = this->bplusTree->findExact(Helper::StringToInt(ids[i]));
-                vector<string> splited = Helper::split(elemento->getData(), '|');
-                int cantVotos = 0;
-                if(splited.size() == 4){        //si ya tiene registrado algun voto
-                        cantVotos = Helper::StringToInt(splited[3]);
-                }
+        	int kint = Helper::StringToInt(ids[i]);
 
-                ABMEleccion abm = ABMEleccion();
-                Eleccion* e = abm.GetEleccion(Helper::StringToInt(splited[2]));
+			Element* elemento = this->bplusTree->findExact(Helper::StringToInt(ids[i]));
 
-                conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), e->GetId(), kint, cantVotos));
+			vector<string> splited = Helper::split(elemento->getData(), '|');
+
+
+			int cantVotos = 0;
+			if(splited.size() == 4){        //si ya tiene registrado algun voto
+				cantVotos = Helper::StringToInt(splited[3]);
+			}
+
+			ABMEleccion abm = ABMEleccion();
+			Eleccion* e = abm.GetEleccion(Helper::StringToInt(splited[2]));
+
+			conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), e->GetId(), kint, cantVotos));
+
         }
 
         return conteos;

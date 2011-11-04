@@ -32,6 +32,7 @@ public:
         void testConteo3();
         void testPersistorDistrito();
         void testPersistorConteo();
+        void Votos();
 };
 
 #endif /* TEST_H_ */

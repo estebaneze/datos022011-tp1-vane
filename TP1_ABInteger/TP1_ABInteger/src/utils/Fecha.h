@@ -23,6 +23,7 @@ class Fecha {
 		void setAnio(short anio);
 		void setDia(short dia);
 		void setMes(short mes);
+		string getFriendlyStr();
 		friend bool operator < (Fecha& fecha1, Fecha& fecha2);
 		friend bool operator > (Fecha& fecha1, Fecha& fecha2);
 		friend bool operator == (Fecha& fecha1, Fecha& fecha2);

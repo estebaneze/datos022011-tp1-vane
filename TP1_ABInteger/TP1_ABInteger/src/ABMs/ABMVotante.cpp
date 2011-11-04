@@ -58,8 +58,8 @@ bool ABMVotante::Delete(Votante *votante){
                                 aux = Helper::concatenar(aux,votante->GetDomicilio(),ConfigurationMananger::getInstance()->getSeparador1());
                                 aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),ConfigurationMananger::getInstance()->getSeparador1());
 
-                HashLog::LogProcess(this->directorio,"Votante_HashProcess.log");
-                HashLog::LogDelete(Helper::LongToString(votante->GetDni()),aux,"Votante_HashOperation.log");
+                HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessVotanteFile());
+                HashLog::LogDelete(Helper::LongToString(votante->GetDni()),aux,ConfigurationMananger::getInstance()->getLogOperVotanteFile());
                 return true;
         }
         else{
@@ -95,8 +95,8 @@ void ABMVotante::Modify(Votante *votante){
                 this->directorio->modify(Helper::LongToString(votante->GetDni()),aux);
 
 
-                HashLog::LogProcess(this->directorio,"Votante_HashProcess.log");
-                HashLog::LogModify(Helper::LongToString(votante->GetDni()),aux,"Votante_HashOperation.log");
+                HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessVotanteFile());
+                HashLog::LogModify(Helper::LongToString(votante->GetDni()),aux,ConfigurationMananger::getInstance()->getLogOperVotanteFile());
         }
 
 }

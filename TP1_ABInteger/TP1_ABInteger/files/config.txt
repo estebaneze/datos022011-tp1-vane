@@ -4,16 +4,16 @@
 
 
 blockSize = 24576		#TamaÃ±o del bloque para el hash
-treeBlockSize = 128		#TamaÃ±o del bloque para el arbol
+treeBlockSize = 4096		#TamaÃ±o del bloque para el arbol
 hashBlockSize = 4096 		#Tamaño del bloque para el arbol
 chargePercent = 0.1		#Porcentaje de carga
 minRecordSizeTree = 0		#TamaÃ±o minimo del bloque
 maxRecordPercent = 0.2		#Porcentaje maximo del registro
 
-hashBSizeCandidato = 64		#TamaÃ±o del bucket para el hash
+hashBSizeCandidato = 512		#TamaÃ±o del bucket para el hash
 hashBSizeAdministrador = 512		#TamaÃ±o del bucket para el hash
 hashBSizeCargo = 512		#TamaÃ±o del bucket para el hash
-hashBSizeLista = 64		#TamaÃ±o del bucket para el hash
+hashBSizeLista = 512		#TamaÃ±o del bucket para el hash
 hashBSizeVotante = 1024		#TamaÃ±o del bucket para el hash
 
 separador1 = |		#TSeparador pipe

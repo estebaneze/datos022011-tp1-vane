@@ -12,7 +12,7 @@ void VotanteLog::LogSuccess(string info)
 	string message="Votante con DNI: ";
 	message.append(info);
 	message.append(" logueado correctamente.");
-	Log::WriteLog(message, "Log_AutheticationSuccess_votante");
+	Log::WriteLog(message, "files/logs/Log_AutheticationSuccess_votante");
 	//cout << message << endl;
 
 }
@@ -34,7 +34,7 @@ void VotanteLog::LogUserInvalid(string info)
 	message.append(info);
 	message.append(" inexistente.");
 
-	Log::WriteLog(message, "Log_AutheticationInvalid_votante");
+	Log::WriteLog(message, "files/logs/Log_AutheticationInvalid_votante");
 
 }
 
@@ -44,7 +44,7 @@ void VotanteLog::LogPasswordInvalid(string info)
 	message.append(info);
 	message.append(" ingreso password incorrecto.");
 
-	Log::WriteLog(message, "Log_AutheticationInvalid_votante");
+	Log::WriteLog(message, "files/logs/Log_AutheticationInvalid_votante");
 
 }
 
@@ -54,7 +54,7 @@ void VotanteLog::LogVoto(string dni, string lista)
 	message.append(dni);
 	message.append(" voto Lista: ");
 	message.append(lista);
-	Log::WriteLog(message, "Log_Voto_votante");
+	Log::WriteLog(message, "files/logs/Log_Voto_votante");
 }
 
 

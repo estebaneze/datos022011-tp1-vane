@@ -86,8 +86,8 @@ bool ABMEleccion::Delete(Eleccion* eleccion){
                 }
 
                 //logueo el delete
-                BPlusTreeLog::LogDelete(idEleccion,auxValueBtree,"Eleccion_BPlusTreeOperation.log");
-                BPlusTreeLog::LogProcess(this->bpPlusTree,"Eleccion_BPlusTreeProccess.log");
+                BPlusTreeLog::LogDelete(idEleccion,auxValueBtree,ConfigurationMananger::getInstance()->getLogOperEleccionFile());
+                BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessEleccionFile());
 
                 //Elimino del indice
                 this->indexByFecha->DeleteFromIndex(eleccion->GetDate().getStrFecha(),Helper::IntToString(idEleccion));
@@ -122,7 +122,8 @@ bool ABMEleccion::Modify(Eleccion* eleccion){
                 }
 
                 vector<int> distritos = eleccion->GetDistritos();
-                string concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1());
+                string concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1()).append(ConfigurationMananger::getInstance()->getSeparador1());
+
 
                 //data = fecha|idcargo|distritos
                 string str = eleccion->GetDate().getStrFecha().append("|").append(Helper::IntToString(eleccion->GetIdCargo())).append("|").append(concatDistritos);
@@ -132,8 +133,8 @@ bool ABMEleccion::Modify(Eleccion* eleccion){
                 this->bpPlusTree->modify(elemento);
 
                 //logueo el modify
-                BPlusTreeLog::LogModify(idEleccion,str,"Eleccion_BPlusTreeOperation.log");
-                BPlusTreeLog::LogProcess(this->bpPlusTree,"Eleccion_BPlusTreeProccess.log");
+                BPlusTreeLog::LogModify(idEleccion,str,ConfigurationMananger::getInstance()->getLogOperEleccionFile());
+                BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessEleccionFile());
 
                 //Aca no hay que modificar el indice, ya que lo que se indexa es la fecha, que me devuelve los ids de elcciones correspondientes
                         //a esa fecha, pero eso nunca se modifica.
@@ -141,7 +142,7 @@ bool ABMEleccion::Modify(Eleccion* eleccion){
                 //Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
                 distritos = eleccion->GetDistritos();
                 for(int i = 0; i< distritos.size(); i++){
-                        this->indexByDistrito->AppendToIndex(Helper::IntToString(distritos[i]), Helper::IntToString(eleccion->GetId()));
+                      this->indexByDistrito->AppendToIndex(Helper::IntToString(distritos[i]), Helper::IntToString(eleccion->GetId()));
                 }
 
                 return true;
@@ -153,14 +154,18 @@ bool ABMEleccion::Modify(Eleccion* eleccion){
 /*
  * Falta implementar
  */
+/*
 vector<Eleccion> ABMEleccion::GetElecciones(){
 
-        cout << endl << endl;
-        cout << "****************************** Warning ********************************************" << endl;
-        cout << "------------------------- ABMEleccion::GetElecciones NOT IMPLEMENTED ------------------------------" << endl;
-        cout << "***********************************************************************************" << endl;
-        cout << endl << endl;
-}
+	cout << endl << endl;
+	cout << "****************************** Warning ********************************************" << endl;
+	cout << "------------------------- ABMEleccion::GetElecciones NOT IMPLEMENTED ------------------------------" << endl;
+	cout << "***********************************************************************************" << endl;
+	cout << endl << endl;
+
+	vector<Eleccion> es;
+	return es;
+}*/
 
 
 Eleccion* ABMEleccion::GetEleccion(int idEleccion){
@@ -168,8 +173,8 @@ Eleccion* ABMEleccion::GetEleccion(int idEleccion){
         if (ExistsKey(idEleccion)){
 
                 Element * el = this->bpPlusTree->findExact(idEleccion);
-
                 string data = el->getData();
+
                 //data = fecha|idcargo|distritos
                 vector<string> splited = Helper::split(data, '|');
                 Fecha fecha = Fecha(splited[0]);
@@ -178,8 +183,9 @@ Eleccion* ABMEleccion::GetEleccion(int idEleccion){
                 //Busco  los distritos
                 Eleccion * eleccion =  new Eleccion(idCargo, fecha, idEleccion);
 
-                for(int i = 2; i < splited.size(); i++){
-                      eleccion->AddDistrito(Helper::StringToInt(splited[i]));
+                //Busco hasta splited.size() - 1 porque la data termina con un "|", y el ultimo elemento del spliteo no me interesa
+                for(int i = 2; i < splited.size() - 1; i++){
+                	eleccion->AddDistrito(Helper::StringToInt(splited[i]));
                 }
 
                 return eleccion;
