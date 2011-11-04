@@ -117,8 +117,8 @@ int main5(){
 */
 
 int main(){
-
-	Reportes::reportePorDistrito(45);
+	CargaMasiva::CargarEntidades();
+	//Reportes::reportePorDistrito(45);
 }
 
 int main2(int arg, char *argv[]) {
