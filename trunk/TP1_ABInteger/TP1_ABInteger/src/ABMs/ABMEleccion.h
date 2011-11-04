@@ -31,7 +31,7 @@ class ABMEleccion {
 		int Add(Eleccion* eleccion);
 		bool Delete(Eleccion* eleccion);
 		bool Modify(Eleccion* eleccion);
-		vector<Eleccion> GetElecciones();
+		//vector<Eleccion> GetElecciones();
 		Eleccion* GetEleccion(int idEleccion);
 		void mostrarEleccionesPorPantalla();
 		vector<Eleccion*> GetByFecha(Fecha* fecha);

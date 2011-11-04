@@ -34,12 +34,22 @@ class Identities {
 		static int GetNextIdConteo();
 		static int GetNextIdDistrito();
 		static int GetNextIdAdministrador();
-		static void InitializeFile();
 		static int GetNextIdEleccion();
+
+		static int GetLastIdCandidato();
+		static int GetLastIdCargo();
+		static int GetLastIdConteo();
+		static int GetLastIdDistrito();
+		static int GetLastIdAdministrador();
+		static int GetLastIdEleccion();
+
+		static void InitializeFile();
+
 	private:
 		static void RefreshFile(string key, int value);
 		static string _file;
 		static int GetNextId(string key);
+		static int GetLastId(string key);
 };
 
 #endif /* IDENTITIES_H_ */

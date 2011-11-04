@@ -16,6 +16,11 @@ void Reportes::reportePorEleccion(int idEleccion)
 
 	vector<Conteo> resultados =  abmConteo->GetConteoByEleccion(idEleccion);
 
+	if(resultados.size() == 0) {
+		cout << "No se encontraron resultados." << endl;
+		return;
+	}
+
 	//Ordeno por cantidad de votos
 	resultados = Reportes::OrderByCantidadVotos(resultados);
 
@@ -35,8 +40,15 @@ void Reportes::reportePorLista(string lista)
 
 	vector<Conteo> resultados =  abmConteo->GetConteoByLista(lista);
 
+	if(resultados.size() == 0){
+		cout << "No se encontraron resultados." << endl;
+		return;
+	}
+
 	//Primero ordeno por fecha de eleccion
-	resultados = Reportes::OrderByFecha(resultados);
+	vector<Conteo> aux = resultados;
+
+	resultados = Reportes::OrderByFecha(aux);
 	vector<Conteo>::iterator it = resultados.begin();
 
 	Conteo conteo = (Conteo) *it;
@@ -69,19 +81,29 @@ void Reportes::reportePorLista(string lista)
 	}
 
 	//Ordeno los registro que ya estan agrupados por cantidad de votos
-	vector< vector<Conteo> >::iterator it2 = resAgrupados.begin();
+	/*vector< vector<Conteo> >::iterator it2 = resAgrupados.begin();
 	vector<Conteo> cs  = (vector<Conteo>) *it2;
 	for (it2 = resAgrupados.begin(); it2 != resAgrupados.end(); it++) {
-		cs = *it2;
-		cs = Reportes::OrderByCantidadVotos(cs);
+		vector<Conteo> aux = *it2;
+
+		cs = Reportes::OrderByCantidadVotos(aux);
+	}*/
+
+
+	for(int i = 0; i < resAgrupados.size(); i++){
+
+		vector<Conteo> aux = Reportes::OrderByCantidadVotos(resAgrupados[i]);
+		resAgrupados[i] = aux;
 	}
 
 	cout << endl << endl << endl;
 
 	for(int i = 0; i < resAgrupados.size(); i++){
 
-		Eleccion* e = abmEleccion->GetEleccion(conteo.GetIdDistrito());
+		Eleccion* e = abmEleccion->GetEleccion(conteo.GetIdEleccion());
+
 		string cargo = abmCargo->GetCargo(e->GetIdCargo())->GetNombre();
+
 		Fecha fecha = e->GetDate().getStrFecha();
 
 		vector<Conteo> cs = resAgrupados[i];
@@ -89,10 +111,17 @@ void Reportes::reportePorLista(string lista)
 		cout << "Eleccion: (" << fecha.getStrFecha() << " - " << cargo << ")" << endl;
 
 		for(int j = 0; j < cs.size(); j++){
+
 			Conteo res = cs[j];
-			string distrito = abmDistrito->GetDistrito(res.GetIdDistrito())->GetNombre();
-			cout << "		Distrito: " << distrito << " tiene " << res.GetCountVotos() << " votos." << endl;
+			Distrito* d = abmDistrito->GetDistrito(res.GetIdDistrito());
+
+			if(d != NULL){
+				string distrito = d->GetNombre();
+				cout << "		Distrito: " << distrito << " tiene " << res.GetCountVotos() << " votos." << endl;
+			}
 		}
+
+		//cout  << endl << "--i: " << i << " eleccion " << e->GetId() << " -  id cargo " << e->GetIdCargo() << endl;
 	}
 
 	delete abmConteo;
@@ -110,6 +139,11 @@ void Reportes::reportePorDistrito(int idDistrito)
 
 	vector<Conteo> resultados =  abmConteo->GetConteoByDistrito(idDistrito);
 
+	if(resultados.size() == 0){
+		cout << "No se encontraron resultados." << endl;
+		return;
+	}
+
 	//Primero ordeno por fecha de eleccion
 	resultados = Reportes::OrderByFecha(resultados);
 	vector<Conteo>::iterator it = resultados.begin();
@@ -124,6 +158,7 @@ void Reportes::reportePorDistrito(int idDistrito)
 	int idEleccionActual = conteo.GetIdEleccion();
 
 	//Tengo que agrupar por eleccion
+
 	for (it = resultados.begin(); it != resultados.end(); it++) {
 
 		conteo = (Conteo) *it;
@@ -144,18 +179,28 @@ void Reportes::reportePorDistrito(int idDistrito)
 	}
 
 	//Ordeno los registro que ya estan agrupados por cantidad de votos
-	vector< vector<Conteo> >::iterator it2 = resAgrupados.begin();
+
+	/*vector< vector<Conteo> >::iterator it2 = resAgrupados.begin();
 	vector<Conteo> cs  = (vector<Conteo>) *it2;
+	cout << "resAgrupados.size() " << resAgrupados.size() << endl;
+
 	for (it2 = resAgrupados.begin(); it2 != resAgrupados.end(); it++) {
 		cs = *it2;
 		cs = Reportes::OrderByCantidadVotos(cs);
+	}
+	*/
+
+	for(int i = 0; i < resAgrupados.size(); i++){
+
+		vector<Conteo> aux = Reportes::OrderByCantidadVotos(resAgrupados[i]);
+		resAgrupados[i] = aux;
 	}
 
 	cout << endl << endl << endl;
 
 	for(int i = 0; i < resAgrupados.size(); i++){
 
-		Eleccion* e = abmEleccion->GetEleccion(conteo.GetIdDistrito());
+		Eleccion* e = abmEleccion->GetEleccion(conteo.GetIdEleccion());
 		string cargo = abmCargo->GetCargo(e->GetIdCargo())->GetNombre();
 		Fecha fecha = e->GetDate().getStrFecha();
 
@@ -206,6 +251,9 @@ vector<Conteo> Reportes::OrderByFecha(vector<Conteo> resultados){
 
 	Conteo aux;;
 	ABMEleccion abmElecciones = ABMEleccion();
+
+	if(resultados.size() == 0)
+		return resultados;
 
 	for (int i=0; i <= resultados.size()-1; i++) {
 

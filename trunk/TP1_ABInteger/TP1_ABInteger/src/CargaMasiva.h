@@ -39,10 +39,14 @@ class CargaMasiva {
 		static void CargarListas();
 		static void CargarVotantes();
 		static void CargarAdministradores();
-
+		static void GenerarVotosAutomaticos();
 		//Carga todas las entidades
 		static void CargarEntidades();
 
+	private:
+		static int GetRandom(int maxNumber);
+		static vector<int> GetIdsConteos(vector<Conteo> cs);
+		static int GetRandomFromNumbers(vector<int> posibleNumbers);
 };
 
 #endif /* CARGAMASIVA_H_ */
