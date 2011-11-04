@@ -1245,7 +1245,6 @@ while (fin==0){
 					vector<Distrito*> distritos;
 
 					int maxIdDistrito = Identities::GetLastIdDistrito() - 1;
-					cout << "maxIdDistrito:  " << maxIdDistrito << endl;
 					for(int i = 1; i <= maxIdDistrito; i++){
 
 						Distrito* d = abmDistrito->GetDistrito(i);
