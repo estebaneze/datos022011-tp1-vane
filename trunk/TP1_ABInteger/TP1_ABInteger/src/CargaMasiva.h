@@ -18,11 +18,11 @@
 #include "ABMs/ABMAdministrador.h"
 #include "utils/ConfigFile.h"
 #include "Common/Helper.h"
+#include "Common/Identities.h"
 
 #define CANT_DISTRITOS 100
 #define CANT_CANDIDATOS 100
 #define CANT_CARGOS 100
-#define CANT_CONTEO 100
 #define CANT_ELECCIONES 100
 #define CANT_LISTAS 100
 #define CANT_VOTANTES 100
@@ -31,19 +31,19 @@
 class CargaMasiva {
 
 	public:
+
+		//Carga todas las entidades
+		static void CargarEntidades();
+		static void GenerarVotosAutomaticos();
+
+	private:
 		static void CargarDistritos();
 		static void CargarCandidatos();
 		static void CargarCargos();
-		static void CargarConteo();
 		static void CargarElecciones();
 		static void CargarListas();
 		static void CargarVotantes();
 		static void CargarAdministradores();
-		static void GenerarVotosAutomaticos();
-		//Carga todas las entidades
-		static void CargarEntidades();
-
-	private:
 		static int GetRandom(int maxNumber);
 		static vector<int> GetIdsConteos(vector<Conteo> cs);
 		static int GetRandomFromNumbers(vector<int> posibleNumbers);

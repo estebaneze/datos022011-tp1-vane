@@ -42,59 +42,193 @@ int CargaMasiva::GetRandomFromNumbers(vector<int> posibleNumbers){
 void CargaMasiva::CargarDistritos(){
 
 	//Borro el archivo de distrito
-	//string archivoDistrito = ConfigurationMananger::getInstance()->getDistritoFile();
+	string archivo = ConfigurationMananger::getInstance()->getDistritoFile();
+	archivo = "rm " + archivo;
+	system(archivo.c_str());
+	archivo = archivo + ".fs";
+	system(archivo.c_str());
 
-    ABMDistrito abmDistrito = ABMDistrito();
+	//Cargo CANT_Distrito distritos
+	ABMDistrito abmDistrito = ABMDistrito();
 
     for(int i = 1; i <= CANT_DISTRITOS; i++){
-    	string distrito = "Distrito ";
-        distrito.append(Helper::IntToString(i));
-        abmDistrito.Add(distrito);
+            string distrito = "Distrito ";
+            distrito.append(Helper::IntToString(i));
+            abmDistrito.Add(distrito);
     }
-
 }
 
-void CargaMasiva::CargarCandidatos(){
 
+void CargaMasiva::CargarVotantes(){
+
+	//Borro el archivo de votantes
+	string archivo = ConfigurationMananger::getInstance()->getVotanteFile();
+	string archivobk = "rm " + archivo + ".bk";
+	system(archivobk.c_str());
+	archivobk = archivobk + ".fs";
+	system(archivobk.c_str());
+	string archivodir = "rm " + archivo + ".dir";
+	system(archivodir.c_str());
+	archivodir = archivodir + ".fs";
+	system(archivodir.c_str());
+
+	//Cargo CANT_VOTANTES votantes
+	ABMVotante abmVotante = ABMVotante();
+
+    for(int i = 1; i <= CANT_VOTANTES; i++){
+
+			string nombreApellido = "Nombre Apellido ";
+			nombreApellido = nombreApellido.append(Helper::IntToString(i));
+
+			string clave = "Clave";
+			clave.append(Helper::IntToString(i));
+
+			string domicilio = "Domicilio ";
+			domicilio.append(Helper::IntToString(i));
+
+			long dni = (long)GetRandom(99999) * 1000;
+
+			int idDistrito = GetRandom(CANT_DISTRITOS);
+
+			Votante  * vot = new Votante(dni, nombreApellido, clave, domicilio, idDistrito);
+            abmVotante.Add(vot);
+    }
 }
 
 void CargaMasiva::CargarCargos(){
 
+	//Borro el archivo de cargos
+	string archivo = ConfigurationMananger::getInstance()->getCargoFile();
+	string archivobk = "rm " + archivo + ".bk";
+	system(archivobk.c_str());
+	archivobk = archivobk + ".fs";
+	system(archivobk.c_str());
+	string archivodir = "rm " + archivo + ".dir";
+	system(archivodir.c_str());
+	archivodir = archivodir + ".fs";
+	system(archivodir.c_str());
 
+	//Cargo CANT_CARGOS cargos
+	ABMCargo abmCargo = ABMCargo();
 
+    for(int i = 1; i <= CANT_CARGOS; i++){
+			string cargo = "Cargo ";
+			cargo.append(Helper::IntToString(i));
+			vector<int> cargosSecundarios;
+			if (i>1) cargosSecundarios.push_back(GetRandom(i-1));
+
+            abmCargo.Add(cargo, cargosSecundarios);
+    }
 }
 
-void CargaMasiva::CargarConteo(){
-
-}
 
 void CargaMasiva::CargarElecciones(){
 
+	//Borro el archivo de elecciones
+	string archivo = ConfigurationMananger::getInstance()->getEleccionFile();
+	archivo = "rm " + archivo;
+	system(archivo.c_str());
+	archivo = archivo + ".fs";
+	system(archivo.c_str());
+
+	//Cargo CANT_ELECCIONES elecciones
+	ABMEleccion abmEleccion = ABMEleccion();
+
+	for(int i = 1; i <= CANT_ELECCIONES; i++){
+
+			Fecha fecha = Fecha(1, 1, 1000+i);
+
+			int idCargo = GetRandom(CANT_CARGOS);
+
+			Eleccion  * ele = new Eleccion(idCargo, fecha);
+            abmEleccion.Add(ele);
+    }
 }
 
 void CargaMasiva::CargarListas(){
+	//Borro el archivo de listas
+	string archivo = ConfigurationMananger::getInstance()->getListaFile();
+	string archivobk = "rm " + archivo + ".bk";
+	system(archivobk.c_str());
+	archivobk = archivobk + ".fs";
+	system(archivobk.c_str());
+	string archivodir = "rm " + archivo + ".dir";
+	system(archivodir.c_str());
+	archivodir = archivodir + ".fs";
+	system(archivodir.c_str());
 
+	//Cargo CANT_LISTAS listas
+	ABMLista abmLista = ABMLista();
+
+    for(int i = 1; i <= CANT_LISTAS; i++){
+			string lista = "Lista ";
+			lista.append(Helper::IntToString(i));
+
+			int idEleccion = GetRandom(CANT_ELECCIONES);
+
+			Lista * lis = new Lista(lista, idEleccion);
+            abmLista.Add(lis);
+    }
 }
 
-void CargaMasiva::CargarVotantes(){
+void CargaMasiva::CargarCandidatos(){
+	//Borro el archivo de candidatos
+	string archivo = ConfigurationMananger::getInstance()->getCandidatoFile();
+	string archivobk = "rm " + archivo + ".bk";
+	system(archivobk.c_str());
+	archivobk = archivobk + ".fs";
+	system(archivobk.c_str());
+	string archivodir = "rm " + archivo + ".dir";
+	system(archivodir.c_str());
+	archivodir = archivodir + ".fs";
+	system(archivodir.c_str());
 
+	//Cargo CANT_CANDIDATOS cargos
+	ABMCandidato abmCandidato = ABMCandidato();
+
+    for(int i = 1; i <= CANT_CANDIDATOS; i++){
+			string idLista = Helper::IntToString(GetRandom(CANT_LISTAS));
+			long int idVotante = (long int) GetRandom(CANT_VOTANTES);
+			int idCargo = (int) GetRandom(CANT_CARGOS);
+            abmCandidato.Add(idLista, idVotante, idCargo);
+    }
 }
 
 void CargaMasiva::CargarAdministradores(){
 
+	//Borro el archivo de administradores
+	string archivo = ConfigurationMananger::getInstance()->getAdminFile();
+	string archivobk = "rm " + archivo + ".bk";
+	system(archivobk.c_str());
+	archivobk = archivobk + ".fs";
+	system(archivobk.c_str());
+	string archivodir = "rm " + archivo + ".dir";
+	system(archivodir.c_str());
+	archivodir = archivodir + ".fs";
+	system(archivodir.c_str());
 
+	//Cargo CANT_ADMINISTRADORES administradores
+	ABMAdministrador abmAdministrador = ABMAdministrador();
 
+    for(int i = 1; i <= CANT_ADMINISTRADORES; i++){
+			string admin = "Admin";
+			admin.append(Helper::IntToString(i));
+			Administrador  * adm = new Administrador(admin,admin);
+            abmAdministrador.Add(adm);
+    }
 }
 
 //Carga todas las entidades
 void CargaMasiva::CargarEntidades(){
+	//Inicializo los ids en 1
+	Identities::InitializeFile();
+	//Carga masiva de todas las entidades
 	CargarDistritos();
-	CargarCandidatos();
+	CargarVotantes();
 	CargarCargos();
-	CargarConteo();
 	CargarElecciones();
 	CargarListas();
-	CargarVotantes();
+	CargarCandidatos();
 	CargarAdministradores();
 }
 
@@ -140,6 +274,4 @@ void CargaMasiva::GenerarVotosAutomaticos(){
 			}
 		}
 	}
-
-
 }
