@@ -17,10 +17,10 @@ ABMCargo::ABMCargo() {
 
 int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
 
-        int idCargo = Identities::GetNextIdCargo();
-
-        //if (!(this->directorio->existKey(Helper::IntToString(idCargo)))){
+         //if (!(this->directorio->existKey(Helper::IntToString(idCargo)))){
         if(!this->Exists(nombre)){      //Si no existe un cargo con el mismo nombre
+
+            int idCargo = Identities::GetNextIdCargo();
 
                 string field = nombre.append("|");
                 field.append(Helper::concatenar(cargosSecundarios, ConfigurationMananger::getInstance()->getSeparador1()));

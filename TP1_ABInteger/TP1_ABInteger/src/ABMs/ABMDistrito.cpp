@@ -21,10 +21,9 @@ ABMDistrito::ABMDistrito() {
  */
 int ABMDistrito::Add(string nombre){
 
-	int idDistrito = Identities::GetNextIdDistrito();
-
 	if (!Exists(nombre)){
 
+		int idDistrito = Identities::GetNextIdDistrito();
 		Data data = (Data)nombre.c_str();
 
 		int longData = nombre.length();
