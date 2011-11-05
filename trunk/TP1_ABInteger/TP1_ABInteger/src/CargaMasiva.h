@@ -50,6 +50,7 @@ class CargaMasiva {
 		static void BorrarArchivos();
 		static void BorrarArchivosIndice(string indexFile);
 		static void BorrarArchivosLog();
+		static void BorraTodosArchivos();
 };
 
 #endif /* CARGAMASIVA_H_ */
