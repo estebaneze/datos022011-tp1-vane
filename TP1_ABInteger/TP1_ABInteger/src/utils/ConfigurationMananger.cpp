@@ -255,6 +255,7 @@ string ConfigurationMananger::getLogDirectory()
 
 string ConfigurationMananger::getFileDirectory()
 {
+
 	return this->fileDirectory;
 }
 

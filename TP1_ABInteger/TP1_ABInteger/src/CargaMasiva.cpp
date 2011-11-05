@@ -5,11 +5,12 @@
  *      Author: loo
  */
 
+#include "Persistencia/exceptions/excepciones.h"
 #include "CargaMasiva.h"
 
 void CargaMasiva::BorrarArchivosLog(){
 
-	string scriptEliminaLog = "rm -r " + ConfigurationMananger::getInstance()->getLogDirectory() + "*";
+	string scriptEliminaLog = "rm -r " + ConfigurationMananger::getInstance()->getLogDirectory() + "files/logs/*.log";
 	system(scriptEliminaLog.c_str());
 }
 
@@ -25,6 +26,9 @@ void CargaMasiva::BorraTodosArchivos(){
 	system(scriptEliminaArchivos.c_str());
 
 	scriptEliminaArchivos = "rm -r " + ConfigurationMananger::getInstance()->getFileDirectory() + "*.bpt";
+	system(scriptEliminaArchivos.c_str());
+
+	scriptEliminaArchivos = "rm -r " + ConfigurationMananger::getInstance()->getFileDirectory() + "files/logs/*.log";
 	system(scriptEliminaArchivos.c_str());
 
 }
@@ -151,7 +155,7 @@ void CargaMasiva::BorrarArchivos(){
 	system(archivodir.c_str());
 
 
-	CargaMasiva::BorrarArchivosLog();
+	//CargaMasiva::BorrarArchivosLog();
 }
 
 vector<int> CargaMasiva::GetIdsConteos(vector<Conteo> cs){
@@ -183,24 +187,26 @@ int CargaMasiva::GetRandomFromNumbers(vector<int> posibleNumbers){
 void CargaMasiva::CargarDistritos(){
 
 	//Cargo CANT_Distrito distritos
-	ABMDistrito abmDistrito = ABMDistrito();
+	ABMDistrito* abmDistrito = new ABMDistrito();
 
     for(int i = 1; i <= CANT_DISTRITOS; i++){
 
     	string distrito = "Distrito ";
 		distrito.append(Helper::IntToString(i));
-		int idDistrito =  abmDistrito.Add(distrito);
+		int idDistrito =  abmDistrito->Add(distrito);
 
         cout << "Distrito (" << idDistrito << "): " << distrito << endl;
         Log::WriteLog("Distrito (" + Helper::IntToString(idDistrito) + "): " + distrito+ " ", "files/logs/cargaMasiva.log" );
     }
+
+    delete abmDistrito;
 }
 
 
 void CargaMasiva::CargarVotantes(){
 
 	//Cargo CANT_VOTANTES votantes
-	ABMVotante abmVotante = ABMVotante();
+	ABMVotante* abmVotante = new ABMVotante();
 
     for(int i = 1; i <= CANT_VOTANTES; i++){
 
@@ -218,7 +224,7 @@ void CargaMasiva::CargarVotantes(){
 		int idDistrito = GetRandom(CANT_DISTRITOS);
 
 		Votante  * vot = new Votante(dni, nombreApellido, clave, domicilio, idDistrito);
-		abmVotante.Add(vot);
+		abmVotante->Add(vot);
 
 		string strDni = Helper::LongToString(vot->GetDni());
 		string pass = vot->GetClave();
@@ -226,12 +232,14 @@ void CargaMasiva::CargarVotantes(){
 		cout << "Votante " << strDni << ". Clave: "<< pass << ". Distrito: " << strDistrito << endl;
 		Log::WriteLog("Votante: " + strDni + ". Clave: " + pass + " . Distrito: " + strDistrito + " ", "files/logs/cargaMasiva.log");
     }
+
+    delete abmVotante;
 }
 
 void CargaMasiva::CargarCargos(){
 
 	//Cargo CANT_CARGOS cargos
-	ABMCargo abmCargo = ABMCargo();
+	ABMCargo* abmCargo = new ABMCargo();
 
     for(int i = 1; i <= CANT_CARGOS; i++){
 
@@ -240,17 +248,19 @@ void CargaMasiva::CargarCargos(){
 		vector<int> cargosSecundarios;
 		if (i>1) cargosSecundarios.push_back(GetRandom(i-1));
 
-		int idCargo = abmCargo.Add(cargo, cargosSecundarios);
+		int idCargo = abmCargo->Add(cargo, cargosSecundarios);
 
 		cout << "Cargo (" << idCargo << "): " << cargo << endl;
 		Log::WriteLog("Cargo (" + Helper::IntToString(idCargo) + "): " + cargo+ " ", "files/logs/cargaMasiva.log");
     }
+
+    delete abmCargo;
 }
 
 void CargaMasiva::CargarElecciones(){
 
 	//Cargo CANT_ELECCIONES elecciones
-	ABMEleccion abmEleccion = ABMEleccion();
+	ABMEleccion* abmEleccion = new ABMEleccion();
 
 	for(int i = 1; i <= CANT_ELECCIONES; i++){
 
@@ -298,7 +308,7 @@ void CargaMasiva::CargarElecciones(){
 			}
 		}
 
-        int idEleccion = abmEleccion.Add(ele);
+        int idEleccion = abmEleccion->Add(ele);
 
         cout << "Eleccion(" << idEleccion << "). Fecha:  " << fecha.getFriendlyStr() << ". Cargo: " << ele->GetIdCargo() << " ";
         cout << "Distritos: ";
@@ -315,14 +325,14 @@ void CargaMasiva::CargarElecciones(){
         Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
     }
 
-
+	delete abmEleccion;
 }
 
 void CargaMasiva::CargarListas(){
 
 	//Cargo CANT_LISTAS listas
-	ABMLista abmLista = ABMLista();
-	ABMEleccion elec = ABMEleccion();
+	ABMLista* abmLista = new ABMLista();
+	ABMEleccion* elec = new ABMEleccion();
 
     for(int i = 1; i <= CANT_LISTAS; i++){
 
@@ -336,32 +346,35 @@ void CargaMasiva::CargarListas(){
 		while(!founded){
 			idEleccion = GetRandom(CANT_ELECCIONES);
 
-			Eleccion* e =elec.GetEleccion(idEleccion);
+			Eleccion* e =elec->GetEleccion(idEleccion);
 			if(e != NULL)
 				founded = true;
 		}
 
 		Lista * lis = new Lista(lista, idEleccion);
-		abmLista.Add(lis);
+		abmLista->Add(lis);
 
 		string msg = "Lista(" + lis->GetNombre() + "): " + lis->GetNombre() + ". Eleccion: " + Helper::IntToString(lis->GetEleccion());
 		cout << msg << endl;
 		Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
     }
 
+    delete elec;
+    delete abmLista;
 }
+
 
 void CargaMasiva::CargarCandidatos(){
 
 	//Cargo CANT_CANDIDATOS cargos
-	ABMCandidato abmCandidato = ABMCandidato();
+	ABMCandidato* abmCandidato = new ABMCandidato();
 
     for(int i = 1; i <= CANT_CANDIDATOS; i++){
 
 		string idLista = Helper::IntToString(GetRandom(CANT_LISTAS));
 		long int idVotante = (long int) GetRandom(CANT_VOTANTES);
 		int idCargo = (int) GetRandom(CANT_CARGOS);
-		int idCandidato = abmCandidato.Add(idLista, idVotante, idCargo);
+		int idCandidato = abmCandidato->Add(idLista, idVotante, idCargo);
 
 		cout << "Candidato (" << idCandidato << "). Cargo" << idCargo << ". Lista: " << idLista << endl;
 		string msg = "Candidato (" + Helper::IntToString(idCandidato) + "). Cargo" + Helper::IntToString(idCargo) + ". Lista: " + idLista;
@@ -369,25 +382,27 @@ void CargaMasiva::CargarCandidatos(){
 
     }
 
+    delete abmCandidato;
 }
 
 void CargaMasiva::CargarAdministradores(){
 
 	//Cargo CANT_ADMINISTRADORES administradores
-	ABMAdministrador abmAdministrador = ABMAdministrador();
+	ABMAdministrador* abmAdministrador = new ABMAdministrador();
 
     for(int i = 1; i <= CANT_ADMINISTRADORES; i++){
 
     	string admin = "Admin";
 		admin.append(Helper::IntToString(i));
 		Administrador  * adm = new Administrador(admin,admin);
-		abmAdministrador.Add(adm);
+		abmAdministrador->Add(adm);
 
 		cout << "Administrador. User: " << adm->GetUsuario() << ". Password: " << adm->GetClave() << endl;
 		string msg = "Administrador. User: " + adm->GetUsuario() + ". Password: " + adm->GetClave();
 		Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
     }
 
+    delete abmAdministrador;
 }
 
 //Carga todas las entidades
@@ -407,7 +422,8 @@ void CargaMasiva::CargarEntidades(){
 	CargarElecciones();
 	CargarListas();
 	CargarCandidatos();
-	//CargarAdministradores();
+	CargarAdministradores();
+
 }
 
 
