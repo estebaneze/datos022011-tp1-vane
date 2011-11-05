@@ -9,47 +9,8 @@
 
 void CargaMasiva::BorrarArchivosLog(){
 
-	string archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperAdminFile();
-	system(archivo.c_str());
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessAdminFile();
-	system(archivo.c_str());
-
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperCandidatoFile();
-	system(archivo.c_str());
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessCandidatoFile();
-	system(archivo.c_str());
-
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperCargoFile();
-	system(archivo.c_str());
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessCargoFile();
-	system(archivo.c_str());
-
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperConteoFile();
-	system(archivo.c_str());
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessConteoFile();
-	system(archivo.c_str());
-
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperDistritoFile();
-	system(archivo.c_str());
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessDistritoFile();
-	system(archivo.c_str());
-
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperEleccionFile();
-	system(archivo.c_str());
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessEleccionFile();
-	system(archivo.c_str());
-
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperListaFile();
-	system(archivo.c_str());
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessListaFile();
-	system(archivo.c_str());
-
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperVotanteFile();
-	system(archivo.c_str());
-	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessVotanteFile();
-	system(archivo.c_str());
-
-	system("rm files/logs/cargaMasiva.log");
+	string scriptEliminaLog = "rm -r " + ConfigurationMananger::getInstance()->getLogDirectory() + "*";
+	system(scriptEliminaLog.c_str());
 }
 
 void CargaMasiva::BorrarArchivosIndice(string indexFile){
@@ -429,7 +390,7 @@ void CargaMasiva::CargarEntidades(){
 	CargarElecciones();
 	CargarListas();
 	CargarCandidatos();
-	CargarAdministradores();
+	//CargarAdministradores();
 }
 
 
