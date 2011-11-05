@@ -84,6 +84,7 @@ private:
     	string logProcessDistrito;
     	string logOperEleccion;
     	string logProcessEleccion;
+    	string logDirectory;
 
     	/**
          * Archivo de configuracion
@@ -169,6 +170,7 @@ public:
     	string getLogProcessDistritoFile();
     	string getLogOperEleccionFile();
     	string getLogProcessEleccionFile();
+    	string getLogDirectory();
 
 };
 
