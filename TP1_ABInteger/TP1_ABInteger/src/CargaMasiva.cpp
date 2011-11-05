@@ -343,20 +343,23 @@ void CargaMasiva::CargarListas(){
 
 		bool founded = false;
 
+		Eleccion* e;
 		while(!founded){
 			idEleccion = GetRandom(CANT_ELECCIONES);
 
-			Eleccion* e =elec->GetEleccion(idEleccion);
+			 e =elec->GetEleccion(idEleccion);
 			if(e != NULL)
 				founded = true;
 		}
 
-		Lista * lis = new Lista(lista, idEleccion);
-		abmLista->Add(lis);
+		if(e != NULL){
+			Lista * lis = new Lista(lista, idEleccion);
+			abmLista->Add(lis);
 
-		string msg = "Lista(" + lis->GetNombre() + "): " + lis->GetNombre() + ". Eleccion: " + Helper::IntToString(lis->GetEleccion());
-		cout << msg << endl;
-		Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
+			string msg = "Lista(" + lis->GetNombre() + "): " + lis->GetNombre() + ". Eleccion: " + Helper::IntToString(lis->GetEleccion());
+			cout << msg << endl;
+			Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
+		}
     }
 
     delete elec;

@@ -20,7 +20,7 @@ Archivo::Archivo(string fileName, unsigned int componentSize) {
 	}
 
 	if (this->_fp == NULL)	{
-		cout << "El archivo " << fileName << "rb+" << " no se encontro " << endl;
+		cout << "El archivo " << fileName.c_str() << "rb+" << " no se encontro " << endl;
 		throw except::ExceptionNotFound();
 
 	}

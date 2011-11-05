@@ -146,6 +146,7 @@ void Reportes::reportePorDistrito(int idDistrito)
 
 	//Primero ordeno por fecha de eleccion
 	resultados = Reportes::OrderByFecha(resultados);
+
 	vector<Conteo>::iterator it = resultados.begin();
 
 	Conteo conteo = (Conteo) *it;
@@ -264,14 +265,20 @@ vector<Conteo> Reportes::OrderByFecha(vector<Conteo> resultados){
 			int idE1 = resultados[i].GetIdEleccion();
 			int idE2 = resultados[j].GetIdEleccion();
 
-			Fecha f1 = abmElecciones.GetEleccion(idE1)->GetDate();
-			Fecha f2 = abmElecciones.GetEleccion(idE2)->GetDate();
+			Eleccion* e1 = abmElecciones.GetEleccion(idE1);
+			Eleccion* e2 = abmElecciones.GetEleccion(idE2);
 
-			//if (resultados[i].GetEleccion()->GetDate() > resultados[j].GetEleccion()->GetDate()) {
-			if(f1 < f2){
-				aux = resultados[i];
-				resultados[i] = resultados[j];
-				resultados[j] = aux;
+			if(e1 != NULL && e2 != NULL){
+
+				Fecha f1 = e1->GetDate();
+				Fecha f2 = e2->GetDate();
+
+				//if (resultados[i].GetEleccion()->GetDate() > resultados[j].GetEleccion()->GetDate()) {
+				if(f1 < f2){
+					aux = resultados[i];
+					resultados[i] = resultados[j];
+					resultados[j] = aux;
+				}
 			}
 		}
 	}
