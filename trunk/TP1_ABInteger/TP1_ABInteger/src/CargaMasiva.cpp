@@ -397,8 +397,8 @@ void CargaMasiva::CargarEntidades(){
 	Identities::InitializeFile();
 	cout << endl;
 
-	BorrarArchivos();
-	//BorraTodosArchivos();
+	//BorrarArchivos();
+	BorraTodosArchivos();
 	cout << endl;
 
 	CargarDistritos();
