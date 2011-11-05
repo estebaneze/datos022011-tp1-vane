@@ -26,7 +26,7 @@
 #define CANT_ELECCIONES 100
 #define CANT_LISTAS 100
 #define CANT_VOTANTES 100
-#define CANT_ADMINISTRADORES 100
+#define CANT_ADMINISTRADORES 1
 
 class CargaMasiva {
 

@@ -114,7 +114,7 @@ void BPlusTree::Log(Element* element){
         this->printMe(logFile);
         logFile.close();
         cout << endl;
-        this->exportTree();
+        //this->exportTree();
         cout << endl;
 
 }

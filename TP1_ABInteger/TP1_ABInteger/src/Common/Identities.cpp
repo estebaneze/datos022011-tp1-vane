@@ -25,7 +25,7 @@ void Identities::InitializeFile(){
 
 	File.close();
 
-	cout << "File identities was properly initialiazed" << endl;
+	cout << endl << endl << "File identities was properly initialiazed" << endl << endl << endl;
 }
 
 void Identities::RefreshFile(string key, int value){

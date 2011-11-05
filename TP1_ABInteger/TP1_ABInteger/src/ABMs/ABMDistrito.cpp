@@ -85,7 +85,7 @@ vector<Distrito> ABMDistrito::GetDistritos(){
 	vector<Distrito> distritos;
 
 
-	this->bpPlusTree->exportTree();
+	//this->bpPlusTree->exportTree();
 
 	//this->bpPlusTree->next();//->getFirstKey();
 	/*vector<Eleccion> elecciones;
