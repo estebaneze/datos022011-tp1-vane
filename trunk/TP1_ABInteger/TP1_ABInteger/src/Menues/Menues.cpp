@@ -318,9 +318,10 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 
 	bool listoEleccion = false;
 
-	Fecha fecha = fechaActual();
+	Fecha* fecha = new Fecha(fechaActual().getDia(), fechaActual().getMes(), fechaActual().getAnio());
 
-	vector<Eleccion*> elecciones = es.GetByFecha(&fecha);
+
+	vector<Eleccion*> elecciones = es.GetByFechaYDistrito(fecha, votante->GetDistrito());
 
 	if (elecciones.size()==0){
 		cout <<endl;
@@ -336,7 +337,6 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 		//Le muestro las elecciones que no esten en su lista de elecciones ya votadas
 		ABMCargo* cargos = new ABMCargo();
 		for(unsigned int i = 0; i < elecciones.size(); i++){
-
 			if(!votante->VotoEnEleccion(elecciones[i])){
 				cout << " Cargo: " << cargos->GetCargo(elecciones[i]->GetIdCargo())->GetNombre() <<"(" << elecciones[i]->GetIdCargo() << ")" << endl;
 			}
@@ -1569,7 +1569,7 @@ void Menues::MenuABMEleccion()
 										Eleccion *eleccion = new Eleccion(idCargo,fecha);
 										int existe = el->Add(eleccion);
 
-										if (existe==0){
+										if (existe != 0){
 											bool finCargaDistrito=false;
 											ABMDistrito *dis = new ABMDistrito();
 											vector<int> distritos;
@@ -1629,7 +1629,7 @@ void Menues::MenuABMEleccion()
 										}
 										else{
 											cout << endl;
-											cout << "Ya existe la eleccion (Fecha y Cargo) ingresa, presione una tecla para volver."<< endl;
+											cout << "Ya existe la eleccion (Fecha y Cargo) ingresada, presione una tecla para volver."<< endl;
 											char c;
 											cin >> c;
 											listo=true;

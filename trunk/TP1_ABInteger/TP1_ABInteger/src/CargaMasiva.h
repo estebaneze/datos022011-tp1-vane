@@ -20,12 +20,12 @@
 #include "Common/Helper.h"
 #include "Common/Identities.h"
 
-#define CANT_DISTRITOS 100
-#define CANT_CANDIDATOS 100
-#define CANT_CARGOS 100
-#define CANT_ELECCIONES 100
-#define CANT_LISTAS 100
-#define CANT_VOTANTES 100
+#define CANT_DISTRITOS 35
+#define CANT_CANDIDATOS 35
+#define CANT_CARGOS 35
+#define CANT_LISTAS 35
+#define CANT_VOTANTES 35
+#define CANT_ELECCIONES 35
 #define CANT_ADMINISTRADORES 1
 
 class CargaMasiva {
@@ -47,6 +47,9 @@ class CargaMasiva {
 		static int GetRandom(int maxNumber);
 		static vector<int> GetIdsConteos(vector<Conteo> cs);
 		static int GetRandomFromNumbers(vector<int> posibleNumbers);
+		static void BorrarArchivos();
+		static void BorrarArchivosIndice(string indexFile);
+		static void BorrarArchivosLog();
 };
 
 #endif /* CARGAMASIVA_H_ */

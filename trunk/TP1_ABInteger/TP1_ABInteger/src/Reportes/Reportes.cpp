@@ -256,9 +256,10 @@ vector<Conteo> Reportes::OrderByFecha(vector<Conteo> resultados){
 	Conteo aux;;
 	ABMEleccion abmElecciones = ABMEleccion();
 
-	for (int i=0; i <= resultados.size()-1; i++) {
+	for (int i=0; i < resultados.size(); i++) {
 
 		for (int j = i+1 ;j < resultados.size();j++)	{
+
 
 			int idE1 = resultados[i].GetIdEleccion();
 			int idE2 = resultados[j].GetIdEleccion();

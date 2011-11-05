@@ -3,6 +3,9 @@
 #include "exceptions/excepciones.h"
 #include <stdio.h>
 #include <string.h>
+#include <iostream>
+
+using namespace std;
 
 Archivo::Archivo(string fileName, unsigned int componentSize) {
 	this->_componentSize = componentSize;
@@ -11,8 +14,16 @@ Archivo::Archivo(string fileName, unsigned int componentSize) {
 
 	//Abro el archivo para trabajar ( y si no existe, lo creo)
 	this->_fp = fopen (fileName.c_str(),"rb+");
-	if (this->_fp == NULL) this->_fp = fopen (fileName.c_str(),"wb+");
-	if (this->_fp == NULL)	throw except::ExceptionNotFound();
+
+	if (this->_fp == NULL) {
+		this->_fp = fopen (fileName.c_str(),"wb+");
+	}
+
+	if (this->_fp == NULL)	{
+		cout << "El archivo " << fileName << "rb+" << " no se encontro " << endl;
+		throw except::ExceptionNotFound();
+
+	}
 }
 
 Archivo::~Archivo() {

@@ -7,6 +7,176 @@
 
 #include "CargaMasiva.h"
 
+void CargaMasiva::BorrarArchivosLog(){
+
+	string archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperAdminFile();
+	system(archivo.c_str());
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessAdminFile();
+	system(archivo.c_str());
+
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperCandidatoFile();
+	system(archivo.c_str());
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessCandidatoFile();
+	system(archivo.c_str());
+
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperCargoFile();
+	system(archivo.c_str());
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessCargoFile();
+	system(archivo.c_str());
+
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperConteoFile();
+	system(archivo.c_str());
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessConteoFile();
+	system(archivo.c_str());
+
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperDistritoFile();
+	system(archivo.c_str());
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessDistritoFile();
+	system(archivo.c_str());
+
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperEleccionFile();
+	system(archivo.c_str());
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessEleccionFile();
+	system(archivo.c_str());
+
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperListaFile();
+	system(archivo.c_str());
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessListaFile();
+	system(archivo.c_str());
+
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogOperVotanteFile();
+	system(archivo.c_str());
+	archivo = "rm " + ConfigurationMananger::getInstance()->getLogProcessVotanteFile();
+	system(archivo.c_str());
+
+	system("rm files/logs/cargaMasiva.log");
+}
+
+void CargaMasiva::BorrarArchivosIndice(string indexFile){
+
+	string indexFileAux = "rm " + indexFile + ".ix.bk";
+	system(indexFileAux.c_str());
+	indexFileAux = "rm " + indexFile + ".ix.bk.fs";
+	system(indexFileAux.c_str());
+	indexFileAux = "rm " + indexFile + ".ix.dir";
+	system(indexFileAux.c_str());
+	indexFileAux = "rm " + indexFile + ".ix.dir.fs";
+	system(indexFileAux.c_str());
+
+}
+
+void CargaMasiva::BorrarArchivos(){
+
+	//------------------------------ Listas -------------------------------------------//
+	//Borro el archivo de listas
+	string archivo = ConfigurationMananger::getInstance()->getListaFile();
+	string archivobk = "rm " + archivo + ".bk";
+	system(archivobk.c_str());
+	archivobk = archivobk + ".fs";
+	system(archivobk.c_str());
+	string archivodir = "rm " + archivo + ".dir";
+	system(archivodir.c_str());
+	archivodir = archivodir + ".fs";
+	system(archivodir.c_str());
+
+
+	//Borro el archivo de indices
+	string indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getListaFile(),"Lista",ConfigurationMananger::getInstance()->getSeparador2());
+	CargaMasiva::BorrarArchivosIndice(indexFile);
+
+	//---------------------------------- Conteo --------------------------------//
+	//Borro el archivo de conteo
+	archivo = "rm " + ConfigurationMananger::getInstance()->getConteoFile() + ".bpt";
+	system(archivo.c_str());
+	archivo = "rm " + ConfigurationMananger::getInstance()->getConteoFile() + ".bpt" + ".fs";
+	system(archivo.c_str());
+
+	indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getConteoFile(),"Distrito",ConfigurationMananger::getInstance()->getSeparador2());
+	CargaMasiva::BorrarArchivosIndice(indexFile);
+
+	indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getConteoFile(),"Eleccion",ConfigurationMananger::getInstance()->getSeparador2());
+	CargaMasiva::BorrarArchivosIndice(indexFile);
+
+	indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getConteoFile(),"Lista",ConfigurationMananger::getInstance()->getSeparador2());
+	CargaMasiva::BorrarArchivosIndice(indexFile);
+
+	//---------------------------------- Distritos --------------------------------//
+	//Borro el archivo de distrito
+	archivo = "rm " + ConfigurationMananger::getInstance()->getDistritoFile();
+	system(archivo.c_str());
+	archivo = "rm " + ConfigurationMananger::getInstance()->getDistritoFile() + ".fs";
+	system(archivo.c_str());
+
+	//---------------------------------- Votantes--------------------------------//
+	//Borro el archivo de votantes
+	archivo = ConfigurationMananger::getInstance()->getVotanteFile();
+	archivobk = "rm " + archivo + ".bk";
+	system(archivobk.c_str());
+	archivobk = archivobk + ".fs";
+	system(archivobk.c_str());
+	archivodir = "rm " + archivo + ".dir";
+	system(archivodir.c_str());
+	archivodir = archivodir + ".fs";
+	system(archivodir.c_str());
+
+	//---------------------------------- Cargos--------------------------------//
+	//Borro el archivo de cargos
+	archivo = ConfigurationMananger::getInstance()->getCargoFile();
+	archivobk = "rm " + archivo + ".bk";
+	system(archivobk.c_str());
+	archivobk = archivobk + ".fs";
+	system(archivobk.c_str());
+	archivodir = "rm " + archivo + ".dir";
+	system(archivodir.c_str());
+	archivodir = archivodir + ".fs";
+	system(archivodir.c_str());
+
+	//---------------------------- Elecciones --------------------------------//
+	//Borro el archivo de elecciones
+	archivo = ConfigurationMananger::getInstance()->getEleccionFile();
+	archivo = "rm " + archivo;
+	system(archivo.c_str());
+	archivo = archivo + ".fs";
+	system(archivo.c_str());
+
+	indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getEleccionFile(),"Fecha",ConfigurationMananger::getInstance()->getSeparador2());
+	CargaMasiva::BorrarArchivosIndice(indexFile);
+
+	indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getEleccionFile(),"Distrito",ConfigurationMananger::getInstance()->getSeparador2());
+	CargaMasiva::BorrarArchivosIndice(indexFile);
+
+	indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getEleccionFile(),"Cargo",ConfigurationMananger::getInstance()->getSeparador2());
+	CargaMasiva::BorrarArchivosIndice(indexFile);
+
+
+	//--------------------------- Candidatos -----------------------------------//
+	//Borro el archivo de candidatos
+	archivo = ConfigurationMananger::getInstance()->getCandidatoFile();
+	archivobk = "rm " + archivo + ".bk";
+	system(archivobk.c_str());
+	archivobk = archivobk + ".fs";
+	system(archivobk.c_str());
+	archivodir = "rm " + archivo + ".dir";
+	system(archivodir.c_str());
+	archivodir = archivodir + ".fs";
+	system(archivodir.c_str());
+
+	//-------------------------- Admin -----------------------------------------//
+	//Borro el archivo de administradores
+	archivo = ConfigurationMananger::getInstance()->getAdminFile();
+	archivobk = "rm " + archivo + ".bk";
+	system(archivobk.c_str());
+	archivobk = archivobk + ".fs";
+	system(archivobk.c_str());
+	archivodir = "rm " + archivo + ".dir";
+	system(archivodir.c_str());
+	archivodir = archivodir + ".fs";
+	system(archivodir.c_str());
+
+
+	CargaMasiva::BorrarArchivosLog();
+}
+
 vector<int> CargaMasiva::GetIdsConteos(vector<Conteo> cs){
 
 	vector<int> ids;
@@ -35,13 +205,6 @@ int CargaMasiva::GetRandomFromNumbers(vector<int> posibleNumbers){
 
 void CargaMasiva::CargarDistritos(){
 
-	//Borro el archivo de distrito
-	string archivo = ConfigurationMananger::getInstance()->getDistritoFile();
-	archivo = "rm " + archivo;
-	system(archivo.c_str());
-	archivo = archivo + ".fs";
-	system(archivo.c_str());
-
 	//Cargo CANT_Distrito distritos
 	ABMDistrito abmDistrito = ABMDistrito();
 
@@ -51,105 +214,80 @@ void CargaMasiva::CargarDistritos(){
 		distrito.append(Helper::IntToString(i));
 		int idDistrito =  abmDistrito.Add(distrito);
 
-        //cout << "Distrito (" << idDistrito << "): " << distrito << endl;
+        cout << "Distrito (" << idDistrito << "): " << distrito << endl;
+        Log::WriteLog("Distrito (" + Helper::IntToString(idDistrito) + "): " + distrito+ " ", "files/logs/cargaMasiva.log" );
     }
 }
 
 
 void CargaMasiva::CargarVotantes(){
 
-	//Borro el archivo de votantes
-	string archivo = ConfigurationMananger::getInstance()->getVotanteFile();
-	string archivobk = "rm " + archivo + ".bk";
-	system(archivobk.c_str());
-	archivobk = archivobk + ".fs";
-	system(archivobk.c_str());
-	string archivodir = "rm " + archivo + ".dir";
-	system(archivodir.c_str());
-	archivodir = archivodir + ".fs";
-	system(archivodir.c_str());
-
 	//Cargo CANT_VOTANTES votantes
 	ABMVotante abmVotante = ABMVotante();
 
     for(int i = 1; i <= CANT_VOTANTES; i++){
 
-			string nombreApellido = "Nombre Apellido ";
-			nombreApellido = nombreApellido.append(Helper::IntToString(i));
+		string nombreApellido = "Nombre Apellido ";
+		nombreApellido = nombreApellido.append(Helper::IntToString(i));
 
-			string clave = "Clave";
-			clave.append(Helper::IntToString(i));
+		string clave = "Clave";
+		clave.append(Helper::IntToString(i));
 
-			string domicilio = "Domicilio ";
-			domicilio.append(Helper::IntToString(i));
+		string domicilio = "Domicilio ";
+		domicilio.append(Helper::IntToString(i));
 
-			long dni = (long)GetRandom(99999) * 1000;
+		long dni = i;//(long)GetRandom(99999) * 1000;
 
-			int idDistrito = GetRandom(CANT_DISTRITOS);
+		int idDistrito = GetRandom(CANT_DISTRITOS);
 
-			Votante  * vot = new Votante(dni, nombreApellido, clave, domicilio, idDistrito);
-            abmVotante.Add(vot);
+		Votante  * vot = new Votante(dni, nombreApellido, clave, domicilio, idDistrito);
+		abmVotante.Add(vot);
 
-            //  cout << "Votante " << vot->GetDni() << endl;
+		string strDni = Helper::LongToString(vot->GetDni());
+		string pass = vot->GetClave();
+		string strDistrito = Helper::IntToString(vot->GetDistrito());
+		cout << "Votante " << strDni << ". Clave: "<< pass << ". Distrito: " << strDistrito << endl;
+		Log::WriteLog("Votante: " + strDni + ". Clave: " + pass + " . Distrito: " + strDistrito + " ", "files/logs/cargaMasiva.log");
     }
-
 }
 
 void CargaMasiva::CargarCargos(){
-
-	//Borro el archivo de cargos
-	string archivo = ConfigurationMananger::getInstance()->getCargoFile();
-	string archivobk = "rm " + archivo + ".bk";
-	system(archivobk.c_str());
-	archivobk = archivobk + ".fs";
-	system(archivobk.c_str());
-	string archivodir = "rm " + archivo + ".dir";
-	system(archivodir.c_str());
-	archivodir = archivodir + ".fs";
-	system(archivodir.c_str());
 
 	//Cargo CANT_CARGOS cargos
 	ABMCargo abmCargo = ABMCargo();
 
     for(int i = 1; i <= CANT_CARGOS; i++){
-			string cargo = "Cargo ";
-			cargo.append(Helper::IntToString(i));
-			vector<int> cargosSecundarios;
-			if (i>1) cargosSecundarios.push_back(GetRandom(i-1));
 
-			int idCargo = abmCargo.Add(cargo, cargosSecundarios);
+    	string cargo = "Cargo";
+		cargo.append(Helper::IntToString(i));
+		vector<int> cargosSecundarios;
+		if (i>1) cargosSecundarios.push_back(GetRandom(i-1));
 
-			//cout << "Cargo (" << idCargo << "): " << cargo << endl;
+		int idCargo = abmCargo.Add(cargo, cargosSecundarios);
+
+		cout << "Cargo (" << idCargo << "): " << cargo << endl;
+		Log::WriteLog("Cargo (" + Helper::IntToString(idCargo) + "): " + cargo+ " ", "files/logs/cargaMasiva.log");
     }
 }
 
 void CargaMasiva::CargarElecciones(){
-
-	//Borro el archivo de elecciones
-	string archivo = ConfigurationMananger::getInstance()->getEleccionFile();
-	archivo = "rm " + archivo;
-	system(archivo.c_str());
-	archivo = archivo + ".fs";
-	system(archivo.c_str());
 
 	//Cargo CANT_ELECCIONES elecciones
 	ABMEleccion abmEleccion = ABMEleccion();
 
 	for(int i = 1; i <= CANT_ELECCIONES; i++){
 
-		Fecha fecha = Fecha(1, 1, 1000+i);
+		Fecha fecha = Fecha(GetRandom(30), GetRandom(12), 2007 + i);
 
 		int idCargo = GetRandom(CANT_CARGOS);
 
 		Eleccion  * ele = new Eleccion(idCargo, fecha);
 
 		if(CANT_DISTRITOS / 10 < 1){
-
 			//Agrego un solo distrito a la elccion
 			ele->AddDistrito(GetRandom(CANT_DISTRITOS));
 		}
 		else{
-
 			//Agrego CANT_DISTRITOS/10 distritos a la eleccion
 			vector<int> distritosAgregados;
 
@@ -185,112 +323,92 @@ void CargaMasiva::CargarElecciones(){
 
         int idEleccion = abmEleccion.Add(ele);
 
-        //cout << "Eleccion(" << idEleccion << "). Fecha:  " << fecha.getFriendlyStr() << ". Cargo: " << ele->GetIdCargo() << endl;
+        cout << "Eleccion(" << idEleccion << "). Fecha:  " << fecha.getFriendlyStr() << ". Cargo: " << ele->GetIdCargo() << " ";
+        cout << "Distritos: ";
+        vector<int> ds = ele->GetDistritos();
+        for(int i = 0; i<ds.size(); i++){
+        	cout << ds[i] << " ";
+        }
+        cout << endl;
+
+        string msg = "Eleccion(" + Helper::IntToString(idEleccion) + "). Fecha:  " + fecha.getFriendlyStr() + ". Cargo: " + Helper::IntToString(ele->GetIdCargo()) + " " + ". Distritos: ";
+        for(int i = 0; i<ds.size(); i++){
+        	msg = msg + Helper::IntToString(ds[i]) + " ";
+        }
+        Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
     }
-/*
-	//Borro el archivo de elecciones
-	string archivo = ConfigurationMananger::getInstance()->getEleccionFile();
-	archivo = "rm " + archivo;
-	system(archivo.c_str());
-	archivo = archivo + ".fs";
-	system(archivo.c_str());
 
-	//Cargo CANT_ELECCIONES elecciones
-	ABMEleccion abmEleccion = ABMEleccion();
-
-	for(int i = 1; i <= CANT_ELECCIONES; i++){
-
-			Fecha fecha = Fecha(1, 1, 1000+i);
-
-			int idCargo = GetRandom(CANT_CARGOS);
-
-			Eleccion  * ele = new Eleccion(idCargo, fecha);
-            abmEleccion.Add(ele);
-    }
-*/
 
 }
 
 void CargaMasiva::CargarListas(){
 
-	//Borro el archivo de listas
-	string archivo = ConfigurationMananger::getInstance()->getListaFile();
-	string archivobk = "rm " + archivo + ".bk";
-	system(archivobk.c_str());
-	archivobk = archivobk + ".fs";
-	system(archivobk.c_str());
-	string archivodir = "rm " + archivo + ".dir";
-	system(archivodir.c_str());
-	archivodir = archivodir + ".fs";
-	system(archivodir.c_str());
-
 	//Cargo CANT_LISTAS listas
 	ABMLista abmLista = ABMLista();
+	ABMEleccion elec = ABMEleccion();
 
     for(int i = 1; i <= CANT_LISTAS; i++){
 
-    	string lista = "Lista ";
+    	string lista = "Lista";
 		lista.append(Helper::IntToString(i));
 
 		int idEleccion = GetRandom(CANT_ELECCIONES);
 
+		bool founded = false;
+
+		while(!founded){
+			idEleccion = GetRandom(CANT_ELECCIONES);
+
+			Eleccion* e =elec.GetEleccion(idEleccion);
+			if(e != NULL)
+				founded = true;
+		}
+
 		Lista * lis = new Lista(lista, idEleccion);
 		abmLista.Add(lis);
 
-		cout << "Lista: " << lis->GetNombre() << endl;
+		string msg = "Lista(" + lis->GetNombre() + "): " + lis->GetNombre() + ". Eleccion: " + Helper::IntToString(lis->GetEleccion());
+		cout << msg << endl;
+		Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
     }
 
 }
 
 void CargaMasiva::CargarCandidatos(){
 
-	//Borro el archivo de candidatos
-	string archivo = ConfigurationMananger::getInstance()->getCandidatoFile();
-	string archivobk = "rm " + archivo + ".bk";
-	system(archivobk.c_str());
-	archivobk = archivobk + ".fs";
-	system(archivobk.c_str());
-	string archivodir = "rm " + archivo + ".dir";
-	system(archivodir.c_str());
-	archivodir = archivodir + ".fs";
-	system(archivodir.c_str());
-
 	//Cargo CANT_CANDIDATOS cargos
 	ABMCandidato abmCandidato = ABMCandidato();
 
     for(int i = 1; i <= CANT_CANDIDATOS; i++){
-			string idLista = Helper::IntToString(GetRandom(CANT_LISTAS));
-			long int idVotante = (long int) GetRandom(CANT_VOTANTES);
-			int idCargo = (int) GetRandom(CANT_CARGOS);
-            int idCandidato = abmCandidato.Add(idLista, idVotante, idCargo);
-            cout << "Candidato (" << idCandidato << "). Cargo" << idCargo << ". Lista: " << idLista << endl;
+
+		string idLista = Helper::IntToString(GetRandom(CANT_LISTAS));
+		long int idVotante = (long int) GetRandom(CANT_VOTANTES);
+		int idCargo = (int) GetRandom(CANT_CARGOS);
+		int idCandidato = abmCandidato.Add(idLista, idVotante, idCargo);
+
+		cout << "Candidato (" << idCandidato << "). Cargo" << idCargo << ". Lista: " << idLista << endl;
+		string msg = "Candidato (" + Helper::IntToString(idCandidato) + "). Cargo" + Helper::IntToString(idCargo) + ". Lista: " + idLista;
+		Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
+
     }
 
 }
 
 void CargaMasiva::CargarAdministradores(){
 
-	//Borro el archivo de administradores
-	string archivo = ConfigurationMananger::getInstance()->getAdminFile();
-	string archivobk = "rm " + archivo + ".bk";
-	system(archivobk.c_str());
-	archivobk = archivobk + ".fs";
-	system(archivobk.c_str());
-	string archivodir = "rm " + archivo + ".dir";
-	system(archivodir.c_str());
-	archivodir = archivodir + ".fs";
-	system(archivodir.c_str());
-
 	//Cargo CANT_ADMINISTRADORES administradores
 	ABMAdministrador abmAdministrador = ABMAdministrador();
 
     for(int i = 1; i <= CANT_ADMINISTRADORES; i++){
-			string admin = "Admin";
-			admin.append(Helper::IntToString(i));
-			Administrador  * adm = new Administrador(admin,admin);
-            abmAdministrador.Add(adm);
 
-            cout << "Administrador. User: " << adm->GetUsuario() << ". Password: " << adm->GetClave() << endl;
+    	string admin = "Admin";
+		admin.append(Helper::IntToString(i));
+		Administrador  * adm = new Administrador(admin,admin);
+		abmAdministrador.Add(adm);
+
+		cout << "Administrador. User: " << adm->GetUsuario() << ". Password: " << adm->GetClave() << endl;
+		string msg = "Administrador. User: " + adm->GetUsuario() + ". Password: " + adm->GetClave();
+		Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
     }
 
 }
@@ -300,6 +418,9 @@ void CargaMasiva::CargarEntidades(){
 
 	//Inicializo los ids en 1
 	Identities::InitializeFile();
+	cout << endl;
+
+	BorrarArchivos();
 	cout << endl;
 
 	CargarDistritos();
@@ -329,8 +450,8 @@ void CargaMasiva::GenerarVotosAutomaticos(){
 			//Recorro todas las elecciones t me fijo en cual le corresponde votar --> Si el distrito del votante esta en la eleccion
 			for (int i = 1; i <= CANT_ELECCIONES; i++) {
 
-				Eleccion* e = elecc->GetEleccion(i);
-				vector<int> ds = e->GetDistritos();
+				Eleccion* eleccion = elecc->GetEleccion(i);
+				vector<int> ds = eleccion->GetDistritos();
 				for(int j = 0; j < ds.size(); j++){
 
 					if(ds[j] == votante->GetDistrito()){

@@ -42,63 +42,8 @@
 
 using namespace std;
 
+
 int main(int arg, char *argv[]) {
-
-	vector<int> pepe;
-	pepe.push_back(1);
-	pepe.push_back(2);
-	pepe.push_back(3);
-	pepe.push_back(5);
-	pepe.push_back(6);
-	pepe.push_back(19);
-
-	for(int i = 0; i < pepe.size(); i++){
-		cout << pepe[i] << " - ";
-	}
-
-	cout << endl << endl;
-
-	vector<int>::iterator it;
-
-	it = find(pepe.begin(), pepe.end(), 6);
-
-	if(it != pepe.end()){
-		cout << "el elemento existe " << endl;
-	}else{
-		cout << "el elemento NO existe" << endl;
-	}
-
-
-
-	it = find(pepe.begin(), pepe.end(), 19);
-
-	if(it != pepe.end()){
-		cout << "el elemento existe " << endl;
-	}else{
-		cout << "el elemento NO existe" << endl;
-	}
-
-
-	it = find(pepe.begin(), pepe.end(), 1);
-
-	if(it != pepe.end()){
-		cout << "el elemento existe " << endl;
-	}else{
-		cout << "el elemento NO existe" << endl;
-	}
-
-
-	it = find(pepe.begin(), pepe.end(), 64);
-
-	if(it != pepe.end()){
-		cout << "el elemento existe " << endl;
-	}else{
-		cout << "el elemento NO existe" << endl;
-	}
-}
-
-
-int main2(int arg, char *argv[]) {
 
 	cout << endl << endl << endl;
 	cout << "Elija una opcion: " << endl << endl;
@@ -113,30 +58,30 @@ int main2(int arg, char *argv[]) {
 	while(true){
 
 		if(option == "1"){
-			system("cls");
+			system("clear");
 			Menues::MenuPpal();
-			cout << "Bye" << endl;
+			cout << "\nBye\n" << endl;
 			return 0;
 		}
 		else if(option == "2"){
-			system("cls");
+			system("clear");
 			CargaMasiva::GenerarVotosAutomaticos();
-			cout << "Bye" << endl;
+			cout << "\nBye\n" << endl;
 			return 0;
 		}
 		else if(option == "3"){
-			system("cls");
+			system("clear");
 			CargaMasiva::CargarEntidades();
-			cout << "Bye" << endl;
+			cout << "\nBye\n" << endl;
 			return 0;
 		}
 		else if(option == "4"){
-			system("cls");
-			cout << "Bye" << endl;
+			system("clear");
+			cout << "\nBye\n" << endl;
 			return 0;
 		}
 		else{
-			system("cls");
+			system("clear");
 			cout << "Por favor elija una opcion valida" << endl;
 		}
 	}

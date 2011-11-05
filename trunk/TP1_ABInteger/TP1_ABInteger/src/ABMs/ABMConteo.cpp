@@ -7,13 +7,21 @@
 #include "ABMConteo.h"
 
 ABMConteo::ABMConteo() {
+
+
 		string mainTreeName = ConfigurationMananger::getInstance()->getConteoFile();
         int bufferSize = ConfigurationMananger::getInstance()->getBufferSizeTree();
+
+
         this->bplusTree = new BPlusTree(bufferSize,Helper::concatenar(mainTreeName,"bpt","."));
 
+
         this->indexByDistrito = new Index(Helper::concatenar(mainTreeName,"Distrito",ConfigurationMananger::getInstance()->getSeparador2()));
+
         this->indexByLista = new Index(Helper::concatenar(mainTreeName,"Lista",ConfigurationMananger::getInstance()->getSeparador2()));
+
         this->indexByEleccion = new Index(Helper::concatenar(mainTreeName,"Eleccion",ConfigurationMananger::getInstance()->getSeparador2()));
+
 
 }
 
@@ -22,16 +30,16 @@ ABMConteo::ABMConteo() {
  */
 int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
 
-        int idConteo = Identities::GetNextIdConteo();
-
         //Key key = Helper::IntToString(idConteo);
-        KeyInt key = idConteo;
+
         string idListaAux =idLista;
         string str = idListaAux.append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion));
 
         Data data = (Data)str.c_str();
         int longData = str.length();
 
+        int idConteo = Identities::GetNextIdConteo();
+        KeyInt key = idConteo;
         Element * element = new Element(key, data, longData);
         this->bplusTree->insert(element);
 
@@ -97,6 +105,8 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
                 str.append("|").append(Helper::IntToString(c->GetIdEleccion()));        //agrego id eleccion
 
                 str.append("|").append(Helper::IntToString(c->GetCountVotos()));        //agrego cantidad de votos
+
+
 
                 Data data = (Data)str.c_str();
                 int longData = str.length();
@@ -247,8 +257,8 @@ vector<Conteo> ABMConteo::GetConteoByLista(string idLista){
 
 			Element* elemento = this->bplusTree->findExact(Helper::StringToInt(ids[i]));
 
+			string data = elemento->getData();
 			vector<string> splited = Helper::split(elemento->getData(), '|');
-
 
 			int cantVotos = 0;
 			if(splited.size() == 4){        //si ya tiene registrado algun voto
@@ -279,11 +289,11 @@ vector<Conteo> ABMConteo::GetConteoByDistritoYFecha(int idDistrito, Fecha fecha)
         //Me traigo las elecciones de la fecha
         ABMEleccion abmElecciones = ABMEleccion();
         Fecha* f = new Fecha(fecha.getDia(), fecha.getMes(), fecha.getAnio());
-        vector<Eleccion> eleccionesByFechaYDistrito = abmElecciones.GetByFechaYDistrito(f, idDistrito);
+        vector<Eleccion*> eleccionesByFechaYDistrito = abmElecciones.GetByFechaYDistrito(f, idDistrito);
 
         for(int i = 0; i < eleccionesByFechaYDistrito.size(); i++){
 
-                int idEleccion = eleccionesByFechaYDistrito[i].GetId();
+                int idEleccion = eleccionesByFechaYDistrito[i]->GetId();
 
                 //Me quedo con los distritos que pertenecen a las eleccioines que busque antes
                 for(int j = 0; j < conteosByDistrito.size(); j++){
