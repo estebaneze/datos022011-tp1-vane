@@ -658,10 +658,10 @@ void Test::agregarVotantes(){
 
         cout << endl << endl;
         cout << "--------------------- Votantes ---------------------------" << endl << endl;
-        vector<Votante> lista = votantes.GetVotantes();
+        vector<Votante*> lista = votantes.GetVotantes();
         for(int i = 0; i < lista.size(); i++){
-                Votante v = lista[i];
-                cout << "Dni: "<< v.GetDni() << ". Nombre" << v.GetNombreYApellido() << ". Clave: " << v.GetClave() << endl;
+                Votante* v = lista[i];
+                cout << "Dni: "<< v->GetDni() << ". Nombre" << v->GetNombreYApellido() << ". Clave: " << v->GetClave() << endl;
         }
 }
 

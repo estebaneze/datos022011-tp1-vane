@@ -107,10 +107,10 @@ void ABMVotante::Modify(Votante *votante){
  *
  *TODO: levantar la lista de elecciones en las que ya voto
  */
-vector<Votante> ABMVotante::GetVotantes(){
+vector<Votante*> ABMVotante::GetVotantes(){
 
         vector<KeyValue> values = this->directorio->getAllValues();
-        vector<Votante> votantes;
+        vector<Votante*> votantes;
 
         //IntegerList _listaElecciones;
 
@@ -128,8 +128,7 @@ vector<Votante> ABMVotante::GetVotantes(){
                                 _listaElecciones.Add(Helper::StringToInt(splitedVs[j]));
                         }*/
                         //TODO:"Falta agregar la lista de elecciones en las que voto " 
-                        votantes.push_back(Votante(_dni, _nombreYApellido, _clave, _domicilio, _idDistrito));
-
+                        votantes.push_back(new Votante(_dni, _nombreYApellido, _clave, _domicilio, _idDistrito));
                 }
 
                 return votantes;

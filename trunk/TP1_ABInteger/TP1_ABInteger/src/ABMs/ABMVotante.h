@@ -23,7 +23,7 @@ public:
 	void Add(Votante *votante);
 	bool Delete(Votante *votante);
 	void Modify(Votante *votante);
-	vector<Votante> GetVotantes();
+	vector<Votante*> GetVotantes();
 	Votante* GetVotante(long dni);
 
 	void mostrarVotantesPorPantalla();

@@ -29,14 +29,20 @@ int ABMEleccion::Add(Eleccion* eleccion){
 
         int idEleccion = Identities::GetNextIdEleccion();//eleccion->GetId(); //NO PUEDO HACER EL ID DE LA ELECCION CON "|" PORQUE SE CONFUNDE CUANDO LO QUIERO USAR EN LAS OTRAS ENTIDADES
 
-
         if (!Exists(eleccion)){
 
                 //cout << "Insertando la eleccion: " << idEleccion << endl << endl;
                 //string auxValueBtree;
                 vector<int> distritos = eleccion->GetDistritos();
-                string concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1());
+                string concatDistritos = "";
 
+                if(distritos.size() > 0){
+                	concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1());
+                	concatDistritos.append("|");
+                }
+                else{
+                	cout << "no tiene distritos " << endl;
+                }
                 //data = fecha|idcargo|distritos
                 string str = eleccion->GetDate().getStrFecha().append("|").append(Helper::IntToString(eleccion->GetIdCargo())).append("|").append(concatDistritos);
                 Data data = (Data)str.c_str();
@@ -44,6 +50,11 @@ int ABMEleccion::Add(Eleccion* eleccion){
                 Element * elemento = new Element(idEleccion,data,longData);
                 this->bpPlusTree->insert(elemento);
 
+                cout << "Distritos: " << endl;
+                for(int i = 0; i < distritos.size(); i++){
+                	cout << i << " - ";
+                }
+                cout << endl << "id eleccion " << idEleccion << " - data: " << data << endl;
                 //logueo el add
                 BPlusTreeLog::LogInsert(idEleccion,str,ConfigurationMananger::getInstance()->getLogOperEleccionFile());
                 BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessEleccionFile());
@@ -55,20 +66,20 @@ int ABMEleccion::Add(Eleccion* eleccion){
                 //Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
                 distritos = eleccion->GetDistritos();
                 for(int i = 0; i< distritos.size(); i++){
-
-                        this->indexByDistrito->AppendToIndex(Helper::IntToString(distritos[i]), Helper::IntToString(idEleccion));
+                	this->indexByDistrito->AppendToIndex(Helper::IntToString(distritos[i]), Helper::IntToString(idEleccion));
                 }
 
-                return 0;
+                return idEleccion;
         }
 
         else {
+        	cout << "Ya existe la eleccion " << idEleccion << endl << endl << endl;
         	return -1;
         }
 }
 
 /*
- * Si existe la eleccion la elimina y devuelve true, sino devuelve false
+ * Si existe la eleccion la eliget mina y devuelve true, sino devuelve false
  */
 bool ABMEleccion::Delete(Eleccion* eleccion){
 
@@ -170,11 +181,13 @@ vector<Eleccion> ABMEleccion::GetElecciones(){
 
 Eleccion* ABMEleccion::GetEleccion(int idEleccion){
 
+
         if (ExistsKey(idEleccion)){
 
                 Element * el = this->bpPlusTree->findExact(idEleccion);
                 string data = el->getData();
-
+                cout << endl << endl << "id eleccion: " << idEleccion << endl;
+                cout << "data " << data << endl;
                 //data = fecha|idcargo|distritos
                 vector<string> splited = Helper::split(data, '|');
                 Fecha fecha = Fecha(splited[0]);
@@ -183,8 +196,10 @@ Eleccion* ABMEleccion::GetEleccion(int idEleccion){
                 //Busco  los distritos
                 Eleccion * eleccion =  new Eleccion(idCargo, fecha, idEleccion);
 
-                //Busco hasta splited.size() - 1 porque la data termina con un "|", y el ultimo elemento del spliteo no me interesa
-                for(int i = 2; i < splited.size() - 1; i++){
+                cout << "Distritots" << endl;
+                for(int i = 2; i < splited.size(); i++){
+
+                	cout << "	" << Helper::StringToInt(splited[i]) << endl;
                 	eleccion->AddDistrito(Helper::StringToInt(splited[i]));
                 }
 
@@ -218,6 +233,7 @@ bool ABMEleccion::Exists(Eleccion* eleccion){
 
 	vector<Key> byFecha = this->indexByFecha->GetIds(eleccion->GetDate().getStrFecha());
 	vector<Key> byCargo = this->indexByCargo->GetIds(Helper::IntToString(eleccion->GetIdCargo()));
+
 	for(int i = 0; i< byCargo.size(); i++){
 		for(int j = 0; j< byFecha.size(); j++){
 			 if (byCargo[i]==byFecha[j]) return true;

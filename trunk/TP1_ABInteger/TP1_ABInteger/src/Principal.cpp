@@ -42,84 +42,61 @@
 
 using namespace std;
 
-/*int main2(){
+int main(int arg, char *argv[]) {
 
-	cout << endl << endl <<endl <<endl << endl;
-		cout << " por distrito " << endl;
-		Reportes::reportePorDistrito(1);
+	vector<int> pepe;
+	pepe.push_back(1);
+	pepe.push_back(2);
+	pepe.push_back(3);
+	pepe.push_back(5);
+	pepe.push_back(6);
+	pepe.push_back(19);
 
-	cout << endl << endl << endl << endl;
-	cout << " por lista " << endl;
-	Reportes::reportePorLista("8");
-
-	cout << "Done!!!!!!!! " << endl;
-	return 0;
-}
-
-int main3(){
-	Menues::MenuABMEleccion();
-}
-
-int main4(){
-	//Reportes::reportePorLista("12");
-
-	ABMEleccion* elecc = new ABMEleccion();
-	int maxId = Identities::GetLastIdEleccion();
-
-	for(int i = 1; i <= maxId; i++){
-
-		Eleccion* e = elecc->GetEleccion(i);
-
-		if(e != NULL){
-			cout << "Eleccion " << i << " - Fecha:" << e->GetDate().getFriendlyStr() << " - Cargo: " << e->GetIdCargo() << " - Distritos: ";
-			vector<int> ds = e->GetDistritos();
-			for(int j = 0; j < ds.size(); j++){
-				cout << ds[j] << " ";
-			}
-		}
-		else{
-			cout << "Eleccion " << i << " no existe" << endl;
-		}
-
-		cout << endl << endl;
+	for(int i = 0; i < pepe.size(); i++){
+		cout << pepe[i] << " - ";
 	}
 
-}
+	cout << endl << endl;
 
-int main5(){
+	vector<int>::iterator it;
 
-	ABMDistrito* da = new ABMDistrito();
-	ABMVotante* va = new ABMVotante();
+	it = find(pepe.begin(), pepe.end(), 6);
 
-	for(int i = 11; i <= 100; i++){
-		da->Add(Helper::IntToString(i));
-		va->Add(new Votante(i, Helper::IntToString(i), Helper::IntToString(i), Helper::IntToString(i), i));
+	if(it != pepe.end()){
+		cout << "el elemento existe " << endl;
+	}else{
+		cout << "el elemento NO existe" << endl;
 	}
 
-	for(int i = 1; i <= 100; i++){
 
-		Distrito* d = da->GetDistrito(i);
 
-		if(d != NULL){
-			cout << "Distrito " << d->GetId() << endl;
-		}
+	it = find(pepe.begin(), pepe.end(), 19);
+
+	if(it != pepe.end()){
+		cout << "el elemento existe " << endl;
+	}else{
+		cout << "el elemento NO existe" << endl;
 	}
 
-	for(int i = 1; i <= 100; i++){
 
-		Votante* v = va->GetVotante(i);
+	it = find(pepe.begin(), pepe.end(), 1);
 
-		if(v != NULL){
-			cout << "Votante " << v->GetDni() << " - Pertenece al distrito : " << v->GetDistrito()<< endl;
-		}
+	if(it != pepe.end()){
+		cout << "el elemento existe " << endl;
+	}else{
+		cout << "el elemento NO existe" << endl;
+	}
+
+
+	it = find(pepe.begin(), pepe.end(), 64);
+
+	if(it != pepe.end()){
+		cout << "el elemento existe " << endl;
+	}else{
+		cout << "el elemento NO existe" << endl;
 	}
 }
-*/
 
-int main(){
-	CargaMasiva::CargarEntidades();
-	//Reportes::reportePorDistrito(45);
-}
 
 int main2(int arg, char *argv[]) {
 
@@ -127,7 +104,8 @@ int main2(int arg, char *argv[]) {
 	cout << "Elija una opcion: " << endl << endl;
 	cout << "	1. Menu" << endl;
 	cout << "	2. Votaciones automaticas" << endl;
-	cout << "	3. Salir" << endl;
+	cout << "	3. Cargas Masivas" << endl;
+	cout << "	4. Salir" << endl;
 
 	string option;
 	cin>> option;
@@ -135,15 +113,31 @@ int main2(int arg, char *argv[]) {
 	while(true){
 
 		if(option == "1"){
+			system("cls");
 			Menues::MenuPpal();
+			cout << "Bye" << endl;
 			return 0;
 		}
 		else if(option == "2"){
+			system("cls");
 			CargaMasiva::GenerarVotosAutomaticos();
+			cout << "Bye" << endl;
 			return 0;
 		}
 		else if(option == "3"){
+			system("cls");
+			CargaMasiva::CargarEntidades();
+			cout << "Bye" << endl;
 			return 0;
+		}
+		else if(option == "4"){
+			system("cls");
+			cout << "Bye" << endl;
+			return 0;
+		}
+		else{
+			system("cls");
+			cout << "Por favor elija una opcion valida" << endl;
 		}
 	}
 	 return 0;

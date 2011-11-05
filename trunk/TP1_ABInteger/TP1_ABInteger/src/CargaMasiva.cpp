@@ -5,8 +5,6 @@
  *      Author: loo
  */
 
-#define MAX_ID_TEST 3
-
 #include "CargaMasiva.h"
 
 vector<int> CargaMasiva::GetIdsConteos(vector<Conteo> cs){
@@ -21,11 +19,7 @@ vector<int> CargaMasiva::GetIdsConteos(vector<Conteo> cs){
 
 int CargaMasiva::GetRandom(int maxNumber){
 
-    srand((unsigned)time(0));
-    int random_integer;
-
-    random_integer = (rand() % maxNumber) + 1;
-    return random_integer;
+    return (rand() % maxNumber) + 1;
 }
 
 int CargaMasiva::GetRandomFromNumbers(vector<int> posibleNumbers){
@@ -52,9 +46,12 @@ void CargaMasiva::CargarDistritos(){
 	ABMDistrito abmDistrito = ABMDistrito();
 
     for(int i = 1; i <= CANT_DISTRITOS; i++){
-            string distrito = "Distrito ";
-            distrito.append(Helper::IntToString(i));
-            abmDistrito.Add(distrito);
+
+    	string distrito = "Distrito ";
+		distrito.append(Helper::IntToString(i));
+		int idDistrito =  abmDistrito.Add(distrito);
+
+        //cout << "Distrito (" << idDistrito << "): " << distrito << endl;
     }
 }
 
@@ -92,7 +89,10 @@ void CargaMasiva::CargarVotantes(){
 
 			Votante  * vot = new Votante(dni, nombreApellido, clave, domicilio, idDistrito);
             abmVotante.Add(vot);
+
+            //  cout << "Votante " << vot->GetDni() << endl;
     }
+
 }
 
 void CargaMasiva::CargarCargos(){
@@ -117,13 +117,77 @@ void CargaMasiva::CargarCargos(){
 			vector<int> cargosSecundarios;
 			if (i>1) cargosSecundarios.push_back(GetRandom(i-1));
 
-            abmCargo.Add(cargo, cargosSecundarios);
+			int idCargo = abmCargo.Add(cargo, cargosSecundarios);
+
+			//cout << "Cargo (" << idCargo << "): " << cargo << endl;
     }
 }
 
-
 void CargaMasiva::CargarElecciones(){
 
+	//Borro el archivo de elecciones
+	string archivo = ConfigurationMananger::getInstance()->getEleccionFile();
+	archivo = "rm " + archivo;
+	system(archivo.c_str());
+	archivo = archivo + ".fs";
+	system(archivo.c_str());
+
+	//Cargo CANT_ELECCIONES elecciones
+	ABMEleccion abmEleccion = ABMEleccion();
+
+	for(int i = 1; i <= CANT_ELECCIONES; i++){
+
+		Fecha fecha = Fecha(1, 1, 1000+i);
+
+		int idCargo = GetRandom(CANT_CARGOS);
+
+		Eleccion  * ele = new Eleccion(idCargo, fecha);
+
+		if(CANT_DISTRITOS / 10 < 1){
+
+			//Agrego un solo distrito a la elccion
+			ele->AddDistrito(GetRandom(CANT_DISTRITOS));
+		}
+		else{
+
+			//Agrego CANT_DISTRITOS/10 distritos a la eleccion
+			vector<int> distritosAgregados;
+
+			for(int i = 0; i < CANT_DISTRITOS/10; i++){
+
+				int idDistrito;
+				if(distritosAgregados.size() == 0){
+					idDistrito = GetRandom(CANT_DISTRITOS);
+					ele->AddDistrito(idDistrito);
+				}
+				else{
+
+					//Me fijo que el id distrito no se haya ya agregado a la eleccion
+					bool founded = true;
+
+					while(founded){
+
+						idDistrito = GetRandom(CANT_DISTRITOS);
+						vector<int>::iterator it;
+						it = find(distritosAgregados.begin(), distritosAgregados.end(), idDistrito);
+
+						if(it != distritosAgregados.end()){	//no esta ya agregado
+							ele->AddDistrito(idDistrito);
+							founded = false;
+						}
+
+					}
+				}
+
+				distritosAgregados.push_back(idDistrito);
+			}
+		}
+
+        int idEleccion = abmEleccion.Add(ele);
+
+        //cout << "Eleccion(" << idEleccion << "). Fecha:  " << fecha.getFriendlyStr() << ". Cargo: " << ele->GetIdCargo() << endl;
+    }
+/*
 	//Borro el archivo de elecciones
 	string archivo = ConfigurationMananger::getInstance()->getEleccionFile();
 	archivo = "rm " + archivo;
@@ -143,9 +207,12 @@ void CargaMasiva::CargarElecciones(){
 			Eleccion  * ele = new Eleccion(idCargo, fecha);
             abmEleccion.Add(ele);
     }
+*/
+
 }
 
 void CargaMasiva::CargarListas(){
+
 	//Borro el archivo de listas
 	string archivo = ConfigurationMananger::getInstance()->getListaFile();
 	string archivobk = "rm " + archivo + ".bk";
@@ -161,17 +228,22 @@ void CargaMasiva::CargarListas(){
 	ABMLista abmLista = ABMLista();
 
     for(int i = 1; i <= CANT_LISTAS; i++){
-			string lista = "Lista ";
-			lista.append(Helper::IntToString(i));
 
-			int idEleccion = GetRandom(CANT_ELECCIONES);
+    	string lista = "Lista ";
+		lista.append(Helper::IntToString(i));
 
-			Lista * lis = new Lista(lista, idEleccion);
-            abmLista.Add(lis);
+		int idEleccion = GetRandom(CANT_ELECCIONES);
+
+		Lista * lis = new Lista(lista, idEleccion);
+		abmLista.Add(lis);
+
+		cout << "Lista: " << lis->GetNombre() << endl;
     }
+
 }
 
 void CargaMasiva::CargarCandidatos(){
+
 	//Borro el archivo de candidatos
 	string archivo = ConfigurationMananger::getInstance()->getCandidatoFile();
 	string archivobk = "rm " + archivo + ".bk";
@@ -190,8 +262,10 @@ void CargaMasiva::CargarCandidatos(){
 			string idLista = Helper::IntToString(GetRandom(CANT_LISTAS));
 			long int idVotante = (long int) GetRandom(CANT_VOTANTES);
 			int idCargo = (int) GetRandom(CANT_CARGOS);
-            abmCandidato.Add(idLista, idVotante, idCargo);
+            int idCandidato = abmCandidato.Add(idLista, idVotante, idCargo);
+            cout << "Candidato (" << idCandidato << "). Cargo" << idCargo << ". Lista: " << idLista << endl;
     }
+
 }
 
 void CargaMasiva::CargarAdministradores(){
@@ -215,14 +289,19 @@ void CargaMasiva::CargarAdministradores(){
 			admin.append(Helper::IntToString(i));
 			Administrador  * adm = new Administrador(admin,admin);
             abmAdministrador.Add(adm);
+
+            cout << "Administrador. User: " << adm->GetUsuario() << ". Password: " << adm->GetClave() << endl;
     }
+
 }
 
 //Carga todas las entidades
 void CargaMasiva::CargarEntidades(){
+
 	//Inicializo los ids en 1
 	Identities::InitializeFile();
-	//Carga masiva de todas las entidades
+	cout << endl;
+
 	CargarDistritos();
 	CargarVotantes();
 	CargarCargos();
@@ -240,14 +319,15 @@ void CargaMasiva::GenerarVotosAutomaticos(){
 	ABMConteo* cont = new ABMConteo();
 
 	//Recorro todos los votantes
-	for(int idV = 1 ; idV <= 100; idV++) {
+	vector<Votante*> votantes = vots->GetVotantes();
+	for(int k = 1 ; k < votantes.size(); k++) {
 
-		Votante* votante = vots->GetVotante(idV);
+		Votante* votante = votantes[k];
 
 		if(votante != NULL){
 
 			//Recorro todas las elecciones t me fijo en cual le corresponde votar --> Si el distrito del votante esta en la eleccion
-			for (int i = 1; i <= MAX_ID_TEST; i++) {
+			for (int i = 1; i <= CANT_ELECCIONES; i++) {
 
 				Eleccion* e = elecc->GetEleccion(i);
 				vector<int> ds = e->GetDistritos();
