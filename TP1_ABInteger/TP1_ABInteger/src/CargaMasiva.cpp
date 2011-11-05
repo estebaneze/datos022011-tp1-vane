@@ -13,6 +13,22 @@ void CargaMasiva::BorrarArchivosLog(){
 	system(scriptEliminaLog.c_str());
 }
 
+void CargaMasiva::BorraTodosArchivos(){
+
+	string scriptEliminaArchivos = "rm -r " + ConfigurationMananger::getInstance()->getFileDirectory() + "*.bk";
+	system(scriptEliminaArchivos.c_str());
+
+	scriptEliminaArchivos = "rm -r " + ConfigurationMananger::getInstance()->getFileDirectory() + "*.fs";
+	system(scriptEliminaArchivos.c_str());
+
+	scriptEliminaArchivos = "rm -r " + ConfigurationMananger::getInstance()->getFileDirectory() + "*.dir";
+	system(scriptEliminaArchivos.c_str());
+
+	scriptEliminaArchivos = "rm -r " + ConfigurationMananger::getInstance()->getFileDirectory() + "*.bpt";
+	system(scriptEliminaArchivos.c_str());
+
+}
+
 void CargaMasiva::BorrarArchivosIndice(string indexFile){
 
 	string indexFileAux = "rm " + indexFile + ".ix.bk";
@@ -382,6 +398,7 @@ void CargaMasiva::CargarEntidades(){
 	cout << endl;
 
 	BorrarArchivos();
+	//BorraTodosArchivos();
 	cout << endl;
 
 	CargarDistritos();
