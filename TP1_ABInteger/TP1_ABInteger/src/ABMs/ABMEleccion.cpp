@@ -12,7 +12,10 @@
  */
 ABMEleccion::ABMEleccion() {
 
-	this->bpTreeFile = ConfigurationMananger::getInstance()->getEleccionFile();
+	string mainTreeName = ConfigurationMananger::getInstance()->getEleccionFile();
+	mainTreeName = Helper::concatenar(mainTreeName,"bpt",".");
+
+	this->bpTreeFile = mainTreeName;
 
 	int bufferSize = ConfigurationMananger::getInstance()->getBufferSizeTree();
 
