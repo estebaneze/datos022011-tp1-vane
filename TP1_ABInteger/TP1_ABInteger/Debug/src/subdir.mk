@@ -4,14 +4,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/CargaMasiva.cpp \
 ../src/Principal.cpp \
 ../src/Test.cpp 
 
 OBJS += \
+./src/CargaMasiva.o \
 ./src/Principal.o \
 ./src/Test.o 
 
 CPP_DEPS += \
+./src/CargaMasiva.d \
 ./src/Principal.d \
 ./src/Test.d 
 

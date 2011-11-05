@@ -96,7 +96,14 @@ src/Principal.d src/Principal.o: ../src/Principal.cpp \
  ../src/Menues/../utils/Fecha.h ../src/Menues/../Logging/Log.h \
  ../src/Menues/../Logging/VotanteLog.h \
  ../src/Menues/../Logging/../Hash/Directory.h \
- ../src/Menues/../Logging/Log.h ../src/Menues/../Logging/../utils/Fecha.h
+ ../src/Menues/../Logging/Log.h ../src/Menues/../Logging/../utils/Fecha.h \
+ ../src/Menues/../CargaMasiva.h ../src/Menues/../ABMs/ABMDistrito.h \
+ ../src/Menues/../ABMs/ABMCandidato.h ../src/Menues/../ABMs/ABMCargo.h \
+ ../src/Menues/../ABMs/ABMConteo.h ../src/Menues/../ABMs/ABMEleccion.h \
+ ../src/Menues/../ABMs/ABMLista.h ../src/Menues/../ABMs/ABMVotante.h \
+ ../src/Menues/../ABMs/ABMAdministrador.h \
+ ../src/Menues/../utils/ConfigFile.h ../src/Menues/../Common/Helper.h \
+ ../src/Menues/../Common/Identities.h ../src/CargaMasiva.h
 
 ../src/Reportes/Reportes.h:
 
@@ -325,3 +332,29 @@ src/Principal.d src/Principal.o: ../src/Principal.cpp \
 ../src/Menues/../Logging/Log.h:
 
 ../src/Menues/../Logging/../utils/Fecha.h:
+
+../src/Menues/../CargaMasiva.h:
+
+../src/Menues/../ABMs/ABMDistrito.h:
+
+../src/Menues/../ABMs/ABMCandidato.h:
+
+../src/Menues/../ABMs/ABMCargo.h:
+
+../src/Menues/../ABMs/ABMConteo.h:
+
+../src/Menues/../ABMs/ABMEleccion.h:
+
+../src/Menues/../ABMs/ABMLista.h:
+
+../src/Menues/../ABMs/ABMVotante.h:
+
+../src/Menues/../ABMs/ABMAdministrador.h:
+
+../src/Menues/../utils/ConfigFile.h:
+
+../src/Menues/../Common/Helper.h:
+
+../src/Menues/../Common/Identities.h:
+
+../src/CargaMasiva.h:

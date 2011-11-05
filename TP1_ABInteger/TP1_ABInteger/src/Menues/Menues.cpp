@@ -1120,8 +1120,9 @@ while (fin==0){
 	switch (opcion) {
 				case '1':	{
 
-					cout << "Reporte por Eleccion" << endl << endl;
-					cout << "Ingrese Fecha de la eleccion. " << endl;
+					cout << "Reporte por Eleccion" << endl;
+					cout << "====================" << endl << endl;
+					cout << "Ingrese Fecha de la eleccion: " << endl;
 					string anio;
 					string mes;
 					string dia;
@@ -1198,8 +1199,8 @@ while (fin==0){
 				}
 				case '2':{
 
-					cout << "Reporte por Lista" << endl << endl;
-
+					cout << "Reporte por Lista" << endl;
+					cout << "=================" << endl << endl;
 					ABMLista* abmLista = new ABMLista();
 
 					cout << "Listas disponibles:" << endl;
@@ -1280,6 +1281,10 @@ while (fin==0){
 					cin >> c;
 					//if (c=="q") listo=true;
 
+					break;
+				}
+				case '4':{
+					fin=1;
 					break;
 				}
 
@@ -1448,6 +1453,56 @@ char opcion=1;
 							break;
 					}
 		}
+}
+
+void Menues::MenuInicial()
+{
+	int fin=0;
+
+	while (fin==0){
+		system("clear");
+		cout << endl << endl;
+		cout << "Elija una opcion: " << endl << endl;
+		cout << "\t1. Menu" << endl;
+		cout << "\t2. Votaciones automaticas" << endl;
+		cout << "\t3. Cargas Masivas" << endl;
+		cout << "\t4. Salir" << endl << endl;
+		cout << "Ingrese un opcion: ";
+		char option;
+		cin>> option;
+		cout << endl;
+
+
+
+		switch(option){
+
+			case '1': {
+				system("clear");
+				Menues::MenuPpal();
+				break;
+				}
+			case '2':{
+				system("clear");
+				CargaMasiva::GenerarVotosAutomaticos();
+				break;
+				}
+			case '3':{
+				system("clear");
+				CargaMasiva::CargarEntidades();
+				break;
+				}
+			case '4':{
+				system("clear");
+				fin=1;
+				break;
+				}
+			default:{
+				fin=0;
+				break;
+				}
+		}
+
+	}
 }
 
 Votante* Menues::EditaVotante(string dni)
