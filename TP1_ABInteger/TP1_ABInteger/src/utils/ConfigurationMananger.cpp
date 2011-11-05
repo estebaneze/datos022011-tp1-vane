@@ -61,6 +61,7 @@ ConfigurationMananger::ConfigurationMananger() {
     	configFile->readInto<string>(logOperCandidato,"logOperCandidato");
     	configFile->readInto<string>(logProcessCandidato,"logProcessCandidato");
     	configFile->readInto<string>(logDirectory, "logDirectory");
+    	configFile->readInto<string>(fileDirectory, "fileDirectory");
 
         //configFile->readInto(maxRecordPercent,"maxRecordPercent");
         //maxRecordPercent = (1-chargeFactor)/2;
@@ -250,6 +251,11 @@ string ConfigurationMananger::getLogOperDistritoFile()
 string ConfigurationMananger::getLogDirectory()
 {
 	return this->logDirectory;
+}
+
+string ConfigurationMananger::getFileDirectory()
+{
+	return this->fileDirectory;
 }
 
 
