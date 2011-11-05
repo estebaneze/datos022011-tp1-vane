@@ -12,7 +12,6 @@ using namespace except;
 
 Index::Index(string filename) {
 
-	try{
 		this->hashFile = Helper::concatenar(filename,"ix",".");
 		this->directorio = new Directory(hashFile,2048);
         string plainFileName = this->hashFile;
@@ -24,12 +23,6 @@ Index::Index(string filename) {
         this->processLogIx = ConfigurationMananger::getInstance()->getLogDirectory() + plainFileName + "_Process" + "." + "log";
         this->operationLogIx = ConfigurationMananger::getInstance()->getLogDirectory() + plainFileName + "_Operation" + "." + "log";
 
-	}
-	catch( except::ExceptionNotFound e ) {
-		cout << "Exception raised: " << '\n';
-
-
-	}
 }
 
 vector<Key> Index::GetIds(Key key){
