@@ -46,3 +46,4 @@ logOperDistrito = files/logs/Distrito_BPlusTreeOperation.log
 logProcessDistrito = files/logs/Distrito_BPlusTreeProcess.log
 logOperEleccion = files/logs/Eleccion_BPlusTreeOperation.log
 logProcessEleccion = files/logs/Eleccion_BPlusTreeProcess.log
+logDirectory = files/logs/
