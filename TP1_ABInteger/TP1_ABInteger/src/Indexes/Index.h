@@ -10,6 +10,7 @@
 
 #include "../Hash/Directory.h"
 #include "../Common/Common.h"
+#include "../Logging/HashLog.h"
 
 using namespace std;
 
@@ -36,6 +37,8 @@ class Index {
 		void DeleteFromIndex(Key key, Key value);
 		void DeleteFromIndex(KeyInt key, Key value);
 	private:
+		string processLogIx;
+		string operationLogIx;
 		string hashFile;
 		Directory* directorio;
 };

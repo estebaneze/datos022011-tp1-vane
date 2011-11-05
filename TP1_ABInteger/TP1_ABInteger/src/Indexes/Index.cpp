@@ -12,6 +12,15 @@ Index::Index(string filename) {
         this->hashFile = Helper::concatenar(filename,"ix",".");
         this->directorio = new Directory(hashFile,2048);
 
+        string plainFileName = this->hashFile;
+        vector<string> splited = Helper::split(this->hashFile,'/');
+
+        if (splited.size() > 0)
+        	plainFileName = splited[1];
+
+        this->processLogIx = ConfigurationMananger::getInstance()->getLogDirectory() + plainFileName + "_Process" + "." + "log";
+        this->operationLogIx = ConfigurationMananger::getInstance()->getLogDirectory() + plainFileName + "_Operation" + "." + "log";
+
 }
 
 vector<Key> Index::GetIds(Key key){
@@ -85,6 +94,9 @@ void Index::AppendToIndex(Key key, Key value){
                         this->directorio->modify(key, oldFields);
                 }
         }
+
+        HashLog::LogProcess(this->directorio,this->processLogIx);
+		HashLog::LogInsert(key,value,this->operationLogIx);
 
 }
 
@@ -185,6 +197,9 @@ void Index::AppendToIndex(Key key,Key oldKey, Key value){
                 }
 
         }
+
+        HashLog::LogProcess(this->directorio,this->processLogIx);
+		HashLog::LogInsert(key,value,this->operationLogIx);
 }
 
 
