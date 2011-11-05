@@ -22,11 +22,13 @@
 #include "../utils/Fecha.h"
 #include "../Logging/Log.h"
 #include "../Logging/VotanteLog.h"
+#include "../CargaMasiva.h"
 #include <ctime>
 
 class Menues {
 public:
 	Menues();
+	static void MenuInicial();
 	static void MenuPpal();
 	static void MenuVotante();
 	static void MenuAdmin();

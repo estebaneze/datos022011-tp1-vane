@@ -45,46 +45,7 @@ using namespace std;
 
 int main(int arg, char *argv[]) {
 
-	cout << endl << endl << endl;
-	cout << "Elija una opcion: " << endl << endl;
-	cout << "	1. Menu" << endl;
-	cout << "	2. Votaciones automaticas" << endl;
-	cout << "	3. Cargas Masivas" << endl;
-	cout << "	4. Salir" << endl;
-
-	string option;
-	cin>> option;
-
-	while(true){
-
-		if(option == "1"){
-			system("clear");
-			Menues::MenuPpal();
-			cout << "\nBye\n" << endl;
-			return 0;
-		}
-		else if(option == "2"){
-			system("clear");
-			CargaMasiva::GenerarVotosAutomaticos();
-			cout << "\nBye\n" << endl;
-			return 0;
-		}
-		else if(option == "3"){
-			system("clear");
-			CargaMasiva::CargarEntidades();
-			cout << "\nBye\n" << endl;
-			return 0;
-		}
-		else if(option == "4"){
-			system("clear");
-			cout << "\nBye\n" << endl;
-			return 0;
-		}
-		else{
-			system("clear");
-			cout << "Por favor elija una opcion valida" << endl;
-		}
-	}
+	Menues::MenuInicial();
 	 return 0;
 }
 
