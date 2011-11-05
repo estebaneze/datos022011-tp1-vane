@@ -62,9 +62,9 @@ ConfigurationMananger::ConfigurationMananger() {
     	configFile->readInto<string>(logProcessCandidato,"logProcessCandidato");
 
         //configFile->readInto(maxRecordPercent,"maxRecordPercent");
-        maxRecordPercent = (1-chargeFactor)/2;
+        //maxRecordPercent = (1-chargeFactor)/2;
 
-        this->maxRecordSizeTree = this->bufferSizeTree*maxRecordPercent;
+        this->maxRecordSizeTree = this->bufferSizeTree*chargeFactor;
 
         //delete configFile;
 }
