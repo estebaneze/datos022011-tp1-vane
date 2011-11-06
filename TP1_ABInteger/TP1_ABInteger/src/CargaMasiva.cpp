@@ -275,7 +275,7 @@ void CargaMasiva::CargarElecciones(){
 			ele->AddDistrito(GetRandom(CANT_DISTRITOS));
 		}
 		else{
-			//Agrego CANT_DISTRITOS/10 distritos a la eleccion
+			//Agrego CANT_DISTRITOS/20 distritos a la eleccion
 			vector<int> distritosAgregados;
 
 			for(int i = 0; i < CANT_DISTRITOS/20; i++){
@@ -296,7 +296,7 @@ void CargaMasiva::CargarElecciones(){
 						vector<int>::iterator it;
 						it = find(distritosAgregados.begin(), distritosAgregados.end(), idDistrito);
 
-						if(it != distritosAgregados.end()){	//no esta ya agregado
+						if(it == distritosAgregados.end()){	//no esta ya agregado
 							ele->AddDistrito(idDistrito);
 							founded = false;
 						}
