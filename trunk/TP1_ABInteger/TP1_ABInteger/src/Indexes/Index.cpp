@@ -13,7 +13,7 @@ using namespace except;
 Index::Index(string filename) {
 
 		this->hashFile = Helper::concatenar(filename,"ix",".");
-		this->directorio = new Directory(hashFile,2048);
+		this->directorio = new Directory(hashFile,4096);
         string plainFileName = this->hashFile;
         vector<string> splited = Helper::split(this->hashFile,'/');
 
@@ -74,6 +74,7 @@ void Index::AppendToIndex(Key key, Key value){
 
 
         if (!(this->directorio->existKey(key))){
+
                 this->directorio->insert(key,value);
         }
         else{
@@ -93,7 +94,9 @@ void Index::AppendToIndex(Key key, Key value){
                 if(!founded){
                         oldFields.append("|");
                         oldFields.append(value);
+
                         this->directorio->modify(key, oldFields);
+
                 }
         }
 

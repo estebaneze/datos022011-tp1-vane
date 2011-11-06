@@ -1,7 +1,7 @@
 src/CargaMasiva.d src/CargaMasiva.o: ../src/CargaMasiva.cpp \
- ../src/CargaMasiva.h ../src/ABMs/ABMDistrito.h \
- ../src/ABMs/../Common/Common.h ../src/ABMs/../Common/Identities.h \
- ../src/ABMs/../Common/Helper.h \
+ ../src/Persistencia/exceptions/excepciones.h ../src/CargaMasiva.h \
+ ../src/ABMs/ABMDistrito.h ../src/ABMs/../Common/Common.h \
+ ../src/ABMs/../Common/Identities.h ../src/ABMs/../Common/Helper.h \
  ../src/ABMs/../Common/../utils/ConfigurationMananger.h \
  ../src/ABMs/../Common/../utils/types.h \
  ../src/ABMs/../Common/../utils/ConfigFile.h \
@@ -47,11 +47,12 @@ src/CargaMasiva.d src/CargaMasiva.o: ../src/CargaMasiva.cpp \
  ../src/ABMs/../Indexes/Index.h \
  ../src/ABMs/../Indexes/../Hash/Directory.h \
  ../src/ABMs/../Indexes/../Common/Common.h \
- ../src/ABMs/../Logging/HashLog.h \
- ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/ABMCargo.h \
- ../src/ABMs/../Entidades/Cargo.h ../src/ABMs/ABMConteo.h \
- ../src/ABMs/../Common/Identities.h ../src/ABMs/../Entidades/Conteo.h \
- ../src/ABMs/../Entidades/Eleccion.h \
+ ../src/ABMs/../Indexes/../Logging/HashLog.h \
+ ../src/ABMs/../Indexes/../Logging/../Hash/Directory.h \
+ ../src/ABMs/../Indexes/../Logging/Log.h ../src/ABMs/../Logging/HashLog.h \
+ ../src/ABMs/ABMCargo.h ../src/ABMs/../Entidades/Cargo.h \
+ ../src/ABMs/ABMConteo.h ../src/ABMs/../Common/Identities.h \
+ ../src/ABMs/../Entidades/Conteo.h ../src/ABMs/../Entidades/Eleccion.h \
  ../src/ABMs/../Entidades/../utils/Fecha.h \
  ../src/ABMs/../Entidades/../utils/../Common/Common.h \
  ../src/ABMs/../Entidades/Votante.h ../src/ABMs/../Common/Helper.h \
@@ -62,6 +63,8 @@ src/CargaMasiva.d src/CargaMasiva.o: ../src/CargaMasiva.cpp \
  ../src/ABMs/ABMVotante.h ../src/ABMs/ABMAdministrador.h \
  ../src/ABMs/../Entidades/Administrador.h ../src/utils/ConfigFile.h \
  ../src/Common/Helper.h ../src/Common/Identities.h
+
+../src/Persistencia/exceptions/excepciones.h:
 
 ../src/CargaMasiva.h:
 
@@ -177,9 +180,13 @@ src/CargaMasiva.d src/CargaMasiva.o: ../src/CargaMasiva.cpp \
 
 ../src/ABMs/../Indexes/../Common/Common.h:
 
-../src/ABMs/../Logging/HashLog.h:
+../src/ABMs/../Indexes/../Logging/HashLog.h:
 
-../src/ABMs/../Logging/../Hash/Directory.h:
+../src/ABMs/../Indexes/../Logging/../Hash/Directory.h:
+
+../src/ABMs/../Indexes/../Logging/Log.h:
+
+../src/ABMs/../Logging/HashLog.h:
 
 ../src/ABMs/ABMCargo.h:
 

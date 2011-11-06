@@ -45,6 +45,9 @@ src/Test.d src/Test.o: ../src/Test.cpp ../src/Reportes/Reportes.h \
  ../src/Reportes/../ABMs/../Indexes/../Hash/../Persistencia/PersistorBase.h \
  ../src/Reportes/../ABMs/../Indexes/../Hash/../Persistencia/exceptions/PersistExceptions.h \
  ../src/Reportes/../ABMs/../Indexes/../Common/Common.h \
+ ../src/Reportes/../ABMs/../Indexes/../Logging/HashLog.h \
+ ../src/Reportes/../ABMs/../Indexes/../Logging/../Hash/Directory.h \
+ ../src/Reportes/../ABMs/../Indexes/../Logging/Log.h \
  ../src/Reportes/../ABMs/../Entidades/Conteo.h \
  ../src/Reportes/../ABMs/../Entidades/../Common/Common.h \
  ../src/Reportes/../ABMs/../Entidades/Eleccion.h \
@@ -56,14 +59,13 @@ src/Test.d src/Test.o: ../src/Test.cpp ../src/Reportes/Reportes.h \
  ../src/Reportes/../ABMs/../Common/Common.h \
  ../src/Reportes/../ABMs/../Hash/Directory.h \
  ../src/Reportes/../ABMs/../Logging/HashLog.h \
- ../src/Reportes/../ABMs/../Logging/../Hash/Directory.h \
- ../src/Reportes/../ABMs/../Logging/Log.h \
  ../src/Reportes/../ABMs/ABMEleccion.h \
  ../src/Reportes/../ABMs/../Entidades/Eleccion.h \
  ../src/Reportes/../ABMs/../utils/ConfigFile.h \
  ../src/Reportes/../ABMs/../BPlusTree/Element.h \
  ../src/Reportes/../ABMs/../Logging/BPlusTreeLog.h \
  ../src/Reportes/../ABMs/../Logging/../BPlusTree/BPlusTree.h \
+ ../src/Reportes/../ABMs/../Logging/Log.h \
  ../src/Reportes/../ABMs/ABMCargo.h \
  ../src/Reportes/../ABMs/../Entidades/Cargo.h \
  ../src/Reportes/../ABMs/ABMEleccion.h \
@@ -173,6 +175,12 @@ src/Test.d src/Test.o: ../src/Test.cpp ../src/Reportes/Reportes.h \
 
 ../src/Reportes/../ABMs/../Indexes/../Common/Common.h:
 
+../src/Reportes/../ABMs/../Indexes/../Logging/HashLog.h:
+
+../src/Reportes/../ABMs/../Indexes/../Logging/../Hash/Directory.h:
+
+../src/Reportes/../ABMs/../Indexes/../Logging/Log.h:
+
 ../src/Reportes/../ABMs/../Entidades/Conteo.h:
 
 ../src/Reportes/../ABMs/../Entidades/../Common/Common.h:
@@ -195,10 +203,6 @@ src/Test.d src/Test.o: ../src/Test.cpp ../src/Reportes/Reportes.h \
 
 ../src/Reportes/../ABMs/../Logging/HashLog.h:
 
-../src/Reportes/../ABMs/../Logging/../Hash/Directory.h:
-
-../src/Reportes/../ABMs/../Logging/Log.h:
-
 ../src/Reportes/../ABMs/ABMEleccion.h:
 
 ../src/Reportes/../ABMs/../Entidades/Eleccion.h:
@@ -210,6 +214,8 @@ src/Test.d src/Test.o: ../src/Test.cpp ../src/Reportes/Reportes.h \
 ../src/Reportes/../ABMs/../Logging/BPlusTreeLog.h:
 
 ../src/Reportes/../ABMs/../Logging/../BPlusTree/BPlusTree.h:
+
+../src/Reportes/../ABMs/../Logging/Log.h:
 
 ../src/Reportes/../ABMs/ABMCargo.h:
 

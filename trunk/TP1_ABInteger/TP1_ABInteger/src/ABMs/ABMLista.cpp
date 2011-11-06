@@ -48,15 +48,7 @@ void ABMLista::Add(Lista* lista){
                 	conteos->Inicializa(lista->GetNombre(), distritos[i], e->GetId());
                 }
 
-                //Conteos disponibles para la eleccion:2
-                /*cout << "----------------------------------" << endl;
-                cout << "pruebo como se agregaron los conteos: " << endl;
-                cout << distritos[0] << endl;
-                vector<Conteo> cs = conteos->GetConteoByDistrito(distritos[0]);
-                for(int j = 0; j < cs.size(); j++){
-                	cout << "Id conteo: "<< cs[j].GetId() << " - Cant votos: " << cs[j].GetCountVotos() << " - IdLista: " << cs[j].GetIdLista() << " - Id Distrito: " << cs[j].GetIdDistrito() << "Id Eleccion: " << cs[j].GetIdEleccion() << endl;
-                }
-                cout << "------------------" << endl << endl;*/
+
         }
         else{
                 cout << "Ya existe la Lista " << lista->GetNombre() << endl;

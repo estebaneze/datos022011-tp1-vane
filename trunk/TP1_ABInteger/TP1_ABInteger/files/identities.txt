@@ -1,43 +1,10 @@
-Candidato 1
-Cargo 4
-Conteo 13
-Distrito 191
-Eleccion 9
+Candidato 101
+Cargo 51
+Conteo 549
+Distrito 201
+Eleccion 11
 Lista 1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Administrador 1
 
 
 

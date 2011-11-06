@@ -22,8 +22,9 @@ src/ABMs/ABMLista.d src/ABMs/ABMLista.o: ../src/ABMs/ABMLista.cpp \
  ../src/ABMs/../Indexes/Index.h \
  ../src/ABMs/../Indexes/../Hash/Directory.h \
  ../src/ABMs/../Indexes/../Common/Common.h \
- ../src/ABMs/../Logging/HashLog.h \
- ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/../Logging/Log.h \
+ ../src/ABMs/../Indexes/../Logging/HashLog.h \
+ ../src/ABMs/../Indexes/../Logging/../Hash/Directory.h \
+ ../src/ABMs/../Indexes/../Logging/Log.h ../src/ABMs/../Logging/HashLog.h \
  ../src/ABMs/../utils/ConfigFile.h ../src/ABMs/../ABMs/ABMConteo.h \
  ../src/ABMs/../ABMs/../BPlusTree/BPlusTree.h \
  ../src/ABMs/../ABMs/../BPlusTree/../utils/const.h \
@@ -124,11 +125,13 @@ src/ABMs/ABMLista.d src/ABMs/ABMLista.o: ../src/ABMs/ABMLista.cpp \
 
 ../src/ABMs/../Indexes/../Common/Common.h:
 
+../src/ABMs/../Indexes/../Logging/HashLog.h:
+
+../src/ABMs/../Indexes/../Logging/../Hash/Directory.h:
+
+../src/ABMs/../Indexes/../Logging/Log.h:
+
 ../src/ABMs/../Logging/HashLog.h:
-
-../src/ABMs/../Logging/../Hash/Directory.h:
-
-../src/ABMs/../Logging/Log.h:
 
 ../src/ABMs/../utils/ConfigFile.h:
 

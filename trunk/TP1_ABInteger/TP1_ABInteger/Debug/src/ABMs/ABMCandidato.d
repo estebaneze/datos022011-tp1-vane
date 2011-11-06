@@ -24,8 +24,9 @@ src/ABMs/ABMCandidato.d src/ABMs/ABMCandidato.o: \
  ../src/ABMs/../Indexes/Index.h \
  ../src/ABMs/../Indexes/../Hash/Directory.h \
  ../src/ABMs/../Indexes/../Common/Common.h \
- ../src/ABMs/../Logging/HashLog.h \
- ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/../Logging/Log.h
+ ../src/ABMs/../Indexes/../Logging/HashLog.h \
+ ../src/ABMs/../Indexes/../Logging/../Hash/Directory.h \
+ ../src/ABMs/../Indexes/../Logging/Log.h ../src/ABMs/../Logging/HashLog.h
 
 ../src/ABMs/ABMCandidato.h:
 
@@ -85,8 +86,10 @@ src/ABMs/ABMCandidato.d src/ABMs/ABMCandidato.o: \
 
 ../src/ABMs/../Indexes/../Common/Common.h:
 
+../src/ABMs/../Indexes/../Logging/HashLog.h:
+
+../src/ABMs/../Indexes/../Logging/../Hash/Directory.h:
+
+../src/ABMs/../Indexes/../Logging/Log.h:
+
 ../src/ABMs/../Logging/HashLog.h:
-
-../src/ABMs/../Logging/../Hash/Directory.h:
-
-../src/ABMs/../Logging/Log.h:

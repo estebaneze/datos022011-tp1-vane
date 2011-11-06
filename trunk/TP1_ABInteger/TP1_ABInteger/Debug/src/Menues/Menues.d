@@ -46,6 +46,9 @@ src/Menues/Menues.d src/Menues/Menues.o: ../src/Menues/Menues.cpp \
  ../src/Menues/../Reportes/../ABMs/../Indexes/../Hash/../Persistencia/PersistorBase.h \
  ../src/Menues/../Reportes/../ABMs/../Indexes/../Hash/../Persistencia/exceptions/PersistExceptions.h \
  ../src/Menues/../Reportes/../ABMs/../Indexes/../Common/Common.h \
+ ../src/Menues/../Reportes/../ABMs/../Indexes/../Logging/HashLog.h \
+ ../src/Menues/../Reportes/../ABMs/../Indexes/../Logging/../Hash/Directory.h \
+ ../src/Menues/../Reportes/../ABMs/../Indexes/../Logging/Log.h \
  ../src/Menues/../Reportes/../ABMs/../Entidades/Conteo.h \
  ../src/Menues/../Reportes/../ABMs/../Entidades/../Common/Common.h \
  ../src/Menues/../Reportes/../ABMs/../Entidades/Eleccion.h \
@@ -57,14 +60,13 @@ src/Menues/Menues.d src/Menues/Menues.o: ../src/Menues/Menues.cpp \
  ../src/Menues/../Reportes/../ABMs/../Common/Common.h \
  ../src/Menues/../Reportes/../ABMs/../Hash/Directory.h \
  ../src/Menues/../Reportes/../ABMs/../Logging/HashLog.h \
- ../src/Menues/../Reportes/../ABMs/../Logging/../Hash/Directory.h \
- ../src/Menues/../Reportes/../ABMs/../Logging/Log.h \
  ../src/Menues/../Reportes/../ABMs/ABMEleccion.h \
  ../src/Menues/../Reportes/../ABMs/../Entidades/Eleccion.h \
  ../src/Menues/../Reportes/../ABMs/../utils/ConfigFile.h \
  ../src/Menues/../Reportes/../ABMs/../BPlusTree/Element.h \
  ../src/Menues/../Reportes/../ABMs/../Logging/BPlusTreeLog.h \
  ../src/Menues/../Reportes/../ABMs/../Logging/../BPlusTree/BPlusTree.h \
+ ../src/Menues/../Reportes/../ABMs/../Logging/Log.h \
  ../src/Menues/../Reportes/../ABMs/ABMCargo.h \
  ../src/Menues/../Reportes/../ABMs/../Entidades/Cargo.h \
  ../src/Menues/../Reportes/../ABMs/ABMEleccion.h \
@@ -195,6 +197,12 @@ src/Menues/Menues.d src/Menues/Menues.o: ../src/Menues/Menues.cpp \
 
 ../src/Menues/../Reportes/../ABMs/../Indexes/../Common/Common.h:
 
+../src/Menues/../Reportes/../ABMs/../Indexes/../Logging/HashLog.h:
+
+../src/Menues/../Reportes/../ABMs/../Indexes/../Logging/../Hash/Directory.h:
+
+../src/Menues/../Reportes/../ABMs/../Indexes/../Logging/Log.h:
+
 ../src/Menues/../Reportes/../ABMs/../Entidades/Conteo.h:
 
 ../src/Menues/../Reportes/../ABMs/../Entidades/../Common/Common.h:
@@ -217,10 +225,6 @@ src/Menues/Menues.d src/Menues/Menues.o: ../src/Menues/Menues.cpp \
 
 ../src/Menues/../Reportes/../ABMs/../Logging/HashLog.h:
 
-../src/Menues/../Reportes/../ABMs/../Logging/../Hash/Directory.h:
-
-../src/Menues/../Reportes/../ABMs/../Logging/Log.h:
-
 ../src/Menues/../Reportes/../ABMs/ABMEleccion.h:
 
 ../src/Menues/../Reportes/../ABMs/../Entidades/Eleccion.h:
@@ -232,6 +236,8 @@ src/Menues/Menues.d src/Menues/Menues.o: ../src/Menues/Menues.cpp \
 ../src/Menues/../Reportes/../ABMs/../Logging/BPlusTreeLog.h:
 
 ../src/Menues/../Reportes/../ABMs/../Logging/../BPlusTree/BPlusTree.h:
+
+../src/Menues/../Reportes/../ABMs/../Logging/Log.h:
 
 ../src/Menues/../Reportes/../ABMs/ABMCargo.h:
 
