@@ -38,6 +38,7 @@ void Reportes::reportePorLista(string lista)
 	ABMCargo* abmCargo = new ABMCargo();
 	ABMDistrito* abmDistrito = new ABMDistrito();
 
+
 	vector<Conteo> resultados =  abmConteo->GetConteoByLista(lista);
 
 	if(resultados.size() == 0){
@@ -60,6 +61,8 @@ void Reportes::reportePorLista(string lista)
 	int j = 0;
 	int idEleccionActual = conteo.GetIdEleccion();
 
+
+
 	//Tengo que agrupar por eleccion
 	for (it = resultados.begin(); it != resultados.end(); it++) {
 
@@ -80,6 +83,7 @@ void Reportes::reportePorLista(string lista)
 
 	}
 
+
 	//Ordeno los registro que ya estan agrupados por cantidad de votos
 	/*vector< vector<Conteo> >::iterator it2 = resAgrupados.begin();
 	vector<Conteo> cs  = (vector<Conteo>) *it2;
@@ -96,19 +100,33 @@ void Reportes::reportePorLista(string lista)
 		resAgrupados[i] = aux;
 	}
 
+
 	cout << endl << endl << endl;
 
 	for(int i = 0; i < resAgrupados.size(); i++){
 
 		Eleccion* e = abmEleccion->GetEleccion(conteo.GetIdEleccion());
 
-		string cargo = abmCargo->GetCargo(e->GetIdCargo())->GetNombre();
+
+		//string cargo = abmCargo->GetCargo(e->GetIdCargo())->GetNombre();
+
+		vector <Cargo> v = abmCargo->GetCargos();
+		string cargo;
+
+
+		for (int i=0; i<v.size();i++ ){
+			if (v.at(i).GetId()==e->GetIdCargo()){
+				cargo= v.at(i).GetNombre();
+			}
+		}
 
 		Fecha fecha = e->GetDate().getStrFecha();
 
 		vector<Conteo> cs = resAgrupados[i];
 
+
 		cout << "Eleccion: (" << fecha.getStrFecha() << " - " << cargo << ")" << endl;
+
 
 		for(int j = 0; j < cs.size(); j++){
 
@@ -121,9 +139,11 @@ void Reportes::reportePorLista(string lista)
 			}
 		}
 
+		//cout << "aca2" << endl;
 		//cout  << endl << "--i: " << i << " eleccion " << e->GetId() << " -  id cargo " << e->GetIdCargo() << endl;
 	}
 
+//	cout << "aca3" << endl;
 	delete abmConteo;
 	delete abmEleccion;
 	delete abmCargo;

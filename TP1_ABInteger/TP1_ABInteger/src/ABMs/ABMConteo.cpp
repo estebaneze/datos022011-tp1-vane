@@ -33,7 +33,7 @@ int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
         //Key key = Helper::IntToString(idConteo);
 
         string idListaAux =idLista;
-        string str = idListaAux.append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion));
+        string str = idListaAux.append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion).append("|"));
 
         Data data = (Data)str.c_str();
         int longData = str.length();
@@ -254,6 +254,7 @@ vector<Conteo> ABMConteo::GetConteoByLista(string idLista){
         vector<Key> ids = this->indexByLista->GetIds(idLista);
         int size = ids.size();
 
+        ABMEleccion abm = ABMEleccion();
 
         for(unsigned int i = 0; i < ids.size(); i++){
 
@@ -266,24 +267,20 @@ vector<Conteo> ABMConteo::GetConteoByLista(string idLista){
 			string data = elemento->getData();
 			vector<string> splited = Helper::split(elemento->getData(), '|');
 
-
+			//cout << data << endl;
 
 			int cantVotos = 0;
-
-
 
 			if(splited.size() == 4){        //si ya tiene registrado algun voto
 				cantVotos = Helper::StringToInt(splited[3]);
 			}
 
-
-			ABMEleccion abm = ABMEleccion();
+			//ABMEleccion abm = ABMEleccion();
 			Eleccion* e = abm.GetEleccion(Helper::StringToInt(splited[2]));
 
 
-
-
-			conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), e->GetId(), kint, cantVotos));
+			if (Helper::StringToInt(splited[1])!=0)
+			conteos.push_back(Conteo(splited[0],Helper::StringToInt(splited[1]),e->GetId(), kint, cantVotos));
 
         }
 
