@@ -22,6 +22,7 @@ void Reportes::reportePorEleccion(int idEleccion)
 	}
 
 	//Ordeno por cantidad de votos
+	resultados = Reportes::GroupByLista(resultados);
 	resultados = Reportes::OrderByCantidadVotos(resultados);
 
 	for(int i = 0; i < resultados.size(); i++){
@@ -240,6 +241,50 @@ void Reportes::reportePorDistrito(int idDistrito)
 	delete abmCargo;
 	delete abmDistrito;
 
+}
+
+vector<Conteo> Reportes::GroupByLista(vector<Conteo> resultados){
+
+	Conteo aux;
+	vector<Conteo>::iterator it;
+	vector<Conteo> vectorReturn;
+
+	if (resultados.size() <= 1)
+		return resultados;
+
+	//1ro ordeno x Lista
+	for (int i=0; i <= resultados.size()-1; i++) {
+
+		for (int j = i+1 ;j < resultados.size();j++)	{
+
+			if (resultados[i].GetIdLista().compare(resultados[j].GetIdLista()) > 0) {
+				aux = resultados[i];
+				resultados[i] = resultados[j];
+				resultados[j] = aux;
+			}
+		}
+	}
+
+	//2do sumo cntidad votos x lista y creo conteo dummy con iddependencia x
+	int cantVotos = 0;
+	string idListaActual = resultados[0].GetIdLista();
+	int idEleccion = resultados[0].GetIdEleccion();
+	for (int i=0; i <= resultados.size()-1; i++) {
+		if (resultados[i].GetIdLista().compare(idListaActual) == 0)
+		{
+			cantVotos += resultados[i].GetCountVotos();
+		}
+		else
+		{
+			vectorReturn.push_back(Conteo(idListaActual, 0, idEleccion, cantVotos));
+			cantVotos = 0;
+			idListaActual = resultados[i].GetIdLista();
+		}
+	}
+	vectorReturn.push_back(Conteo(idListaActual, 0, idEleccion, cantVotos));
+
+
+	return vectorReturn;
 }
 
 /* Ordena el vector de Conteos por cantidad de votos.
