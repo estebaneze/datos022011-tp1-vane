@@ -1473,25 +1473,24 @@ void Menues::MenuInicial()
 		cin>> option;
 		cout << endl;
 
-
-
 		switch(option){
 
 			case '1': {
 				system("clear");
 				Menues::MenuPpal();
+				fin=1;
 				break;
 				}
 			case '2':{
 				system("clear");
 				CargaMasiva::GenerarVotosAutomaticos();
-
+				fin=1;
 				break;
 				}
 			case '3':{
 				system("clear");
 				CargaMasiva::CargarEntidades();
-
+				fin=1;
 				break;
 				}
 			case '4':{

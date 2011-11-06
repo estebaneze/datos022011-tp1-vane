@@ -8,20 +8,14 @@
 
 ABMConteo::ABMConteo() {
 
+	string mainTreeName = ConfigurationMananger::getInstance()->getConteoFile();
+    int bufferSize = ConfigurationMananger::getInstance()->getBufferSizeTree();
 
-		string mainTreeName = ConfigurationMananger::getInstance()->getConteoFile();
-        int bufferSize = ConfigurationMananger::getInstance()->getBufferSizeTree();
+    this->bplusTree = new BPlusTree(bufferSize,Helper::concatenar(mainTreeName,"bpt","."));
 
-
-        this->bplusTree = new BPlusTree(bufferSize,Helper::concatenar(mainTreeName,"bpt","."));
-
-
-        this->indexByDistrito = new Index(Helper::concatenar(mainTreeName,"Distrito",ConfigurationMananger::getInstance()->getSeparador2()));
-
-        this->indexByLista = new Index(Helper::concatenar(mainTreeName,"Lista",ConfigurationMananger::getInstance()->getSeparador2()));
-
-        this->indexByEleccion = new Index(Helper::concatenar(mainTreeName,"Eleccion",ConfigurationMananger::getInstance()->getSeparador2()));
-
+    this->indexByDistrito = new Index(Helper::concatenar(mainTreeName,"Distrito",ConfigurationMananger::getInstance()->getSeparador2()));
+    this->indexByLista = new Index(Helper::concatenar(mainTreeName,"Lista",ConfigurationMananger::getInstance()->getSeparador2()));
+    this->indexByEleccion = new Index(Helper::concatenar(mainTreeName,"Eleccion",ConfigurationMananger::getInstance()->getSeparador2()));
 
 }
 
@@ -30,104 +24,78 @@ ABMConteo::ABMConteo() {
  */
 int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
 
-        //Key key = Helper::IntToString(idConteo);
+	//Key key = Helper::IntToString(idConteo);
 
-        string idListaAux =idLista;
-        string str = idListaAux.append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion).append("|"));
+	string idListaAux =idLista;
+	string str = idListaAux.append("|").append(Helper::IntToString(idDistrito)).append("|").append(Helper::IntToString(idEleccion).append("|"));
 
-        Data data = (Data)str.c_str();
-        int longData = str.length();
+	Data data = (Data)str.c_str();
+	int longData = str.length();
 
-        int idConteo = Identities::GetNextIdConteo();
-        KeyInt key = idConteo;
-        Element * element = new Element(key, data, longData);
+	int idConteo = Identities::GetNextIdConteo();
+	KeyInt key = idConteo;
+	Element * element = new Element(key, data, longData);
 
+	this->bplusTree->insert(element);
 
-        this->bplusTree->insert(element);
+	//Actualizo los indices
+	this->indexByDistrito->AppendToIndex(Helper::IntToString(idDistrito), Helper::IntToString(idConteo));
+	this->indexByLista->AppendToIndex(idLista, Helper::IntToString(idConteo));
 
-        //Actualizo los indices
-        //cout << "this->indexByDistrito->AppendToIndex(Helper::IntToString( " << Helper::IntToString(idDistrito) << endl;
-        this->indexByDistrito->AppendToIndex(Helper::IntToString(idDistrito), Helper::IntToString(idConteo));
+	//Esta es la clave de la eleccion dentro de conteo
+	this->indexByEleccion->AppendToIndex(idEleccion, Helper::IntToString(idConteo));
 
+	BPlusTreeLog::LogInsert(key, data,ConfigurationMananger::getInstance()->getLogOperConteoFile());
+	BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile());
 
-        this->indexByLista->AppendToIndex(idLista, Helper::IntToString(idConteo));
-
-        //Esta es la clave de la eleccion dentro de conteo
-        this->indexByEleccion->AppendToIndex(idEleccion, Helper::IntToString(idConteo));
-
-        BPlusTreeLog::LogInsert(key, data,ConfigurationMananger::getInstance()->getLogOperConteoFile());
-        BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile());
-
-        return idConteo;
+	return idConteo;
 }
-
-
-/**
- * Devuelve key si conteo existe en el arbol, sino -1.
- */
-/*int ABMConteo::ObtenerKey(string idLista, int idDistrito, int idEleccion){
-
-	vector<Key> byDistrito = this->indexByDistrito->GetIds(Helper::IntToString(idDistrito));
-	vector<Key> byLista = this->indexByLista->GetIds(idLista);
-	vector<Key> byEleccion = this->indexByEleccion->GetIds(Helper::IntToString(idEleccion));
-
-	for(int i = 0; i< byDistrito.size(); i++){
-		for(int j = 0; j< byLista.size(); j++){
-			for(int z = 0; z< byEleccion.size(); z++){
-				if ((byDistrito[i]==byLista[j])==byEleccion[z]) return Helper::StringToInt(byEleccion[z]);
-			}
-		}
-	} return -1;
-}*/
-
 
 /* Le suma un voto al registro y devuelve la cantidad de votos totales */
 void ABMConteo::AddVoto(int idConteo, Votante* votante){
 
         if(ExistsKey(idConteo)){
 
-                Conteo* c = this->GetConteo(idConteo);
-                int idEleccion = c->GetIdEleccion();
+			Conteo* c = this->GetConteo(idConteo);
+			int idEleccion = c->GetIdEleccion();
 
-                if(votante->VotoEnEleccion(idEleccion)){
-					cout << "-------------------------------------------------------------------------------------------------------------" << endl;
-					cout << "El votante " << votante->GetNombreYApellido() << " ya voto en la eleccion " << c->GetIdEleccion() << endl;
-					cout << "-------------------------------------------------------------------------------------------------------------" << endl;
-					return;
-                }
+			if(votante->VotoEnEleccion(idEleccion)){
+				cout << "-------------------------------------------------------------------------------------------------------------" << endl;
+				cout << "El votante " << votante->GetNombreYApellido() << " ya voto en la eleccion " << c->GetIdEleccion() << endl;
+				cout << "-------------------------------------------------------------------------------------------------------------" << endl;
+				return;
+			}
 
-                c->AddVoto();
+			c->AddVoto();
 
-                //Key key = Helper::IntToString(idConteo);
-                KeyInt key = idConteo;
-                string str = c->GetIdLista();                                                                           //agrego lista
-                str.append("|").append(Helper::IntToString(c->GetIdDistrito()));        //agrego id Distrot
+			//Key key = Helper::IntToString(idConteo);
+			KeyInt key = idConteo;
+			string str = c->GetIdLista();                                                                           //agrego lista
+			str.append("|").append(Helper::IntToString(c->GetIdDistrito()));        //agrego id Distrot
 
-                //Esta es la clave de la eleccion dentro de conteo
-                str.append("|").append(Helper::IntToString(c->GetIdEleccion()));        //agrego id eleccion
+			//Esta es la clave de la eleccion dentro de conteo
+			str.append("|").append(Helper::IntToString(c->GetIdEleccion()));        //agrego id eleccion
 
-                str.append("|").append(Helper::IntToString(c->GetCountVotos()));        //agrego cantidad de votos
+			str.append("|").append(Helper::IntToString(c->GetCountVotos()));        //agrego cantidad de votos
 
+			Data data = (Data)str.c_str();
+			int longData = str.length();
 
+			Element * element=new Element(key, data, longData);
+			this->bplusTree->modify(element);
 
-                Data data = (Data)str.c_str();
-                int longData = str.length();
+			BPlusTreeLog::LogModify(key, data, ConfigurationMananger::getInstance()->getLogOperConteoFile());
+			BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile());
 
-                Element * element=new Element(key, data, longData);
-                this->bplusTree->modify(element);
+			this->NotifyVotante(votante, idEleccion);
 
-                BPlusTreeLog::LogModify(key, data, ConfigurationMananger::getInstance()->getLogOperConteoFile());
-                BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile());
-
-                this->NotifyVotante(votante, idEleccion);
-
-                cout <<endl<<endl<<endl <<  "El Votante " << votante->GetNombreYApellido() << " voto por la Lista " << c->GetIdLista() << ". La lista tiene un total del votos de: " << c->GetCountVotos() << endl;
+			cout <<endl<<endl<<endl <<  "El Votante " << votante->GetNombreYApellido() << " voto por la Lista " << c->GetIdLista() << ". La lista tiene un total del votos de: " << c->GetCountVotos() << endl;
 
         }
         else{
-        cout << "-------------------------------------------------------------------------------------------------------------" << endl;
-        cout << "\n\n\Error: no se encontro el registro de conteo para realizar la votacion " << endl;
-        cout << "-------------------------------------------------------------------------------------------------------------" << endl;
+			cout << "-------------------------------------------------------------------------------------------------------------" << endl;
+			cout << "\n\n\Error: no se encontro el registro de conteo para realizar la votacion " << endl;
+			cout << "-------------------------------------------------------------------------------------------------------------" << endl;
         }
 
 }
