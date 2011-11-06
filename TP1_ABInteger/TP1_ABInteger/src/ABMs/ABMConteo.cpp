@@ -250,25 +250,38 @@ vector<Conteo> ABMConteo::GetConteoByEleccion(int idEleccion){
 vector<Conteo> ABMConteo::GetConteoByLista(string idLista){
 
         vector<Conteo> conteos;
+
         vector<Key> ids = this->indexByLista->GetIds(idLista);
         int size = ids.size();
 
-        for(int i = 0; i < ids.size(); i++){
+
+        for(unsigned int i = 0; i < ids.size(); i++){
 
         	int kint = Helper::StringToInt(ids[i]);
 
 			Element* elemento = this->bplusTree->findExact(Helper::StringToInt(ids[i]));
 
+
+
 			string data = elemento->getData();
 			vector<string> splited = Helper::split(elemento->getData(), '|');
 
+
+
 			int cantVotos = 0;
+
+
+
 			if(splited.size() == 4){        //si ya tiene registrado algun voto
 				cantVotos = Helper::StringToInt(splited[3]);
 			}
 
+
 			ABMEleccion abm = ABMEleccion();
 			Eleccion* e = abm.GetEleccion(Helper::StringToInt(splited[2]));
+
+
+
 
 			conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), e->GetId(), kint, cantVotos));
 

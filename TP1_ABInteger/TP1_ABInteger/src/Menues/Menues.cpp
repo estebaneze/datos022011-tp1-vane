@@ -1222,6 +1222,7 @@ while (fin==0){
 
 					delete abmLista;
 					if(founded){
+
 						Reportes::reportePorLista(listaSelected);
 					}
 					else{
