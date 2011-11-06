@@ -20,10 +20,10 @@
 #include "Common/Helper.h"
 #include "Common/Identities.h"
 
-#define CANT_DISTRITOS 100
+#define CANT_DISTRITOS 10
 #define CANT_CANDIDATOS 100
 #define CANT_CARGOS 100
-#define CANT_LISTAS 35
+#define CANT_LISTAS 50
 #define CANT_VOTANTES 100
 #define CANT_ELECCIONES 100
 #define CANT_ADMINISTRADORES 1

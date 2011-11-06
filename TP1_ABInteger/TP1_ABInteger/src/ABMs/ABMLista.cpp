@@ -36,16 +36,16 @@ void ABMLista::Add(Lista* lista){
 			//Tengo que crear los registros de conteo con la combinacion idLista, idEleccion, idDistrito con 0 votos
 			//Busco los distritos de esa eleccion
 
-			ABMConteo* conteos = new ABMConteo();
+			ABMConteo conteos = ABMConteo();
 
-			ABMEleccion* elecciones = new ABMEleccion();
+			ABMEleccion elecciones = ABMEleccion();
 
-			Eleccion* e = elecciones->GetEleccion(lista->GetEleccion());
+			Eleccion* e = elecciones.GetEleccion(lista->GetEleccion());
 
 			vector<int> distritos = e->GetDistritos();
 
 			for(int i = 0; i < distritos.size(); i++){
-				conteos->Inicializa(lista->GetNombre(), distritos[i], e->GetId());
+				conteos.Inicializa(lista->GetNombre(), distritos[i], e->GetId());
 			}
 
         }
