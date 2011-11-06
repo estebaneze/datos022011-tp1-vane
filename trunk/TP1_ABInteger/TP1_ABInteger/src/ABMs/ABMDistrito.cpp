@@ -25,7 +25,7 @@ int ABMDistrito::Add(string nombre){
 	if (!Exists(nombre)){
 
 		int idDistrito = Identities::GetNextIdDistrito();
-		Data data = (Data)nombre.c_str();
+		Data data = (Data)nombre.append("|").c_str();
 
 		int longData = nombre.length();
 		Element * elemento = new Element(idDistrito,data,longData);
@@ -66,7 +66,7 @@ void ABMDistrito::Modify(Distrito* distrito){
 	if (Exists(distrito)){
 
 		string str= distrito->GetNombre();
-		Data data = (Data)str.c_str();
+		Data data = (Data)str.append("|").c_str();
 		int longData = str.length();
 		Element * elemento = new Element(distrito->GetId(),data,longData);
 
@@ -115,7 +115,13 @@ Distrito* ABMDistrito::GetDistrito(int idDistrito){
 
 		int idDist= el->getKey();
 
-		return new Distrito(idDist, el->getData());
+		string data = el->getData();
+		vector<string> splited = Helper::split(data, '|');
+
+		if(splited.size() > 0)
+			return new Distrito(idDist, splited[0]);
+		else
+			return new Distrito(idDist, "");
 	}
 	else{
 		return NULL;
