@@ -37,6 +37,7 @@ class ABMEleccion {
 		vector<Eleccion*> GetByFecha(Fecha* fecha);
 		vector<Eleccion*> GetByFechaYCargo(Fecha* fecha, int idCargo);
 		vector<Eleccion*> GetByFechaYDistrito(Fecha* fecha, int idDistrito);
+		vector<Eleccion*> GetByDistrito(int idDistrito);
 	private:
 			string bpTreeFile;
 			BPlusTree* bpPlusTree;

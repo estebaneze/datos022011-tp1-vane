@@ -305,6 +305,20 @@ vector<Eleccion*> ABMEleccion::GetByFechaYDistrito(Fecha* fecha, int idDistrito)
     	return elecciones;
 }
 
+vector<Eleccion*> ABMEleccion::GetByDistrito(int idDistrito){
+
+	vector<Key> byFecha = this->indexByDistrito->GetIds(Helper::IntToString(idDistrito));
+	vector<Eleccion*> elecciones;
+
+	for(int i = 0; i < byFecha.size(); i++){
+		Eleccion* e = this->GetEleccion(Helper::StringToInt(byFecha[i]));
+		elecciones.push_back(e);
+	}
+
+	return elecciones;
+}
+
+
 ABMEleccion::~ABMEleccion() {
         delete this->bpPlusTree;
         delete this->indexByFecha;

@@ -259,6 +259,7 @@ void CargaMasiva::CargarElecciones(){
 
 	//Cargo CANT_ELECCIONES elecciones
 	ABMEleccion* abmEleccion = new ABMEleccion();
+	ABMDistrito* ds = new ABMDistrito();
 
 	for(int i = 1; i <= CANT_ELECCIONES; i++){
 
@@ -269,7 +270,16 @@ void CargaMasiva::CargarElecciones(){
 
 		Eleccion  * ele = new Eleccion(idCargo, fecha);
 
-		if(CANT_DISTRITOS / 20 < 1){
+		//Le agrego todos los distritos para que despues se puedan generar mas votaciones aleatorias
+		for(int j = 1; j <= CANT_DISTRITOS; j++){
+
+			if(ds->GetDistrito(j) != NULL){
+				ele->AddDistrito(j);
+			}
+
+		}
+
+		/*if(CANT_DISTRITOS / 20 < 1){
 			//Agrego un solo distrito a la elccion
 			ele->AddDistrito(GetRandom(CANT_DISTRITOS));
 		}
@@ -305,7 +315,7 @@ void CargaMasiva::CargarElecciones(){
 
 				distritosAgregados.push_back(idDistrito);
 			}
-		}
+		}*/
 
         int idEleccion = abmEleccion->Add(ele);
 
@@ -343,9 +353,9 @@ void CargaMasiva::CargarListas(){
 		Lista * lis = new Lista(lista, idEleccion);
 		abmLista->Add(lis);
 
-			string msg = "Lista(" + lis->GetNombre() + "): " + lis->GetNombre() + ". Eleccion: " + Helper::IntToString(lis->GetEleccion());
-			cout << msg << endl;
-			Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
+		string msg = "Lista(" + lis->GetNombre() + "): " + lis->GetNombre() + ". Eleccion: " + Helper::IntToString(lis->GetEleccion());
+		cout << msg << endl;
+		Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
 
     }
 
@@ -435,28 +445,43 @@ void CargaMasiva::GenerarVotosAutomaticos(){
 			for (int i = 1; i <= CANT_ELECCIONES; i++) {
 
 				Eleccion* eleccion = elecc->GetEleccion(i);
-				vector<int> ds = eleccion->GetDistritos();
-				for(int j = 0; j < ds.size(); j++){
+				//vector<int> ds = eleccion->GetDistritos();
 
-					if(ds[j] == votante->GetDistrito()){
 
-						//Busco las listas de esta eleccion en los registros de conteo
-						vector<Conteo> cs = cont->GetConteoByEleccion(i);
+					//Busco las listas de esta eleccion en los registros de conteo
+					vector<Conteo> cs = cont->GetConteoByEleccion(i);
 
-						vector<int> posiblesConteos = CargaMasiva::GetIdsConteos(cs);
+					//vector<int> conteos = CargaMasiva::GetIdsConteos(cs);
+					vector<int> posiblesConteos;	//Aca descarto los que NO pertenecen al distrito del votante
 
-						//cout << "El Votante" <<  idV << " pertenece al distrito " << votante->GetDistrito() << ", va a votar en la eleccion " << e->GetDate().getStrFecha() << " - Cargo " << e->GetIdCargo() << endl;
+					for(int k = 0; k < cs.size(); k++){
+
+						//Si el conteo NO es del distrito del votante, no lo agrego como posible
+						if(cs[i].GetIdDistrito() == votante->GetDistrito()){
+							posiblesConteos.push_back(cs[i].GetId());
+						}
+
+					}
+
+					if(posiblesConteos.size() > 0 ){
 
 						//Elijo al azar una lista
 						int idConteo = CargaMasiva::GetRandomFromNumbers(posiblesConteos);
 						//cout << endl << endl << "idConteo: " << idConteo << endl << endl << endl;
 
+						/*cout << " posiblesConteos-size(): " << posiblesConteos.size() <<   " - posiblesConteos  ";
+						for(int p = 0; p < posiblesConteos.size(); p++)
+												cout << posiblesConteos[i] << " ";
+
+						cout << endl << "id conteo " << idConteo << "- id eleccion " << i << endl;*/
+
 						cout << endl << endl ;
 						cont->AddVoto(idConteo, votante);
 
+						cout << "El Votante" <<  votante->GetDni() << " pertenece al distrito " << votante->GetDistrito() << ", voto en la eleccion del dia " << eleccion->GetDate().getFriendlyStr() << " - Cargo " << eleccion->GetIdCargo() << endl;
 					}
 				}
 			}
 		}
-	}
 }
+

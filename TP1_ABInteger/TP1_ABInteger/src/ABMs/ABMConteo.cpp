@@ -32,6 +32,7 @@ int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
 	str.append(Helper::IntToString(idEleccion).append("|"));
 	str.append("0|");	//0 votos
 
+	//idLista|idDistrito|idEleccion|votos|
 	Data data = (Data)str.c_str();
 	int longData = str.length();
 

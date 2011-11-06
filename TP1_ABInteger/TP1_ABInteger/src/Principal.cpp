@@ -41,6 +41,28 @@
 
 using namespace std;
 
+void TestReportes(){
+
+	/*Reportes::reportePorLista("Lista36");
+	//Reportes::reportePorLista("Lista37");
+	//Reportes::reportePorLista("Lista38");
+	//Reportes::reportePorLista("Lista39");
+	//Reportes::reportePorLista("Lista40");
+	Reportes::reportePorLista("Lista41");
+	//Reportes::reportePorLista("Lista42");
+*/
+	/*Reportes::reportePorDistrito(1);
+	cout << endl << endl << "--------------------- " << endl << endl;
+	Reportes::reportePorDistrito(2);
+	cout << endl << endl << "--------------------- " << endl << endl;
+	Reportes::reportePorDistrito(3);
+	cout << endl << endl << "--------------------- " << endl << endl;
+	Reportes::reportePorDistrito(4);
+	cout << endl << endl << "--------------------- " << endl << endl;*/
+	Reportes::reportePorDistrito(5);
+	cout << endl << endl << "--------------------- " << endl << endl;
+
+}
 
 int main(int arg, char *argv[]) {
 
