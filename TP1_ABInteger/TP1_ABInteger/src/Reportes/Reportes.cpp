@@ -246,7 +246,6 @@ void Reportes::reportePorDistrito(int idDistrito)
 vector<Conteo> Reportes::GroupByLista(vector<Conteo> resultados){
 
 	Conteo aux;
-	vector<Conteo>::iterator it;
 	vector<Conteo> vectorReturn;
 
 	if (resultados.size() <= 1)
@@ -265,23 +264,28 @@ vector<Conteo> Reportes::GroupByLista(vector<Conteo> resultados){
 		}
 	}
 
-	//2do sumo cntidad votos x lista y creo conteo dummy con iddependencia x
+	//2do sumo cntidad votos x lista y creo conteo dummy (iddependencia 0 y idconteo 0)
 	int cantVotos = 0;
 	string idListaActual = resultados[0].GetIdLista();
 	int idEleccion = resultados[0].GetIdEleccion();
-	for (int i=0; i <= resultados.size()-1; i++) {
+	for (int i=0; i < resultados.size(); i++) {
+
 		if (resultados[i].GetIdLista().compare(idListaActual) == 0)
 		{
 			cantVotos += resultados[i].GetCountVotos();
 		}
 		else
 		{
-			vectorReturn.push_back(Conteo(idListaActual, 0, idEleccion, cantVotos));
-			cantVotos = 0;
+			vectorReturn.push_back(Conteo(idListaActual, 0, idEleccion, 0, cantVotos));
+			cantVotos =  resultados[i].GetCountVotos();
 			idListaActual = resultados[i].GetIdLista();
 		}
 	}
-	vectorReturn.push_back(Conteo(idListaActual, 0, idEleccion, cantVotos));
+	vectorReturn.push_back(Conteo(idListaActual, 0, idEleccion, 0, cantVotos));
+
+	for (int i=0; i < vectorReturn.size(); i++) {
+		cout << vectorReturn[i].GetCountVotos() << endl;
+	}
 
 
 	return vectorReturn;
