@@ -135,8 +135,9 @@ Cargo* ABMCargo::GetCargo(int idCargo){
 
         string cargoId = Helper::IntToString(idCargo);
 
-        if ((this->directorio->existKey(cargoId))){
 
+        if ((this->directorio->existKey(cargoId))){
+				cout << "existe" << endl;
                 string values = directorio->find(cargoId);
                 vector<string> splitedVs = Helper::split(values, '|');
 
