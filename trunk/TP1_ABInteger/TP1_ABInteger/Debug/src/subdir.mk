@@ -5,18 +5,15 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/CargaMasiva.cpp \
-../src/Principal.cpp \
-../src/Test.cpp 
+../src/Principal.cpp 
 
 OBJS += \
 ./src/CargaMasiva.o \
-./src/Principal.o \
-./src/Test.o 
+./src/Principal.o 
 
 CPP_DEPS += \
 ./src/CargaMasiva.d \
-./src/Principal.d \
-./src/Test.d 
+./src/Principal.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

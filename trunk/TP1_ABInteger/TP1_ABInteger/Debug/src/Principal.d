@@ -79,7 +79,7 @@ src/Principal.d src/Principal.o: ../src/Principal.cpp \
  ../src/ABMs/../Entidades/Lista.h ../src/ABMs/../utils/ConfigFile.h \
  ../src/ABMs/../ABMs/ABMConteo.h ../src/ABMs/../ABMs/ABMEleccion.h \
  ../src/ABMs/ABMConteo.h ../src/ABMs/ABMDistrito.h \
- ../src/ABMs/ABMVotante.h ../src/ABMs/ABMEleccion.h ../src/Test.h \
+ ../src/ABMs/ABMVotante.h ../src/ABMs/ABMEleccion.h \
  ../src/Menues/Menues.h ../src/Menues/../Reportes/Reportes.h \
  ../src/Menues/../Reportes/../ABMs/ABMConteo.h \
  ../src/Menues/../Reportes/../ABMs/ABMCargo.h \
@@ -286,8 +286,6 @@ src/Principal.d src/Principal.o: ../src/Principal.cpp \
 ../src/ABMs/ABMVotante.h:
 
 ../src/ABMs/ABMEleccion.h:
-
-../src/Test.h:
 
 ../src/Menues/Menues.h:
 

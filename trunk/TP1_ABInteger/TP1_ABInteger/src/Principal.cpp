@@ -36,7 +36,6 @@
 #include "ABMs/ABMDistrito.h"
 #include "ABMs/ABMVotante.h"
 #include "ABMs/ABMEleccion.h"
-#include "Test.h"
 #include "Menues/Menues.h"
 #include "CargaMasiva.h"
 

@@ -25,8 +25,8 @@ C_UPPER_DEPS :=
 SUBDIRS := \
 src/utils \
 src/strategies \
-src \
 src/Reportes \
+src \
 src/Persistencia \
 src/Menues \
 src/Logging \
