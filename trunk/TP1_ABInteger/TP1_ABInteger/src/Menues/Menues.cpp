@@ -320,7 +320,6 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 
 	Fecha* fecha = new Fecha(fechaActual().getDia(), fechaActual().getMes(), fechaActual().getAnio());
 
-
 	vector<Eleccion*> elecciones = es.GetByFechaYDistrito(fecha, votante->GetDistrito());
 
 	if (elecciones.size()==0){
@@ -368,7 +367,10 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 			bool listoLista=false;
 
 			for(unsigned int i = 0; i < conteos.size(); i++){
-				cout << "Lista " << conteos[i].GetIdLista() << endl;
+
+				if(conteos[i].GetIdDistrito() == votante->GetDistrito()){
+					cout << "Lista " << conteos[i].GetIdLista() << endl;
+				}
 			}
 
 
@@ -386,7 +388,8 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 					bool listaFounded = false;;
 					for(unsigned int i = 0; (i < conteos.size()) && (!listaFounded); i++){
 
-						if(conteos[i].GetIdLista() == idLista) {
+						//Busco la lista que eligio en el distrito que le corresponde
+						if(conteos[i].GetIdLista() == idLista && conteos[i].GetIdDistrito() == votante->GetDistrito()) {
 							listaFounded = true;
 							idConteoLista=conteos[i].GetId(); //obtengo el id de conteo para usar en el ADD
 						}
