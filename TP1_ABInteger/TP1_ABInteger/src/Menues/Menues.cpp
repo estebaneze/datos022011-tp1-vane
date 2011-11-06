@@ -1484,13 +1484,13 @@ void Menues::MenuInicial()
 			case '2':{
 				system("clear");
 				CargaMasiva::GenerarVotosAutomaticos();
-				return;
+
 				break;
 				}
 			case '3':{
 				system("clear");
 				CargaMasiva::CargarEntidades();
-				return;
+
 				break;
 				}
 			case '4':{

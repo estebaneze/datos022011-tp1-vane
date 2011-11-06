@@ -42,6 +42,9 @@ src/ABMs/ABMConteo.d src/ABMs/ABMConteo.o: ../src/ABMs/ABMConteo.cpp \
  ../src/ABMs/../Indexes/../Hash/../Persistencia/PersistorBase.h \
  ../src/ABMs/../Indexes/../Hash/../Persistencia/exceptions/PersistExceptions.h \
  ../src/ABMs/../Indexes/../Common/Common.h \
+ ../src/ABMs/../Indexes/../Logging/HashLog.h \
+ ../src/ABMs/../Indexes/../Logging/../Hash/Directory.h \
+ ../src/ABMs/../Indexes/../Logging/Log.h \
  ../src/ABMs/../Entidades/Conteo.h \
  ../src/ABMs/../Entidades/../Common/Common.h \
  ../src/ABMs/../Entidades/Eleccion.h \
@@ -50,11 +53,11 @@ src/ABMs/ABMConteo.d src/ABMs/ABMConteo.o: ../src/ABMs/ABMConteo.cpp \
  ../src/ABMs/../Entidades/Votante.h ../src/ABMs/../Common/Helper.h \
  ../src/ABMs/ABMVotante.h ../src/ABMs/../Common/Common.h \
  ../src/ABMs/../Hash/Directory.h ../src/ABMs/../Logging/HashLog.h \
- ../src/ABMs/../Logging/../Hash/Directory.h ../src/ABMs/../Logging/Log.h \
  ../src/ABMs/ABMEleccion.h ../src/ABMs/../Entidades/Eleccion.h \
  ../src/ABMs/../utils/ConfigFile.h ../src/ABMs/../BPlusTree/Element.h \
  ../src/ABMs/../Logging/BPlusTreeLog.h \
- ../src/ABMs/../Logging/../BPlusTree/BPlusTree.h
+ ../src/ABMs/../Logging/../BPlusTree/BPlusTree.h \
+ ../src/ABMs/../Logging/Log.h
 
 ../src/ABMs/ABMConteo.h:
 
@@ -148,6 +151,12 @@ src/ABMs/ABMConteo.d src/ABMs/ABMConteo.o: ../src/ABMs/ABMConteo.cpp \
 
 ../src/ABMs/../Indexes/../Common/Common.h:
 
+../src/ABMs/../Indexes/../Logging/HashLog.h:
+
+../src/ABMs/../Indexes/../Logging/../Hash/Directory.h:
+
+../src/ABMs/../Indexes/../Logging/Log.h:
+
 ../src/ABMs/../Entidades/Conteo.h:
 
 ../src/ABMs/../Entidades/../Common/Common.h:
@@ -170,10 +179,6 @@ src/ABMs/ABMConteo.d src/ABMs/ABMConteo.o: ../src/ABMs/ABMConteo.cpp \
 
 ../src/ABMs/../Logging/HashLog.h:
 
-../src/ABMs/../Logging/../Hash/Directory.h:
-
-../src/ABMs/../Logging/Log.h:
-
 ../src/ABMs/ABMEleccion.h:
 
 ../src/ABMs/../Entidades/Eleccion.h:
@@ -185,3 +190,5 @@ src/ABMs/ABMConteo.d src/ABMs/ABMConteo.o: ../src/ABMs/ABMConteo.cpp \
 ../src/ABMs/../Logging/BPlusTreeLog.h:
 
 ../src/ABMs/../Logging/../BPlusTree/BPlusTree.h:
+
+../src/ABMs/../Logging/Log.h:

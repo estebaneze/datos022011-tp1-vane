@@ -1,4 +1,5 @@
 src/Indexes/Index.d src/Indexes/Index.o: ../src/Indexes/Index.cpp \
+ ../src/Indexes/../Persistencia/exceptions/excepciones.h \
  ../src/Indexes/Index.h ../src/Indexes/../Hash/Directory.h \
  ../src/Indexes/../Hash/Table.h \
  ../src/Indexes/../Hash/../Persistencia/Block.h \
@@ -18,7 +19,12 @@ src/Indexes/Index.d src/Indexes/Index.o: ../src/Indexes/Index.cpp \
  ../src/Indexes/../Common/../utils/ConfigurationMananger.h \
  ../src/Indexes/../Common/../utils/types.h \
  ../src/Indexes/../Common/../utils/ConfigFile.h \
- ../src/Indexes/../Common/../Logging/Log.h
+ ../src/Indexes/../Common/../Logging/Log.h \
+ ../src/Indexes/../Logging/HashLog.h \
+ ../src/Indexes/../Logging/../Hash/Directory.h \
+ ../src/Indexes/../Logging/Log.h
+
+../src/Indexes/../Persistencia/exceptions/excepciones.h:
 
 ../src/Indexes/Index.h:
 
@@ -67,3 +73,9 @@ src/Indexes/Index.d src/Indexes/Index.o: ../src/Indexes/Index.cpp \
 ../src/Indexes/../Common/../utils/ConfigFile.h:
 
 ../src/Indexes/../Common/../Logging/Log.h:
+
+../src/Indexes/../Logging/HashLog.h:
+
+../src/Indexes/../Logging/../Hash/Directory.h:
+
+../src/Indexes/../Logging/Log.h:

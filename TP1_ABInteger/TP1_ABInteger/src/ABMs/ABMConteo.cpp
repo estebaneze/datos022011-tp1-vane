@@ -41,6 +41,8 @@ int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
         int idConteo = Identities::GetNextIdConteo();
         KeyInt key = idConteo;
         Element * element = new Element(key, data, longData);
+
+
         this->bplusTree->insert(element);
 
         //Actualizo los indices

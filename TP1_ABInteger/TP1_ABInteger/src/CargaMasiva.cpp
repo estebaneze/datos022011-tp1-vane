@@ -270,7 +270,7 @@ void CargaMasiva::CargarElecciones(){
 
 		Eleccion  * ele = new Eleccion(idCargo, fecha);
 
-		if(CANT_DISTRITOS / 10 < 1){
+		if(CANT_DISTRITOS / 20 < 1){
 			//Agrego un solo distrito a la elccion
 			ele->AddDistrito(GetRandom(CANT_DISTRITOS));
 		}
@@ -278,7 +278,7 @@ void CargaMasiva::CargarElecciones(){
 			//Agrego CANT_DISTRITOS/10 distritos a la eleccion
 			vector<int> distritosAgregados;
 
-			for(int i = 0; i < CANT_DISTRITOS/10; i++){
+			for(int i = 0; i < CANT_DISTRITOS/20; i++){
 
 				int idDistrito;
 				if(distritosAgregados.size() == 0){
@@ -341,25 +341,13 @@ void CargaMasiva::CargarListas(){
 
 		int idEleccion = GetRandom(CANT_ELECCIONES);
 
-		bool founded = false;
-
-		Eleccion* e;
-		while(!founded){
-			idEleccion = GetRandom(CANT_ELECCIONES);
-
-			 e =elec->GetEleccion(idEleccion);
-			if(e != NULL)
-				founded = true;
-		}
-
-		if(e != NULL){
-			Lista * lis = new Lista(lista, idEleccion);
-			abmLista->Add(lis);
+		Lista * lis = new Lista(lista, idEleccion);
+		abmLista->Add(lis);
 
 			string msg = "Lista(" + lis->GetNombre() + "): " + lis->GetNombre() + ". Eleccion: " + Helper::IntToString(lis->GetEleccion());
 			cout << msg << endl;
 			Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
-		}
+
     }
 
     delete elec;
