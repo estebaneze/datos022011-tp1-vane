@@ -1,10 +1,37 @@
 Candidato 1
 Cargo 51
-Conteo 387
+Conteo 414
 Distrito 201
 Eleccion 11
 Lista 1
 Administrador 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
