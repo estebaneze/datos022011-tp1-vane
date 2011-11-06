@@ -194,7 +194,7 @@ void CargaMasiva::CargarDistritos(){
 		int idDistrito =  abmDistrito->Add(distrito);
 
         cout << "Distrito (" << idDistrito << "): " << distrito << endl;
-        Log::WriteLog("Distrito (" + Helper::IntToString(idDistrito) + "): " + distrito+ " ", "files/logs/cargaMasiva.log" );
+        Log::WriteLog("Distrito (" + Helper::IntToString(idDistrito) + "): " + distrito+ " ", (char*)ConfigurationMananger::getInstance()->getCargaMasiva().c_str() );
     }
 
     delete abmDistrito;
@@ -228,7 +228,7 @@ void CargaMasiva::CargarVotantes(){
 		string pass = vot->GetClave();
 		string strDistrito = Helper::IntToString(vot->GetDistrito());
 		cout << "Votante " << strDni << ". Clave: "<< pass << ". Distrito: " << strDistrito << endl;
-		Log::WriteLog("Votante: " + strDni + ". Clave: " + pass + " . Distrito: " + strDistrito + " ", "files/logs/cargaMasiva.log");
+		Log::WriteLog("Votante: " + strDni + ". Clave: " + pass + " . Distrito: " + strDistrito + " ", (char*)ConfigurationMananger::getInstance()->getCargaMasiva().c_str());
     }
 
     delete abmVotante;
@@ -249,7 +249,7 @@ void CargaMasiva::CargarCargos(){
 		int idCargo = abmCargo->Add(cargo, cargosSecundarios);
 
 		cout << "Cargo (" << idCargo << "): " << cargo << endl;
-		Log::WriteLog("Cargo (" + Helper::IntToString(idCargo) + "): " + cargo+ " ", "files/logs/cargaMasiva.log");
+		Log::WriteLog("Cargo (" + Helper::IntToString(idCargo) + "): " + cargo+ " ", (char*)ConfigurationMananger::getInstance()->getCargaMasiva().c_str());
     }
 
     delete abmCargo;
@@ -331,7 +331,7 @@ void CargaMasiva::CargarElecciones(){
         for(int i = 0; i<ds.size(); i++){
         	msg = msg + Helper::IntToString(ds[i]) + " ";
         }
-        Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
+        Log::WriteLog(msg+ " ", (char*)ConfigurationMananger::getInstance()->getCargaMasiva().c_str()/*"files/logs/cargaMasiva.log"*/);
     }
 
 	delete abmEleccion;
@@ -355,7 +355,7 @@ void CargaMasiva::CargarListas(){
 
 		string msg = "Lista(" + lis->GetNombre() + "): " + lis->GetNombre() + ". Eleccion: " + Helper::IntToString(lis->GetEleccion());
 		cout << msg << endl;
-		Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
+		Log::WriteLog(msg+ " ", (char*)ConfigurationMananger::getInstance()->getCargaMasiva().c_str());
 
     }
 
@@ -378,7 +378,7 @@ void CargaMasiva::CargarCandidatos(){
 
 		cout << "Candidato (" << idCandidato << "). Cargo" << idCargo << ". Lista: " << idLista << endl;
 		string msg = "Candidato (" + Helper::IntToString(idCandidato) + "). Cargo" + Helper::IntToString(idCargo) + ". Lista: " + idLista;
-		Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
+		Log::WriteLog(msg+ " ", (char*)ConfigurationMananger::getInstance()->getCargaMasiva().c_str());
 
     }
 
@@ -399,7 +399,7 @@ void CargaMasiva::CargarAdministradores(){
 
 		cout << "Administrador. User: " << adm->GetUsuario() << ". Password: " << adm->GetClave() << endl;
 		string msg = "Administrador. User: " + adm->GetUsuario() + ". Password: " + adm->GetClave();
-		Log::WriteLog(msg+ " ", "files/logs/cargaMasiva.log");
+		Log::WriteLog(msg+ " ", (char*)ConfigurationMananger::getInstance()->getCargaMasiva().c_str());
     }
 
     delete abmAdministrador;

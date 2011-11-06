@@ -20,6 +20,8 @@ separador1 = |		#TSeparador pipe
 separador2 = _		#Separador guion bajo
 
 identities = files/identities.txt #archivo control de claves autonumericas
+cargaMasiva = files/logs/cargaMasiva.log #archivo de controlde carga masiva
+
 
 adminFile = files/Administrador		
 candidatoFile = files/Candidato		#Nombre de archivo 
@@ -48,3 +50,4 @@ logOperEleccion = files/logs/Eleccion_BPlusTreeOperation.log
 logProcessEleccion = files/logs/Eleccion_BPlusTreeProcess.log
 logDirectory = files/logs/
 fileDirectory = files/
+

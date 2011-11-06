@@ -105,7 +105,8 @@ src/Principal.d src/Principal.o: ../src/Principal.cpp \
  ../src/Menues/../ABMs/ABMLista.h ../src/Menues/../ABMs/ABMVotante.h \
  ../src/Menues/../ABMs/ABMAdministrador.h \
  ../src/Menues/../utils/ConfigFile.h ../src/Menues/../Common/Helper.h \
- ../src/Menues/../Common/Identities.h ../src/CargaMasiva.h
+ ../src/Menues/../Common/Identities.h \
+ ../src/Menues/../utils/ConfigurationMananger.h ../src/CargaMasiva.h
 
 ../src/Reportes/Reportes.h:
 
@@ -360,5 +361,7 @@ src/Principal.d src/Principal.o: ../src/Principal.cpp \
 ../src/Menues/../Common/Helper.h:
 
 ../src/Menues/../Common/Identities.h:
+
+../src/Menues/../utils/ConfigurationMananger.h:
 
 ../src/CargaMasiva.h:

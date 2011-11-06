@@ -99,7 +99,8 @@ src/Menues/Menues.d src/Menues/Menues.o: ../src/Menues/Menues.cpp \
  ../src/Menues/../ABMs/ABMLista.h ../src/Menues/../ABMs/ABMVotante.h \
  ../src/Menues/../ABMs/ABMAdministrador.h \
  ../src/Menues/../utils/ConfigFile.h ../src/Menues/../Common/Helper.h \
- ../src/Menues/../Common/Identities.h
+ ../src/Menues/../Common/Identities.h \
+ ../src/Menues/../utils/ConfigurationMananger.h
 
 ../src/Menues/Menues.h:
 
@@ -322,3 +323,5 @@ src/Menues/Menues.d src/Menues/Menues.o: ../src/Menues/Menues.cpp \
 ../src/Menues/../Common/Helper.h:
 
 ../src/Menues/../Common/Identities.h:
+
+../src/Menues/../utils/ConfigurationMananger.h:
