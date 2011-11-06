@@ -25,29 +25,28 @@ void ABMLista::Add(Lista* lista){
 
         if (!(this->directorio->existKey(lista->GetNombre()))){
 
-                this->directorio->insert(lista->GetNombre(),Helper::IntToString(lista->GetEleccion()));
-                this->index->AppendToIndex(lista->GetEleccion(), lista->GetNombre());   //Tengo que refrescar el indice en todos los Adds!!!
+			this->directorio->insert(lista->GetNombre(),Helper::IntToString(lista->GetEleccion()));
+			this->index->AppendToIndex(lista->GetEleccion(), lista->GetNombre());   //Tengo que refrescar el indice en todos los Adds!!!
 
-                //logueo operacion y proceso
+			//logueo operacion y proceso
 
-                HashLog::LogInsert(lista->GetNombre(),Helper::IntToString(lista->GetEleccion()),ConfigurationMananger::getInstance()->getLogOperListaFile());
-                HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessListaFile());
+			HashLog::LogInsert(lista->GetNombre(),Helper::IntToString(lista->GetEleccion()),ConfigurationMananger::getInstance()->getLogOperListaFile());
+			HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessListaFile());
 
-                //Tengo que crear los registros de conteo con la combinacion idLista, idEleccion, idDistrito con 0 votos
-                //Busco los distritos de esa eleccion
+			//Tengo que crear los registros de conteo con la combinacion idLista, idEleccion, idDistrito con 0 votos
+			//Busco los distritos de esa eleccion
 
-                ABMConteo* conteos = new ABMConteo();
+			ABMConteo* conteos = new ABMConteo();
 
-                ABMEleccion* elecciones = new ABMEleccion();
+			ABMEleccion* elecciones = new ABMEleccion();
 
-                Eleccion* e = elecciones->GetEleccion(lista->GetEleccion());
+			Eleccion* e = elecciones->GetEleccion(lista->GetEleccion());
 
-                vector<int> distritos = e->GetDistritos();
+			vector<int> distritos = e->GetDistritos();
 
-                for(int i = 0; i < distritos.size(); i++){
-                	conteos->Inicializa(lista->GetNombre(), distritos[i], e->GetId());
-                }
-
+			for(int i = 0; i < distritos.size(); i++){
+				conteos->Inicializa(lista->GetNombre(), distritos[i], e->GetId());
+			}
 
         }
         else{
