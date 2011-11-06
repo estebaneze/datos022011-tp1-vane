@@ -231,11 +231,6 @@ vector<Conteo> Reportes::GroupByLista(vector<Conteo> resultados){
 	}
 	vectorReturn.push_back(Conteo(idListaActual, 0, idEleccion, 0, cantVotos));
 
-	for (int i=0; i < vectorReturn.size(); i++) {
-		cout << vectorReturn[i].GetCountVotos() << endl;
-	}
-
-
 	return vectorReturn;
 }
 
