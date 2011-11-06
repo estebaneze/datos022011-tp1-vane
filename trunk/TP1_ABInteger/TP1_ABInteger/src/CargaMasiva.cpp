@@ -10,7 +10,7 @@
 
 void CargaMasiva::BorrarArchivosLog(){
 
-	string scriptEliminaLog = "rm -r " + ConfigurationMananger::getInstance()->getLogDirectory() + "files/logs/*.log";
+	string scriptEliminaLog = "rm -r " + ConfigurationMananger::getInstance()->getLogDirectory() + "*.log";
 	system(scriptEliminaLog.c_str());
 }
 
@@ -28,9 +28,7 @@ void CargaMasiva::BorraTodosArchivos(){
 	scriptEliminaArchivos = "rm -r " + ConfigurationMananger::getInstance()->getFileDirectory() + "*.bpt";
 	system(scriptEliminaArchivos.c_str());
 
-	scriptEliminaArchivos = "rm -r " + ConfigurationMananger::getInstance()->getFileDirectory() + "files/logs/*.log";
-	system(scriptEliminaArchivos.c_str());
-
+	CargaMasiva::BorrarArchivosLog();
 }
 
 void CargaMasiva::BorrarArchivosIndice(string indexFile){
