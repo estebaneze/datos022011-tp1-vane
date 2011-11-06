@@ -262,8 +262,8 @@ void CargaMasiva::CargarElecciones(){
 
 	for(int i = 1; i <= CANT_ELECCIONES; i++){
 
-		//Fecha fecha = Fecha(GetRandom(30), GetRandom(12), 2007 + i);
-		Fecha fecha = Fecha(5+i, 11,2010+i);
+		Fecha fecha = Fecha(GetRandom(30), GetRandom(12), 2006 + i);
+		//Fecha fecha = Fecha(5+i, 11,2010+i);
 
 		int idCargo = GetRandom(CANT_CARGOS);
 
