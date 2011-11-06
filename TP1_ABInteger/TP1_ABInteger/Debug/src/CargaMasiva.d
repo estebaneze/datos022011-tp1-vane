@@ -62,7 +62,8 @@ src/CargaMasiva.d src/CargaMasiva.o: ../src/CargaMasiva.cpp \
  ../src/ABMs/../ABMs/ABMConteo.h ../src/ABMs/../ABMs/ABMEleccion.h \
  ../src/ABMs/ABMVotante.h ../src/ABMs/ABMAdministrador.h \
  ../src/ABMs/../Entidades/Administrador.h ../src/utils/ConfigFile.h \
- ../src/Common/Helper.h ../src/Common/Identities.h
+ ../src/Common/Helper.h ../src/Common/Identities.h \
+ ../src/utils/ConfigurationMananger.h
 
 ../src/Persistencia/exceptions/excepciones.h:
 
@@ -235,3 +236,5 @@ src/CargaMasiva.d src/CargaMasiva.o: ../src/CargaMasiva.cpp \
 ../src/Common/Helper.h:
 
 ../src/Common/Identities.h:
+
+../src/utils/ConfigurationMananger.h:

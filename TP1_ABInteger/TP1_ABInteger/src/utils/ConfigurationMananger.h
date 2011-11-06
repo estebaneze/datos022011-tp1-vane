@@ -54,6 +54,10 @@ private:
          */
         string identities;
 
+        /*
+         * log de carga masiva
+         */
+        string cargaMasiva;
     	/*
     	 * Nombres de los archivos
     	 */
@@ -140,6 +144,11 @@ public:
          */
         string getIdentities();
 
+        /*
+         * devuerlve el nombre del archivo cargaMasiva
+         */
+
+        string getCargaMasiva();
     	/**
     	 * Devuelve el nombre de los archivos
     	 */

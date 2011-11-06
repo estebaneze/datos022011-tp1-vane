@@ -31,6 +31,7 @@ ConfigurationMananger::ConfigurationMananger() {
         configFile->readInto<string>(separador2,"separador2");
 
         configFile->readInto<string>(identities,"identities");
+        configFile->readInto<string>(cargaMasiva,"cargaMasiva");
 
         configFile->readInto<string>(adminFile,"adminFile");
     	configFile->readInto<string>(distritoFile,"distritoFile");
@@ -129,6 +130,10 @@ string ConfigurationMananger::getSeparador2(){
 
 string ConfigurationMananger::getIdentities(){
 	return this->identities;
+}
+
+string ConfigurationMananger::getCargaMasiva(){
+	return this->cargaMasiva;
 }
 
 string ConfigurationMananger::getAdminFile(){
