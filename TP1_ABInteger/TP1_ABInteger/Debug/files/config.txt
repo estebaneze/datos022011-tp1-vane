@@ -10,11 +10,11 @@ chargePercent = 0.8		#Porcentaje de carga
 minRecordSizeTree = 0		#TamaÃ±o minimo del bloque
 maxRecordPercent = 0.2		#Porcentaje maximo del registro
 
-hashBSizeCandidato = 1024		#TamaÃ±o del bucket para el hash
-hashBSizeAdministrador = 1024		#TamaÃ±o del bucket para el hash
-hashBSizeCargo = 1024		#TamaÃ±o del bucket para el hash
-hashBSizeLista = 2048		#TamaÃ±o del bucket para el hash
-hashBSizeVotante = 1024		#TamaÃ±o del bucket para el hash
+hashBSizeCandidato = 512		#TamaÃ±o del bucket para el hash
+hashBSizeAdministrador = 512		#TamaÃ±o del bucket para el hash
+hashBSizeCargo = 512		#TamaÃ±o del bucket para el hash
+hashBSizeLista = 512		#TamaÃ±o del bucket para el hash
+hashBSizeVotante = 512		#TamaÃ±o del bucket para el hash
 
 separador1 = |		#TSeparador pipe
 separador2 = _		#Separador guion bajo
