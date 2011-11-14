@@ -13,24 +13,24 @@ string Vigenere::encriptar(string key, string msj)
 	string rtnEncriptado;
 	int j=0;
 	int auxAscii;
-	char letra;
-	char letraKey;
+	int letra;
+	int letraKey;
 
 	for (int i=0;i < msj.length();i++)
 	{
-		if (j == key.length())
+		if (j == key.length()) //VUELVE A 1ER CHAR DE KEY
 			j=0;
 
-		letra = toupper(msj.at(i));
-		letraKey = toupper(key.at(j));
+		letra = (int)msj.at(i);
+		letraKey = (int)key.at(j);
 
-		if (letra >= 'A' && letra <= 'Z')
+		if (letra >= 32 && letra <= 126) //SI ES CHAR IMPRIMIBLE
 		{
-			auxAscii = ((int)letra + (int)letraKey)%26;
+			auxAscii = ((letra + letraKey)%95) + 32; //95 CHARS, EMPIEZA DESDE ' '(espacio)
 			j++;
 		}
 		else
-			auxAscii = (int)letra;
+			auxAscii = letra;
 
 		rtnEncriptado += (char)auxAscii;
 	}
@@ -48,19 +48,19 @@ string Vigenere::desencriptar(string key, string msjEncript)
 
 	for (int i=0;i < msjEncript.length();i++)
 	{
-		if (j == key.length())
+		if (j == key.length()) //VUELVE A 1ER CHAR DE KEY
 			j=0;
 
-		letra = toupper(msjEncript.at(i));
-		letraKey = toupper(key.at(j));
+		letra = (int)msj.at(i);
+		letraKey = (int)key.at(j);
 
-		if ( letra>= 'A' && letra <= 'Z')
+		if (letra >= 32 && letra <= 126) //SI ES CHAR IMPRIMIBLE
 		{
-			auxAscii = ((int)letra - (int)letraKey)%26;
+			auxAscii = ((letra - letraKey)%95) + 32; //95 CHARS, EMPIEZA DESDE ' '(espacio)
 			j++;
 		}
 		else
-			auxAscii = (int)letra;
+			auxAscii = letra;
 
 		rtnDesEncriptado += (char)auxAscii;
 	}
