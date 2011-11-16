@@ -10,14 +10,15 @@
 /*TODO: mostrar la cantidad de votos en porcentaje
  */
 
-void Reportes::reportePorEleccion(int idEleccion)
+void Reportes::reportePorEleccion(int idEleccion, bool guardaEncriptado)
 {
 	ABMConteo *abmConteo = new ABMConteo();
+	std::stringstream out;
 
 	vector<Conteo> resultados =  abmConteo->GetConteoByEleccion(idEleccion);
 
 	if(resultados.size() == 0) {
-		cout << "No se encontraron resultados." << endl;
+		out << "No se encontraron resultados." << endl;
 		return;
 	}
 
@@ -26,103 +27,128 @@ void Reportes::reportePorEleccion(int idEleccion)
 	resultados = Reportes::OrderByCantidadVotos(resultados);
 
 	for(int i = 0; i < resultados.size(); i++){
-		cout << "Lista: " << resultados[i].GetIdLista() << ". Votos:  " << resultados[i].GetCountVotos() << endl;
+		out << "Lista: " << resultados[i].GetIdLista() << ". Votos:  " << resultados[i].GetCountVotos() << endl;
+	}
+
+	if (guardaEncriptado)
+	{
+		string reporteEncriptado = Vigenere::encriptar("TODO", out.str());
+		ofstream file;
+		file.open("TODO", ios::app);
+		file.write(reporteEncriptado.c_str(), reporteEncriptado.size());
+		file.close();
+	}
+	else{
+		cout << out.str();
 	}
 
 	delete abmConteo;
 }
 
-void Reportes::reportePorLista(string lista)
-{
-	ABMConteo *abmConteo = new ABMConteo();
-		ABMEleccion* abmEleccion = new ABMEleccion();
-		ABMCargo* abmCargo = new ABMCargo();
-		ABMDistrito* abmDistrito = new ABMDistrito();
-
-		vector<Conteo> resultados =  abmConteo->GetConteoByLista(lista);
-
-		if(resultados.size() == 0){
-			cout << "No se encontraron resultados." << endl;
-			return;
-		}
-
-		//Primero ordeno por fecha de eleccion
-		resultados = Reportes::OrderByFecha(resultados);
-
-
-		//Agrupo por fecha de eleccion
-		vector< vector<Conteo> > resAgrupados;
-		vector<Conteo> cs;
-		cs.push_back(resultados[0]);
-		resAgrupados.push_back(cs);
-		int idEleccionActual = resultados[0].GetIdEleccion();
-
-		//Tengo que agrupar por eleccion
-		for(int i = 1; i < resultados.size(); i++){
-
-		      Conteo conteo = resultados[i];
-
-		      if(conteo.GetIdEleccion() == idEleccionActual){
-
-		    	resAgrupados[resAgrupados.size() - 1].push_back(conteo);
-		      }
-		      else{	//Nuevo grupo de eleccion
-
-			      vector<Conteo> cs;
-			      cs.push_back(conteo);
-			      resAgrupados.push_back(cs);
-			      idEleccionActual = conteo.GetIdEleccion();
-
-		      }
-
-		}
-
-		for(int i = 0; i < resAgrupados.size(); i++){
-
-			vector<Conteo> aux = Reportes::OrderByCantidadVotos(resAgrupados[i]);
-			resAgrupados[i] = aux;
-		}
-
-		cout << endl << endl << endl;
-
-		for(int i = 0; i < resAgrupados.size(); i++){
-
-			vector<Conteo> cs = resAgrupados[i];
-
-			if(resAgrupados.size() > 0){
-
-				Conteo conteo = cs[0];
-				Eleccion* e = abmEleccion->GetEleccion(conteo.GetIdEleccion());
-				string cargo = abmCargo->GetCargo(e->GetIdCargo())->GetNombre();
-				Fecha fecha = e->GetDate().getStrFecha();
-
-				cout << "Eleccion: (" << fecha.getFriendlyStr() << " - " << cargo << ")" << endl;
-
-				for(int j = 0; j < cs.size(); j++){
-					Conteo res = cs[j];
-					cout << "		Distrito: " << res.GetIdDistrito() << " tiene " << res.GetCountVotos() << " votos." << endl;
-				}
-			}
-		}
-
-		delete abmConteo;
-		delete abmEleccion;
-		delete abmCargo;
-		delete abmDistrito;
-
-}
-
-void Reportes::reportePorDistrito(int idDistrito)
+void Reportes::reportePorLista(string lista, bool guardaEncriptado)
 {
 	ABMConteo *abmConteo = new ABMConteo();
 	ABMEleccion* abmEleccion = new ABMEleccion();
 	ABMCargo* abmCargo = new ABMCargo();
 	ABMDistrito* abmDistrito = new ABMDistrito();
+	std::stringstream out;
+
+	vector<Conteo> resultados =  abmConteo->GetConteoByLista(lista);
+
+	if(resultados.size() == 0){
+		out << "No se encontraron resultados." << endl;
+		return;
+	}
+
+	//Primero ordeno por fecha de eleccion
+	resultados = Reportes::OrderByFecha(resultados);
+
+
+	//Agrupo por fecha de eleccion
+	vector< vector<Conteo> > resAgrupados;
+	vector<Conteo> cs;
+	cs.push_back(resultados[0]);
+	resAgrupados.push_back(cs);
+	int idEleccionActual = resultados[0].GetIdEleccion();
+
+	//Tengo que agrupar por eleccion
+	for(int i = 1; i < resultados.size(); i++){
+
+		  Conteo conteo = resultados[i];
+
+		  if(conteo.GetIdEleccion() == idEleccionActual){
+
+			resAgrupados[resAgrupados.size() - 1].push_back(conteo);
+		  }
+		  else{	//Nuevo grupo de eleccion
+
+			  vector<Conteo> cs;
+			  cs.push_back(conteo);
+			  resAgrupados.push_back(cs);
+			  idEleccionActual = conteo.GetIdEleccion();
+
+		  }
+
+	}
+
+	for(int i = 0; i < resAgrupados.size(); i++){
+
+		vector<Conteo> aux = Reportes::OrderByCantidadVotos(resAgrupados[i]);
+		resAgrupados[i] = aux;
+	}
+
+	out << endl << endl << endl;
+
+	for(int i = 0; i < resAgrupados.size(); i++){
+
+		vector<Conteo> cs = resAgrupados[i];
+
+		if(resAgrupados.size() > 0){
+
+			Conteo conteo = cs[0];
+			Eleccion* e = abmEleccion->GetEleccion(conteo.GetIdEleccion());
+			string cargo = abmCargo->GetCargo(e->GetIdCargo())->GetNombre();
+			Fecha fecha = e->GetDate().getStrFecha();
+
+			out << "Eleccion: (" << fecha.getFriendlyStr() << " - " << cargo << ")" << endl;
+
+			for(int j = 0; j < cs.size(); j++){
+				Conteo res = cs[j];
+				out << "		Distrito: " << res.GetIdDistrito() << " tiene " << res.GetCountVotos() << " votos." << endl;
+			}
+		}
+	}
+
+	if (guardaEncriptado){
+		string reporteEncriptado = Vigenere::encriptar("TODO", out.str());
+		ofstream file;
+		file.open("TODO", ios::app);
+		file.write(reporteEncriptado.c_str(), reporteEncriptado.size());
+		file.close();
+	}
+	else{
+		cout << out.str();
+	}
+
+	delete abmConteo;
+	delete abmEleccion;
+	delete abmCargo;
+	delete abmDistrito;
+
+}
+
+void Reportes::reportePorDistrito(int idDistrito, bool guardaEncriptado)
+{
+	ABMConteo *abmConteo = new ABMConteo();
+	ABMEleccion* abmEleccion = new ABMEleccion();
+	ABMCargo* abmCargo = new ABMCargo();
+	ABMDistrito* abmDistrito = new ABMDistrito();
+	std::stringstream out;
 
 	vector<Conteo> resultados =  abmConteo->GetConteoByDistrito(idDistrito);
 
 	if(resultados.size() == 0){
-		cout << "No se encontraron resultados." << endl;
+		out << "No se encontraron resultados." << endl;
 		return;
 	}
 
@@ -162,7 +188,7 @@ void Reportes::reportePorDistrito(int idDistrito)
 		resAgrupados[i] = aux;
 	}
 
-	cout << endl << endl << endl;
+	out << endl << endl << endl;
 
 	for(int i = 0; i < resAgrupados.size(); i++){
 
@@ -175,13 +201,25 @@ void Reportes::reportePorDistrito(int idDistrito)
 			string cargo = abmCargo->GetCargo(e->GetIdCargo())->GetNombre();
 			Fecha fecha = e->GetDate().getStrFecha();
 
-			cout << "Eleccion: (" << fecha.getFriendlyStr() << " - " << cargo << ")" << endl;
+			out << "Eleccion: (" << fecha.getFriendlyStr() << " - " << cargo << ")" << endl;
 
 			for(int j = 0; j < cs.size(); j++){
 				Conteo res = cs[j];
-				cout << "		Lista: " << res.GetIdLista() << " tiene " << res.GetCountVotos() << " votos." << endl;
+				out << "		Lista: " << res.GetIdLista() << " tiene " << res.GetCountVotos() << " votos." << endl;
 			}
 		}
+	}
+
+	if (guardaEncriptado)
+	{
+		string reporteEncriptado = Vigenere::encriptar("TODO", out.str());
+		ofstream file;
+		file.open("TODO", ios::app);
+		file.write(reporteEncriptado.c_str(), reporteEncriptado.size());
+		file.close();
+	}
+	else{
+		cout << out.str();
 	}
 
 	delete abmConteo;

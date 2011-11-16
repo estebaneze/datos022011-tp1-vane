@@ -1179,7 +1179,7 @@ while (fin==0){
 							delete abmEleccion;
 
 							if(elecciones.size() > 0 && elecciones[0] != NULL){
-								Reportes::reportePorEleccion(elecciones[0]->GetId());
+								Reportes::reportePorEleccion(elecciones[0]->GetId(),false);
 							}
 							else{
 								cout << endl << "No se encontro la eleccion para la Fecha y el Cargo indicado" << endl;
@@ -1226,7 +1226,7 @@ while (fin==0){
 					delete abmLista;
 					if(founded){
 
-						Reportes::reportePorLista(listaSelected);
+						Reportes::reportePorLista(listaSelected, false);
 					}
 					else{
 						cout << "La Lista ingresada es incorrecta." << endl;
@@ -1273,7 +1273,7 @@ while (fin==0){
 					delete abmDistrito;
 
 					if(founded){
-						Reportes::reportePorDistrito(idDistrito);
+						Reportes::reportePorDistrito(idDistrito, false);
 					}
 					else{
 						cout << "El Distrito seleccionado es incorrecto." << endl;
