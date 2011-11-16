@@ -17,6 +17,8 @@ class Vigenere {
 	public:
 		static string encriptar(string key, string msj);
 		static string desencriptar(string key, string msjEncript);
+	private:
+		static int Modulo(int valor1, int valor2);
 };
 
 

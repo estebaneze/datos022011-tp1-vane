@@ -21,12 +21,12 @@ string Vigenere::encriptar(string key, string msj)
 		if (j == key.length()) //VUELVE A 1ER CHAR DE KEY
 			j=0;
 
-		letra = (int)msj.at(i);
+		letra = (int)msj.at(i);;
 		letraKey = (int)key.at(j);
 
 		if (letra >= 32 && letra <= 126) //SI ES CHAR IMPRIMIBLE
 		{
-			auxAscii = ((letra + letraKey)%95) + 32; //95 CHARS, EMPIEZA DESDE ' '(espacio)
+			auxAscii =  Modulo((letra-32) + (letraKey-32), 95) + 32; //95 CHARS, EMPIEZA DESDE ' '(espacio)
 			j++;
 		}
 		else
@@ -43,20 +43,20 @@ string Vigenere::desencriptar(string key, string msjEncript)
 	string rtnDesEncriptado;
 	int j=0;
 	int auxAscii;
-	char letra;
-	char letraKey;
+	int letra;
+	int letraKey;
 
 	for (int i=0;i < msjEncript.length();i++)
 	{
 		if (j == key.length()) //VUELVE A 1ER CHAR DE KEY
 			j=0;
 
-		letra = (int)msj.at(i);
+		letra = (int)msjEncript.at(i);
 		letraKey = (int)key.at(j);
 
 		if (letra >= 32 && letra <= 126) //SI ES CHAR IMPRIMIBLE
 		{
-			auxAscii = ((letra - letraKey)%95) + 32; //95 CHARS, EMPIEZA DESDE ' '(espacio)
+			auxAscii = Modulo((letra-32) - (letraKey-32),95) + 32; //95 CHARS, EMPIEZA DESDE ' '(espacio)
 			j++;
 		}
 		else
@@ -66,4 +66,22 @@ string Vigenere::desencriptar(string key, string msjEncript)
 	}
 
 	return rtnDesEncriptado;
+}
+
+int Vigenere::Modulo(int valor1, int valor2)
+{
+	int resultadoParcial;
+
+	if (valor1>=0)
+		resultadoParcial = valor1%valor2;
+	else
+	{
+		resultadoParcial = valor1;
+		while (resultadoParcial < 0)
+		{
+			resultadoParcial = resultadoParcial + valor2;
+		}
+	}
+
+	return resultadoParcial;
 }
