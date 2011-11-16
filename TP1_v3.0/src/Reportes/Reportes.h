@@ -12,6 +12,7 @@
 #include "../ABMs/ABMCargo.h"
 #include "../ABMs/ABMEleccion.h"
 #include "../ABMs/ABMDistrito.h"
+#include "../Vigenere/Vigenere.h"
 
 #ifndef REPORTES_H_
 #define REPORTES_H_
@@ -19,9 +20,9 @@
 
 class Reportes {
 	public:
-		static void reportePorEleccion(int idEleccion);
-		static void reportePorLista(string lista);
-		static void reportePorDistrito(int idDistrito);
+		static void reportePorEleccion(int idEleccion, bool guardaEncriptado);
+		static void reportePorLista(string lista, bool guardaEncriptado);
+		static void reportePorDistrito(int idDistrito, bool guardaEncriptado);
 
 	private:
 		//TODO: ESTA ORDENANDO DE MENOR A MAYOR. TIENE QUE SER AL REVES.
