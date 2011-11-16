@@ -1,0 +1,53 @@
+#############################
+# ARCHIVO DE CONFIGURACION #
+#############################
+
+
+blockSize = 24576		#TamaÃ±o del bloque para el hash
+treeBlockSize = 4096		#TamaÃ±o del bloque para el arbol
+hashBlockSize = 4096 		#Tamaño del bloque para el arbol
+chargePercent = 0.8		#Porcentaje de carga
+minRecordSizeTree = 0		#TamaÃ±o minimo del bloque
+maxRecordPercent = 0.2		#Porcentaje maximo del registro
+
+hashBSizeCandidato = 512		#TamaÃ±o del bucket para el hash
+hashBSizeAdministrador = 512		#TamaÃ±o del bucket para el hash
+hashBSizeCargo = 512		#TamaÃ±o del bucket para el hash
+hashBSizeLista = 512		#TamaÃ±o del bucket para el hash
+hashBSizeVotante = 512		#TamaÃ±o del bucket para el hash
+
+separador1 = |		#TSeparador pipe
+separador2 = _		#Separador guion bajo
+
+identities = files/identities.txt #archivo control de claves autonumericas
+cargaMasiva = files/logs/cargaMasiva.log #archivo de controlde carga masiva
+
+
+adminFile = files/Administrador		
+candidatoFile = files/Candidato		#Nombre de archivo 
+cargoFile = files/Cargo				#Nombre de archivo
+conteoFile = files/Conteo				#Nombre de archivo
+eleccionFile = files/Eleccion			#Nombre de archivo
+listaFile = files/Lista				#Nombre de archivo
+votanteFile = files/Votante		#Nombre de archivo
+distritoFile = files/Distrito		#Nombre de archivo
+
+logOperVotante = files/logs/Votante_HashOperation.log
+logProcessVotante = files/logs/Votante_HashProcess.log
+logOperCandidato = files/logs/Candidato_HashOperation.log
+logProcessCandidato = files/logs/Candidato_HashProcess.log
+logOperLista = files/logs/Lista_HashOperation.log
+logProcessLista = files/logs/Lista_HashProcess.log
+logOperAdmin = files/logs/Admin_HashOperation.log
+logProcessAdmin = files/logs/Admin_HashProcess.log
+logOperCargo = files/logs/Cargo_HashOperation.log
+logProcessCargo = files/logs/Cargo_HashProcess.log
+logOperConteo = files/logs/Conteo_BPlusTreeOperation.log
+logProcessConteo = files/logs/Conteo_BPlusTreeProcess.log
+logOperDistrito = files/logs/Distrito_BPlusTreeOperation.log
+logProcessDistrito = files/logs/Distrito_BPlusTreeProcess.log
+logOperEleccion = files/logs/Eleccion_BPlusTreeOperation.log
+logProcessEleccion = files/logs/Eleccion_BPlusTreeProcess.log
+logDirectory = files/logs/
+fileDirectory = files/
+
