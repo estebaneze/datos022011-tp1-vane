@@ -5,6 +5,9 @@ Distrito 1
 Eleccion 1
 Lista 1
 Administrador 1
+ReportexEleccion 1
+ReportexLista 1
+ReportexDistrito 1
 
 
 
