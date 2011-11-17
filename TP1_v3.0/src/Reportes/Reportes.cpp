@@ -32,11 +32,16 @@ void Reportes::reportePorEleccion(int idEleccion, bool guardaEncriptado)
 
 	if (guardaEncriptado)
 	{
+		string fileName = "ReportexEleccion";
+		fileName.append(Helper::IntToString(Identities::GetNextNroReporteXEleccion()));
+
 		string reporteEncriptado = Vigenere::encriptar("TODO", out.str());
 		ofstream file;
-		file.open("TODO", ios::app);
+		file.open(fileName.c_str(), ios::app);
 		file.write(reporteEncriptado.c_str(), reporteEncriptado.size());
 		file.close();
+
+		cout << "Reporte encriptado correctamente" << endl;
 	}
 	else{
 		cout << out.str();
@@ -120,11 +125,16 @@ void Reportes::reportePorLista(string lista, bool guardaEncriptado)
 	}
 
 	if (guardaEncriptado){
+		string fileName = "ReportexLista";
+		fileName.append(Helper::IntToString(Identities::GetNextNroReporteXLista()));
+
 		string reporteEncriptado = Vigenere::encriptar("TODO", out.str());
 		ofstream file;
-		file.open("TODO", ios::app);
+		file.open(fileName.c_str(), ios::app);
 		file.write(reporteEncriptado.c_str(), reporteEncriptado.size());
 		file.close();
+
+		cout << "Reporte encriptado correctamente" << endl;
 	}
 	else{
 		cout << out.str();
@@ -212,11 +222,16 @@ void Reportes::reportePorDistrito(int idDistrito, bool guardaEncriptado)
 
 	if (guardaEncriptado)
 	{
+		string fileName = "ReportexDistrito";
+		fileName.append(Helper::IntToString(Identities::GetNextNroReporteXDistrito()));
+
 		string reporteEncriptado = Vigenere::encriptar("TODO", out.str());
 		ofstream file;
-		file.open("TODO", ios::app);
+		file.open(fileName.c_str(), ios::app);
 		file.write(reporteEncriptado.c_str(), reporteEncriptado.size());
 		file.close();
+
+		cout << "Reporte encriptado correctamente" << endl;
 	}
 	else{
 		cout << out.str();
