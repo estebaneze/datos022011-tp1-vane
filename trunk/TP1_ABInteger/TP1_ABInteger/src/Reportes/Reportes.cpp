@@ -10,7 +10,7 @@
 /*TODO: mostrar la cantidad de votos en porcentaje
  */
 
-void Reportes::reportePorEleccion(int idEleccion, bool guardaEncriptado)
+void Reportes::reportePorEleccion(int idEleccion, bool guardaEncriptado, string claveEncriptado)
 {
 	ABMConteo *abmConteo = new ABMConteo();
 	std::stringstream out;
@@ -32,11 +32,16 @@ void Reportes::reportePorEleccion(int idEleccion, bool guardaEncriptado)
 
 	if (guardaEncriptado)
 	{
-		string reporteEncriptado = Vigenere::encriptar("TODO", out.str());
+		string fileName = ConfigurationMananger::getInstance()->getReportFileDirectory().append("ReportexEleccion");
+		fileName.append(Helper::IntToString(Identities::GetNextNroReporteXEleccion())).append(".ecr");
+
+		string reporteEncriptado = Vigenere::encriptar(claveEncriptado, out.str());
 		ofstream file;
-		file.open("TODO", ios::app);
+		file.open(fileName.c_str(), ios::app);
 		file.write(reporteEncriptado.c_str(), reporteEncriptado.size());
 		file.close();
+
+		cout << "Reporte encriptado correctamente" << endl;
 	}
 	else{
 		cout << out.str();
@@ -45,7 +50,7 @@ void Reportes::reportePorEleccion(int idEleccion, bool guardaEncriptado)
 	delete abmConteo;
 }
 
-void Reportes::reportePorLista(string lista, bool guardaEncriptado)
+void Reportes::reportePorLista(string lista, bool guardaEncriptado, string claveEncriptado)
 {
 	ABMConteo *abmConteo = new ABMConteo();
 	ABMEleccion* abmEleccion = new ABMEleccion();
@@ -119,12 +124,18 @@ void Reportes::reportePorLista(string lista, bool guardaEncriptado)
 		}
 	}
 
-	if (guardaEncriptado){
-		string reporteEncriptado = Vigenere::encriptar("TODO", out.str());
+	if (guardaEncriptado)
+	{
+		string fileName = ConfigurationMananger::getInstance()->getReportFileDirectory().append("ReportexLista");
+		fileName.append(Helper::IntToString(Identities::GetNextNroReporteXLista())).append(".ecr");
+
+		string reporteEncriptado = Vigenere::encriptar(claveEncriptado, out.str());
 		ofstream file;
-		file.open("TODO", ios::app);
+		file.open(fileName.c_str(), ios::app);
 		file.write(reporteEncriptado.c_str(), reporteEncriptado.size());
 		file.close();
+
+		cout << "Reporte encriptado correctamente" << endl;
 	}
 	else{
 		cout << out.str();
@@ -137,7 +148,7 @@ void Reportes::reportePorLista(string lista, bool guardaEncriptado)
 
 }
 
-void Reportes::reportePorDistrito(int idDistrito, bool guardaEncriptado)
+void Reportes::reportePorDistrito(int idDistrito, bool guardaEncriptado, string claveEncriptado)
 {
 	ABMConteo *abmConteo = new ABMConteo();
 	ABMEleccion* abmEleccion = new ABMEleccion();
@@ -212,11 +223,16 @@ void Reportes::reportePorDistrito(int idDistrito, bool guardaEncriptado)
 
 	if (guardaEncriptado)
 	{
-		string reporteEncriptado = Vigenere::encriptar("TODO", out.str());
+		string fileName = ConfigurationMananger::getInstance()->getReportFileDirectory().append("ReportexDistrito");
+		fileName.append(Helper::IntToString(Identities::GetNextNroReporteXDistrito())).append(".ecr");
+
+		string reporteEncriptado = Vigenere::encriptar(claveEncriptado, out.str());
 		ofstream file;
-		file.open("TODO", ios::app);
+		file.open(fileName.c_str(), ios::app);
 		file.write(reporteEncriptado.c_str(), reporteEncriptado.size());
 		file.close();
+
+		cout << "Reporte encriptado correctamente" << endl;
 	}
 	else{
 		cout << out.str();
@@ -227,6 +243,25 @@ void Reportes::reportePorDistrito(int idDistrito, bool guardaEncriptado)
 	delete abmCargo;
 	delete abmDistrito;
 
+}
+
+void Reportes::reporteDesencriptar(string fileName, string claveEncriptado)
+{
+	ifstream file;
+	file.open(ConfigurationMananger::getInstance()->getReportFileDirectory().append(fileName).c_str());
+	string output;
+	std::stringstream out;
+	if (file.is_open()) {
+		while (!file.eof()) {
+			getline(file,output);
+			//file >> output;
+			out << output << endl;
+		}
+	}
+	file.close();
+
+	string reporteDesencriptado = Vigenere::desencriptar(claveEncriptado,out.str());
+	cout << reporteDesencriptado << endl;
 }
 
 vector<Conteo> Reportes::GroupByLista(vector<Conteo> resultados){

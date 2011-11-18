@@ -43,6 +43,10 @@ class Identities {
 		static int GetLastIdAdministrador();
 		static int GetLastIdEleccion();
 
+		static int GetNextNroReporteXEleccion();
+		static int GetNextNroReporteXLista();
+		static int GetNextNroReporteXDistrito();
+
 		static void InitializeFile();
 
 	private:

@@ -110,7 +110,7 @@ char opcion;
 						delete adm;
 					break;
 				}
-				case '2':	{
+				case '2':{
 						ABMAdministrador *abmAdmin = new ABMAdministrador();
 						bool listo = false;
 
@@ -1115,13 +1115,31 @@ while (fin==0){
 	printf("\t1. Reporte por Eleccion \n");
 	printf("\t2. Reporte por Lista\n");
 	printf("\t3. Reporte por Distrito\n");
-	printf("\t4. Volver\n\n");
+	printf("\t4. Encriptar Reporte por Eleccion \n");
+	printf("\t5. Encriptar Reporte por Lista\n");
+	printf("\t6. Encriptar Reporte por Distrito\n");
+	printf("\t7. Desencriptar Reporte\n");
+	printf("\t8. Volver\n\n");
 	printf("\tIngrese una opcion: ");
 	cin >>opcion;
 	cout << endl;
 
+	bool guardaEncriptado = false;
+	string claveEncriptado = ConfigurationMananger::getInstance()->getDefaultVIgenereKey();
+	string in;
+
 	switch (opcion) {
-				case '1':	{
+				case '4':{
+					guardaEncriptado = true;
+					cout << "Ingrese clave de encriptacion ('q' para clave parametro)" << endl;
+					cin >> in;
+
+					if (!in.compare("q"))
+						claveEncriptado = in;
+
+					cout << endl;
+				}
+				case '1':{
 
 					cout << "Reporte por Eleccion" << endl;
 					cout << "====================" << endl << endl;
@@ -1179,7 +1197,7 @@ while (fin==0){
 							delete abmEleccion;
 
 							if(elecciones.size() > 0 && elecciones[0] != NULL){
-								Reportes::reportePorEleccion(elecciones[0]->GetId(),false);
+								Reportes::reportePorEleccion(elecciones[0]->GetId(),guardaEncriptado,claveEncriptado);
 							}
 							else{
 								cout << endl << "No se encontro la eleccion para la Fecha y el Cargo indicado" << endl;
@@ -1196,9 +1214,19 @@ while (fin==0){
 					string c;
 					cin >> c;
 					//if (c=="q") listo=true;
-
+					guardaEncriptado = false;
 					break;
 
+				}
+				case '5':{
+					guardaEncriptado = true;
+					cout << "Ingrese clave de encriptacion ('q' para clave parametro)" << endl;
+					cin >> in;
+
+					if (!in.compare("q"))
+						claveEncriptado = in;
+
+					cout << endl;
 				}
 				case '2':{
 
@@ -1226,7 +1254,7 @@ while (fin==0){
 					delete abmLista;
 					if(founded){
 
-						Reportes::reportePorLista(listaSelected, false);
+						Reportes::reportePorLista(listaSelected, guardaEncriptado,claveEncriptado);
 					}
 					else{
 						cout << "La Lista ingresada es incorrecta." << endl;
@@ -1237,13 +1265,23 @@ while (fin==0){
 					string c;
 					cin >> c;
 					//if (c=="q") listo=true;
-
+					guardaEncriptado = false;
 					break;
+				}
+				case '6':{
+					guardaEncriptado = true;
+					cout << "Ingrese clave de encriptacion ('q' para clave parametro)" << endl;
+					cin >> in;
+
+					if (!in.compare("q"))
+						claveEncriptado = in;
+
+					cout << endl;
 				}
 				case '3':{
 
 					cout << "Reporte por Distrito" << endl << endl;
-
+					cout << "====================" << endl << endl;
 					ABMDistrito* abmDistrito = new ABMDistrito();
 
 					cout << "Distritos disponibles:" << endl;
@@ -1273,7 +1311,7 @@ while (fin==0){
 					delete abmDistrito;
 
 					if(founded){
-						Reportes::reportePorDistrito(idDistrito, false);
+						Reportes::reportePorDistrito(idDistrito, guardaEncriptado,claveEncriptado);
 					}
 					else{
 						cout << "El Distrito seleccionado es incorrecto." << endl;
@@ -1284,10 +1322,32 @@ while (fin==0){
 					string c;
 					cin >> c;
 					//if (c=="q") listo=true;
+					guardaEncriptado = false;
+					break;
+				}
+				case '7':{
+					string fileName;
+					cout << "Desencriptar Reporte" << endl;
+					cout << "====================" << endl << endl;
+
+					cout << "Ingrese clave de desencriptacion ('q' para clave parametro)" << endl;
+					cin >> in;
+
+					if (!in.compare("q"))
+						claveEncriptado = in;
+
+					cout << "Ingrese nombre archivo reporte a desencriptar (ubicado en directorio '/Report' con extension incluida)" << endl;
+					cin >> fileName;
+
+					Reportes::reporteDesencriptar(fileName,claveEncriptado);
+
+					cout << endl <<  "Presione cualquier tecla para continuar" << endl;
+					string c;
+					cin >> c;
 
 					break;
 				}
-				case '4':{
+				case '8':{
 					fin=1;
 					break;
 				}
