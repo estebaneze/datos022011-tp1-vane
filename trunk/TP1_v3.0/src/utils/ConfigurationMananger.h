@@ -90,6 +90,8 @@ private:
     	string logProcessEleccion;
     	string logDirectory;
     	string fileDirectory;
+    	string reportFileDirectory;
+    	string defaultVigenereKey;
 
     	/**
          * Archivo de configuracion
@@ -182,6 +184,8 @@ public:
     	string getLogProcessEleccionFile();
     	string getLogDirectory();
     	string getFileDirectory();
+    	string getReportFileDirectory();
+    	string getDefaultVIgenereKey();
 
 };
 
