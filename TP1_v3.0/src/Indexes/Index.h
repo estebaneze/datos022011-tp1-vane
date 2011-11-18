@@ -11,6 +11,7 @@
 #include "../Hash/Directory.h"
 #include "../Common/Common.h"
 #include "../Logging/HashLog.h"
+#include "../Common/ProcessData.h"
 
 using namespace std;
 

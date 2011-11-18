@@ -32,7 +32,10 @@ vector<Key> Index::GetIds(Key data){
         if ((this->directorio->existKey(data))){
 
                 string values = directorio->find(data);
-                return Helper::split(values, '|');
+                //return Helper::split(values, '|');
+                vector<Key> keys;
+                ProcessData::obtenerData(values,keys);
+                return keys;
         }
         else {
                 vector<Key> aux;
@@ -43,7 +46,9 @@ vector<Key> Index::GetIds(Key data){
 
 void Index::RefreshIndex(Key key, vector<Key> values){
 
-        string fields = Helper::concatenar(values, ConfigurationMananger::getInstance()->getSeparador1());
+        //string fields = Helper::concatenar(values, ConfigurationMananger::getInstance()->getSeparador1());
+
+		string fields = ProcessData::generarData(values);
 
         if (!(this->directorio->existKey(key))){
                 this->directorio->insert(key,fields);
@@ -52,9 +57,10 @@ void Index::RefreshIndex(Key key, vector<Key> values){
 
                 //Si ya existe, lo modifico
                 string oldFields = this->directorio->find(key);
-                oldFields.append("|");
-                oldFields.append(fields);
-                this->directorio->modify(key, oldFields);
+                string newFields = ProcessData::generarData(oldFields,fields);
+                //oldFields.append("|");
+                //oldFields.append(fields);
+                this->directorio->modify(key, newFields);
         }
 
 }
@@ -62,7 +68,7 @@ void Index::RefreshIndex(Key key, vector<Key> values){
 
 void Index::AppendToIndex(KeyInt key, Key value){
 
-        this->AppendToIndex(Helper::IntToString(key), value);
+        this->AppendToIndex(Helper::copyBytesToString(key), value);
 }
 
 /*
@@ -83,8 +89,9 @@ void Index::AppendToIndex(Key key, Key value){
 
                 //Si ya existe, lo modifico
                 string oldFields = this->directorio->find(key);
-                vector<string> splited = Helper::split(oldFields, '|');
-
+                //vector<string> splited = Helper::split(oldFields, '|');
+                vector<string> splited;
+                ProcessData::obtenerData(oldFields,splited);
                 bool founded = false;
                 for(int i = 0; i < splited.size() && !founded; i++){
                         if(splited[i] == value){
@@ -94,10 +101,11 @@ void Index::AppendToIndex(Key key, Key value){
 
                 //Si la lista no esta ya indexada con ese idEleccion, la agrego. Si no, no hago nada.
                 if(!founded){
-                        oldFields.append("|");
-                        oldFields.append(value);
+						string newFields = ProcessData::generarData(oldFields,value);
+                        //oldFields.append("|");
+                        //oldFields.append(value);
 
-                        this->directorio->modify(key, oldFields);
+                        this->directorio->modify(key, newFields);
 
                 }
         }
@@ -108,7 +116,7 @@ void Index::AppendToIndex(Key key, Key value){
 }
 
 void Index::DeleteFromIndex(KeyInt key, Key value){
-                this->DeleteFromIndex(Helper::IntToString(key), value);
+                this->DeleteFromIndex(Helper::copyBytesToString(key), value);
 }
 
 void Index::DeleteFromIndex(Key key, Key value){
@@ -119,7 +127,9 @@ void Index::DeleteFromIndex(Key key, Key value){
 
                 //Lo busco
                 string oldFields = this->directorio->find(key);
-                vector<string> splited = Helper::split(oldFields, '|');
+                //vector<string> splited = Helper::split(oldFields, '|');
+                vector<string> splited;
+                ProcessData::obtenerData(oldFields,splited);
 
                 //cout << "Los valores del indice: " << Helper::concatenar(splited, ConfigurationMananger::getInstance()->getSeparador1()) << endl;
 
@@ -138,14 +148,15 @@ void Index::DeleteFromIndex(Key key, Key value){
                 //Vuelvo a actualizar el registro con esta clave
                 if(founded){
                         cout << "Los valores del indice: " << Helper::concatenar(splited, ConfigurationMananger::getInstance()->getSeparador1()) << endl;
-                        this->directorio->modify(key, Helper::concatenar(splited, ConfigurationMananger::getInstance()->getSeparador1()));
+                        //this->directorio->modify(key, Helper::concatenar(splited, ConfigurationMananger::getInstance()->getSeparador1()));
+                        this->directorio->modify(key, ProcessData::generarData(splited));
                 }
 
         }
 }
 
 void Index::AppendToIndex(KeyInt key,KeyInt oldKey, Key value){
-        this->AppendToIndex(Helper::IntToString(key), Helper::IntToString(oldKey), value);
+        this->AppendToIndex(Helper::copyBytesToString(key), Helper::copyBytesToString(oldKey), value);
 }
 
 void Index::AppendToIndex(Key key,Key oldKey, Key value){
@@ -159,7 +170,9 @@ void Index::AppendToIndex(Key key,Key oldKey, Key value){
 
                 //Si ya existe, lo modifico
                 string oldFields = this->directorio->find(key);
-                vector<string> splited = Helper::split(oldFields, '|');
+                //vector<string> splited = Helper::split(oldFields, '|');
+                vector<string> splited;
+                ProcessData::obtenerData(oldFields,splited);
 
                 bool founded = false;
                 for(int i = 0; i < splited.size() && !founded; i++){
@@ -170,9 +183,10 @@ void Index::AppendToIndex(Key key,Key oldKey, Key value){
 
                 //Si la lista no esta ya indexada con ese idEleccion, la agrego. Si no, no hago nada.
                 if(!founded){
-                        oldFields.append("|");
-                        oldFields.append(value);
-                        this->directorio->modify(key, oldFields);
+                        string newFields = ProcessData::generarData(oldFields,value);
+						//oldFields.append("|");
+                        //oldFields.append(value);
+                        this->directorio->modify(key, newFields);
                 }
 
         }
@@ -180,7 +194,10 @@ void Index::AppendToIndex(Key key,Key oldKey, Key value){
         if(oldKey != key){
                 //Admeas tengo que sacar este value de la oldKey
                 string fieldsOldKey = this->directorio->find(oldKey);
-                vector<string> splitedOldKey = Helper::split(fieldsOldKey, '|');
+                //vector<string> splitedOldKey = Helper::split(fieldsOldKey, '|');
+
+                vector<string> splitedOldKey;
+                ProcessData::obtenerData(fieldsOldKey,splitedOldKey);
 
                 bool founded = false;
                 int position = -1;
@@ -197,8 +214,8 @@ void Index::AppendToIndex(Key key,Key oldKey, Key value){
 //                      cout << endl << endl << "La key " << oldKey << " tenia: " << fieldsOldKey << endl;
                         splitedOldKey.erase(splitedOldKey.begin() + position);
 
-                        fieldsOldKey = Helper::concatenar(splitedOldKey, ConfigurationMananger::getInstance()->getSeparador1());
-
+                        //fieldsOldKey = Helper::concatenar(splitedOldKey, ConfigurationMananger::getInstance()->getSeparador1());
+                        fieldsOldKey = ProcessData::generarData(splitedOldKey);
 //                      cout << endl << endl << "La key " << oldKey << " ahora tiene: " << fieldsOldKey << endl;
                         this->directorio->modify(oldKey, fieldsOldKey);
                 }
