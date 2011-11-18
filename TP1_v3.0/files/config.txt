@@ -22,6 +22,8 @@ separador2 = _		#Separador guion bajo
 identities = files/identities.txt #archivo control de claves autonumericas
 cargaMasiva = files/logs/cargaMasiva.log #archivo de controlde carga masiva
 
+defaultVigenereKey = eLeFaNtE
+reportFileDirectory = files/reporte/
 
 adminFile = files/Administrador		
 candidatoFile = files/Candidato		#Nombre de archivo 
