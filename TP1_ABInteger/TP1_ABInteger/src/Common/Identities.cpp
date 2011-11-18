@@ -116,6 +116,18 @@ int Identities::GetLastIdConteo(){
 	return Identities::GetLastId("Conteo");
 }
 
+int Identities::GetNextNroReporteXEleccion(){
+	return Identities::GetNextId("ReportexEleccion");
+}
+
+int Identities::GetNextNroReporteXLista(){
+	return Identities::GetNextId("ReportexLista");
+}
+
+int Identities::GetNextNroReporteXDistrito(){
+	return Identities::GetNextId("ReportexDistrito");
+}
+
 
 
 int Identities::GetNextId(string key){

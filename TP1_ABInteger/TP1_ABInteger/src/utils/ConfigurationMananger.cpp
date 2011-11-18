@@ -63,6 +63,9 @@ ConfigurationMananger::ConfigurationMananger() {
     	configFile->readInto<string>(logProcessCandidato,"logProcessCandidato");
     	configFile->readInto<string>(logDirectory, "logDirectory");
     	configFile->readInto<string>(fileDirectory, "fileDirectory");
+    	configFile->readInto<string>(reportFileDirectory, "reportFileDirectory");
+    	configFile->readInto<string>(defaultVigenereKey, "defaultVigenereKey");
+
 
         //configFile->readInto(maxRecordPercent,"maxRecordPercent");
         //maxRecordPercent = (1-chargeFactor)/2;
@@ -262,6 +265,16 @@ string ConfigurationMananger::getFileDirectory()
 {
 
 	return this->fileDirectory;
+}
+
+string ConfigurationMananger::getReportFileDirectory()
+{
+	return this->reportFileDirectory;
+}
+
+string ConfigurationMananger::getDefaultVIgenereKey()
+{
+	return this->defaultVigenereKey;
 }
 
 
