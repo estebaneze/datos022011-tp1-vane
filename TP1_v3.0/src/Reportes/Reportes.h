@@ -20,9 +20,10 @@
 
 class Reportes {
 	public:
-		static void reportePorEleccion(int idEleccion, bool guardaEncriptado);
-		static void reportePorLista(string lista, bool guardaEncriptado);
-		static void reportePorDistrito(int idDistrito, bool guardaEncriptado);
+		static void reportePorEleccion(int idEleccion, bool guardaEncriptado, string claveEncriptado);
+		static void reportePorLista(string lista, bool guardaEncriptado, string claveEncriptado);
+		static void reportePorDistrito(int idDistrito, bool guardaEncriptado, string claveEncriptado);
+		static void reporteDesencriptar(string fileName, string claveEncriptado);
 
 	private:
 		//TODO: ESTA ORDENANDO DE MENOR A MAYOR. TIENE QUE SER AL REVES.
