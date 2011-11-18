@@ -26,6 +26,8 @@ int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
 
 	//Key key = Helper::IntToString(idConteo);
 
+	// OJO! NO BORRAR ESTE STRING CONCATENADO, SE USA PARA LOGUEAR
+	// PARA CREAR EL STRING CORRECTO (SIN DESPERDICIAR BYTES) HACWER UNO NUEVO DEJANDO ESTE
 	string idListaAux =idLista;
 	string str = idListaAux.append("|");
 	str.append(Helper::IntToString(idDistrito)).append("|");
@@ -43,11 +45,11 @@ int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
 	this->bplusTree->insert(element);
 
 	//Actualizo los indices
-	this->indexByDistrito->AppendToIndex(Helper::IntToString(idDistrito), Helper::IntToString(idConteo));
-	this->indexByLista->AppendToIndex(idLista, Helper::IntToString(idConteo));
+	this->indexByDistrito->AppendToIndex(Helper::copyBytesToString(idDistrito), Helper::copyBytesToString(idConteo));
+	this->indexByLista->AppendToIndex(idLista, Helper::copyBytesToString(idConteo));
 
 	//Esta es la clave de la eleccion dentro de conteo
-	this->indexByEleccion->AppendToIndex(idEleccion, Helper::IntToString(idConteo));
+	this->indexByEleccion->AppendToIndex(idEleccion, Helper::copyBytesToString(idConteo));
 
 	BPlusTreeLog::LogInsert(key, data,ConfigurationMananger::getInstance()->getLogOperConteoFile());
 	BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile());
@@ -71,7 +73,6 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
 		}
 
 		c->AddVoto();
-
 		//Key key = Helper::IntToString(idConteo);
 		KeyInt key = idConteo;
 		string str = c->GetIdLista();                                                                           //agrego lista
@@ -142,7 +143,7 @@ Conteo* ABMConteo::GetConteo(int idConteo){
 vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
 
 	vector<Conteo> conteos;
-	vector<Key> ids = this->indexByDistrito->GetIds(Helper::IntToString(idDistrito));
+	vector<Key> ids = this->indexByDistrito->GetIds(Helper::copyBytesToString(idDistrito));
 
 	for(int i = 0; i < ids.size(); i++){
 
@@ -169,7 +170,7 @@ vector<Conteo> ABMConteo::GetConteoByEleccion(int idEleccion){
 
         vector<Conteo> conteos;
 
-        vector<Key> ids = this->indexByEleccion->GetIds(Helper::IntToString(idEleccion));
+        vector<Key> ids = this->indexByEleccion->GetIds(Helper::copyBytesToString(idEleccion));
 
         for(int i = 0; i < ids.size(); i++){
 

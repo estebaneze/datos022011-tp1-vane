@@ -59,13 +59,13 @@ int ABMEleccion::Add(Eleccion* eleccion){
 
 			//Agrego al indice
 
-			this->indexByFecha->AppendToIndex(eleccion->GetDate().getStrFecha(),Helper::IntToString(idEleccion));
-			this->indexByCargo->AppendToIndex(eleccion->GetIdCargo(),Helper::IntToString(idEleccion));
+			this->indexByFecha->AppendToIndex(eleccion->GetDate().getStrFecha(),Helper::copyBytesToString(idEleccion));
+			this->indexByCargo->AppendToIndex(Helper::copyBytesToString(eleccion->GetIdCargo()),Helper::copyBytesToString(idEleccion));
 
 			//Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
 			distritos = eleccion->GetDistritos();
 			for(int i = 0; i< distritos.size(); i++){
-				this->indexByDistrito->AppendToIndex(Helper::IntToString(distritos[i]), Helper::IntToString(idEleccion));
+				this->indexByDistrito->AppendToIndex(Helper::copyBytesToString(distritos[i]), Helper::copyBytesToString(idEleccion));
 			}
 
 			return idEleccion;
@@ -100,12 +100,12 @@ bool ABMEleccion::Delete(Eleccion* eleccion){
                 BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessEleccionFile());
 
                 //Elimino del indice
-                this->indexByFecha->DeleteFromIndex(eleccion->GetDate().getStrFecha(),Helper::IntToString(idEleccion));
-                this->indexByCargo->DeleteFromIndex(eleccion->GetIdCargo(),Helper::IntToString(idEleccion));
+                this->indexByFecha->DeleteFromIndex(eleccion->GetDate().getStrFecha(),Helper::copyBytesToString(idEleccion));
+                this->indexByCargo->DeleteFromIndex(Helper::copyBytesToString(eleccion->GetIdCargo()),Helper::copyBytesToString(idEleccion));
 
                 //Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
                 for(int i = 0; i< distritos.size(); i++){
-                        this->indexByDistrito->DeleteFromIndex(Helper::IntToString(distritos[i]), Helper::IntToString(idEleccion));
+                        this->indexByDistrito->DeleteFromIndex(Helper::copyBytesToString(distritos[i]), Helper::copyBytesToString(idEleccion));
                 }
 
                 return true;
@@ -128,7 +128,7 @@ bool ABMEleccion::Modify(Eleccion* eleccion){
                 Eleccion* old = this->GetEleccion(idEleccion);
                 vector<int> oldDistritos = old->GetDistritos(); //Me traigo los distritos que tiene ahora (antes de modificarla)
                 for(int i = 0; i< oldDistritos.size(); i++){
-                	this->indexByDistrito->DeleteFromIndex(Helper::IntToString(oldDistritos[i]), Helper::IntToString(idEleccion));
+                	this->indexByDistrito->DeleteFromIndex(Helper::copyBytesToString(oldDistritos[i]), Helper::copyBytesToString(idEleccion));
                 }
 
                 vector<int> distritos = eleccion->GetDistritos();
@@ -151,7 +151,7 @@ bool ABMEleccion::Modify(Eleccion* eleccion){
                 //Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
                 distritos = eleccion->GetDistritos();
                 for(int i = 0; i< distritos.size(); i++){
-                      this->indexByDistrito->AppendToIndex(Helper::IntToString(distritos[i]), Helper::IntToString(eleccion->GetId()));
+                      this->indexByDistrito->AppendToIndex(Helper::copyBytesToString(distritos[i]), Helper::copyBytesToString(eleccion->GetId()));
                 }
 
                 return true;
@@ -211,10 +211,10 @@ Eleccion* ABMEleccion::GetEleccion(int idEleccion){
 int ABMEleccion::ObtenerKey(Eleccion* eleccion){
 
 	vector<Key> byFecha = this->indexByFecha->GetIds(eleccion->GetDate().getStrFecha());
-	vector<Key> byCargo = this->indexByCargo->GetIds(Helper::IntToString(eleccion->GetIdCargo()));
+	vector<Key> byCargo = this->indexByCargo->GetIds(Helper::copyBytesToString(eleccion->GetIdCargo()));
 	for(int i = 0; i< byCargo.size(); i++){
 		for(int j = 0; j< byFecha.size(); j++){
-			 if (byCargo[i]==byFecha[j]) return Helper::StringToInt(byCargo[i]);
+			 if (byCargo[i]==byFecha[j]) return Helper::copyBytesToInt(byCargo[i]);
 		}
 	} return -1;
 }
@@ -226,7 +226,7 @@ int ABMEleccion::ObtenerKey(Eleccion* eleccion){
 bool ABMEleccion::Exists(Eleccion* eleccion){
 
 	vector<Key> byFecha = this->indexByFecha->GetIds(eleccion->GetDate().getStrFecha());
-	vector<Key> byCargo = this->indexByCargo->GetIds(Helper::IntToString(eleccion->GetIdCargo()));
+	vector<Key> byCargo = this->indexByCargo->GetIds(Helper::copyBytesToString(eleccion->GetIdCargo()));
 
 	for(int i = 0; i< byCargo.size(); i++){
 		for(int j = 0; j< byFecha.size(); j++){
@@ -307,7 +307,7 @@ vector<Eleccion*> ABMEleccion::GetByFechaYDistrito(Fecha* fecha, int idDistrito)
 
 vector<Eleccion*> ABMEleccion::GetByDistrito(int idDistrito){
 
-	vector<Key> byFecha = this->indexByDistrito->GetIds(Helper::IntToString(idDistrito));
+	vector<Key> byFecha = this->indexByDistrito->GetIds(Helper::copyBytesToString(idDistrito));
 	vector<Eleccion*> elecciones;
 
 	for(int i = 0; i < byFecha.size(); i++){

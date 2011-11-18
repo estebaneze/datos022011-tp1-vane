@@ -22,13 +22,13 @@ string ProcessData::generarData(string idLista,long idVotante, int idCargo){
     	char c_sizeIdVotante[2];
     	char c_sizeIdCargo[2];
 
-    	for (int i=0; i<2;i++){
+
 
     	memcpy((void*)c_sizeIdLista,(const void*)&sizeIdLista,2);
     	memcpy((void*)c_sizeIdVotante,(const void*)&sizeIdVotante,2);
     	memcpy((void*)c_sizeIdCargo,(const void*)&sizeIdCargo,2);
 
-    	}
+
     	string data="";
       	data.append(1,c_sizeIdLista[0]);
       	data.append(1,c_sizeIdLista[1]);
@@ -122,10 +122,9 @@ string ProcessData::generarData(string nombre, vector<int> cargosSec)
 	char c_sizeNombre[2];
 	char c_sizeCargos[2];
 
-	for (int i=0; i<2;i++){
-		memcpy((void*)c_sizeNombre,(const void*)&sizeNombre,2);
-		memcpy((void*)c_sizeCargos,(const void*)&sizeCargos,2);
-	}
+	memcpy((void*)c_sizeNombre,(const void*)&sizeNombre,2);
+	memcpy((void*)c_sizeCargos,(const void*)&sizeCargos,2);
+
 
 	string data="";
 	data.append(1,c_sizeNombre[0]);
@@ -192,6 +191,55 @@ void ProcessData::obtenerData(string valor, string &nombre, vector<int> & Cargos
 
 	}
 
+}
+
+/*
+ * Junto todos los string del vector en un string, poniendo delante de cada string su longitud
+ */
+string ProcessData::generarData(vector<string> vec)
+{
+	short size=0;
+
+	char c_size[2];
+	string aux;
+	aux.clear();
+
+	for (unsigned int i=0; i<vec.size();i++){
+		size = vec.at(i).size(); //obtengo tamaño del string
+		memcpy((void*)c_size,(const void*)&size,2); //paso size a char
+
+		//cargo en el string aux la longitud del dato y el dato
+		aux.append(1,c_size[0]);
+		aux.append(1,c_size[1]);
+		aux.append(vec.at(i).c_str());
+		//limpio size por las dudas
+		size=0;
+
+	}
+
+	aux.append("|"); //este pipe hace que el string no haga recorte por ceros al final
+	//cout << data.size() << endl;
+
+	return aux;
+}
+
+/*
+ *	los 2 string pasados por parametros ya estan procesados cada uno tiene una lista
+ *	de string y con su longitud como prefijo. Lo unico que hago es juntarlos en un
+ *	de solo string
+ */
+string ProcessData::generarData(string valor, string valorNuevo)
+{
+	//recordar que cada string tiene un "|" al final para evitar que se corte en en caso
+	// que haya ceros al final, por lo tanto debo eliminar el "|" del string que va a
+	// ir delante del otro
+	string aux;
+	string pipe("|");
+	aux.append(valor.c_str());
+	//busco donde esta el pipe y lo reemplazo por valorNuevo
+	aux.replace(aux.find(pipe),pipe.length(),valorNuevo.c_str());
+
+	return aux;
 }
 
 void ProcessData::obtenerData(string valor, string & nombre, string & clave, string & dom, int & idDistrito, vector<int> & listaElecciones)
@@ -320,15 +368,13 @@ string ProcessData::generarData(string nombre, string clave, string domicilio, i
 	char c_sizeDis[2];
 	char c_sizeLista[2];
 
-	for (int i=0; i<2;i++){
-
 	memcpy((void*)c_sizeNombre,(const void*)&sizeNombre,2);
 	memcpy((void*)c_sizeClave,(const void*)&sizeClave,2);
 	memcpy((void*)c_sizeDom,(const void*)&sizeDom,2);
 	memcpy((void*)c_sizeDis,(const void*)&sizeDis,2);
 	memcpy((void*)c_sizeLista,(const void*)&sizeLista,2);
 
-	}
+
 	string data="";
   	data.append(1,c_sizeNombre[0]);
   	data.append(1,c_sizeNombre[1]);
@@ -352,6 +398,42 @@ string ProcessData::generarData(string nombre, string clave, string domicilio, i
 	//cout << data.size() << endl;
 	return data;
 }
+
+/*
+ * obtengo datos de valor y los guardo separados en un vector
+ */
+void ProcessData::obtenerData(string valor, vector<string> & vec)
+{
+	//char para cargar la lonmgitud de cada elemento
+	char c_size[2];
+
+	unsigned int i=0;
+	short tamDato=0;
+	string aux="";
+
+	//voy obteniendo la long de cada string y despues lo recupero en el vector
+	for (i=0; i<valor.size();/*NO incremento "i" aca, lo hace adentro mismo*/){
+
+		c_size[0]=valor.c_str()[i];
+		i++;
+		c_size[1]=valor.c_str()[i];
+		i++;
+
+		memcpy((void*)&tamDato,(void*)&c_size,2);
+
+		for (int j=0;j<(tamDato)&& (i<valor.size());j++){
+			aux.append(1,valor.at(i));
+			i++;
+		}
+
+		vec.push_back(aux);
+
+	}
+
+
+}
+
+
 
 
 
