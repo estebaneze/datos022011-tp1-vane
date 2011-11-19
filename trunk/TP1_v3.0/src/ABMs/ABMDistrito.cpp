@@ -25,14 +25,19 @@ int ABMDistrito::Add(string nombre){
 	if (!Exists(nombre)){
 
 		int idDistrito = Identities::GetNextIdDistrito();
-		Data data = (Data)nombre.append("|").c_str();
 
-		int longData = nombre.length();
+		string sdata="";
+    	//metodo que concatena todos los campos
+    	sdata = ProcessData::generarData(nombre);
+
+		Data data = (Data)sdata.c_str();
+
+		int longData = sdata.length();
 		Element * elemento = new Element(idDistrito,data,longData);
 
 		this->bpPlusTree->insert(elemento);
 		//logueo el add
-		BPlusTreeLog::LogInsert(Helper::IntToString(idDistrito),data,ConfigurationMananger::getInstance()->getLogOperDistritoFile());
+		BPlusTreeLog::LogInsert(Helper::IntToString(idDistrito),nombre,ConfigurationMananger::getInstance()->getLogOperDistritoFile());
 		BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessDistritoFile());
 
 		return idDistrito;
@@ -65,13 +70,17 @@ void ABMDistrito::Modify(Distrito* distrito){
 
 	if (Exists(distrito)){
 
-		string str= distrito->GetNombre();
-		Data data = (Data)str.append("|").c_str();
-		int longData = str.length();
+		string sdata="";
+    	//metodo que concatena todos los campos
+    	sdata = ProcessData::generarData(distrito->GetNombre());
+
+		Data data = (Data)sdata.c_str();
+
+		int longData = sdata.length();
 		Element * elemento = new Element(distrito->GetId(),data,longData);
 
 		//logueo el modify
-		BPlusTreeLog::LogModify(Helper::IntToString(distrito->GetId()),data,"Distrito_BPlusTreeOperation.log");
+		BPlusTreeLog::LogModify(Helper::IntToString(distrito->GetId()),distrito->GetNombre(),"Distrito_BPlusTreeOperation.log");
 		BPlusTreeLog::LogProcess(this->bpPlusTree,"Distrito_BPlusTreeProccess.log");
 		this->bpPlusTree->modify(elemento);
 	}
