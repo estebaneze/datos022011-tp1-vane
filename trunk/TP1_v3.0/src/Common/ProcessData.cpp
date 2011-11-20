@@ -144,7 +144,28 @@ string ProcessData::generarData(string nombre, vector<int> cargosSec)
 
 }
 
+string ProcessData::generarData(string nombre)
+{
+	short sizeNombre=0;
 
+	//consigo tamaño de cada campo para armar los delimitadores
+	sizeNombre = nombre.size();
+
+	//paso los tamaños a char
+	char c_sizeNombre[2];
+
+	memcpy((void*)c_sizeNombre,(const void*)&sizeNombre,2);
+
+	string data="";
+	data.append(1,c_sizeNombre[0]);
+	data.append(1,c_sizeNombre[1]);
+	data.append(nombre.c_str());
+
+	data.append("|"); //este pipe hace que el string no haga recorte por ceros al final
+	//cout << data.size() << endl;
+	return data;
+
+}
 
 void ProcessData::obtenerData(string valor, string &nombre, vector<int> & CargosSec)
 {
