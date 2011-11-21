@@ -35,6 +35,7 @@ class Identities {
 		static int GetNextIdDistrito();
 		static int GetNextIdAdministrador();
 		static int GetNextIdEleccion();
+		static int GetNextIdLista();
 
 		static int GetLastIdCandidato();
 		static int GetLastIdCargo();
@@ -42,6 +43,7 @@ class Identities {
 		static int GetLastIdDistrito();
 		static int GetLastIdAdministrador();
 		static int GetLastIdEleccion();
+		static int GetLastIdLista();
 
 		static int GetNextNroReporteXEleccion();
 		static int GetNextNroReporteXLista();

@@ -27,7 +27,7 @@ class ABMConteo {
 		ABMConteo();
 		void mostrarConteoPorPantalla();
 		virtual ~ABMConteo();
-		int Inicializa(string idLista, int idDistrito, int idEleccion);
+		int Inicializa(int idLista, int idDistrito, int idEleccion);
 		//int ObtenerKey(string idLista, int idDistrito, int idEleccion);
 
 		vector<Conteo> GetConteoByDistrito(int idDistrito);

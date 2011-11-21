@@ -71,6 +71,10 @@ int Identities::GetNextIdCandidato(){
 	return Identities::GetNextId("Candidato");
 }
 
+int Identities::GetNextIdLista(){
+	return Identities::GetNextId("Lista");
+}
+
 int Identities::GetNextIdCargo(){
 	return Identities::GetNextId("Cargo");
 }
@@ -91,6 +95,9 @@ int Identities::GetNextIdConteo(){
 	return Identities::GetNextId("Conteo");
 }
 
+int Identities::GetLastIdLista(){
+	return Identities::GetLastId("Lista");
+}
 
 int Identities::GetLastIdCandidato(){
 	return Identities::GetLastId("Candidato");

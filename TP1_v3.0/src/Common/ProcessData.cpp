@@ -6,14 +6,14 @@
  */
 #include "ProcessData.h"
 
-string ProcessData::generarData(string idLista,long idVotante, int idCargo){
+string ProcessData::generarDataCandidato(int idLista,long idVotante, int idCargo){
 
 		short sizeIdLista=0;
     	short sizeIdVotante=0;
     	short sizeIdCargo=0;
 
     	//consigo tamaño de cada campo para armar los delimitadores
-    	sizeIdLista = idLista.size();
+    	sizeIdLista = sizeof(int);
     	sizeIdVotante = sizeof(long);
     	sizeIdCargo = sizeof(int);
 
@@ -22,30 +22,167 @@ string ProcessData::generarData(string idLista,long idVotante, int idCargo){
     	char c_sizeIdVotante[2];
     	char c_sizeIdCargo[2];
 
-
-
     	memcpy((void*)c_sizeIdLista,(const void*)&sizeIdLista,2);
     	memcpy((void*)c_sizeIdVotante,(const void*)&sizeIdVotante,2);
     	memcpy((void*)c_sizeIdCargo,(const void*)&sizeIdCargo,2);
 
-
     	string data="";
       	data.append(1,c_sizeIdLista[0]);
       	data.append(1,c_sizeIdLista[1]);
-    	data.append(idLista.c_str());
+      	data.append(Helper::copyBytesToString(idLista).c_str(),4);
+
+
     	data.append(1,c_sizeIdVotante[0]);
     	data.append(1,c_sizeIdVotante[1]);
     	data.append(Helper::copyBytesToString(idVotante).c_str(),4);
+
     	data.append(1,c_sizeIdCargo[0]);
     	data.append(1,c_sizeIdCargo[1]);
     	data.append(Helper::copyBytesToString(idCargo).c_str(),4);
+
     	data.append("|"); //este pipe hace que el string no haga recorte por ceros al final
-    	//cout << data.size() << endl;
     	return data;
+}
+
+string ProcessData::generarData(int key){
+
+	short sizeKey=0;
+
+	//consigo tamaño de cada campo para armar los delimitadores
+	sizeKey = sizeof(int);
+
+	//paso los tamaños a char
+	char c_sizeKey[2];
+
+	memcpy((void*)c_sizeKey,(const void*)&sizeKey,2);
+
+	string data="";
+	data.append(1,c_sizeKey[0]);
+	data.append(1,c_sizeKey[1]);
+	data.append(Helper::copyBytesToString(key).c_str(),4);
+
+	data.append("|"); //este pipe hace que el string no haga recorte por ceros al final
+
+	return data;
+}
+
+void ProcessData::obtenerData(string valor, int &campo){
+
+	char c_sizeValor[2];
+
+	unsigned int i=0;
+	short tamDato=0;
+	string aux="";
+
+	//cout << "obtenerData: " << valor.size() << endl;
+	//cout << "\n\n\n" ;
+	//cout << "	Valores: " << endl;
+	//for(int k = 0; k < valor.size(); k++){
+	//	cout << "	valor.c_str()[" << k << "]" << valor.c_str()[k] << endl;
+	//}
+	//cout << endl;
+
+
+	c_sizeValor[0] = valor.c_str()[i];
+	i++;
+	c_sizeValor[1]=valor.c_str()[i];
+	i++;
+
+	//cout << "	c_sizeValor[0]: " << c_sizeValor[0] << " c_sizeValor[1]: " << c_sizeValor[1] << endl << endl<<endl;
+
+	tamDato = 0;
+	memcpy((void*)&tamDato,(void*)&c_sizeValor,2);
+
+	aux.clear();
+	i=0;	///TODO vane: REVISAR. ACA NO TRAE EL TAMAÑO DEL CAMPO(AUNQUE NO LO NECESITO PORQUE SE QUE ES UN INT --> 4 BYTES)
+			//RECUPERO el tamaño del campo. REVISAR PORQUE TENGO QUE VOLVER A PONER i = 0
+	for (int j=0; j < (tamDato)&& (i < valor.size());j++){
+
+		aux.append(1,valor.c_str()[i]);
+		i++;
+	}
+
+	campo = Helper::copyBytesToLong(aux);
+}
+
+/*Procesar data de Lista*/
+string ProcessData::generarDataLista(string nombreLista, int idEleccion){
+
+	short sizeLista=0;
+	short sizeIdEleccion = 0;
+
+	//consigo tamaño de cada campo para armar los delimitadores
+	sizeLista = nombreLista.size();
+	sizeIdEleccion = sizeof(long);
+
+	//paso los tamaños a char
+	char c_sizeLista[2];
+	char c_sizeIdEleccion[2];
+
+	memcpy((void*)c_sizeLista,(const void*)&sizeLista,2);
+	memcpy((void*)c_sizeIdEleccion,(const void*)&sizeIdEleccion,2);
+
+	string data="";
+
+  	data.append(1,c_sizeLista[0]);
+  	data.append(1,c_sizeLista[1]);
+	data.append(nombreLista.c_str());
+
+	data.append(1,c_sizeIdEleccion[0]);
+	data.append(1,c_sizeIdEleccion[1]);
+	data.append(Helper::copyBytesToString(idEleccion).c_str(),4);
+
+	data.append("|"); //este pipe hace que el string no haga recorte por ceros al final
+
+	//cout << "generar data de lista - data.size(): " << data.size() << endl;
+	//cout << "generar data de lista: " << data << endl;
+
+	return data;
+}
+
+void ProcessData::obtenerDataLista(string valor, string &nombreLista, int &idEleccion){
+
+	char c_sizeLista[2];
+	char c_sizeEleccion[2];
+
+	unsigned int i=0;
+	short tamDato=0;
+	string aux="";
+
+	//RECUPERO DE Nombre Lista
+	c_sizeLista[0]=valor.c_str()[0];
+	c_sizeLista[1]=valor.c_str()[1];
+	i=2;
+
+	memcpy((void*)&tamDato,(void*)&c_sizeLista,2);
+
+	for (int j=0;j<(tamDato)&& (i<valor.size());j++){
+		aux.append(1,valor.at(i));
+		i++;
+	}
+
+	nombreLista.append(aux);
+
+	//RECUPERO id eleccion
+	c_sizeEleccion[0] = valor.c_str()[i];
+	i++;
+	c_sizeEleccion[1]=valor.c_str()[i];
+	i++;
+
+	tamDato=0;
+	memcpy((void*)&tamDato,(void*)&c_sizeEleccion,2);
+
+	aux.clear();
+	for (int j=0;j<(tamDato)&& (i<valor.size());j++){
+		aux.append(1,valor.at(i));
+		i++;
+	}
+
+	idEleccion = Helper::copyBytesToLong(aux);
 
 }
 
-void ProcessData::obtenerData(string valor,string &campo1,long &campo2,int &campo3){
+void ProcessData::obtenerDataCandidato(string valor,string &campo1,long &campo2,int &campo3){
 
 	char c_sizeLista[2];
 	char c_sizeVotante[2];
@@ -244,6 +381,28 @@ string ProcessData::generarData(vector<string> vec)
 	return aux;
 }
 
+string ProcessData::generarData(string valor)
+{
+	short size=0;
+
+	char c_size[2];
+	string aux;
+	aux.clear();
+
+	size = valor.size(); //obtengo tamaño del string
+	memcpy((void*)c_size,(const void*)&size,2); //paso size a char
+
+	//cargo en el string aux la longitud del dato y el dato
+	aux.append(1,c_size[0]);
+	aux.append(1,c_size[1]);
+	aux.append(valor.c_str());
+
+	aux.append("|"); //este pipe hace que el string no haga recorte por ceros al final
+	//cout << data.size() << endl;
+
+	return aux;
+}
+
 /*
  *	los 2 string pasados por parametros ya estan procesados cada uno tiene una lista
  *	de string y con su longitud como prefijo. Lo unico que hago es juntarlos en un
@@ -257,8 +416,11 @@ string ProcessData::generarData(string valor, string valorNuevo)
 	string aux;
 	string pipe("|");
 	aux.append(valor.c_str());
+
 	//busco donde esta el pipe y lo reemplazo por valorNuevo
-	aux.replace(aux.find(pipe),pipe.length(),valorNuevo.c_str());
+
+	if(aux.find(pipe) < aux.length())
+		aux.replace(aux.find(pipe),pipe.length(),valorNuevo.c_str());
 
 	return aux;
 }
@@ -435,20 +597,30 @@ void ProcessData::obtenerData(string valor, vector<string> & vec)
 	//voy obteniendo la long de cada string y despues lo recupero en el vector
 	for (i=0; i<valor.size();/*NO incremento "i" aca, lo hace adentro mismo*/){
 
-		c_size[0]=valor.c_str()[i];
+		c_size[0] = valor.c_str()[i];
 		i++;
-		c_size[1]=valor.c_str()[i];
+		c_size[1] = valor.c_str()[i];
 		i++;
+
+		//cout << "valor.c_str()[" << i <<  "]: " << valor.c_str()[i] << endl;
+		if(i >= valor.size()){
+			//cout << " break " << endl;
+			break;
+		}
+		else{
+			//cout << "valor.c_str()[" << i <<  "]: " << valor.at(i) << endl;
+		}
 
 		memcpy((void*)&tamDato,(void*)&c_size,2);
 
-		for (int j=0;j<(tamDato)&& (i<valor.size());j++){
+		for (int j = 0; j < (tamDato) && (i < valor.size()); j++){
+
 			aux.append(1,valor.at(i));
 			i++;
 		}
 
+		//cout << "aux " << aux << endl;
 		vec.push_back(aux);
-
 	}
 
 

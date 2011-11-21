@@ -31,15 +31,17 @@ vector<Key> Index::GetIds(Key data){
 
         if ((this->directorio->existKey(data))){
 
-                string values = directorio->find(data);
-                //return Helper::split(values, '|');
-                vector<Key> keys;
-                ProcessData::obtenerData(values,keys);
-                return keys;
+			string values = directorio->find(data);
+
+			//return Helper::split(values, '|');
+			vector<Key> keys;
+			ProcessData::obtenerData(values,keys);
+
+			return keys;
         }
         else {
-                vector<Key> aux;
-                return aux;
+			vector<Key> aux;
+			return aux;
         }
 
 }
@@ -51,24 +53,23 @@ void Index::RefreshIndex(Key key, vector<Key> values){
 		string fields = ProcessData::generarData(values);
 
         if (!(this->directorio->existKey(key))){
-                this->directorio->insert(key,fields);
+            this->directorio->insert(key,fields);
         }
         else{
 
-                //Si ya existe, lo modifico
-                string oldFields = this->directorio->find(key);
-                string newFields = ProcessData::generarData(oldFields,fields);
-                //oldFields.append("|");
-                //oldFields.append(fields);
-                this->directorio->modify(key, newFields);
+			//Si ya existe, lo modifico
+			string oldFields = this->directorio->find(key);
+			string newFields = ProcessData::generarData(oldFields,fields);
+			//oldFields.append("|");
+			//oldFields.append(fields);
+			this->directorio->modify(key, newFields);
         }
 
 }
 
 
 void Index::AppendToIndex(KeyInt key, Key value){
-
-        this->AppendToIndex(Helper::copyBytesToString(key), value);
+	this->AppendToIndex(Helper::copyBytesToString(key), value);
 }
 
 /*
@@ -78,40 +79,42 @@ void Index::AppendToIndex(KeyInt key, Key value){
 
 void Index::AppendToIndex(Key key, Key value){
 
-        //cout << "Agrego al indice: Key: " << key << " - id Value: " << value << endl;
-
+        cout << "Agrego al indice: Key: " << key << " - Value: " << value << endl;
 
         if (!(this->directorio->existKey(key))){
-
-                this->directorio->insert(key,value);
+        	this->directorio->insert(key,value);
         }
         else{
 
-                //Si ya existe, lo modifico
-                string oldFields = this->directorio->find(key);
-                //vector<string> splited = Helper::split(oldFields, '|');
-                vector<string> splited;
-                ProcessData::obtenerData(oldFields,splited);
-                bool founded = false;
-                for(int i = 0; i < splited.size() && !founded; i++){
-                        if(splited[i] == value){
-                                founded = true;
-                        }
-                }
+            //Si ya existe, lo modifico
+            string oldFields = this->directorio->find(key);
 
-                //Si la lista no esta ya indexada con ese idEleccion, la agrego. Si no, no hago nada.
-                if(!founded){
-						string newFields = ProcessData::generarData(oldFields,value);
-                        //oldFields.append("|");
-                        //oldFields.append(value);
+            vector<string> splited;
+            ProcessData::obtenerData(oldFields,splited);
+            bool founded = false;
 
-                        this->directorio->modify(key, newFields);
+            for(int i = 0; i < splited.size() && !founded; i++){
 
-                }
-        }
+				if(splited[i] == value){
+					founded = true;
+				}
+			}
+
+			//Si la lista no esta ya indexada con ese idEleccion, la agrego. Si no, no hago nada.
+			if(!founded){
+				oldFields.append(value);
+				this->directorio->modify(key, oldFields);
+			}
+		}
 
         HashLog::LogProcess(this->directorio,this->processLogIx);
 		HashLog::LogInsert(key,value,this->operationLogIx);
+
+}
+
+vector<KeyValue> Index::GetAllValues(){
+
+	return this->directorio->getAllValues();
 
 }
 

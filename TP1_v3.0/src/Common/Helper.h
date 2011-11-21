@@ -38,8 +38,12 @@ class Helper {
 		static string concatenar(string value1, string value2, string delimitador);
 		static string concatenar(vector<string> values, string delimitador);
 		static string concatenar(vector<int> values, string delimitador);
+
+		/*Get Bytes of valor and copy them to an string value*/
 		static string copyBytesToString(int valor);
 		static int copyBytesToInt(string valor);
+
+		/*Get Bytes of long and copy them to an string value*/
 		static string copyBytesToString(long valor);
 		static long copyBytesToLong(string valor);
 

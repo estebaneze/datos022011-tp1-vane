@@ -11,9 +11,10 @@
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
 ABMVotante::ABMVotante() {
-        int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeVotante();
-		this->file = ConfigurationMananger::getInstance()->getVotanteFile();
-        this->directorio = new Directory(file, maxBucketSize);
+
+	int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeVotante();
+	this->hashFile = ConfigurationMananger::getInstance()->getVotanteFile();
+    this->directorio = new Directory(hashFile, maxBucketSize);
 }
 
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
@@ -21,32 +22,32 @@ ABMVotante::ABMVotante() {
  */
 void ABMVotante::Add(Votante* votante){
 
-        if (!(this->directorio->existKey(Helper::copyBytesToString(votante->GetDni())))){
+	if (!(this->directorio->existKey(Helper::copyBytesToString(votante->GetDni())))){
 
-                string data = ProcessData::generarData(votante->GetNombreYApellido(),votante->GetClave(),votante->GetDomicilio(),votante->GetDistrito(),votante->GetEleccionesVotadas());
+		string data = ProcessData::generarData(votante->GetNombreYApellido(),votante->GetClave(),votante->GetDomicilio(),
+													votante->GetDistrito(),votante->GetEleccionesVotadas());
 
-                this->directorio->insert(Helper::copyBytesToString(votante->GetDni()),data);
+		this->directorio->insert(Helper::copyBytesToString(votante->GetDni()),data);
 
+		//LOGUEO
+		string aux= Helper::concatenar(votante->GetNombreYApellido(),votante->GetClave(),ConfigurationMananger::getInstance()->getSeparador1());
+		aux = Helper::concatenar(aux,votante->GetDomicilio(),ConfigurationMananger::getInstance()->getSeparador1());
+		aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),ConfigurationMananger::getInstance()->getSeparador1());
 
-                //LOGUEO
-                string aux= Helper::concatenar(votante->GetNombreYApellido(),votante->GetClave(),ConfigurationMananger::getInstance()->getSeparador1());
-                aux = Helper::concatenar(aux,votante->GetDomicilio(),ConfigurationMananger::getInstance()->getSeparador1());
-                aux = Helper::concatenar(aux,Helper::IntToString(votante->GetDistrito()),ConfigurationMananger::getInstance()->getSeparador1());
+		//recorro la lista de eleccion y agrego todos los IdEleccion al string aux
+		for (unsigned int i=0;i<(votante->GetEleccionesVotadas().size());i++){
+			string idE = Helper::IntToString(votante->GetEleccionesVotadas()[i]);
+			aux = Helper::concatenar(aux, idE,ConfigurationMananger::getInstance()->getSeparador1());
+		}
 
-                //recorro la lista de eleccion y agrego todos los IdEleccion al string aux
-                for (unsigned int i=0;i<(votante->GetEleccionesVotadas().size());i++){
-                        string idE = Helper::IntToString(votante->GetEleccionesVotadas()[i]);
-                        aux = Helper::concatenar(aux, idE,ConfigurationMananger::getInstance()->getSeparador1());
-                }
+		HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessVotanteFile());
+		HashLog::LogInsert(Helper::LongToString(votante->GetDni()),aux,ConfigurationMananger::getInstance()->getLogOperVotanteFile());
 
-                HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessVotanteFile());
-                HashLog::LogInsert(Helper::LongToString(votante->GetDni()),aux,ConfigurationMananger::getInstance()->getLogOperVotanteFile());
-
-        }
+	}
 }
 
 /**Elimina un votante, si no exite arroja un excepcion, informa true si elimino sino false*/
-bool ABMVotante::Delete(Votante *votante){
+/*bool ABMVotante::Delete(Votante *votante){
 
         if (this->directorio->existKey(Helper::copyBytesToString(votante->GetDni()))){
 
@@ -64,7 +65,7 @@ bool ABMVotante::Delete(Votante *votante){
         else{
                 return false;
         }
-}
+}*/
 
 /**Modifica votante pasado por parametro
 * si la encuentra la modifica sino no hace nada
@@ -93,6 +94,7 @@ void ABMVotante::Modify(Votante *votante){
             HashLog::LogModify(Helper::LongToString(votante->GetDni()),aux,ConfigurationMananger::getInstance()->getLogOperVotanteFile());
         }
 }
+
 /*
  * Devuelve un vector con los votantes sin las listas de elecciones
  * habria que implementar otro metodo en VOTANTE para obtener sus listas
@@ -101,28 +103,26 @@ void ABMVotante::Modify(Votante *votante){
  */
 vector<Votante*> ABMVotante::GetVotantes(){
 
-        vector<KeyValue> values = this->directorio->getAllValues();
-        vector<Votante*> votantes;
+	vector<KeyValue> values = this->directorio->getAllValues();
+	vector<Votante*> votantes;
 
-        //IntegerList _listaElecciones;
+	for(unsigned int i = 0; i < values.size(); i++){
 
-                for(unsigned int i = 0; i < values.size(); i++){
+		string nombreYApellido;
+		string clave;
+		string domicilio;
+		int idDistrito = 0;
+		vector<int> listaElecciones;
 
-                	string nombreYApellido;
-                	string clave;
-                	string domicilio;
-                	int idDistrito = 0;
-                	vector<int> listaElecciones;
+		long dni = Helper::copyBytesToLong(values[i].Key);
 
-                	long dni = Helper::copyBytesToLong(values[i].Key);
+		ProcessData::obtenerData(values[i].Value,nombreYApellido,clave,domicilio,idDistrito,listaElecciones);
+		//vector<string> splitedVs = Helper::split(values[i].Value, '|');
 
-                	ProcessData::obtenerData(values[i].Value,nombreYApellido,clave,domicilio,idDistrito,listaElecciones);
-                	//vector<string> splitedVs = Helper::split(values[i].Value, '|');
+		votantes.push_back(new Votante(dni, nombreYApellido, clave, domicilio, idDistrito));
+	}
 
-                	votantes.push_back(new Votante(dni, nombreYApellido, clave, domicilio, idDistrito));
-                }
-
-                return votantes;
+	return votantes;
 }
 
 /*
@@ -131,29 +131,34 @@ vector<Votante*> ABMVotante::GetVotantes(){
  */
 Votante* ABMVotante::GetVotante(long dni){
 
-        if ((this->directorio->existKey(Helper::LongToString(dni)))){
+	string key = Helper::copyBytesToString(dni);
 
-                string values = directorio->find(Helper::LongToString(dni));
+	if ((this->directorio->existKey(key))){
 
-                vector<string> splitedVs = Helper::split(values, '|');
+		string nombreYApellido;
+		string clave;
+		string domicilio;
+		int idDistrito = 0;
+		vector<int> listaElecciones;
 
-                string _nombreYApellido  = splitedVs[0];
-                string _clave = splitedVs[1];
-                string _domicilio = splitedVs[2];
-                int _idDistrito = Helper::StringToInt(splitedVs[3]);
+		string values = this->directorio->find(key);
 
-                Votante* votante = new Votante(dni, _nombreYApellido, _clave, _domicilio, _idDistrito);
+		ProcessData::obtenerData(values,nombreYApellido,clave,domicilio,idDistrito,listaElecciones);
+		//vector<string> splitedVs = Helper::split(values[i].Value, '|');
 
-                //El reso de los valores spliteados son las elcciones en las que voto
-                for (unsigned int j=4; j < splitedVs.size() ;j++){
-                        votante->AgregarEleccion(Helper::StringToInt(splitedVs[j]));
-                }
+		Votante* votante = new Votante(dni, nombreYApellido, clave, domicilio, idDistrito);
 
-                return votante;
-        }
-        else {
-                return NULL;
-        }
+		//TODO: agregar las elecciones en las que voto
+		//El reso de los valores spliteados son las elcciones en las que voto
+		//for (unsigned int j=4; j < splitedVs.size() ;j++){
+		//	votante->AgregarEleccion(Helper::StringToInt(splitedVs[j]));
+		//}
+
+		return votante;
+	}
+	else {
+		return NULL;
+	}
 }
 
 bool ABMVotante::existKey(long dni){

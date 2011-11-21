@@ -22,19 +22,19 @@ class ABMLista {
 	public:
 		ABMLista();
 		virtual ~ABMLista();
-		bool existKey(string key);
-		void Add(Lista* lista);
-		bool Delete(Lista* lista);
-		void Modify(Lista* lista);
+		bool existKey(int idLista);
+		int Add(Lista* lista);
+		//bool Delete(Lista* lista);
+		//void Modify(Lista* lista);
 		vector<Lista> GetListas();
-		Lista* GetLista(std::string nombre);
+		Lista* GetLista(int idLista);
 		void mostrarListasPorPantalla();
 		vector<Lista> GetListasByEleccion(int idEleccion);
 
 	private:
-			string hashFile;
-			Directory* directorio;
-			Index* index;
+		string hashFile;
+		Directory* directorio;
+		Index* index;
 };
 
 #endif /* ABMLISTA_H_ */
