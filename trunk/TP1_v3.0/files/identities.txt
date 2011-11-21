@@ -1,13 +1,141 @@
-Candidato 1
+Candidato 13
 Cargo 1
-Conteo 1
+Conteo 98
 Distrito 1
-Eleccion 1
-Lista 1
+Eleccion 11
+Lista 2
 Administrador 1
 ReportexEleccion 1
 ReportexLista 1
 ReportexDistrito 1
+Lista 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
