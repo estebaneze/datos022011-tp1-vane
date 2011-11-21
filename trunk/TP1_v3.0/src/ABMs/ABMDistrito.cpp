@@ -125,7 +125,8 @@ Distrito* ABMDistrito::GetDistrito(int idDistrito){
 		int idDist= el->getKey();
 
 		string data = el->getData();
-		vector<string> splited = Helper::split(data, '|');
+        vector<string> splited;
+        ProcessData::obtenerData(data,splited);
 
 		if(splited.size() > 0)
 			return new Distrito(idDist, splited[0]);
