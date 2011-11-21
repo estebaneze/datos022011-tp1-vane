@@ -112,19 +112,19 @@ void CargaMasiva::BorrarArchivos(){
 
 	//---------------------------- Elecciones --------------------------------//
 	//Borro el archivo de elecciones
-	archivo = ConfigurationMananger::getInstance()->getEleccionFile();
+	archivo = ConfigurationMananger::getInstance()->getEleccionFile() + ".bpt";
 	archivo = "rm " + archivo;
 	system(archivo.c_str());
 	archivo = archivo + ".fs";
 	system(archivo.c_str());
 
-	indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getEleccionFile(),"Fecha",ConfigurationMananger::getInstance()->getSeparador2());
+	indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getEleccionFile() + ".bpt","Fecha",ConfigurationMananger::getInstance()->getSeparador2());
 	CargaMasiva::BorrarArchivosIndice(indexFile);
 
-	indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getEleccionFile(),"Distrito",ConfigurationMananger::getInstance()->getSeparador2());
+	indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getEleccionFile() + ".bpt","Distrito",ConfigurationMananger::getInstance()->getSeparador2());
 	CargaMasiva::BorrarArchivosIndice(indexFile);
 
-	indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getEleccionFile(),"Cargo",ConfigurationMananger::getInstance()->getSeparador2());
+	indexFile = Helper::concatenar(ConfigurationMananger::getInstance()->getEleccionFile() + ".bpt","Cargo",ConfigurationMananger::getInstance()->getSeparador2());
 	CargaMasiva::BorrarArchivosIndice(indexFile);
 
 
@@ -208,13 +208,13 @@ void CargaMasiva::CargarVotantes(){
 
     for(int i = 1; i <= CANT_VOTANTES; i++){
 
-		string nombreApellido = "Nombre Apellido ";
+		string nombreApellido = "Nombre_Apellido_";
 		nombreApellido = nombreApellido.append(Helper::IntToString(i));
 
 		string clave = "Clave";
 		clave.append(Helper::IntToString(i));
 
-		string domicilio = "Domicilio ";
+		string domicilio = "Domicilio_";
 		domicilio.append(Helper::IntToString(i));
 
 		long dni = i;//(long)GetRandom(99999) * 1000;
@@ -224,11 +224,16 @@ void CargaMasiva::CargarVotantes(){
 		Votante  * vot = new Votante(dni, nombreApellido, clave, domicilio, idDistrito);
 		abmVotante->Add(vot);
 
+		Votante* v = abmVotante->GetVotante(i);
+
 		string strDni = Helper::LongToString(vot->GetDni());
 		string pass = vot->GetClave();
 		string strDistrito = Helper::IntToString(vot->GetDistrito());
-		cout << "Votante " << strDni << ". Clave: "<< pass << ". Distrito: " << strDistrito << endl;
-		Log::WriteLog("Votante: " + strDni + ". Clave: " + pass + " . Distrito: " + strDistrito + " ", (char*)ConfigurationMananger::getInstance()->getCargaMasiva().c_str());
+
+		string msg = "Votante " + strDni + ". Nombre y Apellido:" + nombreApellido + ". Clave: " + pass + ". Distrito: " + strDistrito;
+		cout << msg << endl;
+
+		Log::WriteLog(msg + " ", (char*)ConfigurationMananger::getInstance()->getCargaMasiva().c_str());
     }
 
     delete abmVotante;
@@ -371,13 +376,13 @@ void CargaMasiva::CargarCandidatos(){
 
     for(int i = 1; i <= CANT_CANDIDATOS; i++){
 
-		string idLista = Helper::IntToString(GetRandom(CANT_LISTAS));
+		int idLista = GetRandom(CANT_LISTAS);
 		long int idVotante = (long int) GetRandom(CANT_VOTANTES);
 		int idCargo = (int) GetRandom(CANT_CARGOS);
 		int idCandidato = abmCandidato->Add(idLista, idVotante, idCargo);
 
 		cout << "Candidato (" << idCandidato << "). Cargo" << idCargo << ". Lista: " << idLista << endl;
-		string msg = "Candidato (" + Helper::IntToString(idCandidato) + "). Cargo" + Helper::IntToString(idCargo) + ". Lista: " + idLista;
+		string msg = "Candidato (" + Helper::IntToString(idCandidato) + "). Cargo" + Helper::IntToString(idCargo) + ". Lista: " + Helper::IntToString(idLista);
 		Log::WriteLog(msg+ " ", (char*)ConfigurationMananger::getInstance()->getCargaMasiva().c_str());
 
     }

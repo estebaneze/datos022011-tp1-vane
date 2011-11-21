@@ -418,6 +418,7 @@ bool Directory::modify (Key key , string data){
 
 	try
 	{
+
 		unsigned int pos = this->buscarPosicionTabla(key);
 		Offset offset = this->tabla->getElement(pos);
 		this->bucketFile->load(offset,this->bucketActual);

@@ -22,13 +22,13 @@ ABMConteo::ABMConteo() {
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
-int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
+int ABMConteo::Inicializa(int idLista, int idDistrito, int idEleccion){
 
 	//Key key = Helper::IntToString(idConteo);
 
 	// OJO! NO BORRAR ESTE STRING CONCATENADO, SE USA PARA LOGUEAR
 	// PARA CREAR EL STRING CORRECTO (SIN DESPERDICIAR BYTES) HACWER UNO NUEVO DEJANDO ESTE
-	string idListaAux =idLista;
+	string idListaAux = Helper::IntToString(idLista);
 	string str = idListaAux.append("|");
 	str.append(Helper::IntToString(idDistrito)).append("|");
 	str.append(Helper::IntToString(idEleccion).append("|"));
@@ -39,6 +39,7 @@ int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
 	int longData = str.length();
 
 	int idConteo = Identities::GetNextIdConteo();
+
 	KeyInt key = idConteo;
 	Element * element = new Element(key, data, longData);
 
@@ -46,10 +47,11 @@ int ABMConteo::Inicializa(string idLista, int idDistrito, int idEleccion){
 
 	//Actualizo los indices
 	this->indexByDistrito->AppendToIndex(Helper::copyBytesToString(idDistrito), Helper::copyBytesToString(idConteo));
-	this->indexByLista->AppendToIndex(idLista, Helper::copyBytesToString(idConteo));
+	this->indexByLista->AppendToIndex(Helper::copyBytesToString(idLista), Helper::copyBytesToString(idConteo));
 
 	//Esta es la clave de la eleccion dentro de conteo
-	this->indexByEleccion->AppendToIndex(idEleccion, Helper::copyBytesToString(idConteo));
+
+	this->indexByEleccion->AppendToIndex(Helper::copyBytesToString(idEleccion), Helper::copyBytesToString(idConteo));
 
 	BPlusTreeLog::LogInsert(key, data,ConfigurationMananger::getInstance()->getLogOperConteoFile());
 	BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile());

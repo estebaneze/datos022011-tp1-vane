@@ -179,7 +179,6 @@ vector<Eleccion> ABMEleccion::GetElecciones(){
 
 Eleccion* ABMEleccion::GetEleccion(int idEleccion){
 
-
         if (ExistsKey(idEleccion)){
 
                 Element * el = this->bpPlusTree->findExact(idEleccion);

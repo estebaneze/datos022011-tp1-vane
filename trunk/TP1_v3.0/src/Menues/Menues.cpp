@@ -729,7 +729,7 @@ void Menues::MenuABMLista()
 								cin >> nombre;
 								cout << endl;
 
-								if (!abmLista->existKey(nombre)){
+								//if (!abmLista->existKey(nombre)){
 
 									ABMEleccion *abmEleccion = new ABMEleccion();
 									int eleccion;
@@ -758,14 +758,14 @@ void Menues::MenuABMLista()
 										}
 									}
 									listo=true;
-								}
+								/*}
 								else{
 									//existe
 									cout << "La lista ingresada ya existe, presione una tecla para reintentar o [q] para salir";
 									string c;
 									cin >> c;
 									if (c=="q") listo=true;
-								}
+								}*/
 
 							}
 
@@ -778,7 +778,7 @@ void Menues::MenuABMLista()
 						break;
 
 						}
-						case '2':{
+						/*case '2':{
 							bool listo=false;
 							ABMLista *abmLista = new ABMLista();
 							system("clear");
@@ -804,7 +804,7 @@ void Menues::MenuABMLista()
 							}
 							delete abmLista;
 							break;
-						}
+						}*/
 						case '3':{
 								//falta esto solo
 								break;
@@ -981,16 +981,18 @@ void Menues::MenuABMCandidato()
 								bool listoLista=false;
 
 								while (!listoLista){
-									string lista;
-									cout << "Ingrese nombre de lista a pertenecer: ";
+
+									string lista;	//TODO: HACER LA BUSQUEDA DE LA LISTA POR NOMBRE
+									cout << "Ingrese Id de lista a pertenecer: ";
 									cin >> lista;
 									cout << endl;
+									int idLista = Helper::StringToInt(lista);
 
-									if (abmLista->existKey(lista)){
+									if (abmLista->existKey(idLista)){
 										//existe lista ahora pregunto por cargo
 
 										//antes obtengo eleccion asociada la lista
-										int id_eleccion = abmLista->GetLista(lista)->GetEleccion();
+										int id_eleccion = abmLista->GetLista(idLista)->GetEleccion();
 
 										ABMEleccion *abmEleccion = new ABMEleccion();
 										//obtengo cargo principal asociada a la eleccion
@@ -1021,7 +1023,7 @@ void Menues::MenuABMCandidato()
 
 												//si el cargo es valido entonces creo el candidato
 												if (valido){
-													int ok = abm->Add(lista,dni,id);
+													int ok = abm->Add(idLista,dni,id);
 													if (ok!=-1){
 														cout<< endl;
 														cout << "Candidato creado exitosamente, presione una tecla para volver.";
@@ -1438,7 +1440,7 @@ char opcion=1;
 								string dni;
 								cout << "Ingrese DNI del usuario: ";
 								cin >> dni;
-
+/*
 								if (vot->existKey(Helper::StringToLong(dni))){
 									vot->Delete(vot->GetVotante(Helper::StringToLong(dni)));
 
@@ -1453,7 +1455,7 @@ char opcion=1;
 									cout << "No existe el votante, presione una tecla para reintentar o [q] para volver";
 									cin >> dni;
 									if (dni=="q") listo=true;
-								}
+								}*/
 
 							}
 							delete vot;

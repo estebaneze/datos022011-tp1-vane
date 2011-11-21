@@ -37,6 +37,9 @@ class Index {
 
 		void DeleteFromIndex(Key key, Key value);
 		void DeleteFromIndex(KeyInt key, Key value);
+
+		vector<KeyValue> GetAllValues();
+
 	private:
 		string processLogIx;
 		string operationLogIx;

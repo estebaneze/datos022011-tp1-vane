@@ -15,21 +15,22 @@
 #include "../Common/ProcessData.h"
 class ABMVotante {
 
-public:
+	public:
 
-	ABMVotante();
-	virtual ~ABMVotante();
-	bool existKey(long dni);
-	void Add(Votante *votante);
-	bool Delete(Votante *votante);
-	void Modify(Votante *votante);
-	vector<Votante*> GetVotantes();
-	Votante* GetVotante(long dni);
+		ABMVotante();
+		virtual ~ABMVotante();
+		bool existKey(long dni);
+		void Add(Votante *votante);
+		//bool Delete(Votante *votante);
+		void Modify(Votante *votante);
+		vector<Votante*> GetVotantes();
+		Votante* GetVotante(long dni);
+		void mostrarVotantesPorPantalla();
 
-	void mostrarVotantesPorPantalla();
-private:
-	string file;
-	Directory* directorio;
+	private:
+
+		string hashFile;
+		Directory* directorio;
 
 };
 

@@ -113,12 +113,19 @@ string Helper::copyBytesToString(int valor){
 	memcpy((void*)c_int,(void*)&valor,4);
 
 	for (int i=0;i<4;i++){
+
+		/*if(c_int[i] == '\0')
+			cout << "c_int[i] " << " - es null" << endl;
+		else
+			cout << "c_int[i] " << c_int[i] << endl;*/
 		data.append(1,c_int[i]);
 	}
 
 	return data;
 
 }
+
+
 
 
 string Helper::copyBytesToString(long valor){

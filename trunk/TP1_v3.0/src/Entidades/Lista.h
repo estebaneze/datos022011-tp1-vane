@@ -14,14 +14,17 @@ class Lista {
 
 	public:
 		Lista(string nombre, int idEleccion);
+		Lista(string nombre, int idEleccion, int id);
 		virtual ~Lista();
 		string GetNombre();
 		int GetEleccion();
-		void setNombre(string nombre);
-		void setEleccion(int eleccion);
+		//void setNombre(string nombre);
+		//void setEleccion(int eleccion);
+		int GetId();
 	private:
 		int _idEleccion;
 		string _nombre;
+		int _id;
 };
 
 #endif /* LISTA_H_ */

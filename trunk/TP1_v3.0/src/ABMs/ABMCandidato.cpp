@@ -11,14 +11,26 @@
  * creo el directorio y le paso el nombre del archivo a generar y tamaño de los buckets
  */
 ABMCandidato::ABMCandidato() {
-        int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeCandidato();
-        this->hashFile= ConfigurationMananger::getInstance()->getCandidatoFile();
-        this->directorio = new Directory(hashFile, maxBucketSize);
+
+	int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeCandidato();
+	this->hashFile= ConfigurationMananger::getInstance()->getCandidatoFile();
+	this->directorio = new Directory(hashFile, maxBucketSize);
+	this->index = new Index(Helper::concatenar(hashFile,"Lista",ConfigurationMananger::getInstance()->getSeparador2()));
+
 }
 
 /**Agrego un candidato, lo guarda en hash con el formato idLista|idVotante|idCargo
  */
-int ABMCandidato::Add(string idLista, long idVotante, int idCargo){
+int ABMCandidato::Add(int idLista, long idVotante, int idCargo){
+
+		//Primero me fija que exista la lista
+		ABMLista* abml = new ABMLista();
+		Lista* lista = abml->GetLista(idLista);
+
+		if(lista == NULL){
+			cout << "No se puede crear el Candidato " << idVotante << ". No existe la lista " << idLista << endl;
+			return -1;
+		}
 
         int idCandidato = Identities::GetNextIdCandidato();
 
@@ -26,44 +38,73 @@ int ABMCandidato::Add(string idLista, long idVotante, int idCargo){
 
         	string data="";
         	//metodo que concatena todos los campos
-        	data = ProcessData::generarData(idLista,idVotante,idCargo);
+        	data = ProcessData::generarDataCandidato(idLista,idVotante,idCargo);
 
             this->directorio->insert(Helper::copyBytesToString(idCandidato), data);
 
             //LOGUEO
             // concateno en formato para ser entendido por el humano para los logs
-            string fields1 = Helper::concatenar(idLista,Helper::LongToString(idVotante),ConfigurationMananger::getInstance()->getSeparador1());
+            string fields1 = Helper::concatenar(Helper::IntToString(idLista),Helper::LongToString(idVotante),ConfigurationMananger::getInstance()->getSeparador1());
             string fields2 = Helper::concatenar(fields1,Helper::IntToString(idCargo),ConfigurationMananger::getInstance()->getSeparador1());
 
             HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessCandidatoFile());
             HashLog::LogInsert(Helper::IntToString(idCandidato),fields2,ConfigurationMananger::getInstance()->getLogOperCandidatoFile());
 
-            return idCandidato;
+            cout << "\n\n\n --------------------- candidato ---------------" << idCandidato << endl;
+            string candid= ProcessData::generarData(idCandidato);
+            cout << "candid " << candid << endl;
+			this->index->AppendToIndex(Helper::copyBytesToString(idLista), ProcessData::generarData(idCandidato));   //Tengo que refrescar el indice en todos los Adds!!!
 
+            return idCandidato;
         }
 
         return -1;
 }
 
 /**Elimina una Candidato, si no exite arroja un excepcion, informa true si elimino sino false*/
-bool ABMCandidato::Delete(int idCandidato){
+/*bool ABMCandidato::Delete(int idCandidato){
 
         if (this->directorio->existKey(Helper::copyBytesToString(idCandidato))){
-                this->directorio->remove(Helper::copyBytesToString(idCandidato));
+			this->directorio->remove(Helper::copyBytesToString(idCandidato));
 
-                HashLog::LogProcess(this->directorio,"Candidato_HashProccess.log");
-                HashLog::LogDelete(Helper::IntToString(idCandidato),"","Candidato_HashOperation.log");
-                return true;
+			HashLog::LogProcess(this->directorio,"Candidato_HashProccess.log");
+			HashLog::LogDelete(Helper::IntToString(idCandidato),"","Candidato_HashOperation.log");
+			return true;
         }
         else {
-                return false;
+            return false;
         }
+}
+*/
+vector<int> ABMCandidato::GetByLista(int idLista){
+
+	cout << "-------ABMCandidato::GetByLista" << endl;
+	vector<KeyValue> vs = this->index->GetAllValues();
+	for(int k = 0; k < vs.size(); k++){
+		int campo = 0;
+		ProcessData::obtenerData(vs[k].Value, campo);
+		cout << Helper::copyBytesToInt(vs[k].Key) << " - " << campo << endl;
+	}
+
+	cout << "----------------------------------" << endl;
+	vector<Key> byLista = this->index->GetIds(Helper::copyBytesToString(idLista));
+	vector<int> ids;
+
+	for(int i = 0; i < byLista.size(); i++){
+
+		int idCandidato = 0;
+		ProcessData::obtenerData(byLista[i], idCandidato);
+
+		ids.push_back(idCandidato);
+	}
+
+	return ids;
 }
 
 /**Modifica el idEleccion de una candidato pasada por parametro
 * si la encuentra la modifica sino no hace nada
 */
-void ABMCandidato::Modify(Candidato *candidato){
+/*void ABMCandidato::Modify(Candidato *candidato){
 
         string id = Helper::copyBytesToString(candidato->GetId());
         if (this->directorio->existKey(id)){
@@ -81,10 +122,10 @@ void ABMCandidato::Modify(Candidato *candidato){
             HashLog::LogProcess(this->directorio,"Candidato_HashProccess.log");
             HashLog::LogModify(Helper::IntToString(candidato->GetId()),fields2,"Candidato_HashOperation.log");
 
-
+            //TODO: MODIFICAR EL INDICE
         }
 
-}
+}*/
 
 vector<Candidato> ABMCandidato::GetCandidatos(){
 
@@ -97,7 +138,7 @@ vector<Candidato> ABMCandidato::GetCandidatos(){
         	idLista.clear();
         	long idVotante = 0;
         	int idCargo = 0;
-			ProcessData::obtenerData(values[i].Value,idLista,idVotante,idCargo);
+			ProcessData::obtenerDataCandidato(values[i].Value,idLista,idVotante,idCargo);
 
 			int idCandidato = Helper::copyBytesToInt(values[i].Key);
 
@@ -121,7 +162,7 @@ Candidato* ABMCandidato::GetCandidato(int idCandidato){
                 idLista.clear();
                 long idVotante = 0;
                 int idCargo = 0;
-				ProcessData::obtenerData(values,idLista,idVotante,idCargo);
+				ProcessData::obtenerDataCandidato(values,idLista,idVotante,idCargo);
 
                 return new Candidato(idLista, idVotante, idCargo, idCandidato);
         }
