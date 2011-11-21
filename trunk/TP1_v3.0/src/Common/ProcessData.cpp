@@ -281,7 +281,7 @@ string ProcessData::generarData(string nombre, vector<int> cargosSec)
 
 }
 
-string ProcessData::generarData(string nombre)
+/*string ProcessData::generarData(string nombre)
 {
 	short sizeNombre=0;
 
@@ -302,7 +302,7 @@ string ProcessData::generarData(string nombre)
 	//cout << data.size() << endl;
 	return data;
 
-}
+}*/
 
 void ProcessData::obtenerData(string valor, string &nombre, vector<int> & CargosSec)
 {
