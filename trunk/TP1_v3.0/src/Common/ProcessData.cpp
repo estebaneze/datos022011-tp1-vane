@@ -44,6 +44,54 @@ string ProcessData::generarDataCandidato(int idLista,long idVotante, int idCargo
     	return data;
 }
 
+string ProcessData::generarDataConteo(int idLista,int idDistrito, int idEleccion, int votos)
+{
+		short sizeIdLista=0;
+    	short sizeIdDistrito=0;
+    	short sizeIdEleccion=0;
+    	short sizeVotos=0;
+
+    	//consigo tamaño de cada campo para armar los delimitadores
+    	sizeIdLista = sizeof(int);
+    	sizeIdDistrito = sizeof(int);
+    	sizeIdEleccion = sizeof(int);
+    	sizeVotos = sizeof(int);
+
+      	//paso los tamaños a char
+    	char c_sizeIdLista[2];
+    	char c_sizeIdDistrito[2];
+    	char c_sizeIdEleccion[2];
+    	char c_sizeVotos[2];
+
+    	memcpy((void*)c_sizeIdLista,(const void*)&sizeIdLista,2);
+    	memcpy((void*)c_sizeIdDistrito,(const void*)&sizeIdDistrito,2);
+    	memcpy((void*)c_sizeIdEleccion,(const void*)&sizeIdEleccion,2);
+       	memcpy((void*)c_sizeVotos,(const void*)&sizeVotos,2);
+
+    	string data="";
+      	data.append(1,c_sizeIdLista[0]);
+      	data.append(1,c_sizeIdLista[1]);
+      	data.append(Helper::copyBytesToString(idLista).c_str(),4);
+
+
+    	data.append(1,c_sizeIdDistrito[0]);
+    	data.append(1,c_sizeIdDistrito[1]);
+    	data.append(Helper::copyBytesToString(idDistrito).c_str(),4);
+
+    	data.append(1,c_sizeIdEleccion[0]);
+    	data.append(1,c_sizeIdEleccion[1]);
+    	data.append(Helper::copyBytesToString(idEleccion).c_str(),4);
+
+      	data.append(1,c_sizeVotos[0]);
+       	data.append(1,c_sizeVotos[1]);
+       	data.append(Helper::copyBytesToString(votos).c_str(),4);
+
+    	data.append("|"); //este pipe hace que el string no haga recorte por ceros al final
+    	return data;
+}
+
+
+
 string ProcessData::generarData(int key){
 
 	short sizeKey=0;
@@ -243,6 +291,89 @@ void ProcessData::obtenerDataCandidato(string valor,string &campo1,long &campo2,
 
 
 }
+
+void ProcessData::obtenerDataConteo(string valor,int &idLista,int &idDistrito,int &idEleccion, int &votos ){
+
+	char c_sizeLista[2];
+	char c_sizeDistrito[2];
+	char c_sizeEleccion[2];
+	char c_sizeVotos[2];
+	unsigned int i=0;
+	short tamDato=0;
+	string aux="";
+
+	//RECUPERO DE IDLISTA
+	c_sizeLista[0]=valor.c_str()[0];
+	c_sizeLista[1]=valor.c_str()[1];
+	i=2;
+
+	memcpy((void*)&tamDato,(void*)&c_sizeLista,2);
+
+	for (int j=0;j<(tamDato)&& (i<valor.size());j++){
+		aux.append(1,valor.at(i));
+		i++;
+	}
+
+	idLista = Helper::copyBytesToLong(aux);
+
+	//RECUPERO DISTRITO
+	c_sizeDistrito[0]=valor.c_str()[i];
+	i++;
+	c_sizeDistrito[1]=valor.c_str()[i];
+	i++;
+
+	tamDato=0;
+	memcpy((void*)&tamDato,(void*)&c_sizeDistrito,2);
+
+	aux.clear();
+	for (int j=0;j<(tamDato)&& (i<valor.size());j++){
+		aux.append(1,valor.at(i));
+		i++;
+	}
+
+	idDistrito = Helper::copyBytesToLong(aux);
+
+	//RECUPERO ELECCION
+	c_sizeEleccion[0]=valor.c_str()[i];
+	i++;
+	c_sizeEleccion[1]=valor.c_str()[i];
+	i++;
+
+	//obtengo ideleccion en formato short
+	tamDato=0;
+	memcpy((void*)&tamDato,(void*)&c_sizeEleccion,2);
+
+	aux.clear();
+	for (int j=0; j<tamDato && (i<valor.size());j++){
+		aux.append(1,valor.at(i));
+		i++;
+	}
+
+	//paso todos los datos en formato string, luego el metodo invocante tiene que recuperar con su formato
+	idEleccion = Helper::copyBytesToInt(aux);
+
+	//RECUPERO VOTOS
+	c_sizeVotos[0]=valor.c_str()[i];
+	i++;
+	c_sizeVotos[1]=valor.c_str()[i];
+	i++;
+
+	//obtengo votos en formato short
+	tamDato=0;
+	memcpy((void*)&tamDato,(void*)&c_sizeVotos,2);
+
+	aux.clear();
+	for (int j=0; j<tamDato && (i<valor.size());j++){
+		aux.append(1,valor.at(i));
+		i++;
+	}
+
+	//paso todos los datos en formato string, luego el metodo invocante tiene que recuperar con su formato
+	votos = Helper::copyBytesToInt(aux);
+
+}
+
+
 
 string ProcessData::generarData(string nombre, vector<int> cargosSec)
 {
