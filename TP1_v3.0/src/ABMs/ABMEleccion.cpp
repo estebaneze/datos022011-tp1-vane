@@ -38,6 +38,14 @@ int ABMEleccion::Add(Eleccion* eleccion){
 			//cout << "Insertando la eleccion: " << idEleccion << endl << endl;
 			//string auxValueBtree;
 			vector<int> distritos = eleccion->GetDistritos();
+
+			string sdata = ProcessData::generarData(eleccion->GetDate().getStrFecha(),eleccion->GetIdCargo(),distritos);
+			Data data = (Data)sdata.c_str();
+
+			int longData = sdata.length();
+			Element * elemento = new Element(idEleccion,data,longData);
+			this->bpPlusTree->insert(elemento);
+
 			string concatDistritos = "";
 
 			if(distritos.size() > 0){
@@ -47,11 +55,6 @@ int ABMEleccion::Add(Eleccion* eleccion){
 
 			//data = fecha|idcargo|distritos
 			string str = eleccion->GetDate().getStrFecha().append("|").append(Helper::IntToString(eleccion->GetIdCargo())).append("|").append(concatDistritos);
-			Data data = (Data)str.c_str();
-
-			int longData = str.length();
-			Element * elemento = new Element(idEleccion,data,longData);
-			this->bpPlusTree->insert(elemento);
 
 			//logueo el add
 			BPlusTreeLog::LogInsert(idEleccion,str,ConfigurationMananger::getInstance()->getLogOperEleccionFile());
@@ -132,16 +135,19 @@ bool ABMEleccion::Modify(Eleccion* eleccion){
                 }
 
                 vector<int> distritos = eleccion->GetDistritos();
-                string concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1()).append(ConfigurationMananger::getInstance()->getSeparador1());
+    			string sdata = ProcessData::generarData(eleccion->GetDate().getStrFecha(),eleccion->GetIdCargo(),distritos);
+    			Data data = (Data)sdata.c_str();
 
-                //data = fecha|idcargo|distritos
-                string str = eleccion->GetDate().getStrFecha().append("|").append(Helper::IntToString(eleccion->GetIdCargo())).append("|").append(concatDistritos);
-                Data data = (Data)str.c_str();
-                int longData = str.length();
+                int longData = sdata.length();
                 Element * elemento = new Element(idEleccion,data,longData);
                 this->bpPlusTree->modify(elemento);
 
                 //logueo el modify
+                string concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1()).append(ConfigurationMananger::getInstance()->getSeparador1());
+
+                //data = fecha|idcargo|distritos
+                string str = eleccion->GetDate().getStrFecha().append("|").append(Helper::IntToString(eleccion->GetIdCargo())).append("|").append(concatDistritos);
+
                 BPlusTreeLog::LogModify(idEleccion,str,ConfigurationMananger::getInstance()->getLogOperEleccionFile());
                 BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessEleccionFile());
 
@@ -184,16 +190,20 @@ Eleccion* ABMEleccion::GetEleccion(int idEleccion){
                 Element * el = this->bpPlusTree->findExact(idEleccion);
                 string data = el->getData();
 
-                //data = fecha|idcargo|distritos
-                vector<string> splited = Helper::split(data, '|');
-                Fecha fecha = Fecha(splited[0]);
-                int idCargo = Helper::StringToInt(splited[1]);
 
-                //Busco  los distritos
+                //data = fecha|idcargo|distritos
+
+                string sfecha;
+                vector<int> distritos;
+                int idCargo;
+        		ProcessData::obtenerData(data,sfecha,idCargo,distritos);
+        		Fecha fecha = Fecha(sfecha);
+
+        		//Busco  los distritos
                 Eleccion * eleccion =  new Eleccion(idCargo, fecha, idEleccion);
 
-                for(int i = 2; i < splited.size(); i++){
-                	eleccion->AddDistrito(Helper::StringToInt(splited[i]));
+                for(int i = 0; i < distritos.size(); i++){
+                	eleccion->AddDistrito(distritos[i]);
                 }
 
                 return eleccion;
