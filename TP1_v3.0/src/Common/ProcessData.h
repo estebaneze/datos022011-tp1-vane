@@ -17,6 +17,7 @@ class ProcessData {
 public:
 
 	static string generarDataCandidato(int idLista,long idVotante, int idCargo);
+	static string generarDataConteo(int idLista,int idDistrito, int idEleccion, int votos);
 	static string generarData(string nombre, vector<int> cargosSec);
 	static string generarData(string nombre,string clave,string domicilio,int distrito,vector<int> v);
 	static string generarData(string fecha, int cargo,vector<int> v);
@@ -27,6 +28,8 @@ public:
 	static string generarData(int key);
 
 	static void obtenerDataCandidato(string valor,string &idLista,long &idVotante,int &idCargo);
+	static void obtenerDataConteo(string valor,int &idLista,int &idDistrito,int &idEleccion, int &votos );
+
 	static void obtenerData(string valor, string &nombre, vector<int> &CargosSec);
 	static void obtenerData(string valor,string &nombre,string &clave,string &dom,int &idDistrito,vector<int> &listaElecciones);
 	static void obtenerData(string valor,string &fecha,int &cargo,vector<int> &v);
