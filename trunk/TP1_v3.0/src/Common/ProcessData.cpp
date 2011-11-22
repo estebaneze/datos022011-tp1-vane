@@ -346,7 +346,6 @@ void ProcessData::obtenerData(string valor, string &nombre, vector<int> & Cargos
 		}
 
 		CargosSec.push_back(Helper::copyBytesToInt(aux));
-
 	}
 
 }
@@ -525,6 +524,77 @@ void ProcessData::obtenerData(string valor, string & nombre, string & clave, str
 	}
 
 }
+/**
+ * Obtener data de ABMEleccion
+ */
+void ProcessData::obtenerData(string valor,string &fecha,int &cargo,vector<int> &v)
+//;(string valor, string & nombre, string & clave, string & dom, int & idDistrito, vector<int> & listaElecciones)
+{
+	char c_sizeFecha[2];
+	char c_sizeCargo[2];
+	char c_sizeV[2];
+	unsigned int i=0;
+	short tamDato=0;
+	string aux="";
+
+	//RECUPERO DE FECHA
+	c_sizeFecha[0]=valor.c_str()[0];
+	c_sizeFecha[1]=valor.c_str()[1];
+	i=2;
+
+	memcpy((void*)&tamDato,(void*)&c_sizeFecha,2);
+
+	for (int j=0;j<(tamDato)&& (i<valor.size());j++){
+		aux.append(1,valor.at(i));
+		i++;
+	}
+	fecha.append(aux);
+
+
+	//RECUPERO CARGO
+	c_sizeCargo[0]=valor.c_str()[i];
+	i++;
+	c_sizeCargo[1]=valor.c_str()[i];
+	i++;
+
+	tamDato=0;
+	memcpy((void*)&tamDato,(void*)&c_sizeCargo,2);
+
+	aux.clear();
+	for (int j=0; j<tamDato && (i<valor.size());j++){
+		aux.append(1,valor.at(i));
+		i++;
+	}
+
+	cargo= Helper::copyBytesToInt(aux);
+
+
+	//RECUPERO LISTA DISTRITOS
+	c_sizeV[0]=valor.c_str()[i];
+	i++;
+	c_sizeV[1]=valor.c_str()[i];
+	i++;
+
+	tamDato=0;
+	memcpy((void*)&tamDato,(void*)&c_sizeV,2);
+
+	v.clear(); //limpio el vector por si trae basura. Deberia estar vacio
+
+	for (unsigned int k=0; k< (tamDato/4) && (i<valor.size()); k++){
+		//hago tamDato/4 ya que cada dato tiene 4 bytes (son Int)
+		aux.clear();
+
+		for (int j=0; j<4 && (i<valor.size());j++){
+			aux.append(1,valor.at(i));
+			i++;
+		}
+
+		v.push_back(Helper::copyBytesToInt(aux));
+	}
+
+}
+
+
 
 /*
  * generarData usado en ABMVotante
@@ -581,6 +651,51 @@ string ProcessData::generarData(string nombre, string clave, string domicilio, i
 	//cout << data.size() << endl;
 	return data;
 }
+
+/*
+ * generarData usado en ABMEleccion
+ */
+string ProcessData::generarData (string fecha, int cargo,vector<int> v)
+//(string nombre, string clave, string domicilio, int distrito, vector<int> listaElecciones)
+{
+	short sizeFecha=0;
+
+	short sizeCargo=0;
+	short sizeDistritos=0;
+
+	//consigo tamaño de cada campo para armar los delimitadores
+	sizeFecha = fecha.size();
+	sizeCargo = sizeof(int);
+	sizeDistritos = v.size()*4; //x4 ya que cada elemento es un int (4 bytes)
+
+  	//paso los tamaños a char
+	char c_sizeFecha[2];
+	char c_sizeCargo[2];
+	char c_sizeDistritos[2];
+
+	memcpy((void*)c_sizeFecha,(const void*)&sizeFecha,2);
+	memcpy((void*)c_sizeCargo,(const void*)&sizeCargo,2);
+	memcpy((void*)c_sizeDistritos,(const void*)&sizeDistritos,2);
+
+	string data="";
+  	data.append(1,c_sizeFecha[0]);
+  	data.append(1,c_sizeFecha[1]);
+	data.append(fecha.c_str());
+	data.append(1,c_sizeCargo[0]);
+	data.append(1,c_sizeCargo[1]);
+	data.append(Helper::copyBytesToString(cargo).c_str(),4);
+
+	//concateno cada distritos uno desytras de otro sabiendo que cada uno ocupa 4 bytes.
+	for (unsigned int i=0; i< v.size(); i++){
+		data.append(Helper::copyBytesToString(v.at(i)).c_str(),4);
+	}
+
+	data.append("|"); //este pipe hace que el string no haga recorte por ceros al final
+	//cout << data.size() << endl;
+	return data;
+}
+
+
 
 /*
  * obtengo datos de valor y los guardo separados en un vector

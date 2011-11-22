@@ -19,6 +19,7 @@ public:
 	static string generarDataCandidato(int idLista,long idVotante, int idCargo);
 	static string generarData(string nombre, vector<int> cargosSec);
 	static string generarData(string nombre,string clave,string domicilio,int distrito,vector<int> v);
+	static string generarData(string fecha, int cargo,vector<int> v);
 	static string generarData(string valor, string valorNuevo);
 	static string generarData(vector<string> vec);
 	static string generarData(string valor);
@@ -28,6 +29,7 @@ public:
 	static void obtenerDataCandidato(string valor,string &idLista,long &idVotante,int &idCargo);
 	static void obtenerData(string valor, string &nombre, vector<int> &CargosSec);
 	static void obtenerData(string valor,string &nombre,string &clave,string &dom,int &idDistrito,vector<int> &listaElecciones);
+	static void obtenerData(string valor,string &fecha,int &cargo,vector<int> &v);
 	static void obtenerData(string valor, vector<string> &vec);
 	static void obtenerDataLista(string valor, string &nombreLista, int &idEleccion);
 	static void obtenerData(string valor, int &campo);
