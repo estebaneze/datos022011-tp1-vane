@@ -24,12 +24,15 @@ class Index {
 		/* Devuelve los valores indexados correspondientes al idKey */
 		vector<Key> GetIds(Key idKey);
 
+		vector<int> GetIdsInt(Key data);
+
 		/* Pisa los valores en el indice  del registro correspondientes al Id Key, con la lista de idsValues */
 		void RefreshIndex(Key key, vector<Key> values);
 
 		/* Agrega al registro del indice correspondiente al IdKey, el idValue. Si no existe el registro con el
 		 * Id Key, lo crea */
 		void AppendToIndex(Key key, Key value);
+		void AppendToIndex(int key, int value);
 		void AppendToIndex(KeyInt key, Key value);
 
 		void AppendToIndex(Key key,Key oldKey, Key value);

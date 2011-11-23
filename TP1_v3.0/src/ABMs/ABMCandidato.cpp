@@ -50,10 +50,8 @@ int ABMCandidato::Add(int idLista, long idVotante, int idCargo){
             HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessCandidatoFile());
             HashLog::LogInsert(Helper::IntToString(idCandidato),fields2,ConfigurationMananger::getInstance()->getLogOperCandidatoFile());
 
-            cout << "\n\n\n --------------------- candidato ---------------" << idCandidato << endl;
-            string candid= ProcessData::generarData(idCandidato);
-            cout << "candid " << candid << endl;
-			this->index->AppendToIndex(Helper::copyBytesToString(idLista), ProcessData::generarData(idCandidato));   //Tengo que refrescar el indice en todos los Adds!!!
+			//this->index->AppendToIndex(Helper::copyBytesToString(idLista), ProcessData::generarData(idCandidato));   //Tengo que refrescar el indice en todos los Adds!!!
+            this->index->AppendToIndex(idLista, idCandidato);
 
             return idCandidato;
         }
@@ -78,18 +76,9 @@ int ABMCandidato::Add(int idLista, long idVotante, int idCargo){
 */
 vector<int> ABMCandidato::GetByLista(int idLista){
 
-	cout << "-------ABMCandidato::GetByLista" << endl;
-	vector<KeyValue> vs = this->index->GetAllValues();
-	for(int k = 0; k < vs.size(); k++){
-		int campo = 0;
-		ProcessData::obtenerData(vs[k].Value, campo);
-		cout << Helper::copyBytesToInt(vs[k].Key) << " - " << campo << endl;
-	}
-
-	cout << "----------------------------------" << endl;
-	vector<Key> byLista = this->index->GetIds(Helper::copyBytesToString(idLista));
-	vector<int> ids;
-
+	vector<int> byLista = this->index->GetIdsInt(Helper::copyBytesToString(idLista));
+	return byLista;
+	/*
 	for(int i = 0; i < byLista.size(); i++){
 
 		int idCandidato = 0;
@@ -98,7 +87,7 @@ vector<int> ABMCandidato::GetByLista(int idLista){
 		ids.push_back(idCandidato);
 	}
 
-	return ids;
+	return ids;*/
 }
 
 /**Modifica el idEleccion de una candidato pasada por parametro

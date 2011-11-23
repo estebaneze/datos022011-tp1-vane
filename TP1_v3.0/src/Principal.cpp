@@ -45,7 +45,22 @@ int main2(int arg, char *argv[]) {
 
 	cout << endl << endl;
 
-	CargaMasiva::BorraTodosArchivos();
+	ABMVotante* abmv = new ABMVotante();
+	ABMCandidato* abmcan = new ABMCandidato();
+
+	cout << "\nCandidatos de la Lista ga:" << endl;
+
+	vector<int> cs = abmcan->GetByLista(50);
+
+		for(int i = 0; i< cs.size(); i++){
+
+			cout << " " << cs[i] << " - ";
+			Candidato* c = abmcan->GetCandidato(cs[i]);
+			Votante* v = abmv->GetVotante(c->GetIdVotante());
+			cout << " Candidato: " << v->GetNombreYApellido() << endl;
+		}
+
+		cout << endl;
 
 	return 0;
 }
@@ -68,14 +83,21 @@ cout<<endl<<endl;
 	//cout << "id eleccion: " << idEleccion << endl;
 	//PRUEBA LISTA
 	Lista* l = new Lista("ga",idEleccion);
+	Lista* l2 = new Lista("ga2",idEleccion);
 	ABMLista* abmLista = new ABMLista();
 
 	int idLista = abmLista->Add(l);
+	int idLista2 = abmLista->Add(l2);
 
 	Lista* lista = abmLista->GetLista(idLista);
 	cout << "Lista: " << endl;
 	cout << "	Nombre:" << lista->GetNombre() << endl;
 	cout << "	Eleccion: " << lista->GetEleccion() << endl<< endl;
+
+	Lista* lista2 = abmLista->GetLista(idLista2);
+	cout << "Lista: " << endl;
+	cout << "	Nombre:" << lista2->GetNombre() << endl;
+	cout << "	Eleccion: " << lista2->GetEleccion() << endl<< endl;
 
 
 	ABMConteo* c = new ABMConteo();
@@ -97,16 +119,41 @@ cout<<endl<<endl;
 	ABMCandidato* abmcan = new ABMCandidato();
 	abmcan->Add(idLista, 1, 1);
 	abmcan->Add(idLista, 2, 1);
+	abmcan->Add(idLista, 3, 1);
+	abmcan->Add(idLista, 4, 1);
+
+	abmcan->Add(idLista2, 1, 1);
+	abmcan->Add(idLista2, 2, 1);
+	abmcan->Add(idLista2, 3, 1);
+
+	cout << "\n\nCandidatos:"<<endl;
+	vector<Candidato> candidatos = abmcan->GetCandidatos();
+	for(int i= 0; i < candidatos.size(); i++){
+		cout << " " << candidatos[i].GetId() << endl;
+	}
+	cout << endl << endl;
 
 	ABMVotante* abmv = new ABMVotante();
 
 	lista = abmLista->GetLista(idLista);
-	cout << "Candidatos de la Lista ga:" << endl;
+	cout << "\nCandidatos de la Lista ga:" << endl;
 	vector<int> cs = abmcan->GetByLista(idLista);
-cout << "cs.size() " << cs.size() << endl;
+
 	for(int i = 0; i< cs.size(); i++){
 
-		cout << " " << cs[i] << endl;
+		cout << " " << cs[i] << " - ";
+		Candidato* c = abmcan->GetCandidato(cs[i]);
+		Votante* v = abmv->GetVotante(c->GetIdVotante());
+		cout << " Candidato: " << v->GetNombreYApellido() << endl;
+	}
+
+
+	cout << "\n\nCandidatos de la Lista ga2:" << endl;
+	cs = abmcan->GetByLista(idLista2);
+
+	for(int i = 0; i< cs.size(); i++){
+
+		cout << " " << cs[i] << " - ";
 		Candidato* c = abmcan->GetCandidato(cs[i]);
 		Votante* v = abmv->GetVotante(c->GetIdVotante());
 		cout << " Candidato: " << v->GetNombreYApellido() << endl;

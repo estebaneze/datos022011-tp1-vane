@@ -50,6 +50,7 @@ int ABMLista::Add(Lista* lista){
 
 		ABMConteo conteos = ABMConteo();
 		ABMEleccion elecciones = ABMEleccion();
+
 		Eleccion* e = elecciones.GetEleccion(lista->GetEleccion());
 
 		vector<int> distritos = e->GetDistritos();
