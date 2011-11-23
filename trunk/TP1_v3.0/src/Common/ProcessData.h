@@ -23,9 +23,11 @@ public:
 	static string generarData(string fecha, int cargo,vector<int> v);
 	static string generarData(string valor, string valorNuevo);
 	static string generarData(vector<string> vec);
+	static string generarData(vector<int> vec);
 	static string generarData(string valor);
 	static string generarDataLista(string nombreLista, int idEleccion);
 	static string generarData(int key);
+	static string generarData(int campo1,int campo2);
 
 	static void obtenerDataCandidato(string valor,string &idLista,long &idVotante,int &idCargo);
 	static void obtenerDataConteo(string valor,int &idLista,int &idDistrito,int &idEleccion, int &votos );
@@ -34,8 +36,10 @@ public:
 	static void obtenerData(string valor,string &nombre,string &clave,string &dom,int &idDistrito,vector<int> &listaElecciones);
 	static void obtenerData(string valor,string &fecha,int &cargo,vector<int> &v);
 	static void obtenerData(string valor, vector<string> &vec);
+	static void obtenerData(string valor, vector<int> & vec);
 	static void obtenerDataLista(string valor, string &nombreLista, int &idEleccion);
 	static void obtenerData(string valor, int &campo);
+	static void obtenerData(string valor,int &campo2,int &campo3);
 };
 
 #endif /* PROCESSDATA_H_ */

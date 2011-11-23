@@ -187,26 +187,27 @@ Eleccion* ABMEleccion::GetEleccion(int idEleccion){
 
         if (ExistsKey(idEleccion)){
 
-                Element * el = this->bpPlusTree->findExact(idEleccion);
-                string data = el->getData();
+			Element * el = this->bpPlusTree->findExact(idEleccion);
+			string data = el->getData();
 
 
-                //data = fecha|idcargo|distritos
+			//data = fecha|idcargo|distritos
 
-                string sfecha;
-                vector<int> distritos;
-                int idCargo;
-        		ProcessData::obtenerData(data,sfecha,idCargo,distritos);
-        		Fecha fecha = Fecha(sfecha);
+			string sfecha;
+			vector<int> distritos;
+			int idCargo;
+			ProcessData::obtenerData(data,sfecha,idCargo,distritos);
+			//TODO: no anda bien obtenerData para devolver la fecha
+			Fecha fecha = Fecha(sfecha);
 
-        		//Busco  los distritos
-                Eleccion * eleccion =  new Eleccion(idCargo, fecha, idEleccion);
+			//Busco  los distritos
+			Eleccion * eleccion =  new Eleccion(idCargo, fecha, idEleccion);
 
-                for(int i = 0; i < distritos.size(); i++){
-                	eleccion->AddDistrito(distritos[i]);
-                }
+			for(int i = 0; i < distritos.size(); i++){
+				eleccion->AddDistrito(distritos[i]);
+			}
 
-                return eleccion;
+			return eleccion;
         }
         else {
                 return NULL;
