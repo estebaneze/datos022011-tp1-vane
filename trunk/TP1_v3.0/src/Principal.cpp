@@ -80,12 +80,17 @@ int main(int arg, char *argv[]) {
 	eleccion->AddDistrito(1);
 	eleccion->AddDistrito(2);
 
+	Eleccion* eleccion2 = new Eleccion(2, Fecha(11,11,2011));
+	eleccion->AddDistrito(3);
+	eleccion->AddDistrito(4);
+
 	int idEleccion = abme->Add(eleccion);
+	int idEleccion2 = abme->Add(eleccion2);
 
 	//cout << "id eleccion: " << idEleccion << endl;
 	//PRUEBA LISTA
 	Lista* l = new Lista("ga",idEleccion);
-	Lista* l2 = new Lista("ga2",idEleccion);
+	Lista* l2 = new Lista("ga2",idEleccion2);
 	ABMLista* abmLista = new ABMLista();
 
 	int idLista = abmLista->Add(l);
@@ -131,14 +136,44 @@ int main(int arg, char *argv[]) {
 		cout << cs[i].GetId() << endl;
 	}
 
+	cout << "\n\nConteos del Distrito 3" << endl;
+	cs = abmconteo->GetConteoByDistrito(3);
+	for(int i = 0; i < cs.size(); i++){
+		cout << cs[i].GetId() << endl;
+	}
+
 	cout << "\n\nConteos del Distrito 4" << endl;
 	cs = abmconteo->GetConteoByDistrito(4);
 	for(int i = 0; i < cs.size(); i++){
 		cout << cs[i].GetId() << endl;
 	}
 
+	cout << "\n\nConteos de la lista 1" << endl;
+	cs = abmconteo->GetConteoByLista(1);
+	for(int i = 0; i < cs.size(); i++){
+		cout << cs[i].GetId() << endl;
+	}
+
+	cout << "\n\nConteos de la lista 2" << endl;
+	cs = abmconteo->GetConteoByLista(2);
+	for(int i = 0; i < cs.size(); i++){
+		cout << cs[i].GetId() << endl;
+	}
+
+	cout << "\n\nConteos de la eleccion 1" << endl;
+	cs = abmconteo->GetConteoByEleccion(1);
+	for(int i = 0; i < cs.size(); i++){
+		cout << cs[i].GetId() << endl;
+	}
+
+	cout << "\n\nConteos de la eleccion 2" << endl;
+	cs = abmconteo->GetConteoByEleccion(2);
+	for(int i = 0; i < cs.size(); i++){
+		cout << cs[i].GetId() << endl;
+	}
 
 
+/*
 	//Agrego candidatos a la lista "ga"
 	ABMCandidato* abmcan = new ABMCandidato();
 	abmcan->Add(idLista, 1, 1);
@@ -146,14 +181,14 @@ int main(int arg, char *argv[]) {
 	abmcan->Add(idLista, 3, 1);
 	abmcan->Add(idLista, 4, 1);
 
-	abmcan->Add(idLista2, 1, 1);
-	abmcan->Add(idLista2, 2, 1);
-	abmcan->Add(idLista2, 3, 1);
+	abmcan->Add(idLista2, 5, 1);
+	abmcan->Add(idLista2, 6, 1);
+	abmcan->Add(idLista2, 7, 1);
 
 	cout << "\n\nCandidatos:"<<endl;
 	vector<Candidato> candidatos = abmcan->GetCandidatos();
 	for(int i= 0; i < candidatos.size(); i++){
-		cout << " " << candidatos[i].GetId() << endl;
+		cout << " " << candidatos[i].GetId() << " - " << candidatos[i].GetIdVotante() << endl;
 	}
 	cout << endl << endl;
 
@@ -182,7 +217,7 @@ int main(int arg, char *argv[]) {
 		cout << " Candidato: " << v->GetNombreYApellido() << endl;
 	}
 
-
+*/
 	cout << endl;
 
 	//PRUEBA CANDIDATO

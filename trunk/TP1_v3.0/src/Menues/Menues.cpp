@@ -1243,21 +1243,24 @@ while (fin==0){
 						cout << listas[i].GetNombre() << endl;
 					}
 
-					cout << "Ingrese la lista: " << endl;
+					cout << "Ingrese Id de la lista: " << endl;
 					string listaSelected;
 					cin >> listaSelected;
+
+					int idListaSelected = Helper::StringToInt(listaSelected);
 
 					//Busco la lista seleccionada
 					bool founded = false;
 					for(int i = 0; i < listas.size(); i++){
-						if(listas[i].GetNombre() == listaSelected)
+						if(listas[i].GetId() == idListaSelected){
 							founded = true;
+						}
 					}
 
 					delete abmLista;
 					if(founded){
 
-						Reportes::reportePorLista(listaSelected, guardaEncriptado,claveEncriptado);
+						Reportes::reportePorLista(idListaSelected, guardaEncriptado,claveEncriptado);
 					}
 					else{
 						cout << "La Lista ingresada es incorrecta." << endl;

@@ -21,7 +21,7 @@
 class Reportes {
 	public:
 		static void reportePorEleccion(int idEleccion, bool guardaEncriptado, string claveEncriptado);
-		static void reportePorLista(string lista, bool guardaEncriptado, string claveEncriptado);
+		static void reportePorLista(int idLista, bool guardaEncriptado, string claveEncriptado);
 		static void reportePorDistrito(int idDistrito, bool guardaEncriptado, string claveEncriptado);
 		static void reporteDesencriptar(string fileName, string claveEncriptado);
 
