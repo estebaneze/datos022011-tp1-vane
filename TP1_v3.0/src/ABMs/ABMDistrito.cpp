@@ -32,9 +32,9 @@ int ABMDistrito::Add(string nombre){
 
 		Data data = (Data)sdata.c_str();
 
-		int longData = sdata.length();
+		int longData = sdata.size();
 		Element * elemento = new Element(idDistrito,data,longData);
-
+		cout<<"sdata"<<sdata.length();
 		this->bpPlusTree->insert(elemento);
 		//logueo el add
 		BPlusTreeLog::LogInsert(Helper::IntToString(idDistrito),nombre,ConfigurationMananger::getInstance()->getLogOperDistritoFile());
@@ -126,12 +126,10 @@ Distrito* ABMDistrito::GetDistrito(int idDistrito){
 
 		string data = el->getData();
         vector<string> splited;
-        ProcessData::obtenerData(data,splited);
+        string nombre;
+        ProcessData::obtenerData(data,nombre);
 
-		if(splited.size() > 0)
-			return new Distrito(idDist, splited[0]);
-		else
-			return new Distrito(idDist, "");
+		return new Distrito(idDist, nombre);
 	}
 	else{
 		return NULL;

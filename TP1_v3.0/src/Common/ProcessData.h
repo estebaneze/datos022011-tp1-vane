@@ -40,6 +40,8 @@ public:
 	static void obtenerDataLista(string valor, string &nombreLista, int &idEleccion);
 	static void obtenerData(string valor, int &campo);
 	static void obtenerData(string valor,int &campo2,int &campo3);
+	static void obtenerData(string valor, string &nombre);
+
 };
 
 #endif /* PROCESSDATA_H_ */
