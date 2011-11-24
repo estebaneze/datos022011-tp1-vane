@@ -159,6 +159,8 @@ void Index::AppendToIndex(int key, int value){
 			actualValues.push_back(value);
 			string newData = ProcessData::generarData(actualValues);//[0], value);
 			this->directorio->modify(processedId, newData);
+
+
 		}
 	}
 

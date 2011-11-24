@@ -32,7 +32,7 @@ class ABMConteo {
 
 		vector<Conteo> GetConteoByDistrito(int idDistrito);
 		vector<Conteo> GetConteoByDistritoYFecha(int idDistrito, Fecha fecha);
-		vector<Conteo> GetConteoByLista(string idLista);
+		vector<Conteo> GetConteoByLista(int idLista);
 		vector<Conteo> GetConteoByEleccion(int idEleccion);
 
 

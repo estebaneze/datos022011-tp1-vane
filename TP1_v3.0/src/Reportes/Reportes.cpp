@@ -50,7 +50,7 @@ void Reportes::reportePorEleccion(int idEleccion, bool guardaEncriptado, string 
 	delete abmConteo;
 }
 
-void Reportes::reportePorLista(string lista, bool guardaEncriptado, string claveEncriptado)
+void Reportes::reportePorLista(int idLista, bool guardaEncriptado, string claveEncriptado)
 {
 	ABMConteo *abmConteo = new ABMConteo();
 	ABMEleccion* abmEleccion = new ABMEleccion();
@@ -58,7 +58,7 @@ void Reportes::reportePorLista(string lista, bool guardaEncriptado, string clave
 	ABMDistrito* abmDistrito = new ABMDistrito();
 	std::stringstream out;
 
-	vector<Conteo> resultados =  abmConteo->GetConteoByLista(lista);
+	vector<Conteo> resultados =  abmConteo->GetConteoByLista(idLista);
 
 	if(resultados.size() == 0){
 		out << "No se encontraron resultados." << endl;
