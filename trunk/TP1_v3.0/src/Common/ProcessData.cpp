@@ -1026,3 +1026,25 @@ void ProcessData::obtenerData(string valor, vector<int> & vec)
 
 
 
+void ProcessData::obtenerData(string valor, string &nombre)
+{
+	nombre="";
+	char c_sizeNombre[2];
+	unsigned int i=0;
+	short tamDato=0;
+	string aux="";
+
+	//RECUPERO DE NOMBRE
+	c_sizeNombre[0]=valor.c_str()[0];
+	c_sizeNombre[1]=valor.c_str()[1];
+	i=2;
+
+	memcpy((void*)&tamDato,(void*)&c_sizeNombre,2);
+
+	for (int j=0;j<(tamDato)&& (i<valor.size());j++){
+		aux.append(1,valor.at(i));
+		i++;
+	}
+	nombre.append(aux);
+}
+
