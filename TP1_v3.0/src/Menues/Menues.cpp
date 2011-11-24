@@ -377,13 +377,14 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 			while (!listoLista){
 
 					int idConteoLista;
-					string idLista;
-					string idListaAnterior; //en caso de que cambie el voto
+					string listaSelected;
+					int idLista;
+					int idListaAnterior; //en caso de que cambie el voto
 					bool cambioVoto=false;
 
 					cout << "Ingrese lista a votar: ";
-					cin >> idLista;
-
+					cin >> listaSelected;
+					idLista = Helper::StringToInt(listaSelected);
 
 					bool listaFounded = false;;
 					for(unsigned int i = 0; (i < conteos.size()) && (!listaFounded); i++){

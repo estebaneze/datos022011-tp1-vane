@@ -140,7 +140,6 @@ string ProcessData::generarDataConteo(int idLista,int idDistrito, int idEleccion
       	data.append(1,c_sizeIdLista[1]);
       	data.append(Helper::copyBytesToString(idLista).c_str(),4);
 
-
     	data.append(1,c_sizeIdDistrito[0]);
     	data.append(1,c_sizeIdDistrito[1]);
     	data.append(Helper::copyBytesToString(idDistrito).c_str(),4);
@@ -395,7 +394,16 @@ void ProcessData::obtenerData(string valor,int &campo2,int &campo3){
 
 
 //=======
-void ProcessData::obtenerDataConteo(string valor,int &idLista,int &idDistrito,int &idEleccion, int &votos ){
+void ProcessData::obtenerDataConteo(char* data,  int sizeData, int &idLista,int &idDistrito,int &idEleccion, int &votos){
+
+	string aux;
+	aux.clear();
+	std::stringstream stream(aux);
+	for(int i = 0; i < sizeData; i++){
+		stream << data[i];
+	}
+	string valor = stream.str();
+	aux.clear();
 
 	char c_sizeLista[2];
 	char c_sizeDistrito[2];
@@ -403,21 +411,28 @@ void ProcessData::obtenerDataConteo(string valor,int &idLista,int &idDistrito,in
 	char c_sizeVotos[2];
 	unsigned int i=0;
 	short tamDato=0;
-	string aux="";
 
 	//RECUPERO DE IDLISTA
-	c_sizeLista[0]=valor.c_str()[0];
-	c_sizeLista[1]=valor.c_str()[1];
-	i=2;
+	c_sizeLista[0]=valor.c_str()[i];
+	i++;
+	c_sizeLista[1]=valor.c_str()[i];
+	i++;
 
 	memcpy((void*)&tamDato,(void*)&c_sizeLista,2);
 
 	for (int j=0;j<(tamDato)&& (i<valor.size());j++){
+
 		aux.append(1,valor.at(i));
 		i++;
 	}
 
-	idLista = Helper::copyBytesToLong(aux);
+  	//aux.clear();
+  	//aux.append(1,valor.c_str()[2]);
+  	//aux.append(1,valor.c_str()[3]);
+  	//aux.append(1,valor.c_str()[4]);
+  	//aux.append(1,valor.c_str()[5]);
+
+  	idLista = Helper::copyBytesToInt(aux);
 
 	//RECUPERO DISTRITO
 	c_sizeDistrito[0]=valor.c_str()[i];

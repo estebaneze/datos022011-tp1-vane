@@ -277,7 +277,7 @@ vector<Conteo> Reportes::GroupByLista(vector<Conteo> resultados){
 
 		for (int j = i+1 ;j < resultados.size();j++)	{
 
-			if (resultados[i].GetIdLista().compare(resultados[j].GetIdLista()) > 0) {
+			if (resultados[i].GetIdLista() == resultados[j].GetIdLista()) {
 				aux = resultados[i];
 				resultados[i] = resultados[j];
 				resultados[j] = aux;
@@ -287,11 +287,11 @@ vector<Conteo> Reportes::GroupByLista(vector<Conteo> resultados){
 
 	//2do sumo cntidad votos x lista y creo conteo dummy (iddependencia 0 y idconteo 0)
 	int cantVotos = 0;
-	string idListaActual = resultados[0].GetIdLista();
+	int idListaActual = resultados[0].GetIdLista();
 	int idEleccion = resultados[0].GetIdEleccion();
 	for (int i=0; i < resultados.size(); i++) {
 
-		if (resultados[i].GetIdLista().compare(idListaActual) == 0)
+		if (resultados[i].GetIdLista() == idListaActual)
 		{
 			cantVotos += resultados[i].GetCountVotos();
 		}

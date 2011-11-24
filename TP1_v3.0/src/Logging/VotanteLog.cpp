@@ -17,8 +17,11 @@ void VotanteLog::LogSuccess(string info)
 
 }
 
-void VotanteLog::LogChangeVoto(string dni,string lista,string listaAnterior)
+void VotanteLog::LogChangeVoto(string dni,int idLista,int idListaAnterior)
 {
+	string lista = Helper::IntToString(idLista);
+	string listaAnterior = Helper::IntToString(idListaAnterior);
+
 	string message="Votante DNI: ";
 	message.append(dni);
 	message.append("cambio eleccion de Lista: ");
@@ -48,8 +51,10 @@ void VotanteLog::LogPasswordInvalid(string info)
 
 }
 
-void VotanteLog::LogVoto(string dni, string lista)
+void VotanteLog::LogVoto(string dni, int idLista)
 {
+	string lista = Helper::IntToString(idLista);
+
 	string message="Votante DNI: ";
 	message.append(dni);
 	message.append(" voto Lista: ");

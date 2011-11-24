@@ -17,10 +17,10 @@ class Conteo {
 
 	public:
 		Conteo();
-		Conteo(std::string  idLista, int idDistrito, int idEleccion, int idConteo);
-		Conteo(std::string  idLista, int idDistrito, int idEleccion, int idConteo, int cantVotos);
+		Conteo(int idLista, int idDistrito, int idEleccion, int idConteo);
+		Conteo(int idLista, int idDistrito, int idEleccion, int idConteo, int cantVotos);
 		virtual ~Conteo();
-		string  GetIdLista();
+		int GetIdLista();
 		int GetIdDistrito();
 		//Eleccion* GetEleccion();
 		int GetIdEleccion();
@@ -28,7 +28,7 @@ class Conteo {
 		int GetCountVotos();
 		int GetId();
 	private:
-		string  _idLista;
+		int _idLista;
 		int _idDistrito;
 		//Eleccion* _eleccion;
 		int _idEleccion;

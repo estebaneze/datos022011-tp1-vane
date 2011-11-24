@@ -56,7 +56,7 @@ void Element::setData(Data data, DataSize dataSize){
 	char* dataBuffer = new char[dataSize];
 	memcpy(dataBuffer,(char*)data,dataSize);
 
-	this->data=dataBuffer;
+	this->data = dataBuffer;
 }
 
 Data Element::getData() {
