@@ -17,8 +17,8 @@ public:
 	static void LogSuccess(string info);
 	static void LogUserInvalid(string info);
 	static void LogPasswordInvalid(string info);
-	static void LogVoto(string dni,string lista);
-	static void LogChangeVoto(string dni,string lista,string listaAnterior);
+	static void LogVoto(string dni,int lista);
+	static void LogChangeVoto(string dni,int lista,int listaAnterior);
 
 	virtual ~VotanteLog();
 };

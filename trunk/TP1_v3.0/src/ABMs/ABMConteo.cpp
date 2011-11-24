@@ -28,15 +28,14 @@ int ABMConteo::Inicializa(int idLista, int idDistrito, int idEleccion){
 
 	// OJO! NO BORRAR ESTE STRING CONCATENADO, SE USA PARA LOGUEAR
 	// PARA CREAR EL STRING CORRECTO (SIN DESPERDICIAR BYTES) HACWER UNO NUEVO DEJANDO ESTE
-	string idListaAux = Helper::IntToString(idLista);
-	string str = idListaAux.append("|");
-	str.append(Helper::IntToString(idDistrito)).append("|");
-	str.append(Helper::IntToString(idEleccion).append("|"));
-	str.append("0|");	//0 votos
+
 
 	//idLista|idDistrito|idEleccion|votos|
-	Data data = (Data)str.c_str();
-	int longData = str.length();
+
+	string dataProcessed =  ProcessData::generarDataConteo(idLista, idDistrito, idEleccion, 0);
+
+	Data data = (Data)dataProcessed.c_str();
+	int longData = dataProcessed.length();
 
 	int idConteo = Identities::GetNextIdConteo();
 
@@ -46,14 +45,22 @@ int ABMConteo::Inicializa(int idLista, int idDistrito, int idEleccion){
 	this->bplusTree->insert(element);
 
 	//Actualizo los indices
-	this->indexByDistrito->AppendToIndex(Helper::copyBytesToString(idDistrito), Helper::copyBytesToString(idConteo));
-	this->indexByLista->AppendToIndex(Helper::copyBytesToString(idLista), Helper::copyBytesToString(idConteo));
+	//this->indexByDistrito->AppendToIndex(Helper::copyBytesToString(idDistrito), Helper::copyBytesToString(idConteo));
+	//this->indexByLista->AppendToIndex(Helper::copyBytesToString(idLista), Helper::copyBytesToString(idConteo));
+	this->indexByDistrito->AppendToIndex(idDistrito, idConteo);
+	this->indexByLista->AppendToIndex(idLista, idConteo);
 
 	//Esta es la clave de la eleccion dentro de conteo
+	//this->indexByEleccion->AppendToIndex(Helper::copyBytesToString(idEleccion), Helper::copyBytesToString(idConteo));
+	this->indexByEleccion->AppendToIndex(idEleccion, idConteo);
 
-	this->indexByEleccion->AppendToIndex(Helper::copyBytesToString(idEleccion), Helper::copyBytesToString(idConteo));
-
-	BPlusTreeLog::LogInsert(key, data,ConfigurationMananger::getInstance()->getLogOperConteoFile());
+	//Info de logueo----------------------
+	string idListaAux = Helper::IntToString(idLista);
+	string str = idListaAux.append("|");
+	str.append(Helper::IntToString(idDistrito)).append("|");
+	str.append(Helper::IntToString(idEleccion).append("|"));
+	str.append("0|");	//0 votos
+	BPlusTreeLog::LogInsert(key, str,ConfigurationMananger::getInstance()->getLogOperConteoFile());
 	BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile());
 
 	return idConteo;
@@ -77,7 +84,18 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
 		c->AddVoto();
 		//Key key = Helper::IntToString(idConteo);
 		KeyInt key = idConteo;
-		string str = c->GetIdLista();                                                                           //agrego lista
+
+		//idLista|idDistrito|idEleccion|cantVotos|
+		string dataProcessed = ProcessData::generarDataConteo(c->GetIdLista(), c->GetIdDistrito(), c->GetIdEleccion(), c->GetCountVotos());
+
+		Data data = (Data)dataProcessed.c_str();
+		int longData = dataProcessed.length();
+
+		Element* element = new Element(key, data, longData);
+		this->bplusTree->modify(element);
+
+		//------------------------Info de logueo
+		string str = Helper::IntToString(c->GetIdLista());                                                                           //agrego lista
 		str.append("|").append(Helper::IntToString(c->GetIdDistrito()));        //agrego id Distrot
 
 		//Esta es la clave de la eleccion dentro de conteo
@@ -87,13 +105,7 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
 
 		str.append("|");	//Pongo el pipe al final, para que quede idLista|idDistrito|idEleccion|cantVotos|
 
-		Data data = (Data)str.c_str();
-		int longData = str.length();
-
-		Element * element=new Element(key, data, longData);
-		this->bplusTree->modify(element);
-
-		BPlusTreeLog::LogModify(key, data, ConfigurationMananger::getInstance()->getLogOperConteoFile());
+		BPlusTreeLog::LogModify(key, str, ConfigurationMananger::getInstance()->getLogOperConteoFile());
 		BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile());
 
 		this->NotifyVotante(votante, idEleccion);
@@ -127,19 +139,28 @@ Conteo* ABMConteo::GetConteo(int idConteo){
 
 	if(ExistsKey(idConteo)){
 
-			Element* elemento = this->bplusTree->findExact(idConteo);
-			vector<string> splited = Helper::split(elemento->getData(), '|');
-			int cantVotos = 0;
+		Element* elemento = this->bplusTree->findExact(idConteo);
 
-			if(splited.size() > 3){        //si ya tiene registrado algun voto
-				if(splited[3].size() > 0)
-					cantVotos = Helper::StringToInt(splited[3]);
-			}
+		int idLista = 0;
+		int idDistrito = 0;
+		int idEleccion = 0;
+		int votos = 0;
+		ProcessData::obtenerDataConteo(elemento->getData(), elemento->getDataSize(), idLista, idDistrito, idEleccion, votos);
 
-			return new Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), idConteo, cantVotos);
+		return new Conteo(idLista, idDistrito, idEleccion, elemento->getKey(), votos);
+		/*vector<string> splited = Helper::split(elemento->getData(), '|');
+		int cantVotos = 0;
+
+		if(splited.size() > 3){        //si ya tiene registrado algun voto
+			if(splited[3].size() > 0)
+				cantVotos = Helper::StringToInt(splited[3]);
+		}
+
+		return new Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), idConteo, cantVotos);*/
 	}
 
 	return NULL;
+	//TODO:implementar
 }
 
 vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
@@ -149,20 +170,25 @@ vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
 
 	for(int i = 0; i < ids.size(); i++){
 
-		int kint = Helper::StringToInt(ids[i]);
+		int kint = Helper::copyBytesToInt(ids[i]);
 		Element* elemento = this->bplusTree->findExact(kint);
 
-		string data = elemento->getData();
-
-		vector<string> splited = Helper::split(data, '|');
+	/*	vector<string> splited = Helper::split(data, '|');
 		int cantVotos = 0;	//vane
 
 		if(splited.size() > 3){        //si ya tiene registrado algun voto
 			if(splited[3].size() > 0)
 				cantVotos = Helper::StringToInt(splited[3]);
 		}
+	*/
+		int idLista = 0;
+		int idDistrito = 0;
+		int idEleccion = 0;
+		int votos = 0;
+		ProcessData::obtenerDataConteo(elemento->getData(), elemento->getDataSize(), idLista, idDistrito, idEleccion, votos);
 
-		conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), kint, cantVotos));
+		conteos.push_back(Conteo(idLista, idDistrito, idEleccion, kint, votos));
+		//conteos.push_back(Conteo(splited[0], Helper::StringToInt(splited[1]), Helper::StringToInt(splited[2]), kint, cantVotos));
 	}
 
 	return conteos;
@@ -170,7 +196,7 @@ vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
 
 vector<Conteo> ABMConteo::GetConteoByEleccion(int idEleccion){
 
-        vector<Conteo> conteos;
+ /*       vector<Conteo> conteos;
 
         vector<Key> ids = this->indexByEleccion->GetIds(Helper::copyBytesToString(idEleccion));
 
@@ -193,12 +219,13 @@ vector<Conteo> ABMConteo::GetConteoByEleccion(int idEleccion){
                 }
         }
 
-        return conteos;
+        return conteos;*/
 }
 
 vector<Conteo> ABMConteo::GetConteoByLista(string idLista){
 
-        vector<Conteo> conteos;
+	//TODO: implementar
+        /*vector<Conteo> conteos;
 
         vector<Key> ids = this->indexByLista->GetIds(idLista);
         int size = ids.size();
@@ -230,7 +257,7 @@ vector<Conteo> ABMConteo::GetConteoByLista(string idLista){
 
         }
 
-        return conteos;
+        return conteos;*/
 }
 
 void ABMConteo::mostrarConteoPorPantalla(){
