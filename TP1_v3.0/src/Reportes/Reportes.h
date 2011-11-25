@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <vector>
 #include "../ABMs/ABMConteo.h"
+#include "../ABMs/ABMLista.h"
 #include "../ABMs/ABMCargo.h"
 #include "../ABMs/ABMEleccion.h"
 #include "../ABMs/ABMDistrito.h"

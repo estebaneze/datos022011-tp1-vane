@@ -41,7 +41,183 @@
 
 using namespace std;
 
-int main(int arg, char *argv[]) {
+int main2(){
+
+	//Identities::InitializeFile();
+	Menues::MenuABMEleccion();
+	cout<< endl << endl << " Bye!!!!!! " << endl;
+	return 0;
+}
+
+int main(){
+
+	int f = 20111112;
+	cout << "Helper::IntToString(f) " << Helper::IntToString(f) << endl;
+	Fecha fecha = Fecha(Helper::IntToString(f));
+	cout << fecha.getFriendlyStr() << endl;
+
+	return 0;
+}
+
+int main3(int arg, char *argv[]) {
+
+	cout << endl << endl;
+	Identities::InitializeFile();
+
+	cout << endl << endl;
+
+	CargaMasiva::BorraTodosArchivos();
+	cout<<endl;
+
+	CargaMasiva::CargarVotantes();
+	cout<<endl<<endl;
+
+	ABMDistrito * abmDis = new ABMDistrito();
+	int idDistrito1 = abmDis->Add("Dis1");
+	int idDistrito2 = abmDis->Add("Dis2");
+	int idDistrito3 = abmDis->Add("Dis3");
+	int idDistrito4 = abmDis->Add("Dis4");
+	int idDistrito5 = abmDis->Add("Dis5");
+	int idDistrito6 = abmDis->Add("Dis6");
+
+	Distrito *d1 = abmDis->GetDistrito(idDistrito1);
+	Distrito *d2 = abmDis->GetDistrito(idDistrito2);
+	Distrito *d3 = abmDis->GetDistrito(idDistrito3);
+	Distrito *d4 = abmDis->GetDistrito(idDistrito4);
+
+	cout << "Distritos: " << endl;
+	cout<<"	Id: "<< d1->GetId() << " - Nombre distrito: " << d1->GetNombre() << endl;
+	cout<<"	Id: "<< d2->GetId() << " - Nombre distrito: " << d2->GetNombre() << endl;
+	cout<<"	Id: "<< d3->GetId() << " - Nombre distrito: " << d3->GetNombre() << endl;
+	cout<<"	Id: "<< d4->GetId() << " - Nombre distrito: " << d4->GetNombre() << endl;
+
+	ABMCargo abmCargos = ABMCargo();
+	vector<int> cargosSec;
+	int idCargo1 = abmCargos.Add("Cargo1", cargosSec);
+	cargosSec.push_back(idCargo1);
+	cargosSec.push_back(20);
+	cargosSec.push_back(30);
+	int idCargo2 = abmCargos.Add("Cargo2", cargosSec);
+	int idCargo3 = abmCargos.Add("Cargo3", cargosSec);
+
+
+	cout << "Cargos: " << endl;
+	Cargo* c1 = abmCargos.GetCargo(idCargo1);
+	Cargo* c2 = abmCargos.GetCargo(idCargo2);
+	Cargo* c3 = abmCargos.GetCargo(idCargo3);
+
+	cout << "	Cargo: "<< c1->GetNombre() << " - Id: " <<c1->GetId() << " - cant cargos sec: ";
+	for(int i = 0; i < c1->GetCargosSecundarios().size(); i++){
+		cout << c1->GetCargosSecundarios()[i] << " - ";
+	}
+	cout << endl;
+
+	cout << "	Cargo: "<< c2->GetNombre() << " - Id: " << c2->GetId() << " - cant cargos sec: ";
+	for(int i = 0; i < c2->GetCargosSecundarios().size(); i++){
+		cout << c2->GetCargosSecundarios()[i] << " - ";
+	}
+	cout << endl;
+
+	cout << "	Cargo: "<< c3->GetNombre() << " - Id: " << c3->GetId() << " - cant cargos sec: ";
+	for(int i = 0; i < c3->GetCargosSecundarios().size(); i++){
+		cout << c3->GetCargosSecundarios()[i] << " - ";
+	}
+	cout << endl;
+
+	ABMEleccion* abme = new ABMEleccion();
+
+	Eleccion* eleccion2 = new Eleccion(idCargo2, Fecha(12,11,2011));
+	eleccion2->AddDistrito(idDistrito3);
+	eleccion2->AddDistrito(idDistrito4);
+
+	/*Eleccion* eleccion3 = new Eleccion(idCargo1, Fecha(12,11,2011));
+	eleccion3->AddDistrito(idDistrito5);
+	eleccion3->AddDistrito(idDistrito6);
+
+	Eleccion* eleccion4 = new Eleccion(idCargo3, Fecha(12,11,2011));
+	eleccion4->AddDistrito(idDistrito5);
++/
+	/*Eleccion* eleccion = new Eleccion(idCargo1, Fecha(11,11,2011));
+	eleccion->AddDistrito(idDistrito1);
+	eleccion->AddDistrito(idDistrito2);
+
+	Eleccion* eleccion5 = new Eleccion(idCargo2, Fecha(11,11,2011));
+	eleccion5->AddDistrito(idDistrito5);*/
+
+	//int idEleccion = abme->Add(eleccion);
+	int idEleccion2 = abme->Add(eleccion2);
+	//int idEleccion3 = abme->Add(eleccion3);
+	//int idEleccion4 = abme->Add(eleccion4);
+	//int idEleccion5 = abme->Add(eleccion5);
+
+	//Eleccion* e = abme->GetEleccion(idEleccion);
+	Eleccion* e2 = abme->GetEleccion(idEleccion2);
+	//Eleccion* e3 = abme->GetEleccion(idEleccion3);
+	//Eleccion* e4 = abme->GetEleccion(idEleccion4);
+	//Eleccion* e5 = abme->GetEleccion(idEleccion5);
+
+	cout << "Elecciones: " << endl << endl;
+	/*cout << "	Id: " << e->GetId() << " - Fecha: " << e->GetDate().getFriendlyStr() << " - Cargo: " << e->GetIdCargo();
+	cout << " - Distritos: ";
+	for(int i = 0; i < e->GetDistritos().size(); i++){
+		cout << e->GetDistritos()[i] << " - ";
+	}
+	cout << endl;
+*/
+	cout << "	Id: " << e2->GetId() << " - Fecha: " << e2->GetDate().getFriendlyStr() << " - " << e2->GetDate().getint() << " - Cargo: " << e2->GetIdCargo();
+	cout << " - Distritos: ";
+	for(int i = 0; i < e2->GetDistritos().size(); i++){
+		cout << e2->GetDistritos()[i] << " - ";
+	}
+	cout << endl;
+
+	/*cout << "	Id: " << e3->GetId() << " - Fecha: " << e3->GetDate().getFriendlyStr() <<" - " << e2->GetDate().getint()<<  " - Cargo: " << e3->GetIdCargo();
+	cout << " - Distritos: ";
+	for(int i = 0; i < e3->GetDistritos().size(); i++){
+		cout << e3->GetDistritos()[i] << " - ";
+	}
+	cout << endl;
+
+	cout << "	Id: " << e4->GetId() << " - Fecha: " << e4->GetDate().getFriendlyStr() <<" - " << e2->GetDate().getint()<<  " - Cargo: " << e4->GetIdCargo();
+	cout << " - Distritos: ";
+	for(int i = 0; i < e4->GetDistritos().size(); i++){
+		cout << e4->GetDistritos()[i] << " - ";
+	}
+	cout << endl;
+
+	cout << "	Id: " << e5->GetId() << " - Fecha: " << e5->GetDate().getFriendlyStr() << " - Cargo: " << e5->GetIdCargo();
+	cout << " - Distritos: ";
+	for(int i = 0; i < e5->GetDistritos().size(); i++){
+		cout << e5->GetDistritos()[i] << " - ";
+	}
+	cout << endl;
+
+*/
+	cout << endl << endl;
+
+	cout << "Elecciones by fecha: " << endl;
+	Fecha* fecha = new Fecha(12,11,2011);
+	vector<Eleccion*> es = abme->GetByFecha(fecha);
+	cout << "Elecciones del " << fecha->getFriendlyStr() << " - " << fecha->getint() << endl;
+	for(int i = 0; i< es.size(); i++){
+		cout << "	Id: " << es[i]->GetId() << " - Fecha: " << es[i]->GetDate().getFriendlyStr() << " - " << es[i]->GetDate().getint() << " - Cargo: " << es[i]->GetIdCargo() << endl;
+	}
+	cout << endl;
+
+	/*fecha = new Fecha(11,11,2011);
+	es = abme->GetByFecha(fecha);
+	cout << "Elecciones del " << fecha->getFriendlyStr() << endl;
+	for(int i = 0; i< es.size(); i++){
+		cout << "	Id: " << es[i]->GetId() << " - Fecha: " << es[i]->GetDate().getFriendlyStr() << " - Cargo: " << es[i]->GetIdCargo() << endl;
+	}
+	cout << endl;
+*/
+	cout << endl << endl << "Bye!!!!!!!!" << endl;;
+
+	return 0;
+}
+
+int main2(int arg, char *argv[]) {
 
 	cout << endl << endl;
 	Identities::InitializeFile();
@@ -106,6 +282,8 @@ int main(int arg, char *argv[]) {
 
 	int idEleccion = abme->Add(eleccion);
 	int idEleccion2 = abme->Add(eleccion2);
+
+	abme->GetByFecha(new Fecha(12,11,2011));
 
 	Eleccion* e = abme->GetEleccion(idEleccion);
 	Eleccion* e2 = abme->GetEleccion(idEleccion2);
@@ -342,9 +520,20 @@ int main(int arg, char *argv[]) {
 
 	//Prueba reportes
 
-	cout << "*************** Test de Reportes ******************************" << endl << endl;
+	cout << "*************** Reporte por Lista ******************************" << endl << endl;
 	cout << "Reporte por Lista " << lista->GetNombre() << "(id:" << lista->GetId() << ")" << endl << endl;
 	Reportes::reportePorLista(lista->GetId(), false, "");
+	cout << endl << endl;
+
+	cout << "*************** Reporte por Eleccion ******************************" << endl << endl;
+	cout << "Reporte por Eleccion " << e->GetDate().getFriendlyStr() << " - Cargo: " << e->GetIdCargo() << "(id:" << e->GetId() << ")" << endl << endl;
+	Reportes::reportePorEleccion(e->GetId(), false, "");
+	cout << endl << endl;
+
+	cout << "*************** Reporte por Distrito ******************************" << endl << endl;
+	cout << "Reporte por Distrito " << d1->GetNombre() << "(id:" << d1->GetId() << ")" << endl << endl;
+	Reportes::reportePorDistrito(d1->GetId(), false, "");
+	cout << endl << endl;
 
 	//PRUEBA CANDIDATO
 /*	ABMCandidato* abm = new ABMCandidato();

@@ -219,7 +219,7 @@ void CargaMasiva::CargarVotantes(){
 
 		long dni = i;//(long)GetRandom(99999) * 1000;
 
-		int idDistrito = GetRandom(CANT_DISTRITOS);
+		int idDistrito = i;//GetRandom(CANT_DISTRITOS);
 
 		Votante  * vot = new Votante(dni, nombreApellido, clave, domicilio, idDistrito);
 		abmVotante->Add(vot);

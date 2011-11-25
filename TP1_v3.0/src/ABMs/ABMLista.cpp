@@ -37,7 +37,7 @@ int ABMLista::Add(Lista* lista){
 
 		//this->directorio->insert(lista->GetNombre(),Helper::copyBytesToString(lista->GetEleccion()));
 
-		this->index->AppendToIndex(Helper::copyBytesToString(lista->GetEleccion()), Helper::copyBytesToString(idLista));   //Tengo que refrescar el indice en todos los Adds!!!
+		this->index->AppendToIndex(lista->GetEleccion(), idLista);   //Tengo que refrescar el indice en todos los Adds!!!
 
 		//logueo operacion y proceso
 
@@ -182,14 +182,16 @@ void ABMLista::mostrarListasPorPantalla(){
 
 vector<Lista> ABMLista::GetListasByEleccion(int idEleccion){
 
-        vector<Key> values = this->index->GetIds(Helper::copyBytesToString(idEleccion));
+	vector<int> values = this->index->GetIdsInt(idEleccion);
+	vector<Lista> listas;
 
-        vector<Lista> listas;
+	for(unsigned int i = 0; i < values.size(); i++){
 
-                for(unsigned int i = 0; i < values.size(); i++){
-                        listas.push_back(Lista(values[i],idEleccion));
-                }
-        return listas;
+		Lista* lista = this->GetLista(values[i]);
+		listas.push_back(Lista(lista->GetNombre(),lista->GetEleccion()));
+	}
+
+	return listas;
 }
 
 ABMLista::~ABMLista() {

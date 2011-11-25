@@ -76,7 +76,7 @@ int ABMCandidato::Add(int idLista, long idVotante, int idCargo){
 */
 vector<int> ABMCandidato::GetByLista(int idLista){
 
-	vector<int> byLista = this->index->GetIdsInt(Helper::copyBytesToString(idLista));
+	vector<int> byLista = this->index->GetIdsInt(idLista);
 	return byLista;
 	/*
 	for(int i = 0; i < byLista.size(); i++){

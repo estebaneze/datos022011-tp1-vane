@@ -25,12 +25,12 @@ class ABMEleccion {
 		virtual ~ABMEleccion();
 		bool Exists(Eleccion* eleccion);
 		bool Exists(int idEleccion);
-		int ObtenerKey(Eleccion* eleccion);
+		//int ObtenerKey(Eleccion* eleccion);
 		bool ExistsKey(KeyInt idEleccion);
 		//bool ExistsKey(Fecha fecha,int idCargo);
 		int Add(Eleccion* eleccion);
 		//bool Delete(Eleccion* eleccion);
-		bool Modify(Eleccion* eleccion);
+		//bool Modify(Eleccion* eleccion);
 		//vector<Eleccion> GetElecciones();
 		Eleccion* GetEleccion(int idEleccion);
 		void mostrarEleccionesPorPantalla();

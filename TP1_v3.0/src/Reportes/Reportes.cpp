@@ -26,8 +26,10 @@ void Reportes::reportePorEleccion(int idEleccion, bool guardaEncriptado, string 
 	resultados = Reportes::GroupByLista(resultados);
 	resultados = Reportes::OrderByCantidadVotos(resultados);
 
+	ABMLista* abmLista = new ABMLista();
 	for(int i = 0; i < resultados.size(); i++){
-		out << "Lista: " << resultados[i].GetIdLista() << ". Votos:  " << resultados[i].GetCountVotos() << endl;
+		Lista* lista = abmLista->GetLista(resultados[i].GetIdLista());
+		out << "Lista: " << lista->GetNombre() << ". Votos:  " << resultados[i].GetCountVotos() << endl;
 	}
 
 	if (guardaEncriptado)
@@ -48,6 +50,7 @@ void Reportes::reportePorEleccion(int idEleccion, bool guardaEncriptado, string 
 	}
 
 	delete abmConteo;
+	delete abmLista;
 }
 
 void Reportes::reportePorLista(int idLista, bool guardaEncriptado, string claveEncriptado)
@@ -202,6 +205,7 @@ void Reportes::reportePorDistrito(int idDistrito, bool guardaEncriptado, string 
 
 	out << endl << endl << endl;
 
+	ABMLista* abmLista = new ABMLista();
 	for(int i = 0; i < resAgrupados.size(); i++){
 
 		vector<Conteo> cs = resAgrupados[i];
@@ -216,8 +220,10 @@ void Reportes::reportePorDistrito(int idDistrito, bool guardaEncriptado, string 
 			out << "Eleccion: (" << fecha.getFriendlyStr() << " - " << cargo << ")" << endl;
 
 			for(int j = 0; j < cs.size(); j++){
+
 				Conteo res = cs[j];
-				out << "		Lista: " << res.GetIdLista() << " tiene " << res.GetCountVotos() << " votos." << endl;
+				Lista* lista = abmLista->GetLista(res.GetIdLista());
+				out << "		Lista: " << lista->GetNombre() << " tiene " << res.GetCountVotos() << " votos." << endl;
 			}
 		}
 	}
@@ -243,7 +249,7 @@ void Reportes::reportePorDistrito(int idDistrito, bool guardaEncriptado, string 
 	delete abmEleccion;
 	delete abmCargo;
 	delete abmDistrito;
-
+	delete abmLista;
 }
 
 void Reportes::reporteDesencriptar(string fileName, string claveEncriptado)

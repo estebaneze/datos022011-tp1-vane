@@ -1627,6 +1627,7 @@ void Menues::MenuABMEleccion()
 			cin >>opcion;
 
 			switch (opcion) {
+
 						case '1':	{
 							bool listo=false;
 							ABMEleccion *el = new ABMEleccion();
@@ -1651,9 +1652,9 @@ void Menues::MenuABMEleccion()
 
 								bool listo2=false;
 								while (!listo2){
+
 									string nombre;
 									int idCargo;
-
 
 									//busco si existe el nombre
 									ABMCargo *abmCargo = new ABMCargo();
@@ -1661,7 +1662,7 @@ void Menues::MenuABMEleccion()
 									cout << "Cargos disponibles: " << endl;
 									vector<Cargo> vecCargos = abmCargo->GetCargos();
 
-									for (unsigned int i=0;i<vecCargos.size();i++){
+									for (unsigned int i = 0; i < vecCargos.size(); i++){
 										cout << "Cargo: " << vecCargos.at(i).GetNombre() << endl;
 									}
 
@@ -1693,21 +1694,25 @@ void Menues::MenuABMEleccion()
 
 										//verifico que la eleccion (fecha_idcargo) no exista
 										Eleccion *eleccion = new Eleccion(idCargo,fecha);
-										int existe = el->Add(eleccion);
+										//int existe = el->Add(eleccion);
+										bool existe = el->Exists(eleccion);
 
-										if (existe != 0){
+										if (!existe){
+
 											bool finCargaDistrito=false;
 											ABMDistrito *dis = new ABMDistrito();
 											vector<int> distritos;
 
 											//cargo lista de distritos para la eleccion
 											while(!finCargaDistrito){
+
 												int id_distrito;
 												string op;
-												cout << "Desea carga un IDDistrito a la eleccion, escriba [s]=SI o [n]=terminar: ";
-												cin >> op;
+												//cout << "Desea carga un IDDistrito a la eleccion, escriba [s]=SI o [n]=terminar: ";
+												//cin >> op;
+												cout << "\nCarga de distritos. " << endl;
 
-												if (op=="s"){
+												//if (op=="s"){
 
 													cout << endl;
 													cout << "Ingrese ID del distrito: ";
@@ -1715,43 +1720,69 @@ void Menues::MenuABMEleccion()
 													cout << endl;
 
 													if (dis->Exists(id_distrito)){
-														distritos.push_back(id_distrito);
-														cout << "Id distrito "<< id_distrito << " cargado con exito" << endl;
 
+														bool distritoYaAgregado = false;
+														//Me fijo que no este en los distritos que ya ingreso
+														for(int j = 0; j < distritos.size(); j++){
+															if(distritos[j] == id_distrito){
+																distritoYaAgregado = true;
+																break;
+															}
 														}
+
+														if(!distritoYaAgregado){
+															distritos.push_back(id_distrito);
+															cout << "Distrito "<< id_distrito << " cargado con exito" << endl;
+														}
+														else{
+															cout << "El Distrito ya fue agregado. Por favor elija otro." << endl;
+														}
+
+													}
 													else {
-														cout << "No existe el IdDistrito " << id_distrito << " , presione una tecla para reintentar o [q] para terminar";
-														string c;
+														cout << "No existe el IdDistrito " << id_distrito << endl;// " , presione una tecla para reintentar o [q] para terminar";
+														/*string c;
 														cin >> c;
 														if (c=="q") {
 															finCargaDistrito=true;
 															listo2=true;
 															listo=true;
+														}*/
+													}
 
-														}
+													op.clear();
+													cout << "Desea cargar otro Distrito a la eleccion?, escriba [s]=SI u otra tecla para terminar: ";
+													cin >> op;
 
-														}
-												}
-												else {
+													if(op == "n"){
+														finCargaDistrito=true;
+														listo2=true;
+														listo=true;
+													}
+												//}
+												//else {
 													//termine de cargar la eleccion, vuelvo al menu
-													finCargaDistrito=true;
-													listo2=true;
-													listo=true;
+													//finCargaDistrito=true;
+													//listo2=true;
+													//listo=true;
 
-												}
+												//}
 											}//fin de carga de distritos
 
-										delete dis;
+											cout << "fin carga de distritos" << endl;
 
-										//guardo eleccion
-										for (int i=0;i<distritos.size();i++){
-											eleccion->AddDistrito(distritos[i]);
-										}
+											//guardo eleccion
+											for (int i=0; i < distritos.size();i++){
+												eleccion->AddDistrito(distritos[i]);
+											}
 
-										el->Modify(eleccion);
-										listo2=true;
-										listo=true;
+											//el->Modify(eleccion);
 
+											el->Add(eleccion);
+											delete dis;
+
+											listo2=true;
+											listo=true;
 										}
 										else{
 											cout << endl;
@@ -1761,17 +1792,26 @@ void Menues::MenuABMEleccion()
 											listo=true;
 											listo2=true;
 										}
+
 										delete eleccion;
 									}
 
+
+									listo2=true;
+									listo=true;
+
 								}
+
 							}
 
-
-
-							delete el;
+							//delete el;
+							fin=1;
 							break;
-								}
+						}
+						case '2':{
+							fin=1;
+							break;
+						}
 						/*case '2':	{
 								bool listo = false;
 								ABMEleccion *el = new ABMEleccion();

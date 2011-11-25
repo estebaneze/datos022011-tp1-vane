@@ -163,7 +163,7 @@ Conteo* ABMConteo::GetConteo(int idConteo){
 vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
 
 	vector<Conteo> conteos;
-	vector<int> ids = this->indexByDistrito->GetIdsInt(Helper::copyBytesToString(idDistrito));
+	vector<int> ids = this->indexByDistrito->GetIdsInt(idDistrito);
 
 	for(int i = 0; i < ids.size(); i++){
 
@@ -184,7 +184,7 @@ vector<Conteo> ABMConteo::GetConteoByDistrito(int idDistrito){
 vector<Conteo> ABMConteo::GetConteoByEleccion(int idEleccion){
 
 	vector<Conteo> conteos;
-	vector<int> ids = this->indexByEleccion->GetIdsInt(Helper::copyBytesToString(idEleccion));
+	vector<int> ids = this->indexByEleccion->GetIdsInt(idEleccion);
 
 	for(int i = 0; i < ids.size(); i++){
 
@@ -206,7 +206,7 @@ vector<Conteo> ABMConteo::GetConteoByEleccion(int idEleccion){
 vector<Conteo> ABMConteo::GetConteoByLista(int idLista){
 
 	vector<Conteo> conteos;
-	vector<int> ids = this->indexByLista->GetIdsInt(Helper::copyBytesToString(idLista));
+	vector<int> ids = this->indexByLista->GetIdsInt(idLista);
 
 	for(int i = 0; i < ids.size(); i++){
 

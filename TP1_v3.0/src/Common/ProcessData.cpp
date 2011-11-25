@@ -778,7 +778,7 @@ void ProcessData::obtenerData(string valor, string & nombre, string & clave, str
 /**
  * Obtener data de ABMEleccion
  */
-void ProcessData::obtenerDataEleccion(char* data, int sizeData,string &fecha,int &cargo,vector<int> &distritos)
+void ProcessData::obtenerDataEleccion(char* data, int sizeData,int &fecha,int &cargo,vector<int> &distritos)
 {
 	string aux;
 	aux.clear();
@@ -798,18 +798,21 @@ void ProcessData::obtenerDataEleccion(char* data, int sizeData,string &fecha,int
 	short tamDato=0;
 
 	//RECUPERO DE FECHA
-	c_sizeFecha[0]=valor.c_str()[0];
-	c_sizeFecha[1]=valor.c_str()[1];
-	i=2;
+	c_sizeFecha[0]=valor.c_str()[i];
+	i++;
+	c_sizeFecha[1]=valor.c_str()[i];
+	i++;
 
+	tamDato=0;
 	memcpy((void*)&tamDato,(void*)&c_sizeFecha,2);
 
-	for (int j=0;j<(tamDato)&& (i<valor.size());j++){
+	aux.clear();
+	for (int j=0; j<tamDato && (i<valor.size());j++){
 		aux.append(1,valor.at(i));
 		i++;
 	}
-	fecha.append(aux);
 
+	fecha = Helper::copyBytesToInt(aux);
 
 	//RECUPERO CARGO
 	c_sizeCargo[0]=valor.c_str()[i];
@@ -923,16 +926,15 @@ string ProcessData::generarData(string nombre, string clave, string domicilio, i
 /*
  * generarData usado en ABMEleccion
  */
-string ProcessData::generarDataEleccion (string fecha, int cargo, vector<int> distritos)
+string ProcessData::generarDataEleccion(int fecha, int cargo, vector<int> distritos)
 {
 
 	short sizeFecha=0;
-
 	short sizeCargo=0;
 	short sizeDistritos=0;
 
 	//consigo tamaño de cada campo para armar los delimitadores
-	sizeFecha = fecha.size();
+	sizeFecha = sizeof(int);
 	sizeCargo = sizeof(int);
 	sizeDistritos = distritos.size()*4; //x4 ya que cada elemento es un int (4 bytes)
 
@@ -946,9 +948,10 @@ string ProcessData::generarDataEleccion (string fecha, int cargo, vector<int> di
 	memcpy((void*)c_sizeDistritos,(const void*)&sizeDistritos,2);
 
 	string data="";
-  	data.append(1,c_sizeFecha[0]);
-  	data.append(1,c_sizeFecha[1]);
-	data.append(fecha.c_str());
+	data.append(1,c_sizeFecha[0]);
+	data.append(1,c_sizeFecha[1]);
+	data.append(Helper::copyBytesToString(fecha).c_str(),4);
+
 	data.append(1,c_sizeCargo[0]);
 	data.append(1,c_sizeCargo[1]);
 	data.append(Helper::copyBytesToString(cargo).c_str(),4);
