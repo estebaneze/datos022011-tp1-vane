@@ -29,7 +29,7 @@ class ABMEleccion {
 		bool ExistsKey(KeyInt idEleccion);
 		//bool ExistsKey(Fecha fecha,int idCargo);
 		int Add(Eleccion* eleccion);
-		bool Delete(Eleccion* eleccion);
+		//bool Delete(Eleccion* eleccion);
 		bool Modify(Eleccion* eleccion);
 		//vector<Eleccion> GetElecciones();
 		Eleccion* GetEleccion(int idEleccion);

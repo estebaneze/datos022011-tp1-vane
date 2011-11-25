@@ -28,6 +28,11 @@ Fecha::Fecha(std::string fecha) {
 	this->anio = Helper::StringToInt(fecha.substr(0,4));
 }
 
+int Fecha::getint(){
+
+	return Helper::StringToInt(this->getStrFecha());
+}
+
 std::string Fecha::getStrFecha(){
 
 	string sanio = Helper::IntToString(anio);

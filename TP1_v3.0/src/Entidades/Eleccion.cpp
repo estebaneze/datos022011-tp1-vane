@@ -89,14 +89,6 @@ int Eleccion::GetIdCargo(){
 }
 
 vector<int> Eleccion::GetDistritos(){
-
-	vector<int> ds;
-	ds.push_back(1);
-	ds.push_back(2);
-	ds.push_back(3);
-	ds.push_back(4);
-	return ds;
-
 	return _distritos;
 }
 

@@ -9,42 +9,42 @@
 
 
 ABMCargo::ABMCargo() {
-        int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeCargo();
-        this->hashFile= ConfigurationMananger::getInstance()->getCargoFile();
-      this->directorio = new Directory(hashFile, maxBucketSize);
+	int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeCargo();
+	this->hashFile= ConfigurationMananger::getInstance()->getCargoFile();
+	this->directorio = new Directory(hashFile, maxBucketSize);
 }
 
 
 int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
 
          //if (!(this->directorio->existKey(Helper::IntToString(idCargo)))){
-        if(!this->Exists(nombre)){      //Si no existe un cargo con el mismo nombre
+	if(!this->Exists(nombre)){      //Si no existe un cargo con el mismo nombre
 
-            int idCargo = Identities::GetNextIdCargo();
+		int idCargo = Identities::GetNextIdCargo();
 
-            string data = ProcessData::generarData(nombre, cargosSecundarios);
+		string data = ProcessData::generarData(nombre, cargosSecundarios);
 
-            this->directorio->insert(Helper::copyBytesToString(idCargo), data);
+		this->directorio->insert(Helper::copyBytesToString(idCargo), data);
 
-				//LOGUEO
-				string field = nombre.append("|");
-                field.append(Helper::concatenar(cargosSecundarios, ConfigurationMananger::getInstance()->getSeparador1()));
+		//LOGUEO
+		string field = nombre.append("|");
+		field.append(Helper::concatenar(cargosSecundarios, ConfigurationMananger::getInstance()->getSeparador1()));
 
-                HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessCargoFile());
-                HashLog::LogInsert(Helper::IntToString(idCargo),field,ConfigurationMananger::getInstance()->getLogOperCargoFile());
+		HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessCargoFile());
+		HashLog::LogInsert(Helper::IntToString(idCargo),field,ConfigurationMananger::getInstance()->getLogOperCargoFile());
 
-                //Actualizo la lista de cargos del abm *******++ si queda tiempo lo implemento bien (Vane)
-                //this->cargos.push_back(Cargo(idCargo, nombre, cargosSecundarios));
+		//Actualizo la lista de cargos del abm *******++ si queda tiempo lo implemento bien (Vane)
+		//this->cargos.push_back(Cargo(idCargo, nombre, cargosSecundarios));
 
-                return idCargo;
-        }
-        else{
-                cout << "El Cargo con el nombre " << nombre << " ya fue ingresado " << endl;
-                return -1;
-        }
+		return idCargo;
+	}
+	else{
+		cout << "El Cargo con el nombre " << nombre << " ya fue ingresado " << endl;
+		return -1;
+	}
 }
 
-/*Elimina una Candidato, si no exite arroja un excepcion, informa true si elimino sino false*/
+/*Elimina una Cargo, si no exite arroja un excepcion, informa true si elimino sino false*/
 bool ABMCargo::Delete(int idCargo){
 
         if (this->directorio->existKey(Helper::copyBytesToString(idCargo))){

@@ -531,7 +531,7 @@ string ProcessData::generarData(string nombre, vector<int> cargosSec)
 
 }
 
-string ProcessData::generarData(string nombre)
+string ProcessData::generarDataDistrito(string nombre)
 {
 	short sizeNombre=0;
 
@@ -778,15 +778,24 @@ void ProcessData::obtenerData(string valor, string & nombre, string & clave, str
 /**
  * Obtener data de ABMEleccion
  */
-void ProcessData::obtenerData(string valor,string &fecha,int &cargo,vector<int> &v)
-//;(string valor, string & nombre, string & clave, string & dom, int & idDistrito, vector<int> & listaElecciones)
+void ProcessData::obtenerDataEleccion(char* data, int sizeData,string &fecha,int &cargo,vector<int> &distritos)
 {
+	string aux;
+	aux.clear();
+
+	std::stringstream stream(aux);
+	for(int i = 0; i < sizeData; i++){
+		stream << data[i];
+	}
+
+	string valor = stream.str();
+	aux.clear();
+
 	char c_sizeFecha[2];
 	char c_sizeCargo[2];
 	char c_sizeV[2];
 	unsigned int i=0;
 	short tamDato=0;
-	string aux="";
 
 	//RECUPERO DE FECHA
 	c_sizeFecha[0]=valor.c_str()[0];
@@ -819,28 +828,36 @@ void ProcessData::obtenerData(string valor,string &fecha,int &cargo,vector<int> 
 
 	cargo= Helper::copyBytesToInt(aux);
 
-
 	//RECUPERO LISTA DISTRITOS
-	c_sizeV[0]=valor.c_str()[i];
-	i++;
-	c_sizeV[1]=valor.c_str()[i];
-	i++;
+	while(i < valor.size()){
 
-	tamDato=0;
-	memcpy((void*)&tamDato,(void*)&c_sizeV,2);
+		char c_size[2];
+		short tamDato=0;
 
-	v.clear(); //limpio el vector por si trae basura. Deberia estar vacio
+		//RECUPERO campo
+		c_size[0]=valor.c_str()[i];
+		i++;
+		c_size[1]=valor.c_str()[i];
+		i++;
 
-	for (unsigned int k=0; k< (tamDato/4) && (i<valor.size()); k++){
-		//hago tamDato/4 ya que cada dato tiene 4 bytes (son Int)
+		tamDato = 0;
+		memcpy((void*)&tamDato,(void*)&c_size,2);
 		aux.clear();
 
-		for (int j=0; j<4 && (i<valor.size());j++){
+		for (int j = 0; j < (tamDato)&& ( i <valor.size()); j++){
 			aux.append(1,valor.at(i));
 			i++;
 		}
 
-		v.push_back(Helper::copyBytesToInt(aux));
+		/*TODO vanesa: estas lineas las pongo porque vienen datos basura y asi se cortan */
+		if(valor[i] == '\0')
+			break;
+
+		if(i > valor.size())
+			break;
+		/*fin lineas que sacan datos basura*/
+
+		distritos.push_back(Helper::copyBytesToInt(aux));
 	}
 
 }
@@ -906,9 +923,9 @@ string ProcessData::generarData(string nombre, string clave, string domicilio, i
 /*
  * generarData usado en ABMEleccion
  */
-string ProcessData::generarData (string fecha, int cargo,vector<int> v)
-//(string nombre, string clave, string domicilio, int distrito, vector<int> listaElecciones)
+string ProcessData::generarDataEleccion (string fecha, int cargo, vector<int> distritos)
 {
+
 	short sizeFecha=0;
 
 	short sizeCargo=0;
@@ -917,7 +934,7 @@ string ProcessData::generarData (string fecha, int cargo,vector<int> v)
 	//consigo tamaño de cada campo para armar los delimitadores
 	sizeFecha = fecha.size();
 	sizeCargo = sizeof(int);
-	sizeDistritos = v.size()*4; //x4 ya que cada elemento es un int (4 bytes)
+	sizeDistritos = distritos.size()*4; //x4 ya que cada elemento es un int (4 bytes)
 
   	//paso los tamaños a char
 	char c_sizeFecha[2];
@@ -937,8 +954,22 @@ string ProcessData::generarData (string fecha, int cargo,vector<int> v)
 	data.append(Helper::copyBytesToString(cargo).c_str(),4);
 
 	//concateno cada distritos uno desytras de otro sabiendo que cada uno ocupa 4 bytes.
-	for (unsigned int i=0; i< v.size(); i++){
-		data.append(Helper::copyBytesToString(v.at(i)).c_str(),4);
+	/*for (unsigned int i=0; i< distritos.size(); i++){
+		data.append(Helper::copyBytesToString(distritos.at(i)).c_str(),4);
+	}*/
+
+	for (unsigned int i = 0; i < distritos.size(); i++){
+
+		short sizeCampo1 = 0;
+    	sizeCampo1 = sizeof(int);
+    	char c_sizeCampo1[2];
+
+    	memcpy((void*)c_sizeCampo1,(const void*)&sizeCampo1,2);
+
+      	data.append(1,c_sizeCampo1[0]);
+      	data.append(1,c_sizeCampo1[1]);
+      	data.append(Helper::copyBytesToString(distritos[i]).c_str(),4);
+
 	}
 
 	data.append("|"); //este pipe hace que el string no haga recorte por ceros al final
@@ -1026,13 +1057,21 @@ void ProcessData::obtenerData(string valor, vector<int> & vec)
 
 
 
-void ProcessData::obtenerData(string valor, string &nombre)
+void ProcessData::obtenerDataDistrito(char* data, int sizeData, string &nombre)
 {
+	string aux;
+	aux.clear();
+	std::stringstream stream(aux);
+	for(int i = 0; i < sizeData; i++){
+		stream << data[i];
+	}
+	string valor = stream.str();
+	aux.clear();
+
 	nombre="";
 	char c_sizeNombre[2];
 	unsigned int i=0;
 	short tamDato=0;
-	string aux="";
 
 	//RECUPERO DE NOMBRE
 	c_sizeNombre[0]=valor.c_str()[0];
