@@ -23,9 +23,15 @@ Fecha::Fecha(std::string fecha) {
 		return;
 	}
 
+	cout << "----------------------  " << fecha << endl;
+
 	this->dia = Helper::StringToInt(fecha.substr(4,2));
 	this->mes = Helper::StringToInt(fecha.substr(6,2));
 	this->anio = Helper::StringToInt(fecha.substr(0,4));
+
+	cout << "this->dia" << this->dia << endl;
+	cout << "this->mes" << this->mes << endl;
+	cout << "this->anio" << this->anio << endl;
 }
 
 int Fecha::getint(){
@@ -48,7 +54,8 @@ std::string Fecha::getStrFecha(){
 		sdia.append(Helper::IntToString(dia));
 	}
 
-	return Helper::concatenar(Helper::concatenar(sanio,smes,""),sdia,"");
+	return sanio + smes + sdia;
+	//return Helper::concatenar(Helper::concatenar(sanio,smes,""),sdia,"");
 }
 
 std::string Fecha::getFriendlyStr(){
@@ -66,7 +73,8 @@ std::string Fecha::getFriendlyStr(){
 		sdia.append(Helper::IntToString(dia));
 	}
 
-	return Helper::concatenar(Helper::concatenar(sdia,smes,"-"),sanio,"-");
+	return sdia + "-" + smes + "-" + sanio;
+	//return Helper::concatenar(Helper::concatenar(sdia,smes,"-"),sanio,"-");
 }
 
 short Fecha::getAnio() const{

@@ -27,7 +27,7 @@ Index::Index(string filename) {
 /*
  * busco keys asociado a la data pasada por paramertro
  */
-vector<Key> Index::GetIds(Key data){
+/*vector<Key> Index::GetIds(Key data){
 
         if ((this->directorio->existKey(data))){
 
@@ -44,24 +44,27 @@ vector<Key> Index::GetIds(Key data){
 			return aux;
         }
 
-}
+}*/
 
-vector<int> Index::GetIdsInt(Key data){
+vector<int> Index::GetIdsInt(int myKey){
 
-        if ((this->directorio->existKey(data))){
 
-			string values = directorio->find(data);
+	string key = Helper::copyBytesToString(myKey);
 
-			//return Helper::split(values, '|');
-			vector<int> keys;
+	if ((this->directorio->existKey(key))){
 
-			ProcessData::obtenerData(values, keys);
-			return keys;
-        }
-        else {
-			vector<int> aux;
-			return aux;
-        }
+		string values = directorio->find(key);
+
+		//return Helper::split(values, '|');
+		vector<int> keys;
+
+		ProcessData::obtenerData(values, keys);
+		return keys;
+	}
+	else {
+		vector<int> aux;
+		return aux;
+	}
 
 }
 
@@ -87,16 +90,12 @@ void Index::RefreshIndex(Key key, vector<Key> values){
 }
 
 
-void Index::AppendToIndex(KeyInt key, Key value){
-	this->AppendToIndex(Helper::copyBytesToString(key), value);
-}
-
 /*
  * OJO: ESTE TIENE QUE USARSE SOLAMENTE CUANDO SE HACE ADD DE UN NUEVO ELEMENTO.
  * SI SE ESTA MODIFICANDO, TIENE QUE USARSE void AppendToIndex(Key key,Key oldKey, Key value), QUE ACTUALIZA EL INDICE CON EL VALOR QUE TENIA ANTES LA ENTIDAD
  */
 
-void Index::AppendToIndex(Key key, Key value){
+/*void Index::AppendToIndex(Key key, Key value){
 
         if (!(this->directorio->existKey(key))){
         	this->directorio->insert(key,value);
@@ -129,7 +128,7 @@ void Index::AppendToIndex(Key key, Key value){
         HashLog::LogProcess(this->directorio,this->processLogIx);
 		HashLog::LogInsert(key,value,this->operationLogIx);
 
-}
+}*/
 
 void Index::AppendToIndex(int key, int value){
 
