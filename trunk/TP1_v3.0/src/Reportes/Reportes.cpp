@@ -113,6 +113,7 @@ void Reportes::reportePorLista(int idLista, bool guardaEncriptado, string claveE
 			Conteo conteo = cs[0];
 			Eleccion* e = abmEleccion->GetEleccion(conteo.GetIdEleccion());
 			string cargo = abmCargo->GetCargo(e->GetIdCargo())->GetNombre();
+
 			Fecha fecha = e->GetDate().getStrFecha();
 
 			out << "Eleccion: (" << fecha.getFriendlyStr() << " - " << cargo << ")" << endl;

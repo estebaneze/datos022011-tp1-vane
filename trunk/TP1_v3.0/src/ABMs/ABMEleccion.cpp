@@ -31,59 +31,59 @@ ABMEleccion::ABMEleccion() {
  */
 int ABMEleccion::Add(Eleccion* eleccion){
 
-        if (!Exists(eleccion)){
+	if (!Exists(eleccion)){
 
-            int idEleccion = Identities::GetNextIdEleccion();//eleccion->GetId(); //NO PUEDO HACER EL ID DE LA ELECCION CON "|" PORQUE SE CONFUNDE CUANDO LO QUIERO USAR EN LAS OTRAS ENTIDADES
+		int idEleccion = Identities::GetNextIdEleccion();//eleccion->GetId(); //NO PUEDO HACER EL ID DE LA ELECCION CON "|" PORQUE SE CONFUNDE CUANDO LO QUIERO USAR EN LAS OTRAS ENTIDADES
 
-			//cout << "Insertando la eleccion: " << idEleccion << endl << endl;
-			//string auxValueBtree;
-			vector<int> distritos = eleccion->GetDistritos();
+		//cout << "Insertando la eleccion: " << idEleccion << endl << endl;
+		vector<int> distritos = eleccion->GetDistritos();
 
-			string sdata = ProcessData::generarData(eleccion->GetDate().getStrFecha(),eleccion->GetIdCargo(),distritos);
-			Data data = (Data)sdata.c_str();
+		string sdata = ProcessData::generarDataEleccion(eleccion->GetDate().getStrFecha(),eleccion->GetIdCargo(),distritos);
+		Data data = (Data)sdata.c_str();
 
-			int longData = sdata.length();
-			Element * elemento = new Element(idEleccion,data,longData);
-			this->bpPlusTree->insert(elemento);
+		int longData = sdata.length();
+		Element * elemento = new Element(idEleccion, data, longData);
+		this->bpPlusTree->insert(elemento);
 
-			string concatDistritos = "";
+		//log info
+		string concatDistritos = "";
 
-			if(distritos.size() > 0){
-				concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1());
-				concatDistritos.append("|");
-			}
+		if(distritos.size() > 0){
+			concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1());
+			concatDistritos.append("|");
+		}
 
-			//data = fecha|idcargo|distritos
-			string str = eleccion->GetDate().getStrFecha().append("|").append(Helper::IntToString(eleccion->GetIdCargo())).append("|").append(concatDistritos);
+		//log info data = fecha|idcargo|distritos
+		string str = eleccion->GetDate().getStrFecha().append("|").append(Helper::IntToString(eleccion->GetIdCargo())).append("|").append(concatDistritos);
 
-			//logueo el add
-			BPlusTreeLog::LogInsert(idEleccion,str,ConfigurationMananger::getInstance()->getLogOperEleccionFile());
-			BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessEleccionFile());
+		//logueo el add
+		BPlusTreeLog::LogInsert(idEleccion,str,ConfigurationMananger::getInstance()->getLogOperEleccionFile());
+		BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessEleccionFile());
 
-			//Agrego al indice
+		//Agrego al indice
 
-			this->indexByFecha->AppendToIndex(eleccion->GetDate().getStrFecha(),Helper::copyBytesToString(idEleccion));
-			this->indexByCargo->AppendToIndex(Helper::copyBytesToString(eleccion->GetIdCargo()),Helper::copyBytesToString(idEleccion));
+		this->indexByFecha->AppendToIndex(eleccion->GetDate().getStrFecha(),Helper::copyBytesToString(idEleccion));
+		this->indexByCargo->AppendToIndex(Helper::copyBytesToString(eleccion->GetIdCargo()),Helper::copyBytesToString(idEleccion));
 
-			//Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
-			distritos = eleccion->GetDistritos();
-			for(int i = 0; i< distritos.size(); i++){
-				this->indexByDistrito->AppendToIndex(Helper::copyBytesToString(distritos[i]), Helper::copyBytesToString(idEleccion));
-			}
+		//Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
+		distritos = eleccion->GetDistritos();
+		for(int i = 0; i< distritos.size(); i++){
+			this->indexByDistrito->AppendToIndex(Helper::copyBytesToString(distritos[i]), Helper::copyBytesToString(idEleccion));
+		}
 
-			return idEleccion;
-        }
+		return idEleccion;
+	}
 
-        else {
-        	cout << "Ya existe la eleccion (Fecha y Cargo) ingresada (Fecha: " << eleccion->GetDate().getFriendlyStr() << " - Cargo: " << eleccion->GetIdCargo() << endl;
-        	return -1;
-        }
+	else {
+		cout << "Ya existe la eleccion (Fecha y Cargo) ingresada (Fecha: " << eleccion->GetDate().getFriendlyStr() << " - Cargo: " << eleccion->GetIdCargo() << endl;
+		return -1;
+	}
 }
 
 /*
  * Si existe la eleccion la eliget mina y devuelve true, sino devuelve false
  */
-bool ABMEleccion::Delete(Eleccion* eleccion){
+/*bool ABMEleccion::Delete(Eleccion* eleccion){
 
 		int idEleccion =  ObtenerKey(eleccion);
 
@@ -116,7 +116,7 @@ bool ABMEleccion::Delete(Eleccion* eleccion){
         } else {
             return false;
         }
-}
+}*/
 
 /*
  * Modifica la eleccion pasada por parametro si lo encuentra, sino no hace nada
@@ -127,40 +127,40 @@ bool ABMEleccion::Modify(Eleccion* eleccion){
 
         if (Exists(eleccion)){
 
-               //primero borro el id de eleccion indexado en el indice de distritos, despues agrego los que tengo ahora
-                Eleccion* old = this->GetEleccion(idEleccion);
-                vector<int> oldDistritos = old->GetDistritos(); //Me traigo los distritos que tiene ahora (antes de modificarla)
-                for(int i = 0; i< oldDistritos.size(); i++){
-                	this->indexByDistrito->DeleteFromIndex(Helper::copyBytesToString(oldDistritos[i]), Helper::copyBytesToString(idEleccion));
-                }
+		   //primero borro el id de eleccion indexado en el indice de distritos, despues agrego los que tengo ahora
+			Eleccion* old = this->GetEleccion(idEleccion);
+			vector<int> oldDistritos = old->GetDistritos(); //Me traigo los distritos que tiene ahora (antes de modificarla)
+			for(int i = 0; i< oldDistritos.size(); i++){
+				this->indexByDistrito->DeleteFromIndex(Helper::copyBytesToString(oldDistritos[i]), Helper::copyBytesToString(idEleccion));
+			}
 
-                vector<int> distritos = eleccion->GetDistritos();
-    			string sdata = ProcessData::generarData(eleccion->GetDate().getStrFecha(),eleccion->GetIdCargo(),distritos);
-    			Data data = (Data)sdata.c_str();
+			vector<int> distritos = eleccion->GetDistritos();
+			string sdata = ProcessData::generarDataEleccion(eleccion->GetDate().getStrFecha(),eleccion->GetIdCargo(),distritos);
+			Data data = (Data)sdata.c_str();
 
-                int longData = sdata.length();
-                Element * elemento = new Element(idEleccion,data,longData);
-                this->bpPlusTree->modify(elemento);
+			int longData = sdata.length();
+			Element * elemento = new Element(idEleccion,data,longData);
+			this->bpPlusTree->modify(elemento);
 
-                //logueo el modify
-                string concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1()).append(ConfigurationMananger::getInstance()->getSeparador1());
+			//logueo el modify
+			string concatDistritos = Helper::concatenar(distritos, ConfigurationMananger::getInstance()->getSeparador1()).append(ConfigurationMananger::getInstance()->getSeparador1());
 
-                //data = fecha|idcargo|distritos
-                string str = eleccion->GetDate().getStrFecha().append("|").append(Helper::IntToString(eleccion->GetIdCargo())).append("|").append(concatDistritos);
+			//data = fecha|idcargo|distritos
+			string str = eleccion->GetDate().getStrFecha().append("|").append(Helper::IntToString(eleccion->GetIdCargo())).append("|").append(concatDistritos);
 
-                BPlusTreeLog::LogModify(idEleccion,str,ConfigurationMananger::getInstance()->getLogOperEleccionFile());
-                BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessEleccionFile());
+			BPlusTreeLog::LogModify(idEleccion,str,ConfigurationMananger::getInstance()->getLogOperEleccionFile());
+			BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessEleccionFile());
 
-                //Aca no hay que modificar el indice, ya que lo que se indexa es la fecha, que me devuelve los ids de elcciones correspondientes
-                        //a esa fecha, pero eso nunca se modifica.
+			//Aca no hay que modificar el indice, ya que lo que se indexa es la fecha, que me devuelve los ids de elcciones correspondientes
+					//a esa fecha, pero eso nunca se modifica.
 
-                //Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
-                distritos = eleccion->GetDistritos();
-                for(int i = 0; i< distritos.size(); i++){
-                      this->indexByDistrito->AppendToIndex(Helper::copyBytesToString(distritos[i]), Helper::copyBytesToString(eleccion->GetId()));
-                }
+			//Indice por distritos. Los registros de este indice son: clave->idDistrito, value->ideleccion1|ideleccion2|.....
+			distritos = eleccion->GetDistritos();
+			for(int i = 0; i< distritos.size(); i++){
+				  this->indexByDistrito->AppendToIndex(Helper::copyBytesToString(distritos[i]), Helper::copyBytesToString(eleccion->GetId()));
+			}
 
-                return true;
+			return true;
         }
 
         return false;
@@ -185,33 +185,33 @@ vector<Eleccion> ABMEleccion::GetElecciones(){
 
 Eleccion* ABMEleccion::GetEleccion(int idEleccion){
 
-        if (ExistsKey(idEleccion)){
+	if (ExistsKey(idEleccion)){
 
-			Element * el = this->bpPlusTree->findExact(idEleccion);
-			string data = el->getData();
+		Element * el = this->bpPlusTree->findExact(idEleccion);
+		char* data = el->getData();
 
+		//data = fecha|idcargo|distritos
 
-			//data = fecha|idcargo|distritos
+		string sfecha;
+		vector<int> distritos;
+		int idCargo;
+		ProcessData::obtenerDataEleccion(data, el->getDataSize(), sfecha, idCargo, distritos);
+		//TODO: no anda bien obtenerData para devolver la fecha
 
-			string sfecha;
-			vector<int> distritos;
-			int idCargo;
-			ProcessData::obtenerData(data,sfecha,idCargo,distritos);
-			//TODO: no anda bien obtenerData para devolver la fecha
-			Fecha fecha = Fecha(sfecha);
+		Fecha fecha = Fecha(sfecha);
 
-			//Busco  los distritos
-			Eleccion * eleccion =  new Eleccion(idCargo, fecha, idEleccion);
+		//Busco  los distritos
+		Eleccion * eleccion =  new Eleccion(idCargo, fecha, idEleccion);
 
-			for(int i = 0; i < distritos.size(); i++){
-				eleccion->AddDistrito(distritos[i]);
-			}
+		for(int i = 0; i < distritos.size(); i++){
+			eleccion->AddDistrito(distritos[i]);
+		}
 
-			return eleccion;
-        }
-        else {
-                return NULL;
-        }
+		return eleccion;
+	}
+	else {
+			return NULL;
+	}
 }
 
 

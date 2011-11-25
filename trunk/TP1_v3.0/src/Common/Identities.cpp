@@ -21,6 +21,10 @@ void Identities::InitializeFile(){
 		File << "Eleccions 1" << "\n";
 		File << "Lista 1" << "\n";
 		File << "Administrador 1" << "\n";
+		File << "ReportexEleccion 1" << "\n";
+		File << "ReportexLista 1" << "\n";
+		File << "ReportexDistrito 1" << "\n";
+
 	}
 
 	File.close();

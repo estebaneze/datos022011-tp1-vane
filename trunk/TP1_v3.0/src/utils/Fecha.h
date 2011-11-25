@@ -16,14 +16,21 @@ class Fecha {
 		Fecha();
 		Fecha(short dia, short mes, short anio);
 		Fecha(std::string fecha);
+
 		string getStrFecha();
+		int getint();
+
+
 		short getAnio() const;
 		short getDia() const;
 		short getMes() const;
+
 		void setAnio(short anio);
 		void setDia(short dia);
 		void setMes(short mes);
+
 		string getFriendlyStr();
+
 		friend bool operator < (Fecha& fecha1, Fecha& fecha2);
 		friend bool operator > (Fecha& fecha1, Fecha& fecha2);
 		friend bool operator == (Fecha& fecha1, Fecha& fecha2);

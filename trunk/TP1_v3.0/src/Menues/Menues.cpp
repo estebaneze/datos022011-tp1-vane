@@ -1772,7 +1772,7 @@ void Menues::MenuABMEleccion()
 							delete el;
 							break;
 								}
-						case '2':	{
+						/*case '2':	{
 								bool listo = false;
 								ABMEleccion *el = new ABMEleccion();
 
@@ -1849,7 +1849,7 @@ void Menues::MenuABMEleccion()
 									}
 								}
 								break;
-								}
+								}*/
 						case '3':
 								{
 									//FALTA SOLO ESTE CASO

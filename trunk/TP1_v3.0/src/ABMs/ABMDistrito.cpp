@@ -28,13 +28,14 @@ int ABMDistrito::Add(string nombre){
 
 		string sdata="";
     	//metodo que concatena todos los campos
-    	sdata = ProcessData::generarData(nombre);
+    	sdata = ProcessData::generarDataDistrito(nombre);
 
 		Data data = (Data)sdata.c_str();
 
 		int longData = sdata.size();
+
 		Element * elemento = new Element(idDistrito,data,longData);
-		//cout<<"sdata"<<sdata.length();
+
 		this->bpPlusTree->insert(elemento);
 
 		//logueo el add
@@ -73,7 +74,7 @@ void ABMDistrito::Modify(Distrito* distrito){
 
 		string sdata="";
     	//metodo que concatena todos los campos
-    	sdata = ProcessData::generarData(distrito->GetNombre());
+    	sdata = ProcessData::generarDataDistrito(distrito->GetNombre());
 
 		Data data = (Data)sdata.c_str();
 
@@ -125,12 +126,8 @@ Distrito* ABMDistrito::GetDistrito(int idDistrito){
 
 		int idDist= el->getKey();
 
-		string data;
-		data.assign(el->getData());
-
-		cout << "Long distrito:" <<data.length()<<data;
         string nombre;
-        ProcessData::obtenerData(data,nombre);
+        ProcessData::obtenerDataDistrito(el->getData(), el->getDataSize(),nombre);
 
 		return new Distrito(idDist, nombre);
 	}
