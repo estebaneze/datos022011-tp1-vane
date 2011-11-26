@@ -25,8 +25,8 @@ Fecha::Fecha(std::string fecha) {
 
 	cout << "----------------------  " << fecha << endl;
 
-	this->dia = Helper::StringToInt(fecha.substr(4,2));
-	this->mes = Helper::StringToInt(fecha.substr(6,2));
+	this->dia = Helper::StringToInt(fecha.substr(6,2));
+	this->mes = Helper::StringToInt(fecha.substr(4,2));
 	this->anio = Helper::StringToInt(fecha.substr(0,4));
 
 	cout << "this->dia" << this->dia << endl;
