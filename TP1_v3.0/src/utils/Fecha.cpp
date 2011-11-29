@@ -23,15 +23,10 @@ Fecha::Fecha(std::string fecha) {
 		return;
 	}
 
-	cout << "----------------------  " << fecha << endl;
-
 	this->dia = Helper::StringToInt(fecha.substr(6,2));
 	this->mes = Helper::StringToInt(fecha.substr(4,2));
 	this->anio = Helper::StringToInt(fecha.substr(0,4));
 
-	cout << "this->dia" << this->dia << endl;
-	cout << "this->mes" << this->mes << endl;
-	cout << "this->anio" << this->anio << endl;
 }
 
 int Fecha::getint(){
@@ -119,6 +114,26 @@ bool operator < (Fecha& fecha1, Fecha& fecha2){
 
 	return false;
 }
+
+bool operator <= (Fecha& fecha1, Fecha& fecha2){
+
+	if(fecha1.getAnio() <= fecha2.getAnio())
+		return true;
+
+	if(fecha1.getAnio() == fecha2.getAnio()){
+
+		if(fecha1.getMes() <= fecha2.getMes())
+			return true;
+
+		if(fecha1.getMes() == fecha2.getMes()){
+			if(fecha1.getDia() <= fecha2.getDia())
+					return true;
+		}
+	}
+
+	return false;
+}
+
 
 bool operator > (Fecha& fecha1, Fecha& fecha2){
 

@@ -22,7 +22,7 @@ int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
 
 		int idCargo = Identities::GetNextIdCargo();
 
-		string data = ProcessData::generarData(nombre, cargosSecundarios);
+		string data = ProcessData::generarDataCargo(nombre, cargosSecundarios);
 
 		this->directorio->insert(Helper::copyBytesToString(idCargo), data);
 
@@ -85,7 +85,7 @@ void ABMCargo::Modify(Cargo cargo){
 
         if (this->directorio->existKey(id)){
 
-        	string data = ProcessData::generarData(cargo.GetNombre(),cargosSecundarios);
+        	string data = ProcessData::generarDataCargo(cargo.GetNombre(),cargosSecundarios);
         	this->directorio->modify(id,data);
 
         	//LOGUEO
@@ -117,7 +117,7 @@ vector<Cargo> ABMCargo::GetCargos(){
                 vector<int> cargosSec;
                 string nombre;
 
-                ProcessData::obtenerData(values[i].Value, nombre, cargosSec );
+                ProcessData::obtenerDataCargo(values[i].Value, nombre, cargosSec );
 
                 int idCargo = Helper::copyBytesToInt(values[i].Key);
 
@@ -146,7 +146,7 @@ Cargo* ABMCargo::GetCargo(int idCargo){
         	string values = directorio->find(cargoId);
         	vector<int> cargosSecundarios;
         	string nombre;
-        	ProcessData::obtenerData(values,nombre,cargosSecundarios);
+        	ProcessData::obtenerDataCargo(values,nombre,cargosSecundarios);
 
             if(cargosSecundarios.size() > 0)
             	return new Cargo(idCargo, nombre, cargosSecundarios);

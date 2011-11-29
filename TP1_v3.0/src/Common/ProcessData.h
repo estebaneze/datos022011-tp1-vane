@@ -18,8 +18,8 @@ public:
 
 	static string generarDataCandidato(int idLista,long idVotante, int idCargo);
 	static string generarDataConteo(int idLista,int idDistrito, int idEleccion, int votos);
-	static string generarData(string nombre, vector<int> cargosSec);
-	static string generarData(string nombre,string clave,string domicilio,int distrito,vector<int> v);
+	static string generarDataCargo(string nombre, vector<int> cargosSec);
+	static string generarDataVotante(string nombre,string clave,string domicilio,int distrito,vector<int> v);
 	static string generarDataEleccion(int fecha, int cargo,vector<int> distritos);
 	static string generarData(string valor, string valorNuevo);
 	static string generarData(vector<string> vec);
@@ -32,8 +32,8 @@ public:
 	static void obtenerDataCandidato(string valor,string &idLista,long &idVotante,int &idCargo);
 	static void obtenerDataConteo(char* valor, int sizeData,int &idLista,int &idDistrito,int &idEleccion, int &votos );
 
-	static void obtenerData(string valor, string &nombre, vector<int> &CargosSec);
-	static void obtenerData(string valor,string &nombre,string &clave,string &dom,int &idDistrito,vector<int> &listaElecciones);
+	static void obtenerDataCargo(string valor, string &nombre, vector<int> &CargosSec);
+	static void obtenerDataVotante(string valor,string &nombre,string &clave,string &dom,int &idDistrito,vector<int> &listaElecciones);
 	static void obtenerDataEleccion(char* data, int sizeData,int &fecha,int &cargo,vector<int> &distritos);
 	static void obtenerData(string valor, vector<string> &vec);
 	static void obtenerData(string valor, vector<int> & vec);

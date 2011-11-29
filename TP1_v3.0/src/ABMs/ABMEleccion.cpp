@@ -39,8 +39,6 @@ int ABMEleccion::Add(Eleccion* eleccion){
 		//cout << "Insertando la eleccion: " << idEleccion << endl << endl;
 		vector<int> distritos = eleccion->GetDistritos();
 
-		cout << "Add::elecciones " << eleccion->GetDate().getint() << " - " << eleccion->GetDate().getStrFecha() << " - " << eleccion->GetDate().getFriendlyStr() << endl;
-
 		string sdata = ProcessData::generarDataEleccion(eleccion->GetDate().getint(),eleccion->GetIdCargo(),distritos);
 		Data data = (Data)sdata.c_str();
 
@@ -203,7 +201,7 @@ Eleccion* ABMEleccion::GetEleccion(int idEleccion){
 		int idCargo;
 		ProcessData::obtenerDataEleccion(data, el->getDataSize(), sfecha, idCargo, distritos);
 		//TODO: no anda bien obtenerData para devolver la fecha
-cout << "GetEleccion " << sfecha << endl;
+
 		Fecha fecha = Fecha(Helper::IntToString(sfecha));
 
 		//Busco  los distritos
@@ -241,19 +239,10 @@ cout << "GetEleccion " << sfecha << endl;
  */
 bool ABMEleccion::Exists(Eleccion* eleccion){
 
-	//TODO: revisar
-	/*vector<Key> byFecha = this->indexByFecha->GetIds(Helper::copyBytesToString(eleccion->GetDate().getint()));
-	vector<Key> byCargo = this->indexByCargo->GetIds(Helper::copyBytesToString(eleccion->GetIdCargo()));
-
-	for(int i = 0; i< byCargo.size(); i++){
-		for(int j = 0; j< byFecha.size(); j++){
-			 if (byCargo[i]==byFecha[j]) return true;
-		}
-	} return false;*/
-
 	Fecha* fecha = new Fecha(eleccion->GetDate());
-	vector<Eleccion*> e = this->GetByFechaYCargo(fecha, eleccion->GetIdCargo());
-	if(e.size() == 0)
+	Eleccion* e = this->GetByFechaYCargo(fecha, eleccion->GetIdCargo());
+
+	if(e == NULL)
 		return false;
 
 	return true;
@@ -277,21 +266,26 @@ void ABMEleccion::mostrarEleccionesPorPantalla(){
 	this->bpPlusTree->exportTree();
 }
 
-vector<Eleccion*> ABMEleccion::GetByFechaYCargo(Fecha* fecha, int idCargo){
+Eleccion* ABMEleccion::GetByFechaYCargo(Fecha* fecha, int idCargo){
 
 	// TODO: REVISAR Eleccion: GetByFechaYCargo
     vector<int> byFecha = this->indexByFecha->GetIdsInt(fecha->getint());
     vector<Eleccion*> elecciones;
 
-    for(unsigned int i = 0; i < byFecha.size(); i++){
-
-    	Eleccion* e = this->GetEleccion(byFecha[i]);
-
-    	if(e->GetIdCargo() == idCargo)
-    		elecciones.push_back(e);
+    //DEBERIA HABER UNA  UNICA ELECCION POR FECHA Y CARGO
+    if(byFecha.size() == 0){
+        return NULL;
     }
-cout << endl;
-    return elecciones;
+    else{
+
+    	for(int i = 0; i < byFecha.size(); i++){
+			Eleccion* e = this->GetEleccion(byFecha[i]);
+			if(e->GetIdCargo() == idCargo)
+				return e;
+    	}
+    }
+
+    return NULL;
 }
 
 vector<Eleccion*> ABMEleccion::GetByFecha(Fecha* fecha){

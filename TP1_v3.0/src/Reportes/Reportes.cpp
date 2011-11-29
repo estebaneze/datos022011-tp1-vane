@@ -181,9 +181,7 @@ void Reportes::reportePorDistrito(int idDistrito, bool guardaEncriptado, string 
 	for(int i = 1; i < resultados.size(); i++){
 
 	      Conteo conteo = resultados[i];
-
 	      if(conteo.GetIdEleccion() == idEleccionActual){
-
 	    	resAgrupados[resAgrupados.size() - 1].push_back(conteo);
 	      }
 	      else{	//Nuevo grupo de eleccion
@@ -196,7 +194,6 @@ void Reportes::reportePorDistrito(int idDistrito, bool guardaEncriptado, string 
 	      }
 
 	}
-
 	for(int i = 0; i < resAgrupados.size(); i++){
 
 		vector<Conteo> aux = Reportes::OrderByCantidadVotos(resAgrupados[i]);
@@ -353,25 +350,22 @@ vector<Conteo> Reportes::OrderByFecha(vector<Conteo> resultados){
 
 		for (int j = i+1 ;j < resultados.size();j++)	{
 
-
 			int idE1 = resultados[i].GetIdEleccion();
 			int idE2 = resultados[j].GetIdEleccion();
 
 			Eleccion* e1 = abmElecciones.GetEleccion(idE1);
 			Eleccion* e2 = abmElecciones.GetEleccion(idE2);
 
-			if(e1 != NULL && e2 != NULL){
+			Fecha f1 = e1->GetDate();
+			Fecha f2 = e2->GetDate();
 
-				Fecha f1 = e1->GetDate();
-				Fecha f2 = e2->GetDate();
-
-				//if (resultados[i].GetEleccion()->GetDate() > resultados[j].GetEleccion()->GetDate()) {
-				if(f1 < f2){
-					aux = resultados[i];
-					resultados[i] = resultados[j];
-					resultados[j] = aux;
-				}
+			//if (resultados[i].GetEleccion()->GetDate() > resultados[j].GetEleccion()->GetDate()) {
+			if(f1 <= f2){
+				aux = resultados[i];
+				resultados[i] = resultados[j];
+				resultados[j] = aux;
 			}
+
 		}
 	}
 

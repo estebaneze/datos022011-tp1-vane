@@ -58,6 +58,7 @@ private:
          * log de carga masiva
          */
         string cargaMasiva;
+        string votosAutomaticos;
     	/*
     	 * Nombres de los archivos
     	 */
@@ -147,10 +148,15 @@ public:
         string getIdentities();
 
         /*
+         * devuerlve el nombre del archivo de logueo de votos automaticos
+         */
+        string getVotosAutomaticos();
+
+        /*
          * devuerlve el nombre del archivo cargaMasiva
          */
-
         string getCargaMasiva();
+
     	/**
     	 * Devuelve el nombre de los archivos
     	 */

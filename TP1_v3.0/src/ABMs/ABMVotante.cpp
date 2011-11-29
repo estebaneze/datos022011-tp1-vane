@@ -24,7 +24,7 @@ void ABMVotante::Add(Votante* votante){
 
 	if (!(this->directorio->existKey(Helper::copyBytesToString(votante->GetDni())))){
 
-		string data = ProcessData::generarData(votante->GetNombreYApellido(),votante->GetClave(),votante->GetDomicilio(),
+		string data = ProcessData::generarDataVotante(votante->GetNombreYApellido(),votante->GetClave(),votante->GetDomicilio(),
 													votante->GetDistrito(),votante->GetEleccionesVotadas());
 
 		this->directorio->insert(Helper::copyBytesToString(votante->GetDni()),data);
@@ -43,6 +43,9 @@ void ABMVotante::Add(Votante* votante){
 		HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessVotanteFile());
 		HashLog::LogInsert(Helper::LongToString(votante->GetDni()),aux,ConfigurationMananger::getInstance()->getLogOperVotanteFile());
 
+	}
+	else{
+		cout << "Ya existe el votante con el dni " << votante->GetDni() << endl;
 	}
 }
 
@@ -74,7 +77,7 @@ void ABMVotante::Modify(Votante *votante){
 
         if (this->directorio->existKey(Helper::copyBytesToString(votante->GetDni()))){
 
-        	string data = ProcessData::generarData(votante->GetNombreYApellido(),votante->GetClave(),votante->GetDomicilio(),votante->GetDistrito(),votante->GetEleccionesVotadas());
+        	string data = ProcessData::generarDataVotante(votante->GetNombreYApellido(),votante->GetClave(),votante->GetDomicilio(),votante->GetDistrito(),votante->GetEleccionesVotadas());
         	this->directorio->modify(Helper::copyBytesToString(votante->GetDni()),data);
 
         	//LOGUEO
@@ -116,10 +119,14 @@ vector<Votante*> ABMVotante::GetVotantes(){
 
 		long dni = Helper::copyBytesToLong(values[i].Key);
 
-		ProcessData::obtenerData(values[i].Value,nombreYApellido,clave,domicilio,idDistrito,listaElecciones);
-		//vector<string> splitedVs = Helper::split(values[i].Value, '|');
+		ProcessData::obtenerDataVotante(values[i].Value,nombreYApellido,clave,domicilio,idDistrito,listaElecciones);
 
-		votantes.push_back(new Votante(dni, nombreYApellido, clave, domicilio, idDistrito));
+		Votante* votante = new Votante(dni, nombreYApellido, clave, domicilio, idDistrito);
+		for(int i = 0; i < listaElecciones.size(); i++){
+			votante->AgregarEleccion(listaElecciones[i]);
+		}
+
+		votantes.push_back(votante);
 	}
 
 	return votantes;
@@ -143,16 +150,12 @@ Votante* ABMVotante::GetVotante(long dni){
 
 		string values = this->directorio->find(key);
 
-		ProcessData::obtenerData(values,nombreYApellido,clave,domicilio,idDistrito,listaElecciones);
-		//vector<string> splitedVs = Helper::split(values[i].Value, '|');
+		ProcessData::obtenerDataVotante(values,nombreYApellido,clave,domicilio,idDistrito,listaElecciones);
 
 		Votante* votante = new Votante(dni, nombreYApellido, clave, domicilio, idDistrito);
-
-		//TODO: agregar las elecciones en las que voto
-		//El reso de los valores spliteados son las elcciones en las que voto
-		//for (unsigned int j=4; j < splitedVs.size() ;j++){
-		//	votante->AgregarEleccion(Helper::StringToInt(splitedVs[j]));
-		//}
+		for(int i = 0; i < listaElecciones.size(); i++){
+			votante->AgregarEleccion(listaElecciones[i]);
+		}
 
 		return votante;
 	}
@@ -162,15 +165,17 @@ Votante* ABMVotante::GetVotante(long dni){
 }
 
 bool ABMVotante::existKey(long dni){
-        return this->directorio->existKey(Helper::LongToString(dni));
+
+	string key = Helper::copyBytesToString(dni);
+	return this->directorio->existKey(key);
 }
 
 //muestrp key (dni) y resto de los elementos todos concatenados
 void ABMVotante::mostrarVotantesPorPantalla(){
-        this->directorio->inform();
+	this->directorio->inform();
 }
 
 
 ABMVotante::~ABMVotante() {
-
+	delete this->directorio;
 }

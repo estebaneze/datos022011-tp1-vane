@@ -334,6 +334,7 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 		cout << "Usted puede votar en las siguientes elecciones: " << endl;
 
 		//Le muestro las elecciones que no esten en su lista de elecciones ya votadas
+
 		ABMCargo* cargos = new ABMCargo();
 		for(unsigned int i = 0; i < elecciones.size(); i++){
 			if(!votante->VotoEnEleccion(elecciones[i])){
@@ -344,7 +345,7 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 		delete cargos;
 
 		string idCargoSeleted;
-		cout << "Ingrese la eleccion en la cual quiera votar (seleccione un número de arriba): ";
+		cout << "Ingrese Id de Cargo que quiera votar (seleccione un número de arriba): ";
 		cin >> idCargoSeleted;
 
 		int idCargo = Helper::StringToInt(idCargoSeleted);
@@ -355,6 +356,7 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 
 		bool founded = false;
 		for(unsigned int i = 0; i < elecciones.size() && (!founded); i++){
+
 			if(elecciones[i]->GetIdCargo() == idCargo){
 				e = elecciones[i];
 				founded = true;
@@ -365,14 +367,26 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 
 			vector<Conteo> conteos = cs.GetConteoByEleccion(e->GetId());
 			bool listoLista=false;
+			ABMLista* abmLista = new ABMLista();
+
+			ABMCandidato* abmcandidato = new ABMCandidato();
 
 			for(unsigned int i = 0; i < conteos.size(); i++){
 
 				if(conteos[i].GetIdDistrito() == votante->GetDistrito()){
-					cout << "Lista " << conteos[i].GetIdLista() << endl;
+
+					int idLista = conteos[i].GetIdLista();
+					vector<int> cs = abmcandidato->GetByLista(idLista);
+
+					//Muestro la lista solamente si tiene candidatos asociados
+					if(cs.size()  > 0){
+						Lista* lista = abmLista->GetLista(idLista);
+						cout << "Lista: " << lista->GetNombre() << " - Id: " << lista->GetId() << endl;
+					}
 				}
 			}
 
+			delete abmLista;
 
 			while (!listoLista){
 
@@ -382,7 +396,7 @@ void Menues::Menu_EleccionesXDistrito_votante(Votante* votante)
 					int idListaAnterior; //en caso de que cambie el voto
 					bool cambioVoto=false;
 
-					cout << "Ingrese lista a votar: ";
+					cout << "Ingrese Id de lista a votar: ";
 					cin >> listaSelected;
 					idLista = Helper::StringToInt(listaSelected);
 
@@ -717,12 +731,15 @@ void Menues::MenuABMLista()
 							printf("ALTA LISTA\n");
 							printf("------------\n\n");
 
-							cout << "Listas existentes: " << endl;
+							ABMEleccion *abmEleccion = new ABMEleccion();
+
+							cout << "Listas existentes: " << endl << endl;
 							vector<Lista> ls = abmLista->GetListas();
 							for(int i = 0; i < ls.size(); i++){
-								cout << "Lista " << ls[i].GetNombre() << " - Eleccion: " << ls[i].GetEleccion() << endl;
+								Eleccion* e = abmEleccion->GetEleccion(ls[i].GetEleccion());
+								cout << "Lista " << ls[i].GetNombre() << " - Eleccion: " << ls[i].GetEleccion() << " (Fecha: " << e->GetDate().getFriendlyStr() << " - Id Cargo: " << e->GetIdCargo() << ")" << endl;
 							}
-
+							cout << endl;
 
 							while (!listo){
 								string nombre;
@@ -732,28 +749,63 @@ void Menues::MenuABMLista()
 
 								//if (!abmLista->existKey(nombre)){
 
-									ABMEleccion *abmEleccion = new ABMEleccion();
-									int eleccion;
+
+									int idEleccion;
 									bool listo2=false;
 									while (!listo2){
-										cout << "Ingrese el ID_Eleccion asociada a la Lista: ";
-										cin >> eleccion;
-										cout << endl;
-										if (abmEleccion->ExistsKey(eleccion)) {
-											Lista *lista = new Lista(nombre,eleccion);
-											abmLista->Add(lista);
+
+										short dia,mes,anio;
+										cout << "Debe asociar la Lista a una Elección" << endl;
+										cout << "Ingrese fecha de la eleccion: "<<endl;
+										cout << "Año: ";
+										cin >> anio;
+										cout << endl << "Mes: ";
+										cin >> mes;
+										cout << endl << "Dia: ";
+										cin >> dia;
+										cout << endl << endl;
+										//habria que validar fecha
+										Fecha* fecha = new Fecha(dia,mes,anio);
+
+										vector<Eleccion*> elecciones = abmEleccion->GetByFecha(fecha);
+
+										Eleccion* eleccion = NULL;
+										if(elecciones.size() > 0){
+											//Le muestro los cargos para esa fecha
+											cout << endl << "Cargos de esa fecha: " << endl;
+											ABMCargo* cargos = new ABMCargo();
+											for(unsigned int i = 0; i < elecciones.size(); i++){
+												cout << " Cargo: " << cargos->GetCargo(elecciones[i]->GetIdCargo())->GetNombre() <<"(Id: " << elecciones[i]->GetIdCargo() << ")" << endl;
+											}
+											cout << endl;
+											int idCargo;
+											cout << "Ingresa Id del Cargo:" << endl;
+											cin >> idCargo;
+											eleccion = abmEleccion->GetByFechaYCargo(fecha, idCargo);
+										}
+
+
+										//if (abmEleccion->ExistsKey(idEleccion)) {
+										if(eleccion != NULL){
+											idEleccion = eleccion->GetId();
+											Lista *lista = new Lista(nombre,idEleccion);
+											int idLista = abmLista->Add(lista);
 											listo2=true;
-											cout << "Lista " << nombre <<" creada con exito, con la eleccion "<< lista->GetEleccion() << ", presione una tecla para volver al menu.";
+
+											if(idLista > 0)
+												cout << "Lista " << nombre <<" creada con exito, con la eleccion "<< lista->GetEleccion() << ", presione una tecla para volver al menu.";
+											else
+												cout << "Presione una tecla para volver al menu.";
+
 											string c;
 											cin >> c;
 											delete lista;
 										}
 										else{
-											cout << "No existe el ID Eleccion, presione una tecla para reintentar o [q] para salir";
+											cout << "No existe la Eleccion para la Fecha y el Cargo indicados, presione una tecla para reintentar o [q] para salir";
 											string c;
 											cin >> c;
 											if (c=="q") {
-
 												listo2=true;
 											}
 										}
@@ -979,6 +1031,17 @@ void Menues::MenuABMCandidato()
 								//existe dni, ahora pregunto por la lista
 
 								ABMLista *abmLista = new ABMLista();
+								ABMEleccion *abmEleccion = new ABMEleccion();
+
+								cout << "Listas existentes: " << endl << endl;
+								vector<Lista> ls = abmLista->GetListas();
+								for(int i = 0; i < ls.size(); i++){
+									Eleccion* e = abmEleccion->GetEleccion(ls[i].GetEleccion());
+									cout << "	Lista " << ls[i].GetNombre() << " - Id: " << ls[i].GetId() <<"- Eleccion: " << ls[i].GetEleccion() << " (Fecha: " << e->GetDate().getFriendlyStr() << " - Id Cargo: " << e->GetIdCargo() << ")" << endl;
+								}
+								cout << endl;
+
+
 								bool listoLista=false;
 
 								while (!listoLista){
@@ -1003,6 +1066,13 @@ void Menues::MenuABMCandidato()
 										// obtengo los cargos secundarios
 										vector<int>	vCargos = abmCargo->GetCargo(id_cargo)->GetCargosSecundarios();
 
+										cout << "Cargos disponibles de la eleccion asociada a la lista: " << endl;
+										for(int i = 0; i < vCargos.size(); i++){
+											Cargo* c = abmCargo->GetCargo(vCargos[i]);
+											cout << "	Nombre: " << c->GetNombre() << " - Id: " <<  c->GetId() << endl;
+										}
+
+										cout << endl;
 										bool listoCargo=false;
 
 										while (!listoCargo){
@@ -1195,12 +1265,12 @@ while (fin==0){
 
 						if(founded){
 
-							vector<Eleccion*> elecciones = abmEleccion->GetByFechaYCargo(fecha, Helper::StringToInt(idCargo));
+							Eleccion* el = abmEleccion->GetByFechaYCargo(fecha, Helper::StringToInt(idCargo));
 
 							delete abmEleccion;
 
-							if(elecciones.size() > 0 && elecciones[0] != NULL){
-								Reportes::reportePorEleccion(elecciones[0]->GetId(),guardaEncriptado,claveEncriptado);
+							if(el != NULL){
+								Reportes::reportePorEleccion(el->GetId(),guardaEncriptado,claveEncriptado);
 							}
 							else{
 								cout << endl << "No se encontro la eleccion para la Fecha y el Cargo indicado" << endl;
@@ -1240,7 +1310,7 @@ while (fin==0){
 					cout << "Listas disponibles:" << endl;
 					vector<Lista> listas = abmLista->GetListas();
 					for(int i = 0; i < listas.size(); i++){
-						cout << listas[i].GetNombre() << endl;
+						cout << listas[i].GetNombre() << " - Id: " << listas[i].GetId() << endl;
 					}
 
 					cout << "Ingrese Id de la lista: " << endl;
@@ -1673,11 +1743,14 @@ void Menues::MenuABMEleccion()
 									bool existNombre=false;
 
 									for (unsigned int i=0;((i<vecCargos.size()) && (!existNombre));i++){
+
 										if ((vecCargos.at(i).GetNombre()) == nombre){
 											existNombre=true;
-											idCargo= vecCargos.at(i).GetId();
+											idCargo = vecCargos.at(i).GetId();
 										}
+
 									}
+
 									delete abmCargo;
 
 									if (!existNombre){
@@ -1694,6 +1767,7 @@ void Menues::MenuABMEleccion()
 
 										//verifico que la eleccion (fecha_idcargo) no exista
 										Eleccion *eleccion = new Eleccion(idCargo,fecha);
+
 										//int existe = el->Add(eleccion);
 										bool existe = el->Exists(eleccion);
 
