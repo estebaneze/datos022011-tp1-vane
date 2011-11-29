@@ -206,6 +206,8 @@ void CargaMasiva::CargarVotantes(){
 	//Cargo CANT_VOTANTES votantes
 	ABMVotante* abmVotante = new ABMVotante();
 
+	int idDistrito = 0;
+
     for(int i = 1; i <= CANT_VOTANTES; i++){
 
 		string nombreApellido = "Nombre_Apellido_";
@@ -219,7 +221,9 @@ void CargaMasiva::CargarVotantes(){
 
 		long dni = i;//(long)GetRandom(99999) * 1000;
 
-		int idDistrito = i;//GetRandom(CANT_DISTRITOS);
+		idDistrito++;
+		if(idDistrito > CANT_DISTRITOS)
+			idDistrito = 1;
 
 		Votante  * vot = new Votante(dni, nombreApellido, clave, domicilio, idDistrito);
 		abmVotante->Add(vot);
@@ -266,12 +270,23 @@ void CargaMasiva::CargarElecciones(){
 	ABMEleccion* abmEleccion = new ABMEleccion();
 	ABMDistrito* ds = new ABMDistrito();
 
+	int dia = 0;
+	int idCargo = 0;
+
 	for(int i = 1; i <= CANT_ELECCIONES; i++){
 
-		Fecha fecha = Fecha(GetRandom(30), GetRandom(12), 2006 + i);
+		dia++;
+		if(dia > 30)
+			dia = 1;
+
+		Fecha fecha = Fecha(dia,3, 2010);
 		//Fecha fecha = Fecha(5+i, 11,2010+i);
 
-		int idCargo = GetRandom(CANT_CARGOS);
+		idCargo++;
+		if(idCargo > CANT_CARGOS)
+			idCargo = 1;
+
+		//int idCargo = idCargo;// GetRandom(CANT_CARGOS);
 
 		Eleccion  * ele = new Eleccion(idCargo, fecha);
 
@@ -321,7 +336,7 @@ void CargaMasiva::CargarElecciones(){
 				distritosAgregados.push_back(idDistrito);
 			}
 		}*/
-
+        Log::WriteLog("id cargo:  " + Helper::IntToString(idCargo) + " ", (char*)ConfigurationMananger::getInstance()->getCargaMasiva().c_str()/*"files/logs/cargaMasiva.log"*/);
         int idEleccion = abmEleccion->Add(ele);
 
         cout << "Eleccion(" << idEleccion << "). Fecha:  " << fecha.getFriendlyStr() << ". Cargo: " << ele->GetIdCargo() << " ";
@@ -348,12 +363,16 @@ void CargaMasiva::CargarListas(){
 	ABMLista* abmLista = new ABMLista();
 	ABMEleccion* elec = new ABMEleccion();
 
+	int idEleccion = 0;
+
     for(int i = 1; i <= CANT_LISTAS; i++){
 
     	string lista = "Lista";
 		lista.append(Helper::IntToString(i));
 
-		int idEleccion = GetRandom(CANT_ELECCIONES);
+		idEleccion++;
+		if(idEleccion > CANT_ELECCIONES)
+			idEleccion = 1;
 
 		Lista * lis = new Lista(lista, idEleccion);
 		abmLista->Add(lis);
@@ -432,7 +451,7 @@ void CargaMasiva::CargarEntidades(){
 }
 
 
-void CargaMasiva::GenerarVotosAutomaticos(){
+void CargaMasiva::GenerarVotosAutomaticos2(){
 
 	ABMVotante* vots = new ABMVotante();
 	ABMEleccion* elecc = new ABMEleccion();
@@ -470,23 +489,78 @@ void CargaMasiva::GenerarVotosAutomaticos(){
 
 					if(posiblesConteos.size() > 0 ){
 
-						//Elijo al azar una lista
-						int idConteo = CargaMasiva::GetRandomFromNumbers(posiblesConteos);
-						//cout << endl << endl << "idConteo: " << idConteo << endl << endl << endl;
+						//Lo hago votar en todas las elecciones posibles que tenga asignadas para diferentes fechas
+						for(int j = 0; j < posiblesConteos.size(); j++){
 
-						/*cout << " posiblesConteos-size(): " << posiblesConteos.size() <<   " - posiblesConteos  ";
-						for(int p = 0; p < posiblesConteos.size(); p++)
-												cout << posiblesConteos[i] << " ";
+							int idConteo = posiblesConteos[j] ;//CargaMasiva::GetRandomFromNumbers(posiblesConteos);
+							//cout << endl << endl << "idConteo: " << idConteo << endl << endl << endl;
 
-						cout << endl << "id conteo " << idConteo << "- id eleccion " << i << endl;*/
+							/*cout << " posiblesConteos-size(): " << posiblesConteos.size() <<   " - posiblesConteos  ";
+							for(int p = 0; p < posiblesConteos.size(); p++)
+													cout << posiblesConteos[i] << " ";
 
-						cout << endl << endl ;
-						cont->AddVoto(idConteo, votante);
+							cout << endl << "id conteo " << idConteo << "- id eleccion " << i << endl;*/
 
-						cout << "El Votante" <<  votante->GetDni() << " pertenece al distrito " << votante->GetDistrito() << ", voto en la eleccion del dia " << eleccion->GetDate().getFriendlyStr() << " - Cargo " << eleccion->GetIdCargo() << endl;
+							cout << endl << endl ;
+							cont->AddVoto(idConteo, votante);
+
+							string msg = "El Votante " + Helper::LongToString(votante->GetDni()) +" pertenece al distrito " + Helper::IntToString(votante->GetDistrito()) + ", voto en la eleccion del dia " + eleccion->GetDate().getFriendlyStr() + " - Cargo " + Helper::IntToString(eleccion->GetIdCargo());
+							Log::WriteLog(msg, (char*)ConfigurationMananger::getInstance()->getVotosAutomaticos().c_str() );
+							cout << "El Votante " <<  votante->GetDni() << " pertenece al distrito " << votante->GetDistrito() << ", voto en la eleccion del dia " << eleccion->GetDate().getFriendlyStr() << " - Cargo " << eleccion->GetIdCargo() << endl;
+						}
 					}
 				}
 			}
 		}
+}
+
+
+vector<Votante*> CargaMasiva::GetVotantesByDistrito(vector<Votante*> votantes, int idDistrito){
+
+	vector<Votante*> result;
+
+	for(int i = 0; i < votantes.size(); i++){
+		if(votantes[i]->GetDistrito() == idDistrito){
+			result.push_back(votantes[i]);
+		}
+	}
+
+	return result;
+}
+
+void CargaMasiva::GenerarVotosAutomaticos(){
+
+	ABMVotante* vots = new ABMVotante();
+	ABMEleccion* elecc = new ABMEleccion();
+	ABMConteo* cont = new ABMConteo();
+
+	vector<Votante*> votantes = vots->GetVotantes();
+
+	int cantConteos = Identities::GetLastIdConteo();
+	for(int i = 1; i <= cantConteos; i++){
+
+		Conteo* conteo = cont->GetConteo(i);
+		if(conteo != NULL){
+
+			//Busco los votantes que pueden votar en estas elecciones
+			int idDistrito = conteo->GetIdDistrito();
+			vector<Votante*> vs = CargaMasiva::GetVotantesByDistrito(votantes, idDistrito);
+
+			for(int k = 0; k < vs.size(); k++){
+
+				if(!vs[k]->VotoEnEleccion(conteo->GetIdEleccion())){
+					cont->AddVoto(conteo->GetId(), vs[k]);
+					string msg = "El Votante " + Helper::LongToString(vs[k]->GetDni()) +" pertenece al distrito " + Helper::IntToString(vs[k]->GetDistrito()) + ", va a votar en la eleccion " + Helper::IntToString(conteo->GetIdEleccion());
+					Log::WriteLog(msg + " ", (char*)ConfigurationMananger::getInstance()->getVotosAutomaticos().c_str() );
+					cout << msg << endl;
+				}
+				else{
+					string msg = "El Votante " + Helper::LongToString(vs[k]->GetDni()) +" pertenece al distrito " + Helper::IntToString(vs[k]->GetDistrito()) + ", ya voto en la eleccion " + Helper::IntToString(conteo->GetIdEleccion());
+					Log::WriteLog(msg + " ", (char*)ConfigurationMananger::getInstance()->getVotosAutomaticos().c_str() );
+					cout << msg << endl;
+				}
+			}
+		}
+	}
 }
 

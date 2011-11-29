@@ -253,6 +253,19 @@ void ProcessData::obtenerDataLista(string valor, string &nombreLista, int &idEle
 	c_sizeLista[1]=valor.c_str()[1];
 	i=2;
 
+/*	stringstream ss;
+	string len1;
+	ss << c_sizeLista[0];
+	ss >> len1;
+
+	stringstream ss2;
+	string len2;
+	ss2 << c_sizeLista[0];
+	ss2 >> len2;
+
+	string len = len1 + len2;
+	cout << "obtener data lista " << Helper::copyBytesToInt(len)<< endl;
+*/
 	memcpy((void*)&tamDato,(void*)&c_sizeLista,2);
 
 	for (int j=0;j<(tamDato)&& (i<valor.size());j++){
@@ -493,8 +506,7 @@ void ProcessData::obtenerDataConteo(char* data,  int sizeData, int &idLista,int 
 
 
 
-//>>>>>>> .r215
-string ProcessData::generarData(string nombre, vector<int> cargosSec)
+string ProcessData::generarDataCargo(string nombre, vector<int> cargosSec)
 {
 	short sizeNombre=0;
 	short sizeCargos=0;
@@ -554,7 +566,7 @@ string ProcessData::generarDataDistrito(string nombre)
 
 }
 
-void ProcessData::obtenerData(string valor, string &nombre, vector<int> & CargosSec)
+void ProcessData::obtenerDataCargo(string valor, string &nombre, vector<int> & CargosSec)
 {
 	char c_sizeNombre[2];
 	char c_sizeCargo[2];
@@ -675,13 +687,13 @@ string ProcessData::generarData(string valor, string valorNuevo)
 	return aux;
 }
 
-void ProcessData::obtenerData(string valor, string & nombre, string & clave, string & dom, int & idDistrito, vector<int> & listaElecciones)
+void ProcessData::obtenerDataVotante(string valor, string & nombre, string & clave, string & dom, int & idDistrito, vector<int> & listaElecciones)
 {
 	char c_sizeNombre[2];
 	char c_sizeClave[2];
 	char c_sizeDom[2];
 	char c_sizeDis[2];
-	char c_sizeLista[2];
+	char c_sizeElecciones[2];
 	unsigned int i=0;
 	short tamDato=0;
 	string aux="";
@@ -751,22 +763,22 @@ void ProcessData::obtenerData(string valor, string & nombre, string & clave, str
 	idDistrito= Helper::copyBytesToInt(aux);
 
 
-	//RECUPERO LISTA ELECCIONES
-	c_sizeLista[0]=valor.c_str()[i];
-	i++;
-	c_sizeLista[1]=valor.c_str()[i];
-	i++;
+	//RECUPERO lista elecciones
+	//c_sizeElecciones[0]=valor.c_str()[i];
+	//i++;
+	//c_sizeElecciones[1]=valor.c_str()[i];
+	//i++;
 
-	tamDato=0;
-	memcpy((void*)&tamDato,(void*)&c_sizeLista,2);
+	tamDato=valor.size() +1 - i;	//Me fijo cuanto espacio me queda hasta el final. Ese es el tamaño del array de elecciones
 
-	listaElecciones.clear(); //limpio el vector por si trae basura. Deberia estar vacio
+//	memcpy((void*)&tamDato,(void*)&c_sizeElecciones,2);
+	listaElecciones.clear(); //LIMPIO EL VECTOR POR LAS DUDAS QUE VENGA CON BASURA
 
-	for (unsigned int k=0; k< (tamDato/4) && (i<valor.size()); k++){
-		//hago tamDato/4 ya que cada dato tiene 4 bytes (son Int)
+	for (unsigned int j=0; j < (tamDato/4) && ( i <valor.size() );j++){  //divido por 4 or que el tamaño de cada elemento (int)
+
 		aux.clear();
 
-		for (int j=0; j<4 && (i<valor.size());j++){
+		for (int k=0 ; k<4 ; k++){
 			aux.append(1,valor.at(i));
 			i++;
 		}
@@ -870,50 +882,53 @@ void ProcessData::obtenerDataEleccion(char* data, int sizeData,int &fecha,int &c
 /*
  * generarData usado en ABMVotante
  */
-string ProcessData::generarData(string nombre, string clave, string domicilio, int distrito, vector<int> listaElecciones)
+string ProcessData::generarDataVotante(string nombre, string clave, string domicilio, int distrito, vector<int> listaElecciones)
 {
 	short sizeNombre=0;
 	short sizeClave=0;
 	short sizeDom=0;
 	short sizeDis=0;
-	short sizeLista=0;
+	short sizeElecciones=0;
 
 	//consigo tamaño de cada campo para armar los delimitadores
 	sizeNombre = nombre.size();
 	sizeClave = clave.size();
 	sizeDom = domicilio.size();
 	sizeDis = sizeof(int);
-	sizeLista = listaElecciones.size()*4; //x4 ya que cada elemento es un int (4 bytes)
+	sizeElecciones = listaElecciones.size()*4; //x4 ya que cada elemento es un int (4 bytes)
 
   	//paso los tamaños a char
 	char c_sizeNombre[2];
 	char c_sizeClave[2];
 	char c_sizeDom[2];
 	char c_sizeDis[2];
-	char c_sizeLista[2];
+	char c_sizeElecciones[2];
 
 	memcpy((void*)c_sizeNombre,(const void*)&sizeNombre,2);
 	memcpy((void*)c_sizeClave,(const void*)&sizeClave,2);
 	memcpy((void*)c_sizeDom,(const void*)&sizeDom,2);
 	memcpy((void*)c_sizeDis,(const void*)&sizeDis,2);
-	memcpy((void*)c_sizeLista,(const void*)&sizeLista,2);
+	memcpy((void*)c_sizeElecciones,(const void*)&sizeElecciones,2);
 
 
 	string data="";
   	data.append(1,c_sizeNombre[0]);
   	data.append(1,c_sizeNombre[1]);
 	data.append(nombre.c_str());
+
 	data.append(1,c_sizeClave[0]);
 	data.append(1,c_sizeClave[1]);
-	data.append(clave.c_str(),4);
+	data.append(clave.c_str(),sizeClave);
+
 	data.append(1,c_sizeDom[0]);
 	data.append(1,c_sizeDom[1]);
-	data.append(domicilio.c_str(),4);
+	data.append(domicilio.c_str(),sizeDom);
+
 	data.append(1,c_sizeDis[0]);
 	data.append(1,c_sizeDis[1]);
 	data.append(Helper::copyBytesToString(distrito).c_str(),4);
 
-	//concateno cada cargos uno desytras de otro sabiendo que cada uno ocupa 4 bytes.
+	//concateno cada eleccion uno detras de otro sabiendo que cada uno ocupa 4 bytes.
 	for (unsigned int i=0; i< listaElecciones.size(); i++){
 		data.append(Helper::copyBytesToString(listaElecciones.at(i)).c_str(),4);
 	}

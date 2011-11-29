@@ -15,13 +15,21 @@ ABMLista::ABMLista() {
 	this->hashFile = ConfigurationMananger::getInstance()->getListaFile();
     this->directorio = new Directory(hashFile, maxBucketSize);
 
-    this->index = new Index(Helper::concatenar(hashFile,"Lista",ConfigurationMananger::getInstance()->getSeparador2()));
+    this->indexByEleccion = new Index(Helper::concatenar(hashFile,"Lista",ConfigurationMananger::getInstance()->getSeparador2()));
 }
 
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
 int ABMLista::Add(Lista* lista){
+
+	vector<Lista> ls = this->GetListasByEleccion(lista->GetEleccion());
+	for(int i = 0; i < ls.size(); i++){
+		if(ls[i].GetNombre() == lista->GetNombre()){
+			cout << "Ya existe la Lista con el nombre " << lista->GetNombre() << " para la eleccionindicada" << endl;
+			return -1;
+		}
+	}
 
 	int idLista = Identities::GetNextIdLista();
 
@@ -37,12 +45,13 @@ int ABMLista::Add(Lista* lista){
 
 		//this->directorio->insert(lista->GetNombre(),Helper::copyBytesToString(lista->GetEleccion()));
 
-		this->index->AppendToIndex(lista->GetEleccion(), idLista);   //Tengo que refrescar el indice en todos los Adds!!!
+		this->indexByEleccion->AppendToIndex(lista->GetEleccion(), idLista);   //Tengo que refrescar el indice en todos los Adds!!!
 
 		//logueo operacion y proceso
 
 		//aca dejo el helepr:inttoString por que es para el log.
-		HashLog::LogInsert(Helper::IntToString(idLista),Helper::IntToString(lista->GetEleccion()),ConfigurationMananger::getInstance()->getLogOperListaFile());
+		string insertedValues = nombreLista + "|" + Helper::IntToString(lista->GetEleccion());
+		HashLog::LogInsert(Helper::IntToString(idLista),insertedValues,ConfigurationMananger::getInstance()->getLogOperListaFile());
 		HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessListaFile());
 
 		//Tengo que crear los registros de conteo con la combinacion idLista, idEleccion, idDistrito con 0 votos
@@ -117,24 +126,21 @@ vector<Lista> ABMLista::GetListas(){
         vector<KeyValue> values = this->directorio->getAllValues();
         vector<Lista> listas;
 
-                for(unsigned int i = 0; i < values.size(); i++){
+		for(unsigned int i = 0; i < values.size(); i++){
 
-                        string nombre = values[i].Key;
-                        string idEleccion = values[i].Value;
+	        string nombreLista;
+	        nombreLista.clear();
+	        int idEleccion = 0;
 
-                        listas.push_back(Lista(nombre,Helper::copyBytesToInt(idEleccion)));
+	        int idLista = Helper::copyBytesToInt(values[i].Key);
 
-                }
+			ProcessData::obtenerDataLista(values[i].Value, nombreLista, idEleccion);
 
-        //Descomentar para ver por pantalla
-                /*cout << "----------------ABMLista::GetListas-----------------------" << endl;
-                for(unsigned int i = 0; i < values.size(); i++){
+	        listas.push_back(Lista(nombreLista, idEleccion, idLista));
 
+		}
 
-                        cout << values[i].Key << ": " << values[i].Value << endl;
-                }
-                cout << "----------------ABMLista::GetListas-----------------------" << endl;*/
-                return listas;
+		return listas;
 }
 
 /*
@@ -182,7 +188,7 @@ void ABMLista::mostrarListasPorPantalla(){
 
 vector<Lista> ABMLista::GetListasByEleccion(int idEleccion){
 
-	vector<int> values = this->index->GetIdsInt(idEleccion);
+	vector<int> values = this->indexByEleccion->GetIdsInt(idEleccion);
 	vector<Lista> listas;
 
 	for(unsigned int i = 0; i < values.size(); i++){

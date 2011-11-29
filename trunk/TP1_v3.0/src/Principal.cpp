@@ -41,35 +41,61 @@
 
 using namespace std;
 
-int main2(){
+int mainrepo(){
 
-	//Identities::InitializeFile();
-	Menues::MenuABMEleccion();
-	cout<< endl << endl << " Bye!!!!!! " << endl;
+	//CargaMasiva::CargarEntidades();
+	//CargaMasiva::GenerarVotosAutomaticos();
+
+	for(int i = 1; i <= 20; i++){
+		cout << "----------------------------------------------" << endl;
+		Reportes::reportePorDistrito(i, false, "");
+		cout << "----------------------------------------------" << endl;
+	}
+
+}
+
+int mainTestVotantes(){
+	ABMVotante* abmv = new ABMVotante();
+	long dni = 10000004;
+	string dnistr = Helper::LongToString(dni);
+	Votante* v = new Votante(dni, "Votante" + dnistr, "dificil11", "domicilio" + dnistr, 3);
+	v->AgregarEleccion(1);
+	v->AgregarEleccion(2);
+	v->AgregarEleccion(3);
+	v->AgregarEleccion(34);
+	v->AgregarEleccion(23);
+	v->AgregarEleccion(344);
+	abmv->Add(v);
+
+	Votante* v2 = abmv->GetVotante(dni);
+	v2->AgregarEleccion(78);
+	abmv->Modify(v2);
+	v2 = abmv->GetVotante(dni);
+
 	return 0;
 }
 
 int main(){
 
-	int f = 20111112;
-	cout << "Helper::IntToString(f) " << Helper::IntToString(f) << endl;
-	Fecha fecha = Fecha(Helper::IntToString(f));
-	cout << fecha.getFriendlyStr() << endl;
+	Menues::MenuInicial();
+	CargaMasiva::GenerarVotosAutomaticos();
 
+	cout << endl << "Bye!!!" << endl;
 	return 0;
 }
 
 int main3(int arg, char *argv[]) {
+
 
 	cout << endl << endl;
 	Identities::InitializeFile();
 
 	cout << endl << endl;
 
-	CargaMasiva::BorraTodosArchivos();
+	//CargaMasiva::BorraTodosArchivos();
 	cout<<endl;
 
-	CargaMasiva::CargarVotantes();
+	//CargaMasiva::CargarVotantes();
 	cout<<endl<<endl;
 
 	ABMDistrito * abmDis = new ABMDistrito();
@@ -224,10 +250,10 @@ int main2(int arg, char *argv[]) {
 
 	cout << endl << endl;
 
-	CargaMasiva::BorraTodosArchivos();
+	//CargaMasiva::BorraTodosArchivos();
 	cout<<endl;
 
-	CargaMasiva::CargarVotantes();
+	//CargaMasiva::CargarVotantes();
 	cout<<endl<<endl;
 
 	ABMDistrito * abmDis = new ABMDistrito();
@@ -521,9 +547,28 @@ int main2(int arg, char *argv[]) {
 	//Prueba reportes
 
 	cout << "*************** Reporte por Lista ******************************" << endl << endl;
+	cout << "***************************************************************" << endl << endl;
+
+	cout << "******************* Reporte por lista ******************************" << endl << endl;
 	cout << "Reporte por Lista " << lista->GetNombre() << "(id:" << lista->GetId() << ")" << endl << endl;
 	Reportes::reportePorLista(lista->GetId(), false, "");
+
+	cout << endl;
+
 	cout << endl << endl;
+
+	cout << "******************* Reporte por Distrito ******************************" << endl << endl;
+	cout << "Reporte por Distrito " << d1->GetNombre() << "(id:" << d1->GetId() << ")" << endl;
+	Reportes::reportePorDistrito(d1->GetId(), false, "");
+	cout << endl;
+
+	cout << "******************* Reporte por Eleccion ******************************" << endl << endl;
+	cout << "Reporte por Eleccion " << e->GetDate().getFriendlyStr() << " - Cargo: " << e->GetIdCargo() << "(id:" << e->GetId() << ")" << endl << endl;
+	Reportes::reportePorEleccion(e->GetId(), false, "");
+	cout << endl;
+	cout << "Reporte por Eleccion " << e2->GetDate().getFriendlyStr() << " - Cargo: " << e2->GetIdCargo() << "(id:" << e2->GetId() << ")" << endl << endl;
+	Reportes::reportePorEleccion(e2->GetId(), false, "");
+	cout << endl;
 
 	cout << "*************** Reporte por Eleccion ******************************" << endl << endl;
 	cout << "Reporte por Eleccion " << e->GetDate().getFriendlyStr() << " - Cargo: " << e->GetIdCargo() << "(id:" << e->GetId() << ")" << endl << endl;

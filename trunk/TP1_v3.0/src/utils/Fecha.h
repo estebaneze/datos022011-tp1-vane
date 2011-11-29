@@ -32,6 +32,7 @@ class Fecha {
 		string getFriendlyStr();
 
 		friend bool operator < (Fecha& fecha1, Fecha& fecha2);
+		friend bool operator <= (Fecha& fecha1, Fecha& fecha2);
 		friend bool operator > (Fecha& fecha1, Fecha& fecha2);
 		friend bool operator == (Fecha& fecha1, Fecha& fecha2);
 		friend bool operator != (Fecha& fecha1, Fecha& fecha2);

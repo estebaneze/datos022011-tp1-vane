@@ -96,23 +96,13 @@ bool Votante::VotoEnEleccion(Eleccion* eleccion){
 bool Votante::VotoEnEleccion(int idEleccion){
 
 	for(int i = 0; i < _listaElecciones.size(); i++){
-		if(_listaElecciones[i] == idEleccion)
+		if(_listaElecciones[i] == idEleccion){
 			return true;
+		}
 	}
 
 	return false;
 
-	/*vector<int>::iterator it = _listaElecciones.begin();
-	int e = (int) *it;
-
-	for (it = _listaElecciones.begin(); it != _listaElecciones.end(); it++) {
-
-		e = (int) *it;
-		if(e == idEleccion)
-			return true;
-	}
-
-	return false;*/
 }
 
 bool Votante::VotoEnEleccion(Eleccion eleccion){

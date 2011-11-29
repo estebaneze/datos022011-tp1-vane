@@ -21,12 +21,12 @@
 #include "Common/Identities.h"
 #include "utils/ConfigurationMananger.h"
 
-#define CANT_DISTRITOS 100
-#define CANT_CANDIDATOS 100
-#define CANT_CARGOS 100
-#define CANT_LISTAS 50
-#define CANT_VOTANTES 10
-#define CANT_ELECCIONES 100
+#define CANT_DISTRITOS 20
+#define CANT_CANDIDATOS 20
+#define CANT_CARGOS 80
+#define CANT_LISTAS 20
+#define CANT_VOTANTES 60
+#define CANT_ELECCIONES 60
 #define CANT_ADMINISTRADORES 1
 
 class CargaMasiva {
@@ -36,10 +36,12 @@ class CargaMasiva {
 		//Carga todas las entidades
 		static void CargarEntidades();
 		static void GenerarVotosAutomaticos();
-		static void BorraTodosArchivos();
-		static void CargarVotantes();
+		static void GenerarVotosAutomaticos2();
 
 	private:
+		static vector<Votante*> GetVotantesByDistrito(vector<Votante*> votantes, int idDistrito);
+		static void BorraTodosArchivos();
+		static void CargarVotantes();
 		static void CargarDistritos();
 		static void CargarCandidatos();
 		static void CargarCargos();

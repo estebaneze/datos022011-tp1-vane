@@ -32,6 +32,7 @@ ConfigurationMananger::ConfigurationMananger() {
 
         configFile->readInto<string>(identities,"identities");
         configFile->readInto<string>(cargaMasiva,"cargaMasiva");
+        configFile->readInto<string>(votosAutomaticos,"votosAutomaticos");
 
         configFile->readInto<string>(adminFile,"adminFile");
     	configFile->readInto<string>(distritoFile,"distritoFile");
@@ -137,6 +138,10 @@ string ConfigurationMananger::getIdentities(){
 
 string ConfigurationMananger::getCargaMasiva(){
 	return this->cargaMasiva;
+}
+
+string ConfigurationMananger::getVotosAutomaticos(){
+	return this->votosAutomaticos;
 }
 
 string ConfigurationMananger::getAdminFile(){

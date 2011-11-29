@@ -34,7 +34,7 @@ class ABMLista {
 	private:
 		string hashFile;
 		Directory* directorio;
-		Index* index;
+		Index* indexByEleccion;
 };
 
 #endif /* ABMLISTA_H_ */
