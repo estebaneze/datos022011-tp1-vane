@@ -27,14 +27,14 @@ public:
 	PersistorBase(std::string fileName, BlockSize size) ;
 	virtual ~PersistorBase();
 
-	void modify(Block* block) ;
-	void load(Offset key, Block* block) ;
-	std::string load(Offset key) ;
-	void add(Block* block);
-	void removeBlock(Offset offset);
-	void deleteFile();
-	void empty() ;
-	unsigned int blocks();
+	virtual void modify(Block* block) ;
+	virtual void load(Offset key, Block* block) ;
+	virtual std::string load(Offset key) ;
+	virtual void add(Block* block);
+	virtual void removeBlock(Offset offset);
+	virtual void deleteFile();
+	virtual void empty() ;
+	virtual unsigned int blocks();
 
 };
 

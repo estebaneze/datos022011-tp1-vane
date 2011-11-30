@@ -15,6 +15,11 @@
 /**
  * Setea el archivo de Directorio y de Buckets
  * */
+
+Directory::Directory(){
+
+}
+
 Directory::Directory(string dirfile, unsigned int maxBucketSize){
 
 	this->depth = 0;

@@ -24,7 +24,7 @@ using namespace std;
 
 class Directory{
 
-	private:
+	protected:
 		PersistorBase* directoryFile;
 		PersistorBase* bucketFile;
 
@@ -47,20 +47,21 @@ class Directory{
 
 	public:
 		Directory(string, unsigned int);
+		Directory();
 		virtual ~Directory();
-		void setInsertionSizeLimit(float);
-	   	void insert(Key,string);
-		bool remove(Key);
-		bool modify(Key, string);
-		string find(Key);
-		void inform();
-		ostream& inform (ostream& myOstream);
-		ostream& inform (Offset blockNumber, ostream& myOstream);
-		void inform(Offset blockNumber);
-		bool existKey (Key key);
+		virtual void setInsertionSizeLimit(float);
+		virtual void insert(Key,string);
+		virtual bool remove(Key);
+		virtual bool modify(Key, string);
+		virtual string find(Key);
+		virtual void inform();
+		virtual ostream& inform (ostream& myOstream);
+		virtual ostream& inform (Offset blockNumber, ostream& myOstream);
+		virtual void inform(Offset blockNumber);
+		virtual bool existKey (Key key);
 		//void Log(Key key, string value);
 
-		vector<KeyValue> getAllValues();
+		virtual vector<KeyValue> getAllValues();
 };
 
 #endif /* DIRECTORIO_H_ */
