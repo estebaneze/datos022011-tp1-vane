@@ -8,10 +8,10 @@
 #ifndef DIRECTORYRSA_H_
 #define DIRECTORYRSA_H_
 
-#include "Directory.h"
+#include "DirectoryBase.h"
 #include "../Persistencia/PersistorBaseRSA.h"	//External
 
-class DirectoryRSA: public Directory {
+class DirectoryRSA: public DirectoryBase {
 
 	private:
 		PersistorBaseRSA* directoryFile;
@@ -19,8 +19,6 @@ class DirectoryRSA: public Directory {
 
 		PersistorBase* GetDirectoryFile();
 		PersistorBase* GetBucketFile();
-
-		void Destroy();
 
 	public:
 		DirectoryRSA(string, unsigned int);

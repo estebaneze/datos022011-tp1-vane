@@ -77,11 +77,8 @@ int mainTestVotantes(){
 
 int main(){
 
-	//Menues::MenuInicial();
-CargaMasiva::BorraTodosArchivos();
-Identities::InitializeFile();
-CargaMasiva::CargarDistritos();
-CargaMasiva::CargarVotantes();
+	Menues::MenuInicial();
+
 	cout << endl << "Bye!!!" << endl;
 	return 0;
 }

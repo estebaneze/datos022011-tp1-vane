@@ -10,7 +10,7 @@
 HashLog::HashLog(){
 }
 
-void HashLog::LogProcess(Directory* dir,string fileProcess){
+void HashLog::LogProcess(DirectoryBase* dir,string fileProcess){
 
 		//Logueo como queda el hash
 		ofstream logFile;
