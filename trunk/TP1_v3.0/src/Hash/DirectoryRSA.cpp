@@ -45,15 +45,11 @@ PersistorBase* DirectoryRSA::GetBucketFile(){
 	return this->bucketFile;
 }
 
-void DirectoryRSA::Destroy(){
-	cout << "DirectoryRSA::Destroy" << endl;
-	// Borrar instancias de elementos utilizados.
+
+DirectoryRSA::~DirectoryRSA() {
+
 	delete this->directoryFile;
 	delete this->bucketFile;
     delete this->tabla;
     delete this->bucketActual;
-}
-
-DirectoryRSA::~DirectoryRSA() {
-	Destroy();
 }
