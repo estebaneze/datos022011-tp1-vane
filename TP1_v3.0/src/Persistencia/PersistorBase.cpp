@@ -156,5 +156,6 @@ unsigned int PersistorBase::size() {
 
 unsigned int PersistorBase::blocks() {
 	//return ( (this->size()- HEADER_SIZE) / this->blockSize);
-	return this->admEspacioLibre->getUseBlockCount();
+	int blocks = this->admEspacioLibre->getUseBlockCount();
+	return blocks;
 }

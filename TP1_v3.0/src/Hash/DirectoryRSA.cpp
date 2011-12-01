@@ -37,6 +37,23 @@ DirectoryRSA::DirectoryRSA(string dirfile, unsigned int maxBucketSize) {
 		this->setDepth();
 }
 
+PersistorBase* DirectoryRSA::GetDirectoryFile(){
+	return this->directoryFile;
+}
+
+PersistorBase* DirectoryRSA::GetBucketFile(){
+	return this->bucketFile;
+}
+
+void DirectoryRSA::Destroy(){
+	cout << "DirectoryRSA::Destroy" << endl;
+	// Borrar instancias de elementos utilizados.
+	delete this->directoryFile;
+	delete this->bucketFile;
+    delete this->tabla;
+    delete this->bucketActual;
+}
+
 DirectoryRSA::~DirectoryRSA() {
-	// TODO Auto-generated destructor stub
+	Destroy();
 }

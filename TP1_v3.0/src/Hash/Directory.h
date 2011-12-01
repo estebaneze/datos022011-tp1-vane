@@ -25,6 +25,7 @@ using namespace std;
 class Directory{
 
 	protected:
+
 		PersistorBase* directoryFile;
 		PersistorBase* bucketFile;
 
@@ -44,6 +45,9 @@ class Directory{
 		void redistribuirTabla(Bucket * auxBucket, unsigned int pos);
 		vector<KeyValue> getValue(Offset blockNumber);
 
+		virtual PersistorBase* GetDirectoryFile();
+		virtual PersistorBase* GetBucketFile();
+		virtual void Destroy();
 
 	public:
 		Directory(string, unsigned int);

@@ -12,13 +12,19 @@
 #include "../Persistencia/PersistorBaseRSA.h"	//External
 
 class DirectoryRSA: public Directory {
-private:
-	PersistorBaseRSA* directoryFile;
-	PersistorBaseRSA* bucketFile;
 
-public:
-	DirectoryRSA(string, unsigned int);
-	virtual ~DirectoryRSA();
+	private:
+		PersistorBaseRSA* directoryFile;
+		PersistorBaseRSA* bucketFile;
+
+		PersistorBase* GetDirectoryFile();
+		PersistorBase* GetBucketFile();
+
+		void Destroy();
+
+	public:
+		DirectoryRSA(string, unsigned int);
+		virtual ~DirectoryRSA();
 };
 
 #endif /* DIRECTORYRSA_H_ */

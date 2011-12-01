@@ -14,13 +14,14 @@ ABMVotante::ABMVotante() {
 
 	int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeVotante();
 	this->hashFile = ConfigurationMananger::getInstance()->getVotanteFile();
-    this->directorio = new Directory(hashFile, maxBucketSize);
+    this->directorio = new DirectoryRSA(hashFile, maxBucketSize);
 }
 
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
  *Para evitar excdepcion debo antes usar metodo Directory::existKey
  */
 void ABMVotante::Add(Votante* votante){
+
 
 	if (!(this->directorio->existKey(Helper::copyBytesToString(votante->GetDni())))){
 
@@ -42,7 +43,6 @@ void ABMVotante::Add(Votante* votante){
 
 		HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessVotanteFile());
 		HashLog::LogInsert(Helper::LongToString(votante->GetDni()),aux,ConfigurationMananger::getInstance()->getLogOperVotanteFile());
-
 	}
 	else{
 		cout << "Ya existe el votante con el dni " << votante->GetDni() << endl;

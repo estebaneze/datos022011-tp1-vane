@@ -38,7 +38,7 @@ class CargaMasiva {
 		static void GenerarVotosAutomaticos();
 		static void GenerarVotosAutomaticos2();
 
-	private:
+//	private:
 		static vector<Votante*> GetVotantesByDistrito(vector<Votante*> votantes, int idDistrito);
 		static void BorraTodosArchivos();
 		static void CargarVotantes();
