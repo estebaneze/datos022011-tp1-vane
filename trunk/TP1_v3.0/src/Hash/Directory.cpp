@@ -22,41 +22,47 @@ Directory::Directory(){
 
 Directory::Directory(string dirfile, unsigned int maxBucketSize){
 
-	this->depth = 0;
-	this->maxBucketSize = maxBucketSize;
-	this->insertionSizeLimit = 0.80;
+      this->depth = 0;
+      this->maxBucketSize = maxBucketSize;
+      this->insertionSizeLimit = 0.80;
 
-	// Abro o creo los archivos de Tabla y Buckets
-	string tmp = dirfile;
-	tmp.append(".dir");
-	this->directoryFile = new PersistorBase(tmp,BUFFERTABLE);
-	this->bucketFile = new PersistorBase(dirfile.append(".bk"),maxBucketSize);
+      // Abro o creo los archivos de Tabla y Buckets
+      string tmp = dirfile;
+      tmp.append(".dir");
+      this->directoryFile = new PersistorBase(tmp,BUFFERTABLE);
+      this->bucketFile = new PersistorBase(dirfile.append(".bk"),maxBucketSize);
 
-	//Creo instancias de Tabla y Bucket vacios para trabajar.
-	this->tabla = new Table();
-	this->bucketActual = new Bucket (maxBucketSize);
-	this->bucketActual->setInsertionSizeLimit(this->insertionSizeLimit);
+      //Creo instancias de Tabla y Bucket vacios para trabajar.
+      this->tabla = new Table();
+      this->bucketActual = new Bucket (maxBucketSize);
+      this->bucketActual->setInsertionSizeLimit(this->insertionSizeLimit);
 
-	// si no hay bloques en el archivo agrego un bucket vacio.
-	if (bucketFile->blocks() == 0)
-		bucketFile->add(bucketActual);
+      // si no hay bloques en el archivo agrego un bucket vacio.
+      if (GetBucketFile()->blocks() == 0)
+	      GetBucketFile()->add(bucketActual);
 
-	// Inserto la primer posicion en la Tabla
-	this->tabla->insert(bucketActual->getOffset(),0,0);
-	// si no hay bloques en el archivo agrego el inicio de una nueva Tabla.
-	if (directoryFile->blocks() > 0)
-		 directoryFile->load(0,tabla);
-	else directoryFile->add(tabla);
+      // Inserto la primer posicion en la Tabla
+      this->tabla->insert(bucketActual->getOffset(),0,0);
+      // si no hay bloques en el archivo agrego el inicio de una nueva Tabla.
+      if (GetDirectoryFile()->blocks() > 0)
+		GetDirectoryFile()->load(0,tabla);
+      else GetDirectoryFile()->add(tabla);
 
-	this->setDepth();
+      this->setDepth();
 }
 
 Directory::~Directory(){
+//	this->Destroy();
+	cout << "Directory::~Directory " << endl;
+
+}
+
+void Directory::Destroy(){
 	// Borrar instancias de elementos utilizados.
 	delete this->directoryFile;
 	delete this->bucketFile;
-	delete this->tabla;
-	delete this->bucketActual;
+    delete this->tabla;
+    delete this->bucketActual;
 }
 
 void Directory::setInsertionSizeLimit(float isl)
@@ -75,7 +81,7 @@ void Directory::setInsertionSizeLimit(float isl)
 void Directory::setDepth(){
 
 	int acumulado = 0;
-	unsigned int bloques = this->directoryFile->blocks();
+	unsigned int bloques = this->GetDirectoryFile()->blocks();
 
 	if ( bloques <2 )
 		acumulado = this->tabla->getSize();
@@ -118,11 +124,11 @@ void /*bool*/ Directory::insert (Key key, string value){
 	// obtengo el offset del Bucket correspondiente a esa posicion.
 	Offset offset = tabla->getElement(pos);
 	// Leo el Bucket
-	bucketFile->load(offset,bucketActual);
+	this->GetBucketFile()->load(offset,bucketActual);
 
 	try{
 		this->bucketActual->insert(key, value);
-		bucketFile->modify(bucketActual);
+		GetBucketFile()->modify(bucketActual);
 		//this->Log(key, value);
 
 	}catch(HashExceptions::ElementSizeException* e){
@@ -137,7 +143,7 @@ void /*bool*/ Directory::insert (Key key, string value){
 		auxBucket->setDepth(auxDepth+1);
 		bucketActual->setDepth(auxDepth+1);
 		//cout << "nuevo bloque" << endl;
-		bucketFile->add(auxBucket);
+		GetBucketFile()->add(auxBucket);
 
 		// se duplica la tabla en el caso de tenes profundidades iguales.
 		// y se marca la posicion correspondiente con el nuevo bucket
@@ -149,8 +155,8 @@ void /*bool*/ Directory::insert (Key key, string value){
 		// una vez terminada la correccion de la tabla,
 		// organizo la información de los buckets.
 		organizarBuckets(auxBucket);
-		bucketFile->modify(auxBucket);
-		bucketFile->modify(bucketActual);
+		GetBucketFile()->modify(auxBucket);
+		GetBucketFile()->modify(bucketActual);
 		delete auxBucket;
 		insert(key,value);
 	}
@@ -165,12 +171,12 @@ void Directory::organizarBuckets(Bucket* auxBucket){
 	std::map<Key, string>::iterator it;
 	unsigned int pos = 0;
 	Offset offset = 0;
-	directoryFile->load(offset,tabla);
+	GetDirectoryFile()->load(offset,tabla);
 
 	for (it = this->bucketActual->begin() ; it != this->bucketActual->end() ; it++){
 
 		pos = HashFunction::MakeAddress(it->first,this->depth);
-		directoryFile->load((pos/ LIMIT_TABLE),tabla);
+		GetDirectoryFile()->load((pos/ LIMIT_TABLE),tabla);
 		offset = tabla->getElement(pos % tabla->getSize());
 
 		if (offset == auxBucket->getOffset()){
@@ -186,24 +192,24 @@ void Directory::organizarBuckets(Bucket* auxBucket){
  */
 void Directory::duplicarTabla(unsigned int pos,Offset offset){
 
-	int end = this->directoryFile->blocks();
+	int end = this->GetDirectoryFile()->blocks();
 	Table* tempTable = NULL;
 	int changePos = pos + (LIMIT_TABLE* tabla->getOffset());
-	this->directoryFile->load(0,tabla);
+	this->GetDirectoryFile()->load(0,tabla);
 	if (tabla->getSize() < LIMIT_TABLE){
 		tabla->duplicate();
 		tabla->insert(offset,pos,pos);
-		this->directoryFile->modify(tabla);
+		this->GetDirectoryFile()->modify(tabla);
 	}else
 		for (Offset block =0 ; block < end ; block++){
 			tempTable = new Table();
-			this->directoryFile->load(block,tempTable);
+			this->GetDirectoryFile()->load(block,tempTable);
 			if (((LIMIT_TABLE * block) <= changePos) && (changePos < (LIMIT_TABLE * (block+1)))){
-				this->directoryFile->load(block,tabla);
+				this->GetDirectoryFile()->load(block,tabla);
 				tabla->insert(offset,pos,pos);
-				this->directoryFile->modify(tabla);
+				this->GetDirectoryFile()->modify(tabla);
 			}
-			this->directoryFile->add(tempTable);
+			this->GetDirectoryFile()->add(tempTable);
 			delete tempTable;
 		}
 
@@ -225,15 +231,15 @@ void Directory::redistribuirTabla(Bucket* auxBucket, unsigned int pos){
 
     while(!Cicle){
         tabla->insert(auxBucket->getOffset(), actualPos, actualPos);
-        directoryFile->modify(tabla);
+        GetDirectoryFile()->modify(tabla);
         for(i = 0;i < inter;i++){
         	if (++actualPos >= tabla->getSize() ){
         		actualPos = 0;
-        		if ((unsigned)++offTable >= directoryFile->blocks()) offTable = 0;
+        		if ((unsigned)++offTable >= GetDirectoryFile()->blocks()) offTable = 0;
         	}
         }
     	Cicle = (actualPos+(tabla->getSize()*(offTable)) == prePos);
-    	directoryFile->load(offTable,tabla);
+    	GetDirectoryFile()->load(offTable,tabla);
     }
 }
 
@@ -242,10 +248,10 @@ void Directory::redistribuirTabla(Bucket* auxBucket, unsigned int pos){
  * recibido por parametro al nuevo.
  */
 void Directory::replaceTable(Offset oldOffset, Offset newOffset){
-	for(unsigned int block = 0 ; block < directoryFile->blocks() ; block++){
-		directoryFile->load(block,tabla);
+	for(unsigned int block = 0 ; block < GetDirectoryFile()->blocks() ; block++){
+		GetDirectoryFile()->load(block,tabla);
 		tabla->replace(oldOffset,newOffset);
-		directoryFile->modify(tabla);
+		GetDirectoryFile()->modify(tabla);
 	}
 }
 /*
@@ -261,7 +267,7 @@ string Directory::find (Key key){
 	Offset offset = tabla->getElement(pos);
 
 	// Leo el Bucket
-	bucketFile->load(offset,bucketActual);
+	GetBucketFile()->load(offset,bucketActual);
 
 	return bucketActual->find(key);
 }
@@ -277,7 +283,7 @@ bool Directory::existKey (Key key){
 	Offset offset = tabla->getElement(pos);
 
 	// Leo el Bucket
-	bucketFile->load(offset,bucketActual);
+	GetBucketFile()->load(offset,bucketActual);
 
 	return bucketActual->exist(key);
 }
@@ -293,11 +299,11 @@ bool Directory::remove (Key key){
 	unsigned int pos = this->buscarPosicionTabla(key);
 	Offset offset = this->tabla->getElement(pos);
 
-	this->bucketFile->load(offset,this->bucketActual);
+	this->GetBucketFile()->load(offset,this->bucketActual);
 	bool temp = false;
 
 	temp = this->bucketActual->deleteKey(key);
-	bucketFile->modify(bucketActual);
+	GetBucketFile()->modify(bucketActual);
 	if (bucketActual->countElements() == 0){
 		tryCombine(pos);
 		reducirTabla();
@@ -316,8 +322,8 @@ void Directory::tryCombine(unsigned int myPos){
 	unsigned int delta = (1 << bucketActual->getDepth())/2;
 	Bucket* temp = new Bucket();
 	temp->setInsertionSizeLimit(this->insertionSizeLimit);
-	directoryFile->load(0,tabla);
-	unsigned int sizeTable = tabla->getSize() * directoryFile->blocks();
+	GetDirectoryFile()->load(0,tabla);
+	unsigned int sizeTable = tabla->getSize() * GetDirectoryFile()->blocks();
 
 	unsigned int pos1 = (myPos + delta) % (sizeTable);
 	unsigned int pos2 = 0;
@@ -325,19 +331,19 @@ void Directory::tryCombine(unsigned int myPos){
 		pos2 = (myPos - delta) % (sizeTable);
 	else pos2 = (sizeTable + myPos - delta) % (sizeTable);
 
-	directoryFile->load((pos1/LIMIT_TABLE),tabla);
+	GetDirectoryFile()->load((pos1/LIMIT_TABLE),tabla);
 	Offset offset1 = tabla->getElement((pos1 % tabla->getSize()));
 
-	directoryFile->load((pos2/LIMIT_TABLE),tabla);
+	GetDirectoryFile()->load((pos2/LIMIT_TABLE),tabla);
 	Offset offset2 = tabla->getElement((pos2 % tabla->getSize()));
 
 	if (offset1 == offset2){
 		replaceTable(bucketActual->getOffset(),offset1);
-		bucketFile->removeBlock(bucketActual->getOffset());
-		bucketFile->load(offset1,temp);
+		GetBucketFile()->removeBlock(bucketActual->getOffset());
+		GetBucketFile()->load(offset1,temp);
 		if (temp->getDepth() > 0)
 			temp->setDepth(temp->getDepth()-1);
-		bucketFile->modify(temp);
+		GetBucketFile()->modify(temp);
 	}
 	delete temp;
 }
@@ -348,7 +354,7 @@ void Directory::tryCombine(unsigned int myPos){
  */
 void Directory::reducirTabla(){
 
-	unsigned int end = this->directoryFile->blocks();
+	unsigned int end = this->GetDirectoryFile()->blocks();
 	unsigned int halfEnd = end / 2;
 	bool reduce = true;
 
@@ -356,7 +362,7 @@ void Directory::reducirTabla(){
 	Table secondHalfTable;
 
 	//Cargo el bloque
-	this->directoryFile->load(0,&auxTable);
+	this->GetDirectoryFile()->load(0,&auxTable);
 
 	if (auxTable.getSize() ==1)
 		// si solo tengo un elemento no puedo reducir
@@ -368,22 +374,22 @@ void Directory::reducirTabla(){
 			reduce = auxTable.reduce();
 
 			//Grabo los cambios
-			if (reduce) this->directoryFile->modify(&auxTable);
+			if (reduce) this->GetDirectoryFile()->modify(&auxTable);
 
 		} else {
 			//Tengo más de 1 bloque, tengo que revisar la tabla
 
 			//Me fijo si un bloque es igual a su homólogo
 			for (unsigned int k = 0 ; k < halfEnd && reduce; k++){
-				this->directoryFile->load(k,&auxTable);
-				this->directoryFile->load(k+halfEnd, &secondHalfTable);
+				this->GetDirectoryFile()->load(k,&auxTable);
+				this->GetDirectoryFile()->load(k+halfEnd, &secondHalfTable);
 				reduce = (auxTable == secondHalfTable);
 			}
 
 			if (reduce){
 				//Pude reducir, borro la mitad de la tabla
 				for (unsigned int block = halfEnd ; block < end ; block++){
-					this->directoryFile->removeBlock(block);
+					this->GetDirectoryFile()->removeBlock(block);
 				}
 			}
 		}
@@ -406,10 +412,10 @@ unsigned int Directory::buscarPosicionTabla (Key key){
 	unsigned int acount= 0;
 	int pos = HashFunction::MakeAddress(key,this->depth);
 
-	this->directoryFile->load(offset,this->tabla);
+	this->GetDirectoryFile()->load(offset,this->tabla);
 	while (pos >= (++offset * LIMIT_TABLE)){
 		acount += LIMIT_TABLE;
-		this->directoryFile->load(offset,this->tabla);
+		this->GetDirectoryFile()->load(offset,this->tabla);
 	}
 
 	return pos-acount;
@@ -426,11 +432,11 @@ bool Directory::modify (Key key , string data){
 
 		unsigned int pos = this->buscarPosicionTabla(key);
 		Offset offset = this->tabla->getElement(pos);
-		this->bucketFile->load(offset,this->bucketActual);
+		this->GetBucketFile()->load(offset,this->bucketActual);
 
 		//Devuelvo el resultado de modificar el registro
 		bool modified = this->bucketActual->modify(key, data);
-		this->bucketFile->modify(bucketActual);
+		this->GetBucketFile()->modify(bucketActual);
 		if (!modified){
 			//No puedo modificar porque no hay espacio
 			this->remove(key);
@@ -446,7 +452,7 @@ bool Directory::modify (Key key , string data){
 
 void Directory::inform (Offset blockNumber){
 
-	this->bucketFile->load(blockNumber,this->bucketActual);
+	this->GetBucketFile()->load(blockNumber,this->bucketActual);
 	std::cout << "	Bucket "<< blockNumber << ": (" << this->bucketActual->getDepth() << "," << this->bucketActual->countElements() << ")" << endl;
 	this->bucketActual->toHuman();
 	std::cout << std::endl;
@@ -455,7 +461,7 @@ void Directory::inform (Offset blockNumber){
 
 ostream& Directory::inform (Offset blockNumber, ostream& myOstream){
 
-	this->bucketFile->load(blockNumber,this->bucketActual);
+	this->GetBucketFile()->load(blockNumber,this->bucketActual);
 	myOstream << "		Bucket: "<< blockNumber << " (depth: " << this->bucketActual->getDepth() << ", cantBuckets: " << this->bucketActual->countElements() << ")" << endl;
 	this->bucketActual->toHumanLog(myOstream);
 	myOstream << std::endl;
@@ -465,7 +471,7 @@ ostream& Directory::inform (Offset blockNumber, ostream& myOstream){
 
 vector<KeyValue> Directory::getValue(Offset blockNumber){
 
-	this->bucketFile->load(blockNumber,this->bucketActual);
+	this->GetBucketFile()->load(blockNumber,this->bucketActual);
 	return this->bucketActual->get();
 }
 
@@ -474,9 +480,9 @@ vector<KeyValue> Directory::getAllValues(){
 	vector<KeyValue> values;
 	std::set<Offset> offsets;
 
-	for (Offset block= 0 ; (unsigned)block < this->directoryFile->blocks() ; block++){
+	for (Offset block= 0 ; (unsigned)block < this->GetDirectoryFile()->blocks() ; block++){
 
-		this->directoryFile->load(block,this->tabla);
+		this->GetDirectoryFile()->load(block,this->tabla);
 		this->tabla->toHumanOffsets(&offsets);
 	}
 
@@ -502,9 +508,9 @@ ostream& Directory::inform (ostream& myOstream){
 	myOstream << "-Tabla (Profundidad global: " << this->depth << ") " << std::endl;
 
 	std::set<Offset> offsets;
-	for (Offset block= 0 ; (unsigned)block < this->directoryFile->blocks() ; block++){
+	for (Offset block= 0 ; (unsigned)block < this->GetDirectoryFile()->blocks() ; block++){
 
-		this->directoryFile->load(block,this->tabla);
+		this->GetDirectoryFile()->load(block,this->tabla);
 	//	this->inform(this->tabla->getOffset(),myOstream);
 		this->tabla->toHuman(&offsets, myOstream);
 	}
@@ -532,8 +538,8 @@ void Directory::inform (){
 	std::cout << "-Tabla (Profundidad global: " << this->depth << ") " << std::endl;
 
 	std::set<Offset> offsets;
-	for (Offset block= 0 ; (unsigned)block < this->directoryFile->blocks() ; block++){
-		this->directoryFile->load(block,this->tabla);
+	for (Offset block= 0 ; (unsigned)block < this->GetDirectoryFile()->blocks() ; block++){
+		this->GetDirectoryFile()->load(block,this->tabla);
 		this->tabla->toHuman(&offsets);
 	}
 	std::cout << std::endl << std::endl;
@@ -542,4 +548,12 @@ void Directory::inform (){
 		this->inform(*it);
 	}
 	std::cout << "=========================================" << std::endl;
+}
+
+PersistorBase* Directory::GetDirectoryFile(){
+	return this->directoryFile;
+}
+
+PersistorBase* Directory::GetBucketFile(){
+	return this->bucketFile;
 }
