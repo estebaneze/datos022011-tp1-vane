@@ -164,7 +164,7 @@ void Index::AppendToIndex(int key, int value){
 	}
 
 	HashLog::LogProcess(this->directorio,this->processLogIx);
-	HashLog::LogInsert(processedId,processedData,this->operationLogIx);
+	HashLog::LogInsert(Helper::IntToString(key),Helper::IntToString(value),this->operationLogIx);
 
 }
 
