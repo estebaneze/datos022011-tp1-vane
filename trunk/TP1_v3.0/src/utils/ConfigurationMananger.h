@@ -43,6 +43,9 @@ private:
         int hashBSizeLista;
         int hashBSizeVotante;
 
+        /* Tamaño de la clave RSA en bytes */
+        int tamClaveRSA;
+
         /*
          * Separadores
          */
@@ -136,6 +139,9 @@ public:
         int getHashBSizeCargo();
         int getHashBSizeLista();
         int getHashBSizeVotante();
+
+        /* Devuelve el tamaño en bytes de la clave RSA */
+        int getTamClaveRSA();
 
         /**
          * Devuelve el tamaño de los separadores

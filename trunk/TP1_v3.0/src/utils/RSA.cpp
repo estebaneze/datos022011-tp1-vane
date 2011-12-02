@@ -6,6 +6,8 @@
  */
 
 #include "RSA.h"
+#include "ConfigurationMananger.h"
+#include "exception"
 
 bool RSA::es_primo(int n)
 {
@@ -214,16 +216,31 @@ unsigned long long  RSA::Exponenciacion_Zn(unsigned long long  a,unsigned long l
 }
 
 
+void RSA::validarTamClave(){
+
+	int tam = ConfigurationMananger::getInstance()->getTamClaveRSA();
+	bool valido = tam == 1 || tam == 2 || tam== 4;	//TODO: VER QUE HACEMOS CON 8 BYTES || tam!= 8
+
+	if(!valido){
+		BadRSAKeySizeException* ex = new BadRSAKeySizeException();
+		cout << ex->what() << endl;
+		throw ex;
+	}
+}
+
 /*string RSA::GetAlfabeto(){
 	return "abcdefghijklmnopqrstuvwxyz0123456789_";
 }*/
 void RSA::generarClave(){
 
+	//Antes de empezar valida que el tamaño parametrizado sea correcto
+    RSA::validarTamClave();
+
 		long int p,q,n,fi,e,d,tamanio_n;
 
 	    //VANE:
 	    //aca tenes que cargar el tamanio de n desde el config.txt
-	    tamanio_n=1;
+	    tamanio_n = ConfigurationMananger::getInstance()->getTamClaveRSA();
 
 	    /* 1) Generamos aleatoriamente dos enteros p y q (p y q pueden ser cualquier numero
 	         pero deben de ser del mismo tamaño) ,
