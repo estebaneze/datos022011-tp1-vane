@@ -386,6 +386,8 @@ void RSA::generarClave(){
 	        cout<<"\n\n clave publica : ("<< n <<" , "<< e <<")";
 	        cout<<"\n clave privada : ("<< n <<" , "<< d << endl << endl;
 
+	        Claves::GuardarClaves(n,e,d);
+
 
 }
 
