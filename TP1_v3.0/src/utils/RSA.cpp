@@ -316,7 +316,6 @@ char* RSA::encriptar(char* m){
 	int tamanio_n=1;
 	int n,e;
 
-
     // representamos numericamente el mensaje
 	string mensaje;
 	mensaje.append((const char*)m);
