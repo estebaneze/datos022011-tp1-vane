@@ -110,13 +110,13 @@ char* RSA::desencriptar2()
      cout<<"\n DESENCRIPTAR :\n\n";
      long int d,n,tam, e;
      cout<<" Ingrese clave privada (d) :";
-     cin>>d;
-     //d = 157;
+     //cin>>d;
+     d = 11;
      cout << "Clave privada (d): " << d << endl;
      cout<<" Ingrese clave n (p*q) :";
-     cin>>n;
-     //n = 2773;
-     cout << "Clave n (p*q) :" << endl;
+     //cin>>n;
+     n = 21;
+     cout << "Clave n (p*q) :" << n <<endl;
 
 
      cout<<" Ingrese longitud del mensaje cifrado: ";
@@ -142,7 +142,6 @@ char* RSA::desencriptar2()
 
       cout<<endl;
 
-
      // hallamos el mensaje en numeros
      //cout<<" mensaje en numeros: ";
      for(int i=0;i<tam;i++) {
@@ -150,16 +149,21 @@ char* RSA::desencriptar2()
          mensaje_int[i*2+1]=mensaje_cifrado[i]%100;
      }
 
-     for(int i=0;i<(tam*2);i++)
-         cout<<mensaje_int[i]<<" ";
-
+     for(int i=0;i<(tam*2);i++){
+         cout << mensaje_int[i] << " ";
+     }
      cout<<endl;
 
 
      // hallamos el mensaje
      cout<<" mensaje : ";
-     for(int i = 0 ; i < (tam*2); i++)
-       mensaje += Helper::IntToString(mensaje_int[i]); //GetAlfabeto().at(mensaje_int[i]%26);
+     for(int i = 0 ; i < (tam*2); i++){
+       //mensaje += Helper::IntToString(mensaje_int[i]); //GetAlfabeto().at(mensaje_int[i]%26);
+    	 char a;
+    	 a = mensaje_cifrado[i];
+    	 cout << a << " ";
+    	 //mensaje.append( (const char *)a);
+     }
 
      cout<<mensaje;
 
@@ -558,15 +562,22 @@ void RSA::encriptar2(char* m){
 
 	int n,e, p,q, fi, d;
 
-	do
+	/*do
 	{
-		p = rand()%20;
-	}while(!es_primo(p));
+		p = rand()%25;
+	}while(!es_primo(p) || p <= 1);
 
 	do
 	{
-		q = rand()%20;
-	}while(!es_primo(q) || q == p);
+		q = rand()%25;
+	}while(!es_primo(q) || q == p || q <= 1);
+*/
+
+	p = 3;
+	q = 7;
+
+	cout << "es_primo(p): " << es_primo(p) << endl;
+	cout << "es_primo(q): " << es_primo(q) << endl;
 
 	n = p * q;
 	cout << "p: " << p << " - q: " << q << " - n: " << n << endl;
@@ -614,6 +625,7 @@ void RSA::encriptar2(char* m){
     	 if (ascii < 10) ascii_str = "0" + Helper::IntToString(ascii);
 
     	 mensaje_int[i] = ascii_str;
+
      }
 
      cout << " mensaje_int[]: ";
@@ -624,8 +636,8 @@ void RSA::encriptar2(char* m){
 
      //cout<<" mensaje en bloque de tamanio n bytes: ";
 
-     long int mensaje_nros[mensaje.size() / n];
-     long int mensaje_cifrado[mensaje.size()/ n];
+     long int mensaje_nros[mensaje.size() / tamanio_n];
+     long int mensaje_cifrado[mensaje.size()/ tamanio_n];
 
      //agrupamos de 2 en 2 el mensaje en nros.
      int k = 0;
@@ -664,8 +676,12 @@ void RSA::encriptar2(char* m){
      cout << endl;
 
      //Elevo cada uno a la "d"
+     cout << "mensaje " << mensaje << endl;
+     cout << "mensaje.size() " << mensaje.size() <<  endl;
+     cout << "mensaje.size() / n " << mensaje.size() / n <<endl;
      cout << endl << "Mensaje cifrado: ";
-     for(int i = 0; i < mensaje.size() / n; i++){
+     for(int i = 0; i < mensaje.size() / tamanio_n; i++){
+
 
     	 int numExceso=0;
     	 if (tamanio_n==1){

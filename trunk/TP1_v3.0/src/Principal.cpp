@@ -104,7 +104,7 @@ else{
 	cout << endl << endl <<  v->GetNombreYApellido() << endl;
 }*/
 
-//	RSA::encriptar2("peperulo");
+	//RSA::encriptar2("12345678");
 
 	//RSA::desencriptar2();
 
