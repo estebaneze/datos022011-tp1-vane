@@ -27,11 +27,18 @@ class RSA {
 
 	public:
 		static void generarClave();
-		static char* encriptar(char * m);
+		static char* encriptar(char* m);
+		static void encriptar2(char* m);
 		static char* desencriptar(char* c);
+		static char* desencriptar2();
 
 	//private:
-		//long int p,q,n;
+		/*static long int p;
+		static long int q;
+		static long int n;
+		static long int e;
+		static long int d;
+		static long int fi;*/
 		//static string GetAlfabeto();
 		static bool es_primo(int n);
 		static int get_pos(string str,char elemento);

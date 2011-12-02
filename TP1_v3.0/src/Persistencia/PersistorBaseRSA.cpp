@@ -58,7 +58,8 @@ void PersistorBaseRSA::modify(Block* block) {
 	buffer.append(blockSize - buffer.length(),'0');
 
 	this->archivo.write(
-			RSA::encriptar(const_cast<char *>(buffer.c_str())),
+			//RSA::encriptar(const_cast<char *>(buffer.c_str())),
+			RSA::encriptar((char*)buffer.c_str()),
 			//buffer.c_str(),
 			blockSize);
 

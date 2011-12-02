@@ -76,9 +76,37 @@ int mainTestVotantes(){
 	return 0;
 }
 
+bool es_primo(int n)
+{
+  for(int i=2;i<n;i++)
+    if(n%i==0)
+     return false;
+
+   return true;
+}
+
 int main(){
 
 	Menues::MenuInicial();
+/*	CargaMasiva::BorraTodosArchivos();
+	Identities::InitializeFile();
+CargaMasiva::CargarDistritos();
+CargaMasiva::CargarVotantes();
+
+ABMVotante* a = new ABMVotante();
+Votante* v=a->GetVotante(1);
+
+if(v == NULL){
+	cout << "nuuuuuuuuuuuullllllllll " << endl;
+
+}
+else{
+	cout << endl << endl <<  v->GetNombreYApellido() << endl;
+}*/
+
+//	RSA::encriptar2("peperulo");
+
+	//RSA::desencriptar2();
 
 	cout << endl << "Bye!!!" << endl;
 	return 0;
