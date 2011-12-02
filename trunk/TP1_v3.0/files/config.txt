@@ -25,6 +25,8 @@ identities = files/identities.txt #archivo control de claves autonumericas
 cargaMasiva = files/logs/cargaMasiva.log #archivo de control de carga masiva
 votosAutomaticos = files/logs/votosAutomaticos.log	#archivo de control de votaciones automaticas
 
+defaultVigenereKey = eLeFaNtE
+reportFileDirectory = files/reporte/
 
 adminFile = files/Administrador		
 candidatoFile = files/Candidato		#Nombre de archivo 
