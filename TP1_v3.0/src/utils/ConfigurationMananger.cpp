@@ -23,10 +23,25 @@ ConfigurationMananger::ConfigurationMananger() {
         configFile->readInto(minRecordSizeTree,"minRecordSizeTree");
         //Tamaño de bloque de los archivos de hash
         configFile->readInto(hashBSizeCandidato,"hashBSizeCandidato");
+
         configFile->readInto(hashBSizeAdministrador,"hashBSizeAdministrador");
+        //VERIFICO QUE TAMANIO DE BLOQUE SEA POTENCIA DE 2 BYTES
+		int i = 0;
+		int aux = 0;
+		while ((aux = 2 << i)<hashBSizeAdministrador) i++;
+
+		if (hashBSizeAdministrador != aux)
+		throw except::BloqueAdministradorNoPotenciaDeDosBytesException();
+
         configFile->readInto(hashBSizeCargo,"hashBSizeCargo");
         configFile->readInto(hashBSizeLista,"hashBSizeLista");
         configFile->readInto(hashBSizeVotante,"hashBSizeVotante");
+        //VERIFICO QUE TAMANIO DE BLOQUE SEA POTENCIA DE 2 BYTES
+		i = aux = 0;
+		while ((aux = 2 << i)<hashBSizeVotante) i++;
+
+		if (hashBSizeVotante != aux)
+			throw except::BloqueVotanteNoPotenciaDeDosBytesException();
 
         configFile->readInto(tamClaveRSA,"tamClaveRSA");
 

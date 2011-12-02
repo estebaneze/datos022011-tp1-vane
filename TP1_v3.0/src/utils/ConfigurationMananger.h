@@ -4,6 +4,7 @@
 #include "types.h"
 #include <string>
 #include "ConfigFile.h"
+#include "../Persistencia/exceptions/excepciones.h"
 
 class ConfigurationMananger {
 private:
