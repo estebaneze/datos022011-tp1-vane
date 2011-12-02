@@ -12,7 +12,8 @@ ConfigurationMananger* ConfigurationMananger::getInstance(){
 }
 
 ConfigurationMananger::ConfigurationMananger() {
-        configFile = new ConfigFile("files/config.txt","=","#","EndConfigFile");
+
+	configFile = new ConfigFile("files/config.txt","=","#","EndConfigFile");
 
         double maxRecordPercent;
 
@@ -26,6 +27,8 @@ ConfigurationMananger::ConfigurationMananger() {
         configFile->readInto(hashBSizeCargo,"hashBSizeCargo");
         configFile->readInto(hashBSizeLista,"hashBSizeLista");
         configFile->readInto(hashBSizeVotante,"hashBSizeVotante");
+
+        configFile->readInto(tamClaveRSA,"tamClaveRSA");
 
         configFile->readInto<string>(separador1,"separador1");
         configFile->readInto<string>(separador2,"separador2");
@@ -122,6 +125,10 @@ int ConfigurationMananger::getHashBSizeLista(){
 
 int ConfigurationMananger::getHashBSizeVotante(){
         return this->hashBSizeVotante;
+}
+
+int ConfigurationMananger::getTamClaveRSA(){
+	return this->tamClaveRSA;
 }
 
 string ConfigurationMananger::getSeparador1(){
