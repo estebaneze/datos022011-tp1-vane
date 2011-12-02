@@ -73,6 +73,7 @@ private:
     	string listaFile;
     	string votanteFile;
     	string distritoFile;
+    	string clavesFile;
         /*
          * Nombre de los archivos logs
          */
@@ -174,6 +175,7 @@ public:
     	string getListaFile();
     	string getVotanteFile();
     	string getDistritoFile();
+    	string getClavesFile();
     	/*
     	 * Devuelve el nombre de los archivos de logs
     	 */

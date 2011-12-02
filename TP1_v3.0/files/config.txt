@@ -35,6 +35,8 @@ listaFile = files/Lista				#Nombre de archivo
 votanteFile = files/Votante		#Nombre de archivo
 distritoFile = files/Distrito		#Nombre de archivo
 
+clavesFile = files/Claves.bin		#Nombre de archivo de claves
+
 logOperVotante = files/logs/Votante_HashOperation.log
 logProcessVotante = files/logs/Votante_HashProcess.log
 logOperCandidato = files/logs/Candidato_HashOperation.log

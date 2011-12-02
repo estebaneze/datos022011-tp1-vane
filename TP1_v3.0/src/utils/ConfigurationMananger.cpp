@@ -45,7 +45,7 @@ ConfigurationMananger::ConfigurationMananger() {
     	configFile->readInto<string>(eleccionFile,"eleccionFile");
     	configFile->readInto<string>(listaFile,"listaFile");
     	configFile->readInto<string>(votanteFile,"votanteFile");
-
+    	configFile->readInto<string>(clavesFile,"clavesFile");
 
     	configFile->readInto<string>(logProcessEleccion,"logProcessEleccion");
     	configFile->readInto<string>(logOperEleccion,"logOperEleccion");
@@ -232,6 +232,10 @@ string ConfigurationMananger::getLogOperCargoFile()
 	return this->logOperCargo;
 }
 
+string ConfigurationMananger::getClavesFile()
+{
+	return this->clavesFile;
+}
 string ConfigurationMananger::getLogProcessEleccionFile()
 {
 	return this->logProcessEleccion;
