@@ -16,6 +16,8 @@ hashBSizeCargo = 512		#TamaÃ±o del bucket para el hash
 hashBSizeLista = 512		#TamaÃ±o del bucket para el hash
 hashBSizeVotante = 512		#TamaÃ±o del bucket para el hash
 
+tamClaveRSA = 687		#TamaÃ±o de la clave en bytes de RSA			
+
 separador1 = |		#TSeparador pipe
 separador2 = _		#Separador guion bajo
 
