@@ -17,6 +17,8 @@ namespace except
 	class ExceptionAlreadyExists: public exception{};
 	class ExceptionOperationNotSupported: public exception{};
 	class NotFindFreeNodeException: public exception{};
+	class BloqueAdministradorNoPotenciaDeDosBytesException: public exception{};
+	class BloqueVotanteNoPotenciaDeDosBytesException: public exception{};
 }
 
 #endif /* EXCEPCIONES_H_ */
