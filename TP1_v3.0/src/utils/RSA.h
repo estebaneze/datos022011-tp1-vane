@@ -18,6 +18,7 @@
 #include <iterator>
 #include <stdio.h>
 #include "../Common/Helper.h"
+#include <math.h>
 
 using namespace std;
 
@@ -25,7 +26,7 @@ class RSA {
 
 private:
 	//long int p,q,n;
-	static string GetAlfabeto();
+	//static string GetAlfabeto();
 	static bool es_primo(int n);
 	static int get_pos(string str,char elemento);
 	static string validar_mensaje(string texto_plano);
@@ -35,6 +36,7 @@ private:
 	static unsigned long long Exponenciacion_Zn(unsigned long long  a,unsigned long long  k,unsigned long long  n);
 
 public:
+	static void generarClave();
 	static char* encriptar(char * m);
 	static char* desencriptar(char* c);
 };
