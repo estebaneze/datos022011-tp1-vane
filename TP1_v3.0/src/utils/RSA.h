@@ -20,6 +20,7 @@
 #include "../Common/Helper.h"
 #include <math.h>
 #include "BadRSAKeySizeException.h"
+#include "../Common/Claves.h"
 
 using namespace std;
 
