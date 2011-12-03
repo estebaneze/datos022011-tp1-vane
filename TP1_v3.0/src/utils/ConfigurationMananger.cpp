@@ -60,8 +60,8 @@ ConfigurationMananger::ConfigurationMananger() {
     	configFile->readInto<string>(eleccionFile,"eleccionFile");
     	configFile->readInto<string>(listaFile,"listaFile");
     	configFile->readInto<string>(votanteFile,"votanteFile");
-    	configFile->readInto<string>(clavesFile,"clavesFile");
-
+    	configFile->readInto<string>(clavePrivadaFile,"clavePublicaFile");
+    	configFile->readInto<string>(clavePublicaFile,"clavePrivadaFile");
     	configFile->readInto<string>(logProcessEleccion,"logProcessEleccion");
     	configFile->readInto<string>(logOperEleccion,"logOperEleccion");
     	configFile->readInto<string>(logProcessDistrito,"logProcessDistrito");
@@ -247,10 +247,16 @@ string ConfigurationMananger::getLogOperCargoFile()
 	return this->logOperCargo;
 }
 
-string ConfigurationMananger::getClavesFile()
+string ConfigurationMananger::getClavePublicaFile()
 {
-	return this->clavesFile;
+	return this->clavePublicaFile;
 }
+
+string ConfigurationMananger::getClavePrivadaFile()
+{
+	return this->clavePrivadaFile;
+}
+
 string ConfigurationMananger::getLogProcessEleccionFile()
 {
 	return this->logProcessEleccion;
