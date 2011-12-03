@@ -178,8 +178,13 @@ char* RSA::desencriptar(char* m)
          cout << "mensaje aux "<< mensajeAux<< endl;
          int ascii = Helper::StringToInt(mensajeAux);
          cout << "ascii: "<< ascii<< endl;
-         string caracter =  Helper::IntToString(ascii);
-         mensaje.append(caracter);
+
+
+         string num=Helper::copyBytesToString(ascii);
+
+         cout << "Num:"<<num;
+
+         mensaje.append(num);
          i++;
          i++;
          mensajeAux.clear();
