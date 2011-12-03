@@ -416,7 +416,7 @@ void RSA::generarClave(){
 
 char* RSA::encriptar(char* m){
 
-	return m;
+	//return m;
 
 	//ACA TENGO QUE LEER EL ARCHIVO DE LA CLAVE PUBLICA PARA OBTENER N Y E
     ///////////////////////////////////////////////////
@@ -509,20 +509,22 @@ cout << endl;
     	 int numExceso=0;
     	 if (tamanio_n==1){
 
-    		 if (mensaje_nros[i]>127) numExceso=128;
+    		 if (mensaje_nros[i] > 127) numExceso=128;
     	 }
 
     	 if (tamanio_n==2){
 
-    	    if (mensaje_nros[i]>65535) numExceso=65536;
+    	    if (mensaje_nros[i] > 65535) numExceso=65536;
 
     	 }
 
     	 if (tamanio_n==4){
 
-    	   	if (mensaje_nros[i]>4294967295) numExceso=4294967296;
+    	   	if (mensaje_nros[i] > 4294967295) numExceso=4294967296;
     	 }
 
+    	 //p ej, si es n de 1 byte, al nro le resto 128 y asi anulo el 8vo bit (queda en 0).
+    	 //lo mismo si es de 2 o bytes, con 65535 y 4294967295 respectivamente
     	 int numSinExceso = mensaje_nros[i]-numExceso;
 
     	// cout << "numSinExceso: " << numSinExceso << endl;
@@ -558,16 +560,21 @@ cout << endl;
     		 }
     		 cifrado.append(aux);
     	 }
+
     	 if (tamanio_n==4){
-    	     		 string aux;
-    	     		 aux.append(Helper::LongToString(mensaje_cifrado[i]));
-    	     		 int cant_caracteres = aux.size();
-    	     		 while (cant_caracteres<12){
-    	     			 cifrado.append("0");
-    	     			 cant_caracteres++;
-    	     		 }
-    	     		 cifrado.append(aux);
-    	     	 }
+
+			 string aux;
+			 aux.append(Helper::LongToString(mensaje_cifrado[i]));
+			 int cant_caracteres = aux.size();
+
+			 while (cant_caracteres < 12){
+
+				 cifrado.append("0");
+				 cant_caracteres++;
+			 }
+
+			 cifrado.append(aux);
+    	 }
      }
 
      //cout << "cifrado: " << cifrado << endl;
