@@ -97,6 +97,12 @@ ostream& BPlusTree::printMe(ostream& myOstream){
         return this->root->printMe(myOstream);
 }
 
+ostream& BPlusTree::printMe(ostream& myOstream, string dataType){
+
+        this->root = this->p->getRoot();
+        return this->root->printMe(myOstream, dataType);
+}
+
 void BPlusTree::Log(Element* element){
 
         //Log de la insercion

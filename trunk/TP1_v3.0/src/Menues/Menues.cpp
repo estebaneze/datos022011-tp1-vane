@@ -145,6 +145,7 @@ char opcion;
 						break;
 				}
 				case '3':{
+
 						ABMAdministrador *abmAdmin = new ABMAdministrador();
 						bool listo = false;
 

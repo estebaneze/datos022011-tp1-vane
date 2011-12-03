@@ -12,7 +12,9 @@
 #include "../Persistencia/PersistorBase.h"
 #include <functional>
 #include "EqualElementComparator.h"
+
 class LeafNode: public BNode {
+
 private:
         Offset nextNode;
         Offset prevNode;
@@ -25,9 +27,7 @@ public:
         LeafNode(PersistorBTree* p);
         virtual ~LeafNode();
 
-
         KeyElement* doSplit();
-
 
         Element* getElement(KeyInt key);
         std::vector<Element*>::iterator getElementsBegin();
@@ -93,6 +93,8 @@ public:
         bool isOverflowded(int modifyOrInsert);
         bool isUnderflowded();
         virtual ostream& printMe(ostream&);
+
+        virtual ostream& printMe(ostream& myOstream, string dataType);
 
         void exportNode();
         RegisterCounter getRegisterCounter();

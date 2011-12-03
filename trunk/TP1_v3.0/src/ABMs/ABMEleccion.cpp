@@ -60,7 +60,7 @@ int ABMEleccion::Add(Eleccion* eleccion){
 
 		//logueo el add
 		BPlusTreeLog::LogInsert(idEleccion,str,ConfigurationMananger::getInstance()->getLogOperEleccionFile());
-		BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessEleccionFile());
+		BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessEleccionFile(), "eleccion");
 
 		//Agrego al indice
 

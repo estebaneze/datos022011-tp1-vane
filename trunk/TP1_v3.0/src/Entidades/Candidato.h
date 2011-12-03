@@ -13,15 +13,15 @@
 class Candidato {
 
 	public:
-		Candidato(string idLista, long idVotante, int idCargo, int idCandidato);
+		Candidato(int idLista, long idVotante, int idCargo, int idCandidato);
 		virtual ~Candidato();
-		string GetIdLista();
+		int GetIdLista();
 		long GetIdVotante();
 		int GetIdCargo();
 		int GetId();
 
 	private:
-		string _idLista; //nombre lista
+		int _idLista;
 		long _idVotante; //dni
 		int _idCargo;
 		int _id;

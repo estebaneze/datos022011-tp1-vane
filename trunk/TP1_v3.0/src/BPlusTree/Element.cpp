@@ -1,7 +1,8 @@
 #include "Element.h"
 #include "../utils/utiles.h"
 #include <iostream>
-
+#include "../Common/Helper.h"
+#include "../Common/ProcessData.h"
 
 //**********************************/
 // * Constructores de copia
@@ -96,11 +97,61 @@ int Element::getDataSize(){
 	return (sizeof(KeyInt) + sizeof(dataSize) + dataSize);
 }
 
+ostream& Element::printMe(ostream& myOstream, string dataType){
+
+	string data;
+	int key;
+
+	if(this->getData()!=NULL){ //programacion defensiva
+
+		data.append(this->getData(), this->getElementSize());
+		key = this->getKey();
+
+		if(dataType == "conteo"){
+
+			int idLista = 0;
+			int idDistrito = 0;
+			int idEleccion = 0;
+			int votos = 0;
+			ProcessData::obtenerDataConteo(this->getData(), this->getDataSize(), idLista, idDistrito, idEleccion, votos);
+			data = Helper::IntToString(idLista) + "|" + Helper::IntToString(idDistrito) + "|" + Helper::IntToString(idEleccion) + "|" + Helper::IntToString(votos) + "|";
+		}
+		else if(dataType == "distrito"){
+
+			string nombre;
+			nombre.clear();
+			ProcessData::obtenerDataDistrito(this->getData(), this->getDataSize(), nombre);
+			data = nombre;
+		}
+		else if(dataType == "eleccion"){
+
+			//fecha|idcargo|distritos
+			int fecha, idCargo;
+			vector<int> idDistritos;
+
+			ProcessData::obtenerDataEleccion(this->getData(), this->getDataSize(), fecha, idCargo, idDistritos);
+
+			data = Helper::IntToString(fecha) + "|" + Helper::IntToString(idCargo);
+			for(int i = 0; i < idDistritos.size(); i++){
+				data += "|" + Helper::IntToString(idDistritos[i]);
+			}
+		}
+
+	}
+
+	myOstream << "Key> " << key << " " << "Data: " << data << " ";
+
+	return myOstream;
+}
+
 ostream& operator<<(ostream& myOstream,  Element& elem){
+
 	string data;
 	if(elem.getData()!=NULL){ //programacion defensiva
 		data.append(elem.getData(),elem.getElementSize());
 	}
+
 	myOstream<<"Key> "<<elem.getKey()<<" "<<"Data: "<<data<<" ";
+
 	return myOstream;
 }

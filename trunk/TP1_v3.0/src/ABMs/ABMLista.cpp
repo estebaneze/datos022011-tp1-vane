@@ -52,7 +52,7 @@ int ABMLista::Add(Lista* lista){
 		//aca dejo el helepr:inttoString por que es para el log.
 		string insertedValues = nombreLista + "|" + Helper::IntToString(lista->GetEleccion());
 		HashLog::LogInsert(Helper::IntToString(idLista),insertedValues,ConfigurationMananger::getInstance()->getLogOperListaFile());
-		HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessListaFile());
+		HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessListaFile(), "lista");
 
 		//Tengo que crear los registros de conteo con la combinacion idLista, idEleccion, idDistrito con 0 votos
 		//Busco los distritos de esa eleccion

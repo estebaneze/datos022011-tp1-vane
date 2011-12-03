@@ -40,7 +40,7 @@ int ABMDistrito::Add(string nombre){
 
 		//logueo el add
 		BPlusTreeLog::LogInsert(Helper::IntToString(idDistrito),nombre,ConfigurationMananger::getInstance()->getLogOperDistritoFile());
-		BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessDistritoFile());
+		BPlusTreeLog::LogProcess(this->bpPlusTree,ConfigurationMananger::getInstance()->getLogProcessDistritoFile(), "distrito");
 
 		return idDistrito;
 	}
@@ -59,7 +59,7 @@ bool ABMDistrito::Delete(int idDistrito){
 
 		//logueo el delete
 		BPlusTreeLog::LogDelete(Helper::IntToString(idDistrito),d->GetNombre(),"Distrito_BPlusTreeOperation.log");
-		BPlusTreeLog::LogProcess(this->bpPlusTree,"Distrito_BPlusTreeProccess.log");
+		BPlusTreeLog::LogProcess(this->bpPlusTree,"Distrito_BPlusTreeProccess.log", "distrito");
 		return true;
 	}
 	else return false;
@@ -83,7 +83,7 @@ void ABMDistrito::Modify(Distrito* distrito){
 
 		//logueo el modify
 		BPlusTreeLog::LogModify(Helper::IntToString(distrito->GetId()),distrito->GetNombre(),"Distrito_BPlusTreeOperation.log");
-		BPlusTreeLog::LogProcess(this->bpPlusTree,"Distrito_BPlusTreeProccess.log");
+		BPlusTreeLog::LogProcess(this->bpPlusTree,"Distrito_BPlusTreeProccess.log", "distrito");
 		this->bpPlusTree->modify(elemento);
 	}
 }

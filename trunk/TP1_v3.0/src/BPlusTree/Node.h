@@ -94,6 +94,7 @@ public:
                 return keyElements.size();
         }
         virtual ostream& printMe(ostream&);
+        virtual ostream& printMe(ostream&, string);
         void exportNode();
 };
 

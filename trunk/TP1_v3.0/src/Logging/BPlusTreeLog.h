@@ -17,6 +17,7 @@ public:
 	BPlusTreeLog();
 
 	static void LogProcess(BPlusTree* bpt,string logProcess);
+	static void LogProcess(BPlusTree* bpt,string fileProcess, string dataType);
 
 	static void LogInsert(Key key,string valor,string logOperation);
 	static void LogInsert(KeyInt key,string value,string logOperation);

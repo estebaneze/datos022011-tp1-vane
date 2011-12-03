@@ -7,7 +7,7 @@
 
 #include "Candidato.h"
 
-Candidato::Candidato(string idLista, long idVotante, int idCargo, int id) {
+Candidato::Candidato(int idLista, long idVotante, int idCargo, int id) {
 
 	_idVotante = idVotante;
 	_idCargo = idCargo;
@@ -32,7 +32,6 @@ int Candidato::GetIdCargo(){
 	return this->_idCargo;
 }
 
-
-string Candidato::GetIdLista(){
+int Candidato::GetIdLista(){
 	return this->_idLista;
 }

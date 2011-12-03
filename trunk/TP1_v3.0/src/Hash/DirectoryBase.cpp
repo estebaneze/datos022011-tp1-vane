@@ -463,7 +463,7 @@ ostream& DirectoryBase::inform (Offset blockNumber, ostream& myOstream, string d
 
 	this->GetBucketFile()->load(blockNumber,this->bucketActual);
 	myOstream << "		Bucket: "<< blockNumber << " (depth: " << this->bucketActual->getDepth() << ", cantBuckets: " << this->bucketActual->countElements() << ")" << endl;
-	this->bucketActual->toHumanLog(myOstream);
+	this->bucketActual->toHumanLog(myOstream, dataType);
 	myOstream << std::endl;
 
 	return myOstream;
@@ -551,7 +551,7 @@ ostream& DirectoryBase::inform (ostream& myOstream, string dataType){
 	for (std::set<Offset>::iterator it = offsets.begin(); it != offsets.end(); it++){
 		//this->inform(*it);
 
-		this->inform(*it,myOstream);
+		this->inform(*it,myOstream, dataType);
 	}
 
 	myOstream << "=========================================" << std::endl;

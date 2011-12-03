@@ -85,33 +85,19 @@ bool es_primo(int n)
    return true;
 }
 
+int mainotro(){
+
+	CargaMasiva::CargarEntidades();
+//	CargaMasiva::BorraTodosArchivos();
+//	Identities::InitializeFile();
+//	ABMAdministrador abm = ABMAdministrador();
+//	abm.Add(new Administrador("admin", "admin"));
+}
+
 int main(){
 
-	//RSA::generarClave();
-	int d = Claves::GetClavePrivadaD();
-	cout << "d: " << d << endl;
-	cout << endl;
-	//RSA::encriptar("hola mundo");
 	//Menues::MenuInicial();
-/*	CargaMasiva::BorraTodosArchivos();
-	Identities::InitializeFile();
-CargaMasiva::CargarDistritos();
-CargaMasiva::CargarVotantes();
-
-ABMVotante* a = new ABMVotante();
-Votante* v=a->GetVotante(1);
-
-if(v == NULL){
-	cout << "nuuuuuuuuuuuullllllllll " << endl;
-
-}
-else{
-	cout << endl << endl <<  v->GetNombreYApellido() << endl;
-}*/
-
-//	RSA::encriptar2("peperulo");
-
-	//RSA::desencriptar2();
+	CargaMasiva::CargarEntidades();
 
 	cout << endl << "Bye!!!" << endl;
 	return 0;
