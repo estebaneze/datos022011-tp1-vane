@@ -48,7 +48,7 @@ int maisdn(){
 	string pepe1 = RSA::encriptar("hola mundo2");
 	string pepe2 = RSA::encriptar("hola mundo3");
 
-	cout << "pepe: " << pepe << endl;
+	cout << "cifrado: " << pepe << endl;
 	//delete pepe;
 
 	return 0;
