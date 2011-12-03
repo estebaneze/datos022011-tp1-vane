@@ -87,7 +87,11 @@ bool es_primo(int n)
 
 int main(){
 
-	Menues::MenuInicial();
+	RSA::generarClave();
+
+	cout << endl;
+	RSA::encriptar("hola mundo");
+	//Menues::MenuInicial();
 /*	CargaMasiva::BorraTodosArchivos();
 	Identities::InitializeFile();
 CargaMasiva::CargarDistritos();
@@ -104,7 +108,7 @@ else{
 	cout << endl << endl <<  v->GetNombreYApellido() << endl;
 }*/
 
-	//RSA::encriptar2("12345678");
+//	RSA::encriptar2("peperulo");
 
 	//RSA::desencriptar2();
 
