@@ -31,7 +31,6 @@ class RSA {
 		static char* encriptar(char* m);
 		static void encriptar2(char* m);
 		static char* desencriptar(char* c);
-		static char* desencriptar2();
 		static void CheckCache();
 
 	//private:
