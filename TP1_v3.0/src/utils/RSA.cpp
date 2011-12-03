@@ -44,132 +44,152 @@ string  RSA::validar_mensaje(string texto_plano)
 
 char* RSA::desencriptar(char* m)
 {
-	return m;
+        long int d = Claves::GetClavePrivadaD();
+        long int n = Claves::GetClavePrivadaN();
+        int tamanio_n = ConfigurationMananger::getInstance()->getTamClaveRSA();
+        int cantBloques = 0;
 
-    /* cout<<"\n DESENCRIPTAR :\n\n";
-     long int d,n,tam, e;
-     //cout<<" Ingrese clave privada (d) :";
-     //cin>>d;
-     d = 157;
-     cout << "Clave privada (d): " << d << endl;
-     //cout<<" Ingrese clave n (p*q) :";
-     //cin>>n;
-     n = 2773;
-     cout << "Clave n (p*q) :" << endl;
+        //imprimo el mensaje a encriptar
+        cout << "\n---------tamnio n: " << tamanio_n << " n: " << n << "  d: " << d << endl;
+        cout << "---------mensaje: " << m <<  endl;
 
+        //Convierto mi mensaje a string
+        string mcifrado;
+        mcifrado.append((const char*)m);
+        cantBloques = mcifrado.size()/(tamanio_n*2);
 
-     cout<<" Ingrese longitud del mensaje cifrado: ";
-     cin>>tam;
+        long int* mensaje_nros = new long int[cantBloques];
+        long int* mensaje_cifrado = new long int[cantBloques];
 
-     long int mensaje_cifrado[tam];
-     long int mensaje_int[tam*2];
-     string mensaje="";
+        string auxsrt;
+        //convierto mi string a un vector de long int con mi mensaje cifrado
+        cout << "mcifrado"<<mcifrado<<cantBloques<<endl;
 
+        if (tamanio_n==1){
+             unsigned int pos = 0;
+             for (unsigned int i = 0; i < cantBloques;i++){
+                 string aux;
+                 aux.clear();
+                 for (unsigned int j=0; j<2; j++){
+                     aux = aux + mcifrado.at(pos);
+                     pos++;
+                 }
+                 cout << "aux"<< aux;
+                 mensaje_cifrado[i] = Helper::StringToLong(aux);
+                 cout << "aux"<<  mensaje_cifrado[i];
+             }
+        }
 
-     cout<<" Mensaje cifrado: \n";
-     for(int i=0;i<tam;i++)
-     { cout<<"  ["<<i+1<<"] = ";cin>>mensaje_cifrado[i];}
-     cout<<endl;
+         if (tamanio_n==2){
+             int pos;
+             for (unsigned int i = 0; i < cantBloques;i++){
+                 string aux;
+                 aux.clear();
+                 for (unsigned int j=0; j<6; j++){
+                     aux = aux + mcifrado.at(j);
+                     pos++;
+                 }
+                 mensaje_cifrado[i] = Helper::StringToLong(aux);
+             }
+        }
 
-     // elevamos el mensaje a la potencia d (mod n)
-      cout<<" mensaje cifrado a la potencia 'd':";
-      for(int i=0;i<tam;i++)
-          mensaje_cifrado[i]=Exponenciacion_Zn(mensaje_cifrado[i],d,n);
+         if (tamanio_n==4){
+             int pos=0;
+             for (unsigned int i = 0; i < cantBloques;i++){
+                 string aux;
+                 aux.clear();
+                 for (unsigned int j=0; j<12; j++){
+                     aux = aux + mcifrado[pos];
+                     pos++;
+                 }
+                 mensaje_cifrado[i] = Helper::StringToLong(aux);
+             }
+        }
+         cout << "hola";
+     for (unsigned int i = 0; i < cantBloques;i++){
+             cout << " "<< mensaje_cifrado[i]<<"  "<< endl;
+     }
 
-      for(int i=0;i<tam;i++)
-          cout<<mensaje_cifrado[i]<<" ";
+     //CALCULO EXCESO Y DESCIFRO MENSAJE
+     for(unsigned int i = 0; i < cantBloques; i++){
 
-      cout<<endl;
+         int numExceso=0;
+         if (tamanio_n==1){
+             if (mensaje_cifrado[i]>127) numExceso=128;
+         }
+         if (tamanio_n==2){
+            if (mensaje_cifrado[i]>65535) numExceso=65536;
+         }
 
+         if (tamanio_n==4){
+               if (mensaje_cifrado[i]>4294967295) numExceso=4294967296;
+         }
 
-     // hallamos el mensaje en numeros
-     //cout<<" mensaje en numeros: ";
-     for(int i=0;i<tam;i++)
-       {mensaje_int[i*2]=mensaje_cifrado[i]/100;
-        mensaje_int[i*2+1]=mensaje_cifrado[i]%100;
-       }
-     for(int i=0;i<(tam*2);i++)
-         cout<<mensaje_int[i]<<" ";
-     cout<<endl;
+         int numSinExceso = mensaje_cifrado[i]-numExceso;
+         cout << "numSinExceso: " << numSinExceso << endl;
+         mensaje_nros[i] = Exponenciacion_Zn(mensaje_cifrado[i]-numExceso, d, n) + numExceso;
+         cout << "mensaje original: " <<  mensaje_nros[i] << endl;
+    }
 
+     //convierto mi vector de long int a un string
+     string sincifrar = "";
+     for (unsigned int i = 0; i < cantBloques;i++){
 
-     // hallamos el mensaje
-     cout<<" mensaje : ";
-     for(int i = 0 ; i < (tam*2); i++)
-       mensaje += GetAlfabeto().at(mensaje_int[i]%26);
+         if (tamanio_n==1){
+             if (mensaje_nros[i]<10){
 
-     cout<<mensaje;
+                 sincifrar.append("00");
+                 sincifrar.append(Helper::LongToString(mensaje_nros[i]));
+             }
+             else if (mensaje_nros[i]>9 && mensaje_nros[i]<100){
+                 sincifrar.append("0");
+                 sincifrar.append(Helper::LongToString(mensaje_nros[i]));
+                 }
+                 else{
+                     sincifrar.append(Helper::LongToString(mensaje_nros[i]));
+                 }
+         }
+         if (tamanio_n==2){
+             string aux;
+             aux.append(Helper::LongToString(mensaje_nros[i]));
+             int cant_caracteres = aux.size();
+             while (cant_caracteres<6){
+                 sincifrar.append("0");
+                 cant_caracteres++;
+             }
+             sincifrar.append(aux);
+         }
+         if (tamanio_n==4){
+              string aux;
+              aux.append(Helper::LongToString(mensaje_nros[i]));
+              int cant_caracteres = aux.size();
+              while (cant_caracteres<12){
+                  sincifrar.append("0");
+                  cant_caracteres++;
+              }
+              sincifrar.append(aux);
+          }
+     }
+     string mensajeAux;
+     string mensaje;
+     //posiciones de los caracteres en el alfabeto del mensaje
+     for(unsigned int i = 0; i < sincifrar.size(); i++){
+         mensajeAux= sincifrar.substr(i,3);//(sincifrar[i]) + (sincifrar[i+1])+ (sincifrar[i+2]);
+         cout << "mensaje aux "<< mensajeAux<< endl;
+         int ascii = Helper::StringToInt(mensajeAux);
+         cout << "ascii: "<< ascii<< endl;
+         string caracter =  Helper::IntToString(ascii);
+         mensaje.append(caracter);
+         i++;
+         i++;
+         mensajeAux.clear();
+     }
 
-     return m;
-*/
+     cout << "Sin cifrar en entero: "<<sincifrar<<endl<<"Sin cifrar en caracteres: "<< mensaje<<endl;
+
+     return (char*)m;
 }
 
-
-char* RSA::desencriptar2()
-{
-     cout<<"\n DESENCRIPTAR :\n\n";
-     long int d,n,tam;
-     cout<<" Ingrese clave privada (d) :";
-     //cin>>d;
-     d = 11;
-     cout << "Clave privada (d): " << d << endl;
-     cout<<" Ingrese clave n (p*q) :";
-     //cin>>n;
-     n = 21;
-     cout << "Clave n (p*q) :" << n <<endl;
-
-
-     cout<<" Ingrese longitud del mensaje cifrado: ";
-     cin>>tam;
-
-     long int mensaje_cifrado[tam];
-     long int mensaje_int[tam*2];
-     string mensaje="";
-
-
-     cout<<" Mensaje cifrado: \n";
-     for(int i=0;i<tam;i++)
-     { cout<<"  ["<<i+1<<"] = ";cin>>mensaje_cifrado[i];}
-     cout<<endl;
-
-     // elevamos el mensaje a la potencia d (mod n)
-      cout<<" mensaje cifrado a la potencia 'd':";
-      for(int i=0;i<tam;i++)
-          mensaje_cifrado[i]=Exponenciacion_Zn(mensaje_cifrado[i],d,n);
-
-      for(int i=0;i<tam;i++)
-          cout<<mensaje_cifrado[i]<<" ";
-
-      cout<<endl;
-
-     // hallamos el mensaje en numeros
-     //cout<<" mensaje en numeros: ";
-     for(int i=0;i<tam;i++) {
-    	 mensaje_int[i*2]=mensaje_cifrado[i]/100;
-         mensaje_int[i*2+1]=mensaje_cifrado[i]%100;
-     }
-
-     for(int i=0;i<(tam*2);i++){
-         cout << mensaje_int[i] << " ";
-     }
-     cout<<endl;
-
-
-     // hallamos el mensaje
-     cout<<" mensaje : ";
-     for(int i = 0 ; i < (tam*2); i++){
-       //mensaje += Helper::IntToString(mensaje_int[i]); //GetAlfabeto().at(mensaje_int[i]%26);
-    	 char a;
-    	 a = mensaje_cifrado[i];
-    	 cout << a << " ";
-    	 //mensaje.append( (const char *)a);
-     }
-
-     cout<<mensaje;
-
-     //return m;
-
-}
 
 
 /*
