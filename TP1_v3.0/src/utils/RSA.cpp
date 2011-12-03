@@ -309,6 +309,13 @@ void RSA::CheckCache(){
 
 void RSA::generarClave(){
 
+	//VALIDO QUE NO ESTEN CREADAS CLAVES
+	string fileNameClavePrivada = ConfigurationMananger::getInstance()->getClavePrivadaFile();
+	string fileNameClavePublica = ConfigurationMananger::getInstance()->getClavePublicaFile();
+	if(Archivo::exists(fileNameClavePrivada) && Archivo::exists(fileNameClavePublica)){
+		return;
+	}
+
 	//Antes de empezar valida que el tamaño parametrizado sea correcto
     RSA::validarTamClave();
 
