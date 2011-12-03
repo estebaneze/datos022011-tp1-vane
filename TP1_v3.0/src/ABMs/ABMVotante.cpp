@@ -41,7 +41,7 @@ void ABMVotante::Add(Votante* votante){
 			aux = Helper::concatenar(aux, idE,ConfigurationMananger::getInstance()->getSeparador1());
 		}
 
-		HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessVotanteFile());
+		HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessVotanteFile(), "votante");
 		HashLog::LogInsert(Helper::LongToString(votante->GetDni()),aux,ConfigurationMananger::getInstance()->getLogOperVotanteFile());
 	}
 	else{
@@ -93,7 +93,7 @@ void ABMVotante::Modify(Votante *votante){
                 aux = Helper::concatenar(aux,idE,ConfigurationMananger::getInstance()->getSeparador1());
             }
 
-            HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessVotanteFile());
+            HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessVotanteFile(), "votante");
             HashLog::LogModify(Helper::LongToString(votante->GetDni()),aux,ConfigurationMananger::getInstance()->getLogOperVotanteFile());
         }
 }

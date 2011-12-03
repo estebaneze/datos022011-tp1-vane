@@ -30,11 +30,8 @@ int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
 		string field = nombre.append("|");
 		field.append(Helper::concatenar(cargosSecundarios, ConfigurationMananger::getInstance()->getSeparador1()));
 
-		HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessCargoFile());
+		HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessCargoFile(), "cargo");
 		HashLog::LogInsert(Helper::IntToString(idCargo),field,ConfigurationMananger::getInstance()->getLogOperCargoFile());
-
-		//Actualizo la lista de cargos del abm *******++ si queda tiempo lo implemento bien (Vane)
-		//this->cargos.push_back(Cargo(idCargo, nombre, cargosSecundarios));
 
 		return idCargo;
 	}
@@ -44,67 +41,67 @@ int ABMCargo::Add(string nombre, vector<int> cargosSecundarios){
 	}
 }
 
-/*Elimina una Cargo, si no exite arroja un excepcion, informa true si elimino sino false*/
-bool ABMCargo::Delete(int idCargo){
+///*Elimina una Cargo, si no exite arroja un excepcion, informa true si elimino sino false*/
+//bool ABMCargo:Delete(int idCargo){
+//
+//        if (this->directorio->existKey(Helper::copyBytesToString(idCargo))){
+//
+//                this->directorio->remove(Helper::copyBytesToString(idCargo));
+//
+//                //LOGUEO
+//                HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
+//                HashLog::LogDelete(Helper::IntToString(idCargo),"","Cargo_HashOperation.log");
+//
+//                //Actualizo la lista de cargos del abm *******++ si queda tiempo lo implemento bien (Vane)
+//                /*int index = 0;
+//                for(index = 0; index < cargos.size(); index++){
+//
+//                        if(cargos[index].GetId() == idCargo){
+//                                break;
+//                        }
+//                }
+//
+//                //borro del vector el elemento en la posicion i
+//                if(index < this->cargos.size()){
+//                        this->cargos.erase(cargos.begin() + index);
+//                }
+//                        */
+//
+//                return true;
+//        }
+//        else {
+//                return false;
+//        }
+//}
 
-        if (this->directorio->existKey(Helper::copyBytesToString(idCargo))){
-
-                this->directorio->remove(Helper::copyBytesToString(idCargo));
-
-                //LOGUEO
-                HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
-                HashLog::LogDelete(Helper::IntToString(idCargo),"","Cargo_HashOperation.log");
-
-                //Actualizo la lista de cargos del abm *******++ si queda tiempo lo implemento bien (Vane)
-                /*int index = 0;
-                for(index = 0; index < cargos.size(); index++){
-
-                        if(cargos[index].GetId() == idCargo){
-                                break;
-                        }
-                }
-
-                //borro del vector el elemento en la posicion i
-                if(index < this->cargos.size()){
-                        this->cargos.erase(cargos.begin() + index);
-                }
-                        */
-
-                return true;
-        }
-        else {
-                return false;
-        }
-}
-
-/* Modifica el idEleccion de una candidato pasada por parametro si la encuentra la modifica sino no hace nada */
-void ABMCargo::Modify(Cargo cargo){
-
-        string id = Helper::copyBytesToString(cargo.GetId());
-        vector<int> cargosSecundarios = cargo.GetCargosSecundarios();
-
-        if (this->directorio->existKey(id)){
-
-        	string data = ProcessData::generarDataCargo(cargo.GetNombre(),cargosSecundarios);
-        	this->directorio->modify(id,data);
-
-        	//LOGUEO
-			string aux = Helper::concatenar(cargosSecundarios, ConfigurationMananger::getInstance()->getSeparador1());
-
-            HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
-            HashLog::LogModify(Helper::IntToString(cargo.GetId()),aux,"Cargo_HashOperation.log");
-
-                /*
-                //Actualizo la lista de cargos del abm *******++ si queda tiempo lo implemento bien (Vane)
-                for(int i = 0; i < cargos.size(); i++){
-                        if(cargos[i].GetId() == cargo.GetId()){
-                                cargos[i] = cargo;
-                                break;
-                        }
-                }
-                */
-        }
-}
+///* Modifica el idEleccion de una candidato pasada por parametro si la encuentra la modifica sino no hace nada */
+//void ABMCargo::Modify(Cargo cargo){
+//
+//        string id = Helper::copyBytesToString(cargo.GetId());
+//        vector<int> cargosSecundarios = cargo.GetCargosSecundarios();
+//
+//        if (this->directorio->existKey(id)){
+//
+//        	string data = ProcessData::generarDataCargo(cargo.GetNombre(),cargosSecundarios);
+//        	this->directorio->modify(id,data);
+//
+//        	//LOGUEO
+//			string aux = Helper::concatenar(cargosSecundarios, ConfigurationMananger::getInstance()->getSeparador1());
+//
+//            HashLog::LogProcess(this->directorio,"Cargo_HashProcess.log");
+//            HashLog::LogModify(Helper::IntToString(cargo.GetId()),aux,"Cargo_HashOperation.log");
+//
+//                /*
+//                //Actualizo la lista de cargos del abm *******++ si queda tiempo lo implemento bien (Vane)
+//                for(int i = 0; i < cargos.size(); i++){
+//                        if(cargos[i].GetId() == cargo.GetId()){
+//                                cargos[i] = cargo;
+//                                break;
+//                        }
+//                }
+//                */
+//        }
+//}
 
 vector<Cargo> ABMCargo::GetCargos(){
 

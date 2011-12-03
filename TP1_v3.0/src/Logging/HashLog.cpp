@@ -28,7 +28,7 @@ void HashLog::LogProcess(DirectoryBase* dir,string fileProcess, string dataType)
 
 	//string fileLogProccess = Helper::concatenar(this->hashFile,"HashProccess.log","_");
 	logFile.open(fileProcess.c_str(), ios::app);
-	dir->inform(logFile);
+	dir->inform(logFile, dataType);
 	logFile.close();
 }
 

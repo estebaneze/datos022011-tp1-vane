@@ -32,6 +32,8 @@ public:
 	void unserialize(std::string &buffer);
 	int getDataSize();
 
+	ostream& printMe(ostream& myOstream, string dataType);
+
 	bool operator==(const Element& k) { // sobrecarga operador ==
 		return this->key == k.key;
 	}

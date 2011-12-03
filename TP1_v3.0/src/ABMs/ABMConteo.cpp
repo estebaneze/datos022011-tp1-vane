@@ -16,7 +16,6 @@ ABMConteo::ABMConteo() {
     this->indexByDistrito = new Index(Helper::concatenar(mainTreeName,"Distrito",ConfigurationMananger::getInstance()->getSeparador2()));
     this->indexByLista = new Index(Helper::concatenar(mainTreeName,"Lista",ConfigurationMananger::getInstance()->getSeparador2()));
     this->indexByEleccion = new Index(Helper::concatenar(mainTreeName,"Eleccion",ConfigurationMananger::getInstance()->getSeparador2()));
-
 }
 
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion
@@ -57,8 +56,9 @@ int ABMConteo::Inicializa(int idLista, int idDistrito, int idEleccion){
 	str.append(Helper::IntToString(idDistrito)).append("|");
 	str.append(Helper::IntToString(idEleccion).append("|"));
 	str.append("0|");	//0 votos
+
 	BPlusTreeLog::LogInsert(key, str,ConfigurationMananger::getInstance()->getLogOperConteoFile());
-	BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile());
+	BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile(), "conteo");
 
 	return idConteo;
 }
@@ -103,7 +103,7 @@ void ABMConteo::AddVoto(int idConteo, Votante* votante){
 		str.append("|");	//Pongo el pipe al final, para que quede idLista|idDistrito|idEleccion|cantVotos|
 
 		BPlusTreeLog::LogModify(key, str, ConfigurationMananger::getInstance()->getLogOperConteoFile());
-		BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile());
+		BPlusTreeLog::LogProcess(this->bplusTree, ConfigurationMananger::getInstance()->getLogProcessConteoFile(), "conteo");
 
 		this->NotifyVotante(votante, idEleccion);
 

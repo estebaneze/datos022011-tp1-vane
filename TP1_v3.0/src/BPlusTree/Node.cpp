@@ -566,35 +566,77 @@ int Node::getDataSize() {
         return (sizeof(Offset) + size + BNode::getDataSize());
 }
 
+ostream& Node::printMe(ostream& myOstream, string dataType){
+
+	std::vector<KeyElement*>::iterator it;
+	myOstream << "Nodo: " << getOffset() << " Left OffSet: " << getLeftNode()
+					<< " Elementos Key: ";
+	KeyElement* keyElement;
+
+	for (it = getKeyElementsBegin(); it != getKeyElementsEnds(); it++) {
+		keyElement = (*it);
+		myOstream << *keyElement;
+	}
+
+	myOstream << endl;
+
+	Offset rightNode = getLeftNode();
+
+	BNode* bNode = NodeFactory::createNodeForSearch(getLevel(),this->p);
+	this->p->load(rightNode, bNode);
+	//myOstream << bNode;
+	bNode->printMe(myOstream, dataType);
+	delete bNode;
+
+	for (it = getKeyElementsBegin(); it != getKeyElementsEnds(); it++) {
+
+		Offset rightNode = (*it)->getrightNode();
+
+		BNode* bNode = NodeFactory::createNodeForSearch(getLevel(),this->p);
+		this->p->load(rightNode, bNode);
+		//myOstream << *bNode;
+		bNode->printMe(myOstream, dataType);
+		delete bNode;
+	}
+
+	myOstream << endl;
+
+	return myOstream;
+}
+
 ostream& Node::printMe(ostream& myOstream) {
-        std::vector<KeyElement*>::iterator it;
-        myOstream << "Nodo: " << getOffset() << " Left OffSet: " << getLeftNode()
-                        << " Elementos Key: ";
-        KeyElement* keyElement;
-        for (it = getKeyElementsBegin(); it != getKeyElementsEnds(); it++) {
-                keyElement = (*it);
-                myOstream << *keyElement;
-        }
-        myOstream << endl;
 
-        Offset rightNode = getLeftNode();
+	std::vector<KeyElement*>::iterator it;
+	myOstream << "Nodo: " << getOffset() << " Left OffSet: " << getLeftNode()
+					<< " Elementos Key: ";
+	KeyElement* keyElement;
 
-        BNode* bNode = NodeFactory::createNodeForSearch(getLevel(),this->p);
-        this->p->load(rightNode, bNode);
-        myOstream << bNode;
-        delete bNode;
+	for (it = getKeyElementsBegin(); it != getKeyElementsEnds(); it++) {
+		keyElement = (*it);
+		myOstream << *keyElement;
+	}
 
-        for (it = getKeyElementsBegin(); it != getKeyElementsEnds(); it++) {
-                Offset rightNode = (*it)->getrightNode();
+	myOstream << endl;
 
-                BNode* bNode = NodeFactory::createNodeForSearch(getLevel(),this->p);
-                this->p->load(rightNode, bNode);
-                myOstream << *bNode;
-                delete bNode;
-        }
+	Offset rightNode = getLeftNode();
 
-        myOstream << endl;
-        return myOstream;
+	BNode* bNode = NodeFactory::createNodeForSearch(getLevel(),this->p);
+	this->p->load(rightNode, bNode);
+	myOstream << bNode;
+	delete bNode;
+
+	for (it = getKeyElementsBegin(); it != getKeyElementsEnds(); it++) {
+
+		Offset rightNode = (*it)->getrightNode();
+
+		BNode* bNode = NodeFactory::createNodeForSearch(getLevel(),this->p);
+		this->p->load(rightNode, bNode);
+		myOstream << *bNode;
+		delete bNode;
+	}
+
+	myOstream << endl;
+	return myOstream;
 }
 /**
  * Mostramos todas las claves y luego exportamos cada uno de los hijos a los que apunta

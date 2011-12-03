@@ -409,6 +409,8 @@ void RSA::generarClave(){
 
 char* RSA::encriptar(char* m){
 
+	return m;
+
 	//ACA TENGO QUE LEER EL ARCHIVO DE LA CLAVE PUBLICA PARA OBTENER N Y E
     ///////////////////////////////////////////////////
 	long int e = Claves::GetClavePublicaE();

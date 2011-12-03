@@ -239,11 +239,76 @@ void Bucket::toHumanLog(ostream &myOstream){
 	//DistributionTable dt;
 	for (map<Key, string>::iterator it = this->_elements.begin() ; it != this->_elements.end() ; ++it){
 		//dt.unserialize(it->second);
-		myOstream << "			"<<it->first << " : " << it->second << std::endl; /*<< dt.toHuman() << std::endl;*/
+		myOstream << "			"<< it->first << " : " << it->second << std::endl; /*<< dt.toHuman() << std::endl;*/
 	//	dt.clear();
 		//std::cout << it->first << " ";
 	}
 }
+
+void Bucket::toHumanLog(ostream &myOstream, string dataType){
+
+	for (map<Key, string>::iterator it = this->_elements.begin() ; it != this->_elements.end() ; ++it){
+
+		string first = it->first;
+		string second = it->second;
+
+		if(dataType == "index"){
+			int campo;
+			ProcessData::obtenerData(second, campo);
+			second = Helper::IntToString(campo);
+			first = Helper::IntToString(Helper::copyBytesToInt(it->first));
+		}
+		else if(dataType == "candidato"){
+
+			int idLista;
+			long idVotante;
+			int idCargo;
+			ProcessData::obtenerDataCandidato(second, idLista, idVotante, idCargo);
+			second = Helper::IntToString(idLista) + "|" + Helper::IntToString(idVotante) + "|" + Helper::IntToString(idCargo);
+
+			first = Helper::IntToString(Helper::copyBytesToInt(it->first));
+		}
+		else if(dataType == "cargo"){
+
+			string nombre;
+			vector<int> cargosSec;
+			//(string valor, string &nombre, vector<int> & CargosSec)
+			ProcessData::obtenerDataCargo(second, nombre, cargosSec);
+			second = nombre;
+			for(int i = 0; i < cargosSec.size(); i++)
+				second += "|" + Helper::IntToString(cargosSec[i]);
+
+			first = Helper::IntToString(Helper::copyBytesToInt(it->first));
+		}
+		else if(dataType == "lista"){
+
+			string nombre;
+			int idEleccion;
+			//idLista|idDistrito|idEleccion|votos|
+			ProcessData::obtenerDataLista(second, nombre, idEleccion);
+			second = nombre + "|" + Helper::IntToString(idEleccion);
+
+			first = Helper::IntToString(Helper::copyBytesToInt(it->first));
+		}
+		else if(dataType == "votante"){
+
+			int idDistrito;
+			string clave, dom, nombre;
+			vector<int> listaElecciones;
+			ProcessData::obtenerDataVotante(second, nombre, clave, dom, idDistrito, listaElecciones);
+			second = nombre + "|" + clave + "|" + dom + Helper::IntToString(idDistrito);
+			for(int i = 0; i < listaElecciones.size(); i++){
+				second += "|" + Helper::IntToString(listaElecciones[i]);
+			}
+
+			first = Helper::IntToString(Helper::copyBytesToInt(it->first));
+		}
+
+		//myOstream << "			"<< it->first << " : " << it->second << std::endl; /*<< dt.toHuman() << std::endl;*/
+		myOstream << "			"<< first << " : " << second << std::endl; /*<< dt.toHuman() << std::endl;*/
+	}
+}
+
 
 vector<KeyValue> Bucket::get(){
 

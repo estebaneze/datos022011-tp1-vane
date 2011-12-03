@@ -29,7 +29,7 @@ public:
 	static string generarData(int key);
 	static string generarData(int campo1,int campo2);
 
-	static void obtenerDataCandidato(string valor,string &idLista,long &idVotante,int &idCargo);
+	static void obtenerDataCandidato(string valor,int &idLista,long &idVotante,int &idCargo);
 	static void obtenerDataConteo(char* valor, int sizeData,int &idLista,int &idDistrito,int &idEleccion, int &votos );
 
 	static void obtenerDataCargo(string valor, string &nombre, vector<int> &CargosSec);

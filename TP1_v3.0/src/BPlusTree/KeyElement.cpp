@@ -32,7 +32,7 @@ KeyInt KeyElement::getKey(){
 
 ostream& operator<<(ostream& myOstream, KeyElement& elem){
 
-	myOstream<<elem.getKey()<<" RightOffSet: "<<elem.getrightNode()<<" ";
+	myOstream << elem.getKey() << " RightOffSet: " << elem.getrightNode() << " ";
 
 	return myOstream;
 }

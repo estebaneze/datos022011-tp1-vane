@@ -47,7 +47,7 @@ int ABMCandidato::Add(int idLista, long idVotante, int idCargo){
             string fields1 = Helper::concatenar(Helper::IntToString(idLista),Helper::LongToString(idVotante),ConfigurationMananger::getInstance()->getSeparador1());
             string fields2 = Helper::concatenar(fields1,Helper::IntToString(idCargo),ConfigurationMananger::getInstance()->getSeparador1());
 
-            HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessCandidatoFile());
+            HashLog::LogProcess(this->directorio,ConfigurationMananger::getInstance()->getLogProcessCandidatoFile(), "candidato");
             HashLog::LogInsert(Helper::IntToString(idCandidato),fields2,ConfigurationMananger::getInstance()->getLogOperCandidatoFile());
 
 			//this->index->AppendToIndex(Helper::copyBytesToString(idLista), ProcessData::generarData(idCandidato));   //Tengo que refrescar el indice en todos los Adds!!!
@@ -118,22 +118,22 @@ vector<int> ABMCandidato::GetByLista(int idLista){
 
 vector<Candidato> ABMCandidato::GetCandidatos(){
 
-        vector<KeyValue> values = this->directorio->getAllValues();
-        vector<Candidato> candidatos;
+	vector<KeyValue> values = this->directorio->getAllValues();
+	vector<Candidato> candidatos;
 
-        for(unsigned int i = 0; i < values.size(); i++){
+	for(unsigned int i = 0; i < values.size(); i++){
 
-        	string idLista;
-        	idLista.clear();
-        	long idVotante = 0;
-        	int idCargo = 0;
-			ProcessData::obtenerDataCandidato(values[i].Value,idLista,idVotante,idCargo);
+		int idLista;
+		long idVotante = 0;
+		int idCargo = 0;
+		ProcessData::obtenerDataCandidato(values[i].Value,idLista,idVotante,idCargo);
 
-			int idCandidato = Helper::copyBytesToInt(values[i].Key);
+		int idCandidato = Helper::copyBytesToInt(values[i].Key);
 
-            candidatos.push_back(Candidato(idLista, idVotante, idCargo, idCandidato));
-        }
-        return candidatos;
+		candidatos.push_back(Candidato(idLista, idVotante, idCargo, idCandidato));
+	}
+
+	return candidatos;
 }
 
 /*
@@ -147,8 +147,7 @@ Candidato* ABMCandidato::GetCandidato(int idCandidato){
 
                 string values = directorio->find(candidatoId);
 
-                string idLista;
-                idLista.clear();
+                int idLista;
                 long idVotante = 0;
                 int idCargo = 0;
 				ProcessData::obtenerDataCandidato(values,idLista,idVotante,idCargo);

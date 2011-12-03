@@ -105,6 +105,7 @@ public:
         virtual int getDataSize();
         friend ostream& operator<<(ostream&,BNode&);
         virtual ostream& printMe(ostream&)=0;
+        virtual ostream& printMe(ostream& myOstream, string dataType)=0;
         virtual void exportNode()=0;
 };
 

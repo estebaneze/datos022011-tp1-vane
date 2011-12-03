@@ -210,13 +210,13 @@ void CargaMasiva::CargarVotantes(){
 
     for(int i = 1; i <= CANT_VOTANTES; i++){
 
-		string nombreApellido = "Nombre_Apellido_";
+		string nombreApellido = "Nombre-Apellido-";
 		nombreApellido = nombreApellido.append(Helper::IntToString(i));
 
 		string clave = "Clave";
 		clave.append(Helper::IntToString(i));
 
-		string domicilio = "Domicilio_";
+		string domicilio = "Domicilio-";
 		domicilio.append(Helper::IntToString(i));
 
 		long dni = i;//(long)GetRandom(99999) * 1000;

@@ -93,6 +93,8 @@ class BPlusTree {
 
     ostream& printMe(ostream& myOstream);
 
+    ostream& printMe(ostream& myOstream, string);
+
     void Log(Element* element);
 };
 

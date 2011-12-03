@@ -14,6 +14,7 @@
 #include <map>
 #include "KeyValue.h"
 #include "../Common/Helper.h"
+#include "../Common/ProcessData.h"
 
 using namespace std;
 
@@ -48,6 +49,7 @@ public:
 	int getDataSize();
 	void toHuman();
 	void toHumanLog(ostream &file);
+	void toHumanLog(ostream &myOstream, string dataType);
 
 	map <Key, string>::iterator begin(){
 		return _elements.begin();

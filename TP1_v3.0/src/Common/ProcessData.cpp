@@ -294,7 +294,7 @@ void ProcessData::obtenerDataLista(string valor, string &nombreLista, int &idEle
 
 }
 
-void ProcessData::obtenerDataCandidato(string valor,string &campo1,long &campo2,int &campo3){
+void ProcessData::obtenerDataCandidato(string valor,int &idLista,long &idVotante,int &idCargo){
 
 	char c_sizeLista[2];
 	char c_sizeVotante[2];
@@ -315,7 +315,7 @@ void ProcessData::obtenerDataCandidato(string valor,string &campo1,long &campo2,
 		i++;
 	}
 
-	campo1.append(aux);
+	idLista = Helper::copyBytesToInt(aux);
 
 	//RECUPERO VOTANTE
 	c_sizeVotante[0]=valor.c_str()[i];
@@ -332,7 +332,7 @@ void ProcessData::obtenerDataCandidato(string valor,string &campo1,long &campo2,
 		i++;
 	}
 
-	campo2 = Helper::copyBytesToLong(aux);
+	idVotante = Helper::copyBytesToLong(aux);
 
 	//RECUPERO CARGO
 	c_sizeCargo[0]=valor.c_str()[i];
@@ -351,7 +351,7 @@ void ProcessData::obtenerDataCandidato(string valor,string &campo1,long &campo2,
 	}
 
 	//paso todos los datos en formato string, luego el metodo invocante tiene que recuperar con su formato
-	campo3 = Helper::copyBytesToInt(aux);
+	idCargo = Helper::copyBytesToInt(aux);
 
 
 }

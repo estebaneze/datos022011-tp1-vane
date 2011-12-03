@@ -24,8 +24,8 @@ class ABMCargo {
 		bool Exists(Cargo cargo);
 		bool Exists(int idCargo);
 		int Add(string nombre, vector<int> cargosSecundarios);
-		bool Delete(int idCargo);
-		void Modify(Cargo cargo);
+		//bool Delete(int idCargo);
+		//void Modify(Cargo cargo);
 		vector<Cargo> GetCargos();
 		Cargo* GetCargo(int idCargo);
 

@@ -20,6 +20,16 @@ void BPlusTreeLog::LogProcess(BPlusTree* bpt,string fileProcess){
 		logFile.close();
 }
 
+void BPlusTreeLog::LogProcess(BPlusTree* bpt,string fileProcess, string dataType){
+
+		//Logueo como queda el arbol
+		ofstream logFile;
+
+		logFile.open(fileProcess.c_str(), ios::app);
+		bpt->printMe(logFile, dataType);
+		logFile.close();
+}
+
 void BPlusTreeLog::LogInsert(KeyInt key,string value,string logOperation){
 	BPlusTreeLog::LogInsert(Helper::IntToString(key), value, logOperation);
 }
