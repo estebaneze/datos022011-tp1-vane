@@ -251,6 +251,12 @@ void Reportes::reportePorDistrito(int idDistrito, bool guardaEncriptado, string 
 
 void Reportes::reporteDesencriptar(string fileName, string claveEncriptado)
 {
+	if (!Archivo::exists(ConfigurationMananger::getInstance()->getReportFileDirectory().append(fileName).c_str()))
+	{
+		cout << "Nombre de archivo no valido" << endl;
+		return;
+	}
+
 	ifstream file;
 	file.open(ConfigurationMananger::getInstance()->getReportFileDirectory().append(fileName).c_str());
 	string output;

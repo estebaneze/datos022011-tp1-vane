@@ -44,6 +44,7 @@ using namespace std;
 
 int main(){
 
+	RSA::generarClave();
 	Menues::MenuInicial();
 
 	cout << endl << "Bye!!!" << endl;

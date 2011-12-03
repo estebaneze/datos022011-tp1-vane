@@ -36,11 +36,8 @@ class Claves {
 		static long int GetClavePrivadaD();
 		static long int GetClavePublicaE();
 
-
 		static void GuardarClaves(long int n, long int e, long int d);
 
-	private:
-		static long int GetId(string key);
 
 };
 
