@@ -62,7 +62,7 @@ int main(){
 	RSA::generarClave();
 	char* encrypted = RSA::encriptar("hola mundo");
 	cout << "pepe: " << encrypted<< endl;
-	char* desencriptado = RSA::desencriptar(encrypted);
+	char* desencriptado = RSA::desencriptar("12532125");
 	cout << "descifrado: " << desencriptado << endl;
 
 	//Menues::MenuInicial();
