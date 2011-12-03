@@ -63,7 +63,7 @@ int main(){
 	char* value = "hola mundo";
 
 	char* encrypted = RSA::encriptar(value);
-	cout << "encrypted: " << endl << "   " << string(encrypted)<< endl;
+	cout << "resultado encrypted: " << endl << "   " << string(encrypted)<< endl << endl << endl;
 
 	string originalValue = RSA::desencriptar(encrypted);
 	cout << "originalValue : " << string(originalValue ) << endl;
