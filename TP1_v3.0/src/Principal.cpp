@@ -44,11 +44,14 @@ using namespace std;
 
 int maisdn(){
 	RSA::generarClave();
-	string pepe = RSA::encriptar("hola mundo");
+	char* pepe = RSA::encriptar("hola mundo");
+	char* desencriptado = RSA::desencriptar(pepe);
+
 	string pepe1 = RSA::encriptar("hola mundo2");
 	string pepe2 = RSA::encriptar("hola mundo3");
 
 	cout << "cifrado: " << pepe << endl;
+	cout << "descifrado: " << desencriptado << endl;
 	//delete pepe;
 
 	return 0;
@@ -57,8 +60,11 @@ int maisdn(){
 int main(){
 
 	RSA::generarClave();
-	string encrypted = RSA::encriptar("hola mundo");
+	char* encrypted = RSA::encriptar("hola mundo");
 	cout << "pepe: " << encrypted<< endl;
+	char* desencriptado = RSA::desencriptar(encrypted);
+	cout << "descifrado: " << desencriptado << endl;
+
 	//Menues::MenuInicial();
 
 	//CargaMasiva::CargarEntidades();
