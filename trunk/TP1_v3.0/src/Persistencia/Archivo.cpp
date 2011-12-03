@@ -8,6 +8,7 @@
 using namespace std;
 
 Archivo::Archivo(string fileName, unsigned int componentSize) {
+
 	this->_componentSize = componentSize;
 	this->_filename = fileName;
 	this->_fp = NULL;
@@ -28,6 +29,18 @@ Archivo::Archivo(string fileName, unsigned int componentSize) {
 
 Archivo::~Archivo() {
 	if (this->_fp != NULL) fclose(this->_fp);
+}
+
+bool Archivo::exists(string fileName){
+
+	//Abro el archivo para trabajar ( y si no existe, lo creo)
+	FILE* file = fopen (fileName.c_str(),"rb+");
+
+	if (file == NULL) {
+		return false;
+	}
+
+	return true;
 }
 
 void Archivo::mover (unsigned int componente)

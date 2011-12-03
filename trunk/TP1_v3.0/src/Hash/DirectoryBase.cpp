@@ -459,6 +459,16 @@ ostream& DirectoryBase::inform (Offset blockNumber, ostream& myOstream){
 	return myOstream;
 }
 
+ostream& DirectoryBase::inform (Offset blockNumber, ostream& myOstream, string dataType){
+
+	this->GetBucketFile()->load(blockNumber,this->bucketActual);
+	myOstream << "		Bucket: "<< blockNumber << " (depth: " << this->bucketActual->getDepth() << ", cantBuckets: " << this->bucketActual->countElements() << ")" << endl;
+	this->bucketActual->toHumanLog(myOstream);
+	myOstream << std::endl;
+
+	return myOstream;
+}
+
 vector<KeyValue> DirectoryBase::getValue(Offset blockNumber){
 
 	this->GetBucketFile()->load(blockNumber,this->bucketActual);
@@ -517,6 +527,38 @@ ostream& DirectoryBase::inform (ostream& myOstream){
 
 	return myOstream;
 }
+
+
+ostream& DirectoryBase::inform (ostream& myOstream, string dataType){
+
+	string message = "-Tabla (Profundidad global: ";
+
+	message.append(Helper::IntToString((int)this -> depth));
+	message.append(")");
+
+	myOstream << "-Tabla (Profundidad global: " << this->depth << ") " << std::endl;
+
+	std::set<Offset> offsets;
+	for (Offset block= 0 ; (unsigned)block < this->GetDirectoryFile()->blocks() ; block++){
+
+		this->GetDirectoryFile()->load(block,this->tabla);
+	//	this->inform(this->tabla->getOffset(),myOstream);
+		this->tabla->toHuman(&offsets, myOstream);
+	}
+
+	myOstream << std::endl << std::endl;
+	myOstream << "-Buckets : Profundidad, Cantidad de Elementos " << std::endl;
+	for (std::set<Offset>::iterator it = offsets.begin(); it != offsets.end(); it++){
+		//this->inform(*it);
+
+		this->inform(*it,myOstream);
+	}
+
+	myOstream << "=========================================" << std::endl;
+
+	return myOstream;
+}
+
 
 void DirectoryBase::inform (){
 
