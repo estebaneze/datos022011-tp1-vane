@@ -1422,10 +1422,10 @@ while (fin==0){
 					if (!in.compare("q"))
 						claveEncriptado = in;
 
-					cout << "Ingrese nombre archivo reporte a desencriptar (ubicado en directorio '/Report' con extension incluida)" << endl;
+					cout << "Ingrese nombre archivo reporte a desencriptar (ubicado en directorio '/Report', sin extension)" << endl;
 					cin >> fileName;
 
-					Reportes::reporteDesencriptar(fileName,claveEncriptado);
+					Reportes::reporteDesencriptar(fileName.append(".ecr"),claveEncriptado);
 
 					cout << endl <<  "Presione cualquier tecla para continuar" << endl;
 					string c;
