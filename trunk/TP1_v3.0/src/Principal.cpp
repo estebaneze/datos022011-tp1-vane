@@ -57,7 +57,12 @@ int maisdn(){
 int main(){
 
 	RSA::generarClave();
-	Menues::MenuInicial();
+	string encrypted = RSA::encriptar("hola mundo");
+	cout << "pepe: " << encrypted<< endl;
+	//Menues::MenuInicial();
+
+	//CargaMasiva::CargarEntidades();
+
 
 	cout << endl << "Bye!!!" << endl;
 	return 0;
