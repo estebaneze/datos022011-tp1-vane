@@ -60,10 +60,16 @@ int maisdn(){
 int main(){
 
 	RSA::generarClave();
-	char* encrypted = RSA::encriptar("hola mundo");
-	cout << "pepe: " << encrypted<< endl;
-	char* desencriptado = RSA::desencriptar("12532125");
-	cout << "descifrado: " << desencriptado << endl;
+	char* value = "hola mundo";
+
+	char* encrypted = RSA::encriptar(value);
+	cout << "encrypted: " << endl << "   " << string(encrypted)<< endl;
+
+	string originalValue = RSA::desencriptar(encrypted);
+	cout << "originalValue : " << string(originalValue ) << endl;
+
+	//char* desencriptado = RSA::desencriptar(encrypted);
+	//cout << "descifrado: " << string(desencriptado) << endl;
 
 	//Menues::MenuInicial();
 
