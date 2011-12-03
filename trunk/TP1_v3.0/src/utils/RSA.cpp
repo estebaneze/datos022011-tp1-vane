@@ -30,7 +30,7 @@ string  RSA::validar_mensaje(string texto_plano)
 {
   string texto_plano_valido = texto_plano;
 
- // completamos con x al final para que sea potencia de 2
+ // completamos con espacio al final para que sea potencia de 2
    int tam = texto_plano_valido.size();
    if(tam%2!=0)
     texto_plano_valido += " ";
@@ -108,7 +108,7 @@ char* RSA::desencriptar(char* m)
 char* RSA::desencriptar2()
 {
      cout<<"\n DESENCRIPTAR :\n\n";
-     long int d,n,tam, e;
+     long int d,n,tam;
      cout<<" Ingrese clave privada (d) :";
      //cin>>d;
      d = 11;
@@ -300,6 +300,7 @@ void RSA::validarTamClave(){
 /*string RSA::GetAlfabeto(){
 	return "abcdefghijklmnopqrstuvwxyz0123456789_";
 }*/
+
 void RSA::generarClave(){
 
 	//Antes de empezar valida que el tamaño parametrizado sea correcto
@@ -333,35 +334,40 @@ void RSA::generarClave(){
 	    	do{
 				do
 				{
-					 p=(rand()%(int)sqrt(nromax+nromax) + (int)sqrt(nromax/2));  //valor de 2 a raiz(nromax)
+					 p=(rand()%(int)(nromax/4) + (int)(nromax/3));  //valor de 2 a raiz(nromax)
 				 }while(!es_primo(p));
 
 				 do
 				 {
-					 q=(int)(rand()%(int)sqrt(nromax*2)+(int)sqrt(nromax/2));
+					 q=(int)(rand()%(int)(nromax/2)+(int)nromax/3);
 				 }while(!es_primo(q));
 
-				 cout<<" p : "<<p<<"\n q : "<<q;
+				 cout<<" p : "<<p<<" q : "<<q << endl;
 
-			} while (p*q>nromax);
+			} while (p*q<nromax);
 
-			int mayor;
+	    	cout<<"elegidos: p : "<<p<<" q : "<<q << endl;
 			//encuentro mayor primo y lo achico hasta que p*q<nromax, pero siempre que siga siendo primo
-			if (p>q) {
-				do {
-					 p--;
-				} while(!es_primo(p));
-			}
-			else {
-				do {
-					   q--;
-				} while(!es_primo(q));
-			}
 
-			/* 2) Calculamos el valor de n */
-				 n = p * q;
+	    	do {
+				if (p>q) {
+					do {
+						 p--;
+						 cout << "p: " << p << endl;
+					} while(!es_primo(p) /*&& (p*q)<nromax*/ );
+				}
+				else {
+					do {
+						   q--;
+						   cout << "q: " << q << endl;
+					} while(!es_primo(q)/* && (p*q)<nromax*/);
+				}
 
-	    }while(n>=nromax/2);
+				/* 2) Calculamos el valor de n */
+					 n = p * q;
+	    	} while (n>nromax);
+
+	    }while(n<=nromax/2);
 
 	    cout<<"\n n : "<<n;
 
@@ -397,56 +403,16 @@ void RSA::generarClave(){
 
 char* RSA::encriptar(char* m){
 
-	return m;
-
 	//ACA TENGO QUE LEER EL ARCHIVO DE LA CLAVE PUBLICA PARA OBTENER N Y E
     ///////////////////////////////////////////////////
-
-	//ACA TENGO QUE CARGAR EL TAMANIO DE N DE CONFIG.TXT
-	RSA::validarTamClave();
+	long int e = Claves::GetClavePublicaE();
+	long int n = Claves::GetClavePublicaN();
 	int tamanio_n = ConfigurationMananger::getInstance()->getTamClaveRSA();
-
-	int n,e, p,q, fi, d;
-
-	do
-	{
-		p = rand()%20;
-	}while(!es_primo(p));
-
-	do
-	{
-		q = rand()%20;
-	}while(!es_primo(q) || q == p);
-
-	n = p * q;
-	cout << "p: " << p << " - q: " << q << " - n: " << n << endl;
-
-    /* 3) Calculamos el valor de fi */
-     fi = (p-1) * (q-1);
-     cout << "\n fi : " << fi;
-
-    /* 4) Seleccionamos aleatoriamente un entero 'e' tal que mcd(e,fi)=1 y 1 < e < fi */
-		do{
-			e = rand() % (fi-2)+2;
-		}while(alg_euc(e,fi)!=1);
-
-     //e = 17;
-     cout << "\n e : " << e;
-
-     /* 5) Usar el algoritmo de euclides extendido para hallar un entero 'd' tal que
-            ed = 1 (mod fi) donde 1 < d < fi (en otras palabras, hallar el inverso de 'e') */
-	 d = Inverso_Zn(e,fi);
-	 cout << "\n d : " << d;
-
-      /*  6) La clave publica es (n,e) y la clave privada es d */
-	 cout << "\n\n clave publica : (" << n <<" , " << e <<")";
-	 cout << "\n clave privada : "<< d << endl << endl;
-
     // representamos numericamente el mensaje
 	string mensaje;
 	mensaje.append((const char*)m);
-
-	cout << "\n mensaje: " << mensaje <<  endl;
+	cout << "tamnio n: " << tamanio_n << " n: " << n << "  e: " << e << endl;
+	cout << "mensaje: " << mensaje <<  endl;
 
 	//valido el mensaje para que sea potencia de 2
     string mensaje_valido = validar_mensaje((string)mensaje);
@@ -461,12 +427,12 @@ char* RSA::encriptar(char* m){
     	 int ascii = mensaje.at(i);
 
     	 string ascii_str = Helper::IntToString(ascii);
-    	 if (ascii < 10) ascii_str = "0" + Helper::IntToString(ascii);
-
+    	 if (ascii < 10) ascii_str = "00" + Helper::IntToString(ascii);
+    	 if (ascii < 100 && ascii>9) ascii_str = "0" + Helper::IntToString(ascii);
     	 mensaje_int[i] = ascii_str;
      }
 
-     cout << " mensaje_int[]: ";
+     cout << "mensaje_int[]: ";
      for(unsigned int i = 0; i < mensaje.size(); i++){
     	 cout << mensaje_int[i] << " ";
      }
@@ -478,7 +444,7 @@ char* RSA::encriptar(char* m){
      long int mensaje_cifrado[mensaje.size()/ n];
 
      //agrupamos de 2 en 2 el mensaje en nros.
-     int k = 0;
+     unsigned int k = 0;
      int index = 0;
      while(k < mensaje.size()){
 
@@ -492,7 +458,7 @@ char* RSA::encriptar(char* m){
 		 string aux_str;
 		 aux_str.clear();
 		 //concateno la cantidad de caracteres segun el tamanio de n
-		 for (unsigned int i=0;i<tamanio_n;i++){
+		 for (int i=0;i<tamanio_n;i++){
 			 aux_str.append(mensaje_int[k+i]);
 		 }
 
@@ -507,7 +473,7 @@ char* RSA::encriptar(char* m){
     	 index++;
      }
 
-     cout<<" Mensaje en numeros: ";
+     cout<<"Mensaje en numeros: ";
      for(int i = 0; i < index; i++){
     	 cout << mensaje_nros[i] << " ";
      }
@@ -515,7 +481,8 @@ char* RSA::encriptar(char* m){
 
      //Elevo cada uno a la "d"
      cout << endl << "Mensaje cifrado: ";
-     for(int i = 0; i < mensaje.size() / n; i++){
+
+     for(unsigned int i = 0; i < mensaje.size()/tamanio_n; i++){
 
     	 int numExceso=0;
     	 if (tamanio_n==1){
@@ -525,29 +492,67 @@ char* RSA::encriptar(char* m){
 
     	 if (tamanio_n==2){
 
-    	    if (mensaje_nros[i]>32767) numExceso=32768;
+    	    if (mensaje_nros[i]>65535) numExceso=65536;
+
     	 }
 
     	 if (tamanio_n==4){
 
-    	   	if (mensaje_nros[i]>2147483647) numExceso=2147483648;
+    	   	if (mensaje_nros[i]>4294967295) numExceso=4294967296;
     	 }
 
+    	 int numSinExceso= mensaje_nros[i]-numExceso;
+
+    	// cout << "numSinExceso: " << numSinExceso << endl;
     	 mensaje_cifrado[i] = Exponenciacion_Zn(mensaje_nros[i]-numExceso, e, n) + numExceso;
     	 cout << mensaje_cifrado[i] << " ";
 
      }
 
      string cifrado;
-     for (unsigned int i = 0; i < mensaje.size() / n;i++){
-    	cifrado.append(Helper::LongToString(mensaje_cifrado[i]));
+     for (unsigned int i = 0; i < mensaje.size() / tamanio_n;i++){
+
+    	 if (tamanio_n==1){
+			 if (mensaje_cifrado[i]<10){
+
+				 cifrado.append("00");
+				 cifrado.append(Helper::LongToString(mensaje_cifrado[i]));
+			 }
+			 else if (mensaje_cifrado[i]>9 && mensaje_cifrado[i]<100){
+					 cifrado.append("0");
+					 cifrado.append(Helper::LongToString(mensaje_cifrado[i]));
+				 }
+				 else{
+					 cifrado.append(Helper::LongToString(mensaje_cifrado[i]));
+				 }
+    	 }
+    	 if (tamanio_n==2){
+    		 string aux;
+    		 aux.append(Helper::LongToString(mensaje_cifrado[i]));
+    		 int cant_caracteres = aux.size();
+    		 while (cant_caracteres<6){
+    			 cifrado.append("0");
+    			 cant_caracteres++;
+    		 }
+    		 cifrado.append(aux);
+    	 }
+    	 if (tamanio_n==4){
+    	     		 string aux;
+    	     		 aux.append(Helper::LongToString(mensaje_cifrado[i]));
+    	     		 int cant_caracteres = aux.size();
+    	     		 while (cant_caracteres<12){
+    	     			 cifrado.append("0");
+    	     			 cant_caracteres++;
+    	     		 }
+    	     		 cifrado.append(aux);
+    	     	 }
      }
 
-     //cout << "\ncifrado " << cifrado.size() << endl;
+     cout << "cifrado: " << cifrado << endl;
 
-     //return (char*)cifrado.c_str();
+     return (char*)cifrado.c_str();
      //return (char*)mensaje.c_str();
-     return m;
+
 }
 
 

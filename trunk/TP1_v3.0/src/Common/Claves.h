@@ -30,9 +30,10 @@ using namespace std;
 class Claves {
 
 	public:
-		static long int GetN();
-		static long int GetD();
-		static long int GetE();
+		static long int GetClavePublicaN();
+		static long int GetClavePrivadaN();
+		static long int GetClavePrivadaD();
+		static long int GetClavePublicaE();
 
 
 		static void GuardarClaves(long int n, long int e, long int d);
