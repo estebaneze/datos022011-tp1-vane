@@ -301,102 +301,108 @@ void RSA::validarTamClave(){
 	return "abcdefghijklmnopqrstuvwxyz0123456789_";
 }*/
 
+void RSA::CheckCache(){
+
+	//Claves::GetClavePublicaN()
+
+}
+
 void RSA::generarClave(){
 
 	//Antes de empezar valida que el tamaño parametrizado sea correcto
     RSA::validarTamClave();
 
-		long int p,q,n,fi,e,d,tamanio_n;
+	long int p,q,n,fi,e,d,tamanio_n;
 
-	    //VANE:
-	    //aca tenes que cargar el tamanio de n desde el config.txt
-	    tamanio_n = ConfigurationMananger::getInstance()->getTamClaveRSA();
+	//VANE:
+	//aca tenes que cargar el tamanio de n desde el config.txt
+	tamanio_n = ConfigurationMananger::getInstance()->getTamClaveRSA();
 
-	    /* 1) Generamos aleatoriamente dos enteros p y q (p y q pueden ser cualquier numero
-	         pero deben de ser del mismo tamaño) ,
-	         ademas deben de ser primos */
+	/* 1) Generamos aleatoriamente dos enteros p y q (p y q pueden ser cualquier numero
+	 pero deben de ser del mismo tamaño) ,
+	 ademas deben de ser primos */
 
-	    //obtengo numero maximo que puede valer n segun el tamanio de n leido del config.txt
-	    double nromax=0;
-	    if (tamanio_n==1) nromax=256;
-	    if (tamanio_n==2) nromax=65536;
-	    if (tamanio_n==4) nromax=4294967296;
+	//obtengo numero maximo que puede valer n segun el tamanio de n leido del config.txt
+	double nromax=0;
+	if (tamanio_n==1) nromax=256;
+	if (tamanio_n==2) nromax=65536;
+	if (tamanio_n==4) nromax=4294967296;
 
-	    //mientras n tengo un valor menor al permitido repito
-	    do{
+	//mientras n tengo un valor menor al permitido repito
+	do{
 
-	    	//obtengo nuemros primos tratando de obtener el p y q maximo posibles
-	    	//la idea es generar p y q hasta pasarme del maximo valor de n
-	    	//luego al primo mas grande lo resto hasta que cumpla que p*q<nromax
+	//obtengo nuemros primos tratando de obtener el p y q maximo posibles
+	//la idea es generar p y q hasta pasarme del maximo valor de n
+	//luego al primo mas grande lo resto hasta que cumpla que p*q<nromax
 
 
-	    	//genero p y q
-	    	do{
-				do
-				{
-					 p=(rand()%(int)(nromax/4) + (int)(nromax/3));  //valor de 2 a raiz(nromax)
-				 }while(!es_primo(p));
+	//genero p y q
+	do{
+		do
+		{
+			 p=(rand()%(int)(nromax/4) + (int)(nromax/3));  //valor de 2 a raiz(nromax)
+		 }while(!es_primo(p));
 
-				 do
-				 {
-					 q=(int)(rand()%(int)(nromax/2)+(int)nromax/3);
-				 }while(!es_primo(q));
+		 do
+		 {
+			 q=(int)(rand()%(int)(nromax/2)+(int)nromax/3);
+		 }while(!es_primo(q));
 
-				 cout<<" p : "<<p<<" q : "<<q << endl;
+		 cout<<" p : "<<p<<" q : "<<q << endl;
 
-			} while (p*q<nromax);
+	} while (p*q<nromax);
 
-	    	cout<<"elegidos: p : "<<p<<" q : "<<q << endl;
-			//encuentro mayor primo y lo achico hasta que p*q<nromax, pero siempre que siga siendo primo
+	cout<<"elegidos: p : "<<p<<" q : "<<q << endl;
+	//encuentro mayor primo y lo achico hasta que p*q<nromax, pero siempre que siga siendo primo
 
-	    	do {
-				if (p>q) {
-					do {
-						 p--;
-						 cout << "p: " << p << endl;
-					} while(!es_primo(p) /*&& (p*q)<nromax*/ );
-				}
-				else {
-					do {
-						   q--;
-						   cout << "q: " << q << endl;
-					} while(!es_primo(q)/* && (p*q)<nromax*/);
-				}
+	do {
+		if (p>q) {
+			do {
+				 p--;
+				 cout << "p: " << p << endl;
+			} while(!es_primo(p) /*&& (p*q)<nromax*/ );
+		}
+		else {
+			do {
+				   q--;
+				   cout << "q: " << q << endl;
+			} while(!es_primo(q)/* && (p*q)<nromax*/);
+		}
 
-				/* 2) Calculamos el valor de n */
-					 n = p * q;
-	    	} while (n>nromax);
+		/* 2) Calculamos el valor de n */
+			 n = p * q;
+	} while (n>nromax);
 
-	    }while(n<=nromax/2);
+	}while(n<=nromax/2);
 
-	    cout<<"\n n : "<<n;
+	cout<<"\n n : "<<n;
 
-	    /* 3) Calculamos el valor de fi */
-	         fi=(p-1)*(q-1);
-	         cout<<"\n fi : "<<fi;
+	/* 3) Calculamos el valor de fi */
+	 fi=(p-1)*(q-1);
+	 cout<<"\n fi : "<<fi;
 
-	    /* 4) Seleccionamos aleatoriamente un entero 'e' tal que mcd(e,fi)=1 y 1 < e < fi */
-	       do{
-	    	   e = rand() % (fi-2)+2;
-	       }while(alg_euc(e,fi)!=1);
+	/* 4) Seleccionamos aleatoriamente un entero 'e' tal que mcd(e,fi)=1 y 1 < e < fi */
+	do{
+	   e = rand() % (fi-2)+2;
+	}while(alg_euc(e,fi)!=1);
 
-	      //   e = 17;
-	       cout<<"\n e : "<<e;
+	//   e = 17;
+	cout<<"\n e : "<<e;
 
-	    /* 5) Usar el algoritmo de euclides extendido para hallar un entero 'd' tal que
-	           ed = 1 (mod fi) donde 1 < d < fi (en otras palabras, hallar el inverso de 'e') */
-	        d = Inverso_Zn(e,fi);
-	        cout<<"\n d : "<<d;
+	/* 5) Usar el algoritmo de euclides extendido para hallar un entero 'd' tal que
+	   ed = 1 (mod fi) donde 1 < d < fi (en otras palabras, hallar el inverso de 'e') */
+	d = Inverso_Zn(e,fi);
+	cout<<"\n d : "<<d;
 
-	     /*  6) La clave publica es (n,e) y la clave privada es d */
+	/*  6) La clave publica es (n,e) y la clave privada es d */
 
-	        /*******************/
-	        //VANE ACA TENES QUE GUARDAR LAS CLAVES EN ARCHIVOS.
-	        /**********************/
-	        cout<<"\n\n clave publica : ("<< n <<" , "<< e <<")";
-	        cout<<"\n clave privada : ("<< n <<" , "<< d << endl << endl;
+	/*******************/
+	//VANE ACA TENES QUE GUARDAR LAS CLAVES EN ARCHIVOS.
+	/**********************/
+	cout<<"\n\n clave publica : ("<< n <<" , "<< e <<")";
+	cout<<"\n clave privada : ("<< n <<" , "<< d << endl << endl;
 
-	        Claves::GuardarClaves(n,e,d);
+	Claves::GuardarClaves(n,e,d);
 
 
 }

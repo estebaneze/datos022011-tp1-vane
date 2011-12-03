@@ -87,10 +87,11 @@ bool es_primo(int n)
 
 int main(){
 
-	RSA::generarClave();
-
+	//RSA::generarClave();
+	int d = Claves::GetClavePrivadaD();
+	cout << "d: " << d << endl;
 	cout << endl;
-	RSA::encriptar("hola mundo");
+	//RSA::encriptar("hola mundo");
 	//Menues::MenuInicial();
 /*	CargaMasiva::BorraTodosArchivos();
 	Identities::InitializeFile();

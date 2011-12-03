@@ -58,11 +58,13 @@ class DirectoryBase{
 		virtual bool modify(Key, string);
 		virtual string find(Key);
 		virtual void inform();
+		virtual ostream& inform (ostream& myOstream, string dataType);
 		virtual ostream& inform (ostream& myOstream);
 		virtual ostream& inform (Offset blockNumber, ostream& myOstream);
 		virtual void inform(Offset blockNumber);
 		virtual bool existKey (Key key);
 		//void Log(Key key, string value);
+		virtual ostream& inform (Offset blockNumber, ostream& myOstream, string dataType);
 
 		virtual vector<KeyValue> getAllValues();
 };

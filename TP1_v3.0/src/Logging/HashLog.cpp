@@ -12,14 +12,25 @@ HashLog::HashLog(){
 
 void HashLog::LogProcess(DirectoryBase* dir,string fileProcess){
 
-		//Logueo como queda el hash
-		ofstream logFile;
+	//Logueo como queda el hash
+	ofstream logFile;
 
-	//	string fileLogProccess = Helper::concatenar(this->hashFile,"HashProccess.log","_");
-		logFile.open(fileProcess.c_str(), ios::app);
-		dir->inform(logFile);
-		logFile.close();
-	}
+//	string fileLogProccess = Helper::concatenar(this->hashFile,"HashProccess.log","_");
+	logFile.open(fileProcess.c_str(), ios::app);
+	dir->inform(logFile);
+	logFile.close();
+}
+
+void HashLog::LogProcess(DirectoryBase* dir,string fileProcess, string dataType){
+
+	//Logueo como queda el hash
+	ofstream logFile;
+
+	//string fileLogProccess = Helper::concatenar(this->hashFile,"HashProccess.log","_");
+	logFile.open(fileProcess.c_str(), ios::app);
+	dir->inform(logFile);
+	logFile.close();
+}
 
 
 void HashLog::LogInsert(Key key,string value,string logOperation){
