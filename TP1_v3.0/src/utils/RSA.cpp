@@ -187,7 +187,7 @@ char* RSA::desencriptar(char* m)
 
      cout << "Sin cifrar en entero: "<<sincifrar<<endl<<"Sin cifrar en caracteres: "<< mensaje<<endl;
 
-     return (char*)m;
+     return (char*)mensaje.c_str();
 }
 
 
