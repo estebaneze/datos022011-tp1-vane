@@ -1065,13 +1065,22 @@ void Menues::MenuABMCandidato()
 
 										ABMCargo *abmCargo = new ABMCargo();
 										// obtengo los cargos secundarios
-										vector<int>	vCargos = abmCargo->GetCargo(id_cargo)->GetCargosSecundarios();
+										Cargo* cargoPcipal = abmCargo->GetCargo(id_cargo);
+										vector<int>	vCargos = cargoPcipal->GetCargosSecundarios();
 
-										cout << "Cargos disponibles de la eleccion asociada a la lista: " << endl;
+										//Agrego el cargo principal
+										cout << "Cargos disponibles de la eleccion asociada a la lista seleccionada: " << endl << endl;
+										cout << " Cargo Principal:" << endl;
+										cout << "  Nombre: " << cargoPcipal->GetNombre() << " - Id: " <<  cargoPcipal->GetId() << endl;
+
+
+										cout << " Cargos Secundarios:" << endl;
 										for(int i = 0; i < vCargos.size(); i++){
 											Cargo* c = abmCargo->GetCargo(vCargos[i]);
-											cout << "	Nombre: " << c->GetNombre() << " - Id: " <<  c->GetId() << endl;
+											cout << "  Nombre: " << c->GetNombre() << " - Id: " <<  c->GetId() << endl;
 										}
+
+
 
 										cout << endl;
 										bool listoCargo=false;
