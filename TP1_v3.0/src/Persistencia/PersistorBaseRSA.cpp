@@ -57,13 +57,22 @@ void PersistorBaseRSA::modify(Block* block) {
 
 	buffer.append(blockSize - buffer.length(),'0');
 
+	char* encrypted = RSA::encriptar((char*)buffer.c_str());
+	string test=string(encrypted);
+	//string encrypted = RSA::encriptar(buffer);
+	cout << "encrypted: " <<  test << endl;
+
+	//char* str = (char*)malloc(encrypted.size());
+	//str = (char* )encrypted.c_str();
+
 	this->archivo.write(
 			//RSA::encriptar(const_cast<char *>(buffer.c_str())),
-			RSA::encriptar((char*)buffer.c_str()),
+			encrypted,
 			//buffer.c_str(),
 			blockSize);
 
 	this->archivo.flush();
+
 
 	/* chequea si se ha producido un error
 	 * arroja una excepción ante la imposibilidad de escribir el reg */
