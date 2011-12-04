@@ -11,6 +11,7 @@
 #include "../Common/Common.h"
 #include "../Entidades/Administrador.h"
 #include "../Hash/DirectoryRSA.h"
+#include "../Hash/Directory.h"
 #include "../Logging/HashLog.h"
 
 class ABMAdministrador {
@@ -29,7 +30,7 @@ class ABMAdministrador {
 	private:
 		string File;
 		//DirectoryRSA* directorio;
-		DirectoryBase* directorio;
+		Directory* directorio;
 };
 
 
