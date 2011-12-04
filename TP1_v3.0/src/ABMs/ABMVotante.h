@@ -11,6 +11,7 @@
 #include "../Common/Common.h"
 #include "../Entidades/Votante.h"
 #include "../Hash/DirectoryRSA.h"
+#include "../Hash/Directory.h"
 #include "../Logging/HashLog.h"
 #include "../Common/ProcessData.h"
 class ABMVotante {
@@ -31,7 +32,7 @@ class ABMVotante {
 
 		string hashFile;
 		//DirectoryRSA* directorio;
-		DirectoryBase* directorio;
+		Directory* directorio;
 
 };
 

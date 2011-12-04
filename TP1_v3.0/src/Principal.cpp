@@ -60,18 +60,7 @@ int maisdn(){
 int main(){
 
 	RSA::generarClave();
-	char* value = "hola mundo";
-
-	string encrypted = RSA::encriptar(value);
-	cout << "resultado encrypted: " << endl << "   " << encrypted<< endl << endl << endl;
-
-	string originalValue = RSA::desencriptar("025471051411026934033896040338");
-	cout << "originalValue : " << string(originalValue ) << endl;
-
-	//Menues::MenuInicial();
-
-	//CargaMasiva::CargarEntidades();
-
+	Menues::MenuInicial();
 
 	cout << endl << "Bye!!!" << endl;
 	return 0;
