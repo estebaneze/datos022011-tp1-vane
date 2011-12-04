@@ -28,7 +28,8 @@ class ABMAdministrador {
 
 	private:
 		string File;
-		DirectoryRSA* directorio;
+		//DirectoryRSA* directorio;
+		DirectoryBase* directorio;
 };
 
 

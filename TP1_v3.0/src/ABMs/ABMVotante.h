@@ -30,7 +30,8 @@ class ABMVotante {
 	private:
 
 		string hashFile;
-		DirectoryRSA* directorio;
+		//DirectoryRSA* directorio;
+		DirectoryBase* directorio;
 
 };
 

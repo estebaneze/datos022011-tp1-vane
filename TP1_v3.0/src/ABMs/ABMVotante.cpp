@@ -14,7 +14,8 @@ ABMVotante::ABMVotante() {
 
 	int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeVotante();
 	this->hashFile = ConfigurationMananger::getInstance()->getVotanteFile();
-    this->directorio = new DirectoryRSA(hashFile, maxBucketSize);
+    //this->directorio = new DirectoryRSA(hashFile, maxBucketSize);
+    this->directorio = new DirectoryBase(hashFile, maxBucketSize);
 }
 
 /**Agrega una nueva lista, si ya existe el nombre de la lista arroja una excepcion

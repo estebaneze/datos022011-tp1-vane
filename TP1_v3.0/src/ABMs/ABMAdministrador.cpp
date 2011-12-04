@@ -13,7 +13,8 @@
 ABMAdministrador::ABMAdministrador() {
 	int maxBucketSize = ConfigurationMananger::getInstance()->getHashBSizeAdministrador();
 	this->File= ConfigurationMananger::getInstance()->getAdminFile();
-	this->directorio = new DirectoryRSA(ConfigurationMananger::getInstance()->getAdminFile(), maxBucketSize);
+	//this->directorio = new DirectoryRSA(ConfigurationMananger::getInstance()->getAdminFile(), maxBucketSize);
+	this->directorio = new DirectoryBase(ConfigurationMananger::getInstance()->getAdminFile(), maxBucketSize);
 }
 
 /**Agrega un nuevo admin, si ya existe no hace nada
