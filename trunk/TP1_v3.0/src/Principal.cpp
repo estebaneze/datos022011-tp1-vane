@@ -42,27 +42,26 @@
 
 using namespace std;
 
-int maisdn(){
+int main(){
 	RSA::generarClave();
-	char* pepe = RSA::encriptar("hola mundo");
-	char* desencriptado = RSA::desencriptar(pepe);
+	char* mensajeAencriptar = "Hola Mundo";
+	cout<< "Mensaje a Encriptar: "<<mensajeAencriptar<< endl;
 
-	string pepe1 = RSA::encriptar("hola mundo2");
-	string pepe2 = RSA::encriptar("hola mundo3");
+	char* encriptado = RSA::encriptar(mensajeAencriptar);
+	cout << "Mensaje Cifrado: " << encriptado << endl;
 
-	cout << "cifrado: " << pepe << endl;
-	cout << "descifrado: " << desencriptado << endl;
-	//delete pepe;
+	char* desencriptado = RSA::desencriptar(encriptado);
+	cout << "Mensaje Descifrado: " << desencriptado << endl;
 
 	return 0;
 }
 
-int main(){
+/*int main(){
 
 	RSA::generarClave();
 	Menues::MenuInicial();
 
 	cout << endl << "Bye!!!" << endl;
 	return 0;
-}
+}*/
 
